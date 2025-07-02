@@ -1,6 +1,7 @@
 // src/pages/LandingPage.jsx
 import React, { useState } from "react";
 import "../styles/LandingPage.css";
+import { apiCall } from "../middleware/landingApi";
 
 export default function LandingPage() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -198,7 +199,8 @@ export default function LandingPage() {
         </div>
 
         {/* Search button */}
-        <button className="filter-search-btn" onClick={onSearch}>
+        {/* <button className="filter-search-btn" onClick={onSearch}> */}
+        <button className="filter-search-btn" onClick={apiCall}>
           Search
         </button>
       </div>

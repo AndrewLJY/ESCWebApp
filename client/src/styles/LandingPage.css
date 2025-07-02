@@ -114,7 +114,7 @@ body,
 /* 8. Filter Bar */
 .filter-bar {
   position: absolute;
-  bottom: 400px;
+  bottom: 45%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
