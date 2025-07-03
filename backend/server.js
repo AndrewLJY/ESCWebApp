@@ -3,15 +3,16 @@ var createError = require('http-errors');
 var process = require('process');
 var db = require('./models/db.js');
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 
 
 process.on('SIGINT', db.cleanup);
 process.on('SIGTERM', db.cleanup);
 
 var usersRouter = require('./routes/user');
-// var bookingRouter = require('./routes/booking');
 var indexRouter = require('./routes/index');
 
 
@@ -20,7 +21,6 @@ var bookingModel = require('./models/booking.js');
 
 userModel.sync();
 bookingModel.sync();
-// bookingModel.makeReference();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
