@@ -1,0 +1,275 @@
+/* src/styles/SearchPage.css */
+
+/* =============================================================================
+   UNIVERSAL SCROLLBAR-HIDE: hides all scrollbars but keeps scrolling enabled
+   ============================================================================= */
+
+/* Firefox */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important; /* IE 10+ */
+}
+/* WebKit (Chrome, Safari, Edge Chromium) */
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* =============================================================================
+   1) Base reset / container
+   ============================================================================= */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #f9fafb;
+  color: #111827;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  overflow-y: auto; /* allow page scrolling via wheel/trackpad */
+}
+
+.search-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* =============================================================================
+   2) HEADER
+   ============================================================================= */
+.sp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+.sp-logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #0077cc;
+}
+.sp-actions .btn {
+  margin-left: 1rem;
+  background: transparent;
+  border: 1px solid #0077cc;
+  color: #0077cc;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.sp-actions .btn.book {
+  background: #0077cc;
+  color: #ffffff;
+}
+.sp-actions .btn:hover {
+  background: #005a9e;
+  color: #ffffff;
+}
+
+/* =============================================================================
+   3) MAIN WRAPPER
+   ============================================================================= */
+.sp-main {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem; /* gap under filter bar */
+}
+
+/* =============================================================================
+   4) FILTER BAR
+   ============================================================================= */
+.filter-bar-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* center the bar */
+  padding: 0.5rem 0; /* optional vertical space */
+}
+
+.sp-filter-bar {
+  display: inline-flex; /* shrink-to-fit instead of full width */
+  align-items: center;
+  gap: 0.5rem; /* tighten gap between items */
+  background: #ffffff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  position: relative;
+  top: -8px; /* keep your lift under the header */
+}
+
+/* tweak the Modify button spacing rather than auto-pushing */
+.sp-filter-bar .filter-search-btn {
+  margin-left: 0.5rem; /* whatever you like */
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.sp-filter-bar .filter-search-btn:hover {
+  background: #005a9e;
+}
+
+/* =============================================================================
+   WRAP SORT & FILTER CONTROLS IN A GREY BOX
+   ============================================================================= */
+.sp-controls-wrapper {
+  background: #f5f5f5; /* light grey background */
+  padding: 1rem 2rem; /* space around the controls */
+  margin: 1rem 0; /* vertical separation from filter bar and results */
+  border-radius: 0.5rem; /* rounded corners */
+}
+
+.sp-controls-wrapper .sp-controls {
+  background: transparent; /* keep inner section background clear */
+  padding: 0; /* inner padding is handled by wrapper */
+  border: none; /* remove any bottom border */
+}
+
+/* =============================================================================
+   5) SORT & FILTER CONTROLS
+   ============================================================================= */
+.sp-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+  flex-wrap: nowrap; /* keep it all on one line */
+}
+
+/* Left side: Sort By */
+.sort-by {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.sort-by label {
+  color: #6b7280;
+}
+.sort-btn {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  color: #111827;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.sort-btn:hover {
+  border-color: #0077cc;
+  color: #0077cc;
+}
+
+/* Right side: Inline sliders then button */
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Ensure sliders come first */
+.filter-controls .slider-group {
+  order: 0;
+}
+/* Place Add Filter button last */
+.filter-controls .btn.add-filter {
+  order: 1;
+  background: #e6f4ff;
+  border: 1px solid #0077cc;
+  color: #0077cc;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.filter-controls .btn.add-filter:hover {
+  background: #d0e8ff;
+}
+
+/* Inline slider groups */
+.slider-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+.slider-group label {
+  color: #6b7280;
+  margin: 0;
+}
+.slider-group input[type="range"] {
+  width: 150px;
+}
+
+/* =============================================================================
+   6) RESULTS LIST
+   ============================================================================= */
+.sp-results {
+  padding: 1rem 2rem;
+  overflow: visible; /* allow body handle scrolling */
+}
+.hotel-card {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s;
+}
+.hotel-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.hotel-img {
+  width: 120px;
+  height: 80px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+.hotel-info {
+  flex: 1;
+}
+.hotel-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.stars {
+  color: #ffc107;
+  margin: 0.25rem 0;
+}
+.address,
+.distance {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+.hotel-book .price {
+  font-weight: 600;
+  color: #0077cc;
+  margin-bottom: 0.5rem;
+  margin-right: 1rem; /* tweak this value to taste */
+}
+
+.btn.book-small {
+  background: #0077cc;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn.book-small:hover {
+  background: #005a9e;
+}
