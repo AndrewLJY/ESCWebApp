@@ -1,38 +1,39 @@
 // src/pages/SearchPage.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { searchHotels } from '../middleware/searchApi';
 import '../styles/SearchPage.css';
 
-const dummyResults = [
-  {
-    id: 1,
-    name: 'Hotel Name',
-    image: '/images/hotel.jpg',
-    stars: 5,
-    address: 'Address 123',
-    distance: 'x.y km away from city centre',
-    price: 'SGD 200',
-  },
-  {
-    id: 2,
-    name: 'Hotel Name',
-    image: '/images/hotel.jpg',
-    stars: 5,
-    address: 'Address 123',
-    distance: 'x.y km away from city centre',
-    price: 'SGD 180',
-  },
-  {
-    id: 3,
-    name: 'Hotel Name',
-    image: '/images/hotel.jpg',
-    stars: 5,
-    address: 'Address 123',
-    distance: 'x.y km away from city centre',
-    price: 'SGD 220',
-  },
-];
-
 export default function SearchPage() {
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchParams] = useState({
+    location: 'Singapore',
+    checkIn: '2025-07-01',
+    checkOut: '2025-07-24',
+    guests: 2,
+    hotelType: 'Hotel'
+  });
+
+  useEffect(() => {
+    const fetchHotels = async () => {
+      setLoading(true);
+      try {
+        const response = await searchHotels(searchParams);
+        setHotels(response.data.hotels);
+      } catch (error) {
+        console.error('Error fetching hotels:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHotels();
+  }, []);
+
+  if (loading) {
+    return <div className="search-page"><div className="loading">Loading hotels...</div></div>;
+  }
+
   return (
     <div className="search-page">
       {/* Header */}
@@ -92,7 +93,7 @@ export default function SearchPage() {
 
       {/* Results list */}
       <section className="sp-results">
-        {dummyResults.map(hotel => (
+        {hotels.map(hotel => (
           <div key={hotel.id} className="hotel-card">
             <img src={hotel.image} alt={hotel.name} className="hotel-img" />
             <div className="hotel-info">
@@ -102,6 +103,7 @@ export default function SearchPage() {
               </div>
               <p className="address">{hotel.address}</p>
               <p className="distance">{hotel.distance}</p>
+              <p className="rating">Rating: {hotel.rating}/5</p>
             </div>
             <div className="hotel-book">
               <span className="price">{hotel.price}</span>
