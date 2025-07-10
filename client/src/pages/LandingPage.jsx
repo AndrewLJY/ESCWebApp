@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LandingPage.css";
+import { apiCall } from "../middleware/landingApi";
 
 export default function LandingPage() {
-  const navigate = useNavigate();
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
 
@@ -48,7 +48,7 @@ export default function LandingPage() {
       alert("Please specify number of guests.");
       return;
     }
-
+    
     const params = new URLSearchParams();
     if (location.value.trim()) params.set("location", location.value.trim());
     if (hotel.value.trim()) params.set("hotel", hotel.value.trim());
