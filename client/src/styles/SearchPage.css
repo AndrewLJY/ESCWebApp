@@ -273,3 +273,13 @@ body {
 .btn.book-small:hover {
   background: #005a9e;
 }
+
+/* ============================
+   BLUR EFFECT FOR MODALS
+   ============================ */
+.sp-main.blurred {
+  filter: blur(5px);
+  pointer-events: none; /* prevent interaction with blurred content */
+  user-select: none;    /* disable text selection on blurred content */
+  transition: filter 0.3s ease;
+}
