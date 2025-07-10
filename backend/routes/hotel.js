@@ -29,14 +29,22 @@ async function GetHotels(term, jsonData){
             },
             body: new URLSearchParams({destination_id:uid})
         });
-        res.send(response);
+        return await response.json(); // should return the hotel data, let the endpoint response to user
     }
 }
 
-router.post('/dest/:destinaton_name', async function(req, res, next){
-    loadJsonData("../hotel_resources/destinations(1).json");
-    const destination = req.params.destinaton_name;
-    GetHotels(destination,jsonData);//res.send, no need to console log to display
+router.get('/dest/:destination_name', async function(req, res, next){ 
+    const data = await loadJsonData("../hotel_resources/destinations.json");
+
+    const destination = req.params.destination_name;
+    if (!data){
+          res.status(500).json({error:'unable to load json data'})
+    }
+    const hotelData = await GetHotels(destination,data);
+    if (!hotelData){
+          res.status(500).json({error:`unable to get hotel data of ${destination_name}`});
+    }
+    res.json(hotelData); //respond to user
 });
 
 module.exports = router;
