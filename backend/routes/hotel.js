@@ -1,7 +1,8 @@
 var express = require('express');
 const fs = require('fs');
+var jsonData  = require("../hotelresources/destinations.json");
+const { json } = require('stream/consumers');
 var router = express.Router();
-let jsonData; 
 
 async function loadJsonData(filePath) {
     fs.readFile(filePath, 'utf-8', (error, jsonData) => {
@@ -15,33 +16,37 @@ async function loadJsonData(filePath) {
 
 async function GetHotels(term, jsonData){
     let destination = jsonData.find(item => item.term == term);
-    //if destination not NULL
     if (destination){
         let uid = destination.uid;
-        const response = await fetch("https://hotelapi.loyalty.dev/api/hotels?",{
-            method: "POST",
-            headers:{
-                "Content-Type":"application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams({destination_id:uid})
+        console.log("UId",uid);
+
+        //Provided API by Ascenda handles GET Requests.
+        const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=${uid}`, {
+          method: "GET",
         });
-        return await response.json(); // should return the hotel data, let the endpoint response to user
+        return await response.json();
+    }
+    else{
+      return "Destination File not found";
     }
 }
 
 router.get('/dest/:destination_name', async function(req, res, next){ 
-    const data = await loadJsonData("../hotel_resources/destinations.json");
+    const data = jsonData;
 
-    const destination = req.params.destination_name;
-    destination.replace("_"," ");
-    
+    let destination = req.params.destination_name;
+    destination = destination.replace("_"," ");
+    console.log(destination);
+
     if (!data){
-          res.status(500).json({error:'unable to load json data'})
+        return res.status(500).json({error:'unable to load json data'})
     }
-    const hotelData = await GetHotels(destination,data);
-    // if (!hotelData){
-    //       res.status(500).json({error:`unable to get hotel data of ${destination_name}`});
-    // }
+    const hotelData = await GetHotels(destination,jsonData);
+    console.log("Gotten!");
+    console.log(hotelData);
+    if (!hotelData){
+        return res.status(500).json({error:`unable to get hotel data of ${destination_name}`});
+    }
     res.json(hotelData); //respond to user
 });
 
