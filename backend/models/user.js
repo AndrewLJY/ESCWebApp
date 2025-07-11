@@ -21,8 +21,8 @@ async function sync() {
         db.pool.query(`
         CREATE TABLE IF NOT EXISTS ${tableName} (
             id INTEGER AUTO_INCREMENT PRIMARY KEY,
-            email VARCHAR(255) UNIQUE,
-            password VARCHAR(255) UNIQUE
+            email VARCHAR(255),
+            password VARCHAR(255)
         )
         `);
     } catch (error) {
@@ -38,9 +38,9 @@ async function findByEmail(email) {
             SELECT ${tableName}.id, ${tableName}.email, ${tableName}.password FROM ${tableName}
             WHERE ${tableName}.email = ?`, [email]
         );
-        var list = [];
+        let list = [];
         for (let row of rows) {
-            let user = new User(row.id, row.email, row.password);
+            let user = new User(row.email, row.password);
             list.push(user);
         }
         return list;
@@ -52,11 +52,18 @@ async function findByEmail(email) {
 
 async function insertOne(user) {
     try {
-        const exists = await findByEmail(User.email);
+        const exists = await findByEmail(user.email);
+        console.log(exists);
+        
         if (exists.length == 0) {
+            console.log("inserting...");
             const [rows, fieldDefs] = await db.pool.query(`
             INSERT INTO ${tableName} (email, password) VALUES (?,?)
             `, [user.email, user.password]);
+        }
+        else{
+            console.log("Exists already!!!!");
+            return "entry already exists.";
         }
     } catch (error) {
         console.error("database connection failed. " + error);
@@ -83,6 +90,23 @@ async function all() {
     }
 }
 
+async function login(email, password) {
+    try {
+        const users = await findByEmail(email);
+        if (users.length === 0) {
+            return { success: false, message: "User not found" };
+        }
 
+        const user = users[0];
+        if (user.password === password) {
+            return { success: true, message: "Login successful", user };
+        } else {
+            return { success: false, message: "Incorrect password" };
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        throw error;
+    }
+}
 
-module.exports= {User, sync, insertOne, all};
+module.exports= {User, sync, insertOne, all, login};
