@@ -30,7 +30,7 @@ app.set('view engine', 'ejs');
 app.use('/', indexRouter);
 app.use('/users', usersRouter); //link to user module under routes/user.js
 // app.use('/bookings', bookingRouter); //link to booking module under routes/booking.js
-app.use('hotel',hotelRouter);
+app.use('/hotel',hotelRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
