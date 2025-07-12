@@ -14,7 +14,7 @@ process.on('SIGTERM', db.cleanup);
 
 var usersRouter = require('./routes/user');
 var indexRouter = require('./routes/index');
-
+var hotelRouter = require('./routes/hotel');
 
 var userModel = require('./models/user.js');
 var bookingModel = require('./models/booking.js');
@@ -30,7 +30,7 @@ app.set('view engine', 'ejs');
 app.use('/', indexRouter);
 app.use('/users', usersRouter); //link to user module under routes/user.js
 // app.use('/bookings', bookingRouter); //link to booking module under routes/booking.js
-
+app.use('/hotel',hotelRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
