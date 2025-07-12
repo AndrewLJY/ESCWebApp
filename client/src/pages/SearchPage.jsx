@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { searchHotels } from "../middleware/searchApi";
+import { loginUser, signupUser } from "../middleware/authApi";
 import "../styles/SearchPage.css";
 
 export default function SearchPage() {
@@ -96,6 +97,7 @@ export default function SearchPage() {
   // Modals
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
+  const [userAuthLoading, setUserAuthLoading] = useState(false);
   const closeAll = () => {
     setLoginOpen(false);
     setSignupOpen(false);
@@ -231,17 +233,33 @@ export default function SearchPage() {
       {loginOpen && !signupOpen && (
         <div className="login-dropdown">
           <h2 className="dropdown__title">Sign In</h2>
-          <form className="login-form">
+          <form className="login-form" onSubmit={async (e) => {
+            e.preventDefault();
+            setUserAuthLoading(true);
+            try {
+              const formData = new FormData(e.target);
+              const result = await loginUser({
+                email: formData.get('email'),
+                password: formData.get('password')
+              });
+              alert('Login successful!');
+              closeAll();
+            } catch (error) {
+              alert(error.message);
+            } finally {
+              setUserAuthLoading(false);
+            }
+          }}>
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
-              <input id="email" type="email" required />
+              <input name="email" id="email" type="email" required />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input id="password" type="password" required />
+              <input name="password" id="password" type="password" required />
             </div>
-            <button type="submit" className="btn submit">
-              Sign In Now
+            <button type="submit" className="btn submit" disabled={userAuthLoading}>
+              {userAuthLoading ? 'Signing In...' : 'Sign In Now'}
             </button>
             <p className="dropdown__signup">
               Don’t have an account? Click{" "}

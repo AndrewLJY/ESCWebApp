@@ -275,14 +275,15 @@
 // }
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ make sure this is imported
+import { useNavigate } from "react-router-dom";
 import "../styles/LandingPage.css";
-import { apiCall } from "../middleware/landingApi";
+import { loginUser, signupUser } from "../middleware/authApi";
 
 export default function LandingPage() {
-  const navigate = useNavigate(); // ✅ FIXED: This was missing
+  const navigate = useNavigate();
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [filters, setFilters] = useState({
     location: { open: false, value: "" },
@@ -471,17 +472,33 @@ export default function LandingPage() {
       {loginOpen && !signupOpen && (
         <div className="login-dropdown">
           <h2 className="dropdown__title">Sign In</h2>
-          <form className="login-form">
+          <form className="login-form" onSubmit={async (e) => {
+            e.preventDefault();
+            setLoading(true);
+            try {
+              const formData = new FormData(e.target);
+              const result = await loginUser({
+                email: formData.get('email'),
+                password: formData.get('password')
+              });
+              alert('Login successful!');
+              closeAll();
+            } catch (error) {
+              alert(error.message);
+            } finally {
+              setLoading(false);
+            }
+          }}>
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
-              <input id="email" type="email" required />
+              <input name="email" id="email" type="email" required />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input id="password" type="password" required />
+              <input name="password" id="password" type="password" required />
             </div>
-            <button type="submit" className="btn submit">
-              Sign In Now
+            <button type="submit" className="btn submit" disabled={loading}>
+              {loading ? 'Signing In...' : 'Sign In Now'}
             </button>
             <p className="dropdown__signup">
               Don’t have an account? Click{" "}
@@ -506,21 +523,38 @@ export default function LandingPage() {
       {signupOpen && !loginOpen && (
         <div className="signup-dropdown">
           <h2 className="dropdown__title">Create Account</h2>
-          <form className="login-form">
+          <form className="login-form" onSubmit={async (e) => {
+            e.preventDefault();
+            setLoading(true);
+            try {
+              const formData = new FormData(e.target);
+              const result = await signupUser({
+                email: formData.get('email'),
+                password: formData.get('password'),
+                confirmPassword: formData.get('confirmPassword')
+              });
+              alert('Account created successfully!');
+              closeAll();
+            } catch (error) {
+              alert(error.message);
+            } finally {
+              setLoading(false);
+            }
+          }}>
             <div className="form-group">
               <label htmlFor="new-email">Email Address</label>
-              <input id="new-email" type="email" required />
+              <input name="email" id="new-email" type="email" required />
             </div>
             <div className="form-group">
               <label htmlFor="new-password">Password</label>
-              <input id="new-password" type="password" required />
+              <input name="password" id="new-password" type="password" required />
             </div>
             <div className="form-group">
               <label htmlFor="confirm-password">Confirm Password</label>
-              <input id="confirm-password" type="password" required />
+              <input name="confirmPassword" id="confirm-password" type="password" required />
             </div>
-            <button type="submit" className="btn submit">
-              Sign Up Now
+            <button type="submit" className="btn submit" disabled={loading}>
+              {loading ? 'Creating Account...' : 'Sign Up Now'}
             </button>
             <button type="button" className="btn close" onClick={closeAll}>
               Close
