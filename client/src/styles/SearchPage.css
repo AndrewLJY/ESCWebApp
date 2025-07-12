@@ -1,15 +1,46 @@
 /* src/styles/SearchPage.css */
 
 /* =============================================================================
-   UNIVERSAL SCROLLBAR-HIDE: hides all scrollbars but keeps scrolling enabled
+   Background layer & full‐page fixed background
    ============================================================================= */
+.search-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* ensure at least viewport height */
+  /* no overflow:hidden here */
+}
 
+/* fixed so it always covers the viewport, even when scrolled */
+.search-page::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/gardens.jpeg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* stack everything else on top */
+.search-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================================================
+   UNIVERSAL SCROLLBAR-HIDE
+   ============================================================================= */
 /* Firefox */
 * {
   scrollbar-width: none !important;
-  -ms-overflow-style: none !important; /* IE 10+ */
+  -ms-overflow-style: none !important;
 }
-/* WebKit (Chrome, Safari, Edge Chromium) */
+/* WebKit */
 *::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
@@ -23,16 +54,10 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #f9fafb;
+  background: #f9fafb; /* fallback behind fixed image */
   color: #111827;
   font-family: "Helvetica Neue", Arial, sans-serif;
-  overflow-y: auto; /* allow page scrolling via wheel/trackpad */
-}
-
-.search-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
+  overflow-y: auto;
 }
 
 /* =============================================================================
@@ -77,7 +102,7 @@ body {
 .sp-main {
   display: flex;
   flex-direction: column;
-  padding-top: 1rem; /* gap under filter bar */
+  padding-top: 1rem;
 }
 
 /* =============================================================================
@@ -86,25 +111,22 @@ body {
 .filter-bar-wrapper {
   width: 100%;
   display: flex;
-  justify-content: center; /* center the bar */
-  padding: 0.5rem 0; /* optional vertical space */
+  justify-content: center;
+  padding: 0.5rem 0;
 }
-
 .sp-filter-bar {
-  display: inline-flex; /* shrink-to-fit instead of full width */
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem; /* tighten gap between items */
+  gap: 0.5rem;
   background: #ffffff;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   position: relative;
-  top: -8px; /* keep your lift under the header */
+  top: -8px;
 }
-
-/* tweak the Modify button spacing rather than auto-pushing */
 .sp-filter-bar .filter-search-btn {
-  margin-left: 0.5rem; /* whatever you like */
+  margin-left: 0.5rem;
   background: #0077cc;
   color: #fff;
   border: none;
@@ -117,24 +139,19 @@ body {
 }
 
 /* =============================================================================
-   WRAP SORT & FILTER CONTROLS IN A GREY BOX
-   ============================================================================= */
-.sp-controls-wrapper {
-  background: #f5f5f5; /* light grey background */
-  padding: 1rem 2rem; /* space around the controls */
-  margin: 1rem 0; /* vertical separation from filter bar and results */
-  border-radius: 0.5rem; /* rounded corners */
-}
-
-.sp-controls-wrapper .sp-controls {
-  background: transparent; /* keep inner section background clear */
-  padding: 0; /* inner padding is handled by wrapper */
-  border: none; /* remove any bottom border */
-}
-
-/* =============================================================================
    5) SORT & FILTER CONTROLS
    ============================================================================= */
+.sp-controls-wrapper {
+  background: #f5f5f5;
+  padding: 1rem 2rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+}
+.sp-controls-wrapper .sp-controls {
+  background: transparent;
+  padding: 0;
+  border: none;
+}
 .sp-controls {
   display: flex;
   justify-content: space-between;
@@ -143,10 +160,7 @@ body {
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
   margin-bottom: 1rem;
-  flex-wrap: nowrap; /* keep it all on one line */
 }
-
-/* Left side: Sort By */
 .sort-by {
   display: flex;
   align-items: center;
@@ -168,19 +182,14 @@ body {
   border-color: #0077cc;
   color: #0077cc;
 }
-
-/* Right side: Inline sliders then button */
 .filter-controls {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
-
-/* Ensure sliders come first */
 .filter-controls .slider-group {
   order: 0;
 }
-/* Place Add Filter button last */
 .filter-controls .btn.add-filter {
   order: 1;
   background: #e6f4ff;
@@ -194,18 +203,14 @@ body {
 .filter-controls .btn.add-filter:hover {
   background: #d0e8ff;
 }
-
-/* Inline slider groups */
 .slider-group {
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.85rem;
 }
 .slider-group label {
   color: #6b7280;
-  margin: 0;
 }
 .slider-group input[type="range"] {
   width: 150px;
@@ -216,7 +221,6 @@ body {
    ============================================================================= */
 .sp-results {
   padding: 1rem 2rem;
-  overflow: visible; /* allow body handle scrolling */
 }
 .hotel-card {
   display: flex;
@@ -257,10 +261,8 @@ body {
 .hotel-book .price {
   font-weight: 600;
   color: #0077cc;
-  margin-bottom: 0.5rem;
-  margin-right: 1rem; /* tweak this value to taste */
+  margin-right: 1rem;
 }
-
 .btn.book-small {
   background: #0077cc;
   color: #ffffff;
@@ -274,12 +276,33 @@ body {
   background: #005a9e;
 }
 
-/* ============================
-   BLUR EFFECT FOR MODALS
-   ============================ */
-.sp-main.blurred {
+/* =============================================================================
+   MODAL & BLUR EFFECTS
+   ============================================================================= */
+.login-dropdown,
+.signup-dropdown {
+  position: fixed;
+  top: 80px;
+  right: 40px;
+  width: 300px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease 0.3s;
+}
+.search-page.blurred .login-dropdown,
+.search-page.blurred .signup-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+}
+.search-page.blurred .sp-main {
   filter: blur(5px);
-  pointer-events: none; /* prevent interaction with blurred content */
-  user-select: none;    /* disable text selection on blurred content */
+  pointer-events: none;
+  user-select: none;
   transition: filter 0.3s ease;
 }
