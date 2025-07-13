@@ -277,7 +277,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LandingPage.css";
-import { loginUser, signupUser } from "../middleware/authApi";
+import { loginUser, signupUser, loginUserAPI,signupUserAPI } from "../middleware/authApi";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -477,7 +477,7 @@ export default function LandingPage() {
             setLoading(true);
             try {
               const formData = new FormData(e.target);
-              const result = await loginUser({
+              const result = await loginUserAPI({
                 email: formData.get('email'),
                 password: formData.get('password')
               });
@@ -528,7 +528,7 @@ export default function LandingPage() {
             setLoading(true);
             try {
               const formData = new FormData(e.target);
-              const result = await signupUser({
+              const result = await signupUserAPI({
                 email: formData.get('email'),
                 password: formData.get('password'),
                 confirmPassword: formData.get('confirmPassword')
