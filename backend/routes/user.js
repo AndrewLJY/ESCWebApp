@@ -2,9 +2,6 @@ const express = require('express');
 const userModel = require('../models/user.js');
 var router = express.Router();
 
-
-
-
 router.post('/submit/', async function(req, res, next) {
     const name = req.body.email;
     const code = req.body.password;
@@ -15,12 +12,10 @@ router.post('/submit/', async function(req, res, next) {
     res.send(`${JSON.stringify(users)}`);
 })
 
-
-
 /* insert a staff, should have used POST instead of GET */
-router.get('/register/:email/:password', async function(req, res, next) {
-    const email = req.params.email;
-    const password = req.params.password;
+router.post('/register/', async function(req, res, next) {
+    const email = req.body.email;
+    const password = req.body.password;
     userDbObject = new userModel.User(email, password);
     userModel.insertOne(userDbObject);
     const users = await userModel.all();
@@ -28,10 +23,9 @@ router.get('/register/:email/:password', async function(req, res, next) {
 });
 
 /*login check based on added users */
-
-router.get('/login/:email/:password', async function(req, res, next) {
-    const email = req.params.email;
-    const password = req.params.password;
+router.post('/login/', async function(req, res, next) {
+    const email = req.body.email;
+    const password = req.body.password;
     console.log(email)
     console.log(password)
     const result = await userModel.login(email, password);
@@ -40,7 +34,7 @@ router.get('/login/:email/:password', async function(req, res, next) {
             message: "Login successful"
         }));
     } else {
-        res.send("Login Failed");
+        res.console.error("Login Failed");
     }
 });
 
