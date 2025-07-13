@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { searchHotels, searchHotelsAPI } from "../middleware/searchApi";
-import { loginUser, signupUser } from "../middleware/authApi";
+import { loginUser, loginUserAPI } from "../middleware/authApi";
 import "../styles/SearchPage.css";
 
 export default function SearchPage() {
@@ -242,7 +242,7 @@ export default function SearchPage() {
             setUserAuthLoading(true);
             try {
               const formData = new FormData(e.target);
-              const result = await loginUser({
+              const result = await loginUserAPI({
                 email: formData.get('email'),
                 password: formData.get('password')
               });
