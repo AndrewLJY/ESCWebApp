@@ -60,14 +60,25 @@ const searchHotels = async (searchParams) => {
 // Possible real API call example
 const searchHotelsAPI = async (searchParams) => {
   try {
-    const response = await axios.post('http://localhost:8080/api/search', {
-      location: searchParams.location,
-      checkIn: searchParams.checkIn,
-      checkOut: searchParams.checkOut,
-      guests: searchParams.guests,
-      hotelType: searchParams.hotelType
-    });
-    return response.data;
+    let destination = searchParams.location.replace("_"," ");
+     // For later filter implementation
+    // const response = await axios.get('http://localhost:8080/dest/', {
+    //   location: searchParams.location,
+    //   checkIn: searchParams.checkIn,
+    //   checkOut: searchParams.checkOut,
+    //   guests: searchParams.guests,
+    //   hotelType: searchParams.hotelType
+    // });
+
+    const response = await axios.get('http://localhost:8080/hotel/dest/' + destination);
+    
+    return {
+      data: {
+        hotels: response.data,
+        totalResults: response.data.length,
+        searchParams: searchParams
+      }
+    }
   } catch (error) {
     console.error('Search API error:', error);
     // Fallback to dummy data

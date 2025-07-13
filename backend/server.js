@@ -7,7 +7,8 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors());
-
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 process.on('SIGINT', db.cleanup);
 process.on('SIGTERM', db.cleanup);
@@ -28,7 +29,7 @@ app.set('view engine', 'ejs');
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter); //link to user module under routes/user.js
+app.use('/auth', usersRouter); //link to user module under routes/user.js
 // app.use('/bookings', bookingRouter); //link to booking module under routes/booking.js
 app.use('/hotel',hotelRouter);
 
