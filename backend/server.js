@@ -19,12 +19,11 @@ var searchRouter = require('./routes/search');
 
 var userModel = require('./models/user.js');
 var bookingModel = require('./models/booking.js');
-var destinationNamesModel = require('./models/destinationNames.js');
+var destinationNamesModel = require('./models/destinations.js');
 
 userModel.sync();
 bookingModel.sync();
-destinationNamesModel.sync();
-destinationNamesModel.insertFromJSON();
+destinationNamesModel.sync().then(destinationNamesModel.insertFromJSON());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
