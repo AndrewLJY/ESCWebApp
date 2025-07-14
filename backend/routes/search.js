@@ -1,9 +1,15 @@
 var express = require('express');
 const fs = require('fs');
 var jsonData  = require("../hotelresources/destinations.json");
+var destinationModel = require('../models/destinations');
+
 const { json } = require('stream/consumers');
 const { getSystemErrorMap } = require('util');
+const { type } = require('os');
+const { error } = require('console');
 var router = express.Router();
+
+const Fuse = require('fuse.js'); //use this library to generate search suggestions and autocomplete in < 1s.
 
 
 // |Helper Functions Start--------------------------------------------------------------------------------|
@@ -43,6 +49,50 @@ function stitchHotelJsonData(hotelPricingData, hotelDataFromDest){
 
     return finalHotelsDetails;
 }
+
+// CUSTOM DP SOLUTION FOR SEARCH SUGGESTIONS, USING EDIT DISTANCE BUT TAKES TOO LONG :(
+// function getMinimumDistance(word1, word2){
+//     if (word2.includes(word1)){
+//         return 0;
+//     }
+
+//     if(!word2.startsWith(word1[0])){
+//         return 999;
+//     }
+
+//     dpCache = []
+//     for(let i = 0; i < word1.length+1; i++){ //rows
+//         row = []
+//         for(let j = 0; j < word2.length+1; j++){ //columns
+//             row.push(-1);
+//         }
+//         dpCache.push(row)
+//     }
+
+//     //Initialise Base case values
+//     for(let i = word1.length; i >-1; i--){
+//         dpCache[i][word2.length] = word1.length - i;
+//     }
+
+//     for(let j = word2.length; j >-1; j--){
+//         dpCache[word1.length][j] = word2.length - j;
+//     }
+
+//     for(let i = word1.length-1; i >-1; i--){
+//         for(let j = word2.length-1; j >-1; j--){     
+//             //If both substrings are equal incur no cost and simply derive cost from follow-up diagonal entry
+//             if(word1[i] === word2[j]){
+//                 dpCache[i][j] = dpCache[i+1][j+1];
+//             }
+//             else{
+//                 dpCache[i][j] = 1+ Math.min(dpCache[i+1][j], dpCache[i][j+1], dpCache[i+1][j+1]);
+//             }
+//         }
+//     }
+//     //End result - cost of edit distance, is the entry at index (0,0)
+//     return dpCache[0][0];
+// }
+
 
 // |Helper Functions End-------------------------------------------------------------------------------|
 
@@ -115,6 +165,7 @@ router.post('/', async function(req, res, next){
 // |Other Routes---------------------------------------------------------------------------------------------------|
 
 
+//Get info for a single hotel, returning the same fields as the API listing hotels for a particular destination
 router.get('/hotel/:hotel_id', async function (req, res, next) {
     let hotelId = req.params.hotel_id
     console.log(hotelId);
@@ -127,6 +178,7 @@ router.get('/hotel/:hotel_id', async function (req, res, next) {
     res.json(result);
 })
 
+//Get the room pricings for a specific hotel, at a specific destination
 router.post('/hotel/prices', async function(req, res, next){
     let hotelId = req.body.hotel_id;
     let destinationId = req.body.destination_id;
@@ -158,5 +210,58 @@ router.post('/hotel/prices', async function(req, res, next){
     return result;
 });
 
+
+
+const options = {
+    threshold: 0.3,
+    useExtendedSearch: true,
+    caseSensitive:false
+};
+
+
+//Router to generate search suggestions based off database destinaton entries.
+router.post('/string/', async function(req, res, next){
+    const searchString = req.body.searchString;
+    allDestinationNames = await destinationModel.findAllDestinations();
+    const fuse = new Fuse(allDestinationNames, options);
+    result = fuse.search(searchString, {limit:10});
+    res.send(result);
+
+
+
+    //CUSTOM DP SOLUTION..TAKE TOO LONG :(
+    // const threshold = 5;
+    // let possibleDestinations = []
+    // let count = 10;
+    // let offset = 0;
+    // while (count > 0){
+    //     offset += 1;
+    //     if(allDestinationNames.length === 0){
+    //         res.status(500).json({error:"Unable to get more destinations"});
+    //         return;
+    //     }
+    //     for(let destinationName of allDestinationNames){
+
+    //         words = destinationName.split(",");
+    //         let netcost = 999;
+    //         for(let word of words){
+    //             cost = getMinimumDistance(searchString, word)
+    //             if (cost < netcost){
+    //                 netcost = cost;
+    //             }
+    //         }
+
+    //         if(netcost <= threshold){
+    //             possibleDestinations.push(destinationName);
+    //             count -= 1;
+    //             if(count < 0){
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     console.log(possibleDestinations);
+    // }
+    // res.send(possibleDestinations);
+});
 
 module.exports = router;
