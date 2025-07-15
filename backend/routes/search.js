@@ -10,6 +10,7 @@ const { error } = require('console');
 var router = express.Router();
 
 const Fuse = require('fuse.js'); //use this library to generate search suggestions and autocomplete in < 1s.
+const { resolve } = require('path');
 
 
 // |Helper Functions Start--------------------------------------------------------------------------------|
@@ -50,6 +51,10 @@ function stitchHotelJsonData(hotelPricingData, hotelDataFromDest){
     return finalHotelsDetails;
 }
 
+function tidyData(compiledJSONData){
+
+}
+
 // |Helper Functions End-------------------------------------------------------------------------------|
 
 
@@ -62,11 +67,10 @@ router.post('/', async function(req, res, next){
     const destination = req.body.destination_name;
     const checkInDate = req.body.check_in_date;
     const checkOutDate = req.body.check_out_date;
-    const language = req.body.language; //acquire from frontend settings
-    const currency = req.body.currency; //can acquire from frontend
-    const countryCode = req.body.country_code; //acquire from destinationAPI
+    const language = req.body.language; //acquire from frontend settings, default is en_US
+    const currency = req.body.currency; //can acquire from frontend, default is SGD / USD --> Both lead to same results
     const guestCount = req.body.guest_count;
-    const partnerId = req.body.partner_id;
+    const roomCount = req.body.room_count;
 
 
     const data = jsonData; //Bring over main json data file
@@ -85,34 +89,53 @@ router.post('/', async function(req, res, next){
     });
 
     destAPIData = await response.json(); //Results from Dest API
+    
+    if(!destAPIData){
+        console.error(500).json({error: "Unable to retrieve data from given destination."});
+    }
+
+    countryCode = destAPIData[0].original_metadata.country;
+
+    guestInputField = `${guestCount}`;
+    for(let i = 1; i < roomCount; i++){
+        guestInputField += `|${guestCount}`;
+    }
+    console.log(guestInputField);
 
     let priceAPIData = {"hotels":[]};
     let count = 0;
+    const waitDelay = 2000; //wait 1 second before trying again
 
     while (priceAPIData.hotels.length === 0)
     {
-        if (count > 2){
-            return res.status(500).json({error: 'Unable to Find any Hotels at the moment'});
+        if (count > 3){
+            break;
         }
 
-        const response2 = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=${language}&currency=${currency}&country_code=${countryCode}&guests=${guestCount}&partner_id=${partnerId}`,{
+        const response2 = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=${language}&currency=${currency}&country_code=${countryCode}&guests=${guestCount}&partner_id=1`,{
             method: "GET",
         });
         priceAPIData = await response2.json(); //Results from Price API
-        count++;
+
+        if(priceAPIData.hotels.length > 0){
+            break;
+        }
+
+        await new Promise(resolve=>setTimeout(resolve, waitDelay));
+
+        count += 1;
     }
 
-    if (!priceAPIData || !destAPIData){
-        return res.status(500).json({error: 'Unable to Find any Hotels at the moment'});
+    if (priceAPIData.hotels.length === 0){
+        console.error("Unable to get prices at the moment, fetching other details...");
+        res.json(destAPIData);
+        return;
     }
 
     compiledData = stitchHotelJsonData(priceAPIData, destAPIData);
 
     res.json(compiledData);
 });
-
-
-
 
 
 
@@ -140,36 +163,44 @@ router.post('/hotel/prices', async function(req, res, next){
     const destinationId = req.body.destination_id;
     const checkInDate = req.body.check_in_date;
     const checkOutDate = req.body.check_out_date;
-    const language = req.body.language;
-    const currency = req.body.currency;
+    const language = req.body.language; //Default is en_US
+    const currency = req.body.currency; //Default is SGD / USD
     const countryCode = req.body.country_code;
     const guestCount = req.body.guest_count;
-    const partnerId = req.body.partner_id;
 
 
     let result = {"rooms":[]}
     let count = 0;
+    const waitDelay = 2000;
 
-    while (result.rooms.length === 0)
-    {
+    while(result.rooms.length === 0){
+        
         if (count > 3){
             res.send("Unable to retrieve data, check for errors in request parameters.");
-            break
+            break;
         }
 
-        const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=${language}&currency=${currency}&country_code=${countryCode}&guests=${guestCount}&partner_id=${partnerId}`,{
+        const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=${language}&currency=${currency}&country_code=${countryCode}&guests=${guestCount}&partner_id=1`,{
             method: "GET",
         });
-        result = await response.json();
-    }
 
-    return result;
+        result = await response.json();
+        
+        if(result.rooms.length > 0){
+            break;
+        }
+
+        await new Promise(resolve=>setTimeout(resolve,waitDelay));
+
+        count += 1;
+    }
+    res.json(result);
 });
 
 
 
 const options = {
-    threshold: 0.3,
+    threshold: 0.3, //the higher the threshold the stricter the search, returning more similar results but also less variations.
     useExtendedSearch: true,
     caseSensitive:false
 };
@@ -181,6 +212,11 @@ router.post('/string/', async function(req, res, next){
     allDestinationNames = await destinationModel.findAllDestinations();
     const fuse = new Fuse(allDestinationNames, options);
     result = fuse.search(searchString, {limit:10});
+    if (result.length === 0){
+        res.send("No available results");
+        return;
+    }
+
     res.send(result);
 });
 
