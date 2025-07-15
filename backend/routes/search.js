@@ -50,50 +50,6 @@ function stitchHotelJsonData(hotelPricingData, hotelDataFromDest){
     return finalHotelsDetails;
 }
 
-// CUSTOM DP SOLUTION FOR SEARCH SUGGESTIONS, USING EDIT DISTANCE BUT TAKES TOO LONG :(
-// function getMinimumDistance(word1, word2){
-//     if (word2.includes(word1)){
-//         return 0;
-//     }
-
-//     if(!word2.startsWith(word1[0])){
-//         return 999;
-//     }
-
-//     dpCache = []
-//     for(let i = 0; i < word1.length+1; i++){ //rows
-//         row = []
-//         for(let j = 0; j < word2.length+1; j++){ //columns
-//             row.push(-1);
-//         }
-//         dpCache.push(row)
-//     }
-
-//     //Initialise Base case values
-//     for(let i = word1.length; i >-1; i--){
-//         dpCache[i][word2.length] = word1.length - i;
-//     }
-
-//     for(let j = word2.length; j >-1; j--){
-//         dpCache[word1.length][j] = word2.length - j;
-//     }
-
-//     for(let i = word1.length-1; i >-1; i--){
-//         for(let j = word2.length-1; j >-1; j--){     
-//             //If both substrings are equal incur no cost and simply derive cost from follow-up diagonal entry
-//             if(word1[i] === word2[j]){
-//                 dpCache[i][j] = dpCache[i+1][j+1];
-//             }
-//             else{
-//                 dpCache[i][j] = 1+ Math.min(dpCache[i+1][j], dpCache[i][j+1], dpCache[i+1][j+1]);
-//             }
-//         }
-//     }
-//     //End result - cost of edit distance, is the entry at index (0,0)
-//     return dpCache[0][0];
-// }
-
-
 // |Helper Functions End-------------------------------------------------------------------------------|
 
 
@@ -103,14 +59,14 @@ function stitchHotelJsonData(hotelPricingData, hotelDataFromDest){
 router.post('/', async function(req, res, next){ 
 
     //Required Request Body Parameters:
-    let destination = req.body.destination_name;
-    let checkInDate = req.body.check_in_date;
-    let checkOutDate = req.body.check_out_date;
-    let language = req.body.language;
-    let currency = req.body.currency;
-    let countryCode = req.body.country_code;
-    let guestCount = req.body.guest_count;
-    let partnerId = req.body.partner_id;
+    const destination = req.body.destination_name;
+    const checkInDate = req.body.check_in_date;
+    const checkOutDate = req.body.check_out_date;
+    const language = req.body.language; //acquire from frontend settings
+    const currency = req.body.currency; //can acquire from frontend
+    const countryCode = req.body.country_code; //acquire from destinationAPI
+    const guestCount = req.body.guest_count;
+    const partnerId = req.body.partner_id;
 
 
     const data = jsonData; //Bring over main json data file
@@ -180,15 +136,15 @@ router.get('/hotel/:hotel_id', async function (req, res, next) {
 
 //Get the room pricings for a specific hotel, at a specific destination
 router.post('/hotel/prices', async function(req, res, next){
-    let hotelId = req.body.hotel_id;
-    let destinationId = req.body.destination_id;
-    let checkInDate = req.body.check_in_date;
-    let checkOutDate = req.body.check_out_date;
-    let language = req.body.language;
-    let currency = req.body.currency;
-    let countryCode = req.body.country_code;
-    let guestCount = req.body.guest_count;
-    let partnerId = req.body.partner_id;
+    const hotelId = req.body.hotel_id;
+    const destinationId = req.body.destination_id;
+    const checkInDate = req.body.check_in_date;
+    const checkOutDate = req.body.check_out_date;
+    const language = req.body.language;
+    const currency = req.body.currency;
+    const countryCode = req.body.country_code;
+    const guestCount = req.body.guest_count;
+    const partnerId = req.body.partner_id;
 
 
     let result = {"rooms":[]}
@@ -226,42 +182,6 @@ router.post('/string/', async function(req, res, next){
     const fuse = new Fuse(allDestinationNames, options);
     result = fuse.search(searchString, {limit:10});
     res.send(result);
-
-
-
-    //CUSTOM DP SOLUTION..TAKE TOO LONG :(
-    // const threshold = 5;
-    // let possibleDestinations = []
-    // let count = 10;
-    // let offset = 0;
-    // while (count > 0){
-    //     offset += 1;
-    //     if(allDestinationNames.length === 0){
-    //         res.status(500).json({error:"Unable to get more destinations"});
-    //         return;
-    //     }
-    //     for(let destinationName of allDestinationNames){
-
-    //         words = destinationName.split(",");
-    //         let netcost = 999;
-    //         for(let word of words){
-    //             cost = getMinimumDistance(searchString, word)
-    //             if (cost < netcost){
-    //                 netcost = cost;
-    //             }
-    //         }
-
-    //         if(netcost <= threshold){
-    //             possibleDestinations.push(destinationName);
-    //             count -= 1;
-    //             if(count < 0){
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     console.log(possibleDestinations);
-    // }
-    // res.send(possibleDestinations);
 });
 
 module.exports = router;
