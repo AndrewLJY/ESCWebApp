@@ -2,6 +2,7 @@ var express = require('express');
 const fs = require('fs');
 var jsonData  = require("../hotelresources/destinations.json");
 var destinationModel = require('../models/destinations');
+var compiledData;
 
 const { json } = require('stream/consumers');
 const { getSystemErrorMap } = require('util');
@@ -94,8 +95,6 @@ router.post('/', async function(req, res, next){
         console.error(500).json({error: "Unable to retrieve data from given destination."});
     }
 
-    countryCode = destAPIData[0].original_metadata.country;
-
     guestInputField = `${guestCount}`;
     for(let i = 1; i < roomCount; i++){
         guestInputField += `|${guestCount}`;
@@ -112,7 +111,7 @@ router.post('/', async function(req, res, next){
             break;
         }
 
-        const response2 = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=${language}&currency=${currency}&country_code=${countryCode}&guests=${guestCount}&partner_id=1`,{
+        const response2 = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=${language}&currency=${currency}&country_code=SG&guests=${guestCount}&partner_id=1`,{
             method: "GET",
         });
         priceAPIData = await response2.json(); //Results from Price API
@@ -136,8 +135,6 @@ router.post('/', async function(req, res, next){
 
     res.json(compiledData);
 });
-
-
 
 
 
@@ -200,7 +197,7 @@ router.post('/hotel/prices', async function(req, res, next){
 
 
 const options = {
-    threshold: 0.3, //the higher the threshold the stricter the search, returning more similar results but also less variations.
+    threshold: 0.8, //the higher the threshold the stricter the search, returning more similar results but also less variations.
     useExtendedSearch: true,
     caseSensitive:false
 };
@@ -221,3 +218,24 @@ router.post('/string/', async function(req, res, next){
 });
 
 module.exports = router;
+
+
+router.get("/hotels/images", async function(req, res, next){
+    if(!compiledData){
+        res.send("No hotel data at the moment, call /search/ to get data...");
+        return;
+    }
+
+    let hotelImages = []
+
+    for(let i = 0; i < compiledData.length; i++){
+        hotelImageData = {"hotel name":compiledData[i].id, "images":[]}
+        for(let k = 0; k < compiledData[i].image_details.count; k++){
+            imageLink = `${compiledData[i].image_details.prefix}${k}${compiledData[i].image_details.suffix}`;
+            hotelImageData.images.push(imageLink);  
+        }
+        hotelImages.push(hotelImageData);
+    }
+
+    res.send(hotelImages);
+});
