@@ -13,6 +13,10 @@ var router = express.Router();
 const Fuse = require('fuse.js'); //use this library to generate search suggestions and autocomplete in < 1s.
 const { resolve } = require('path');
 
+var hotelDataTransferServiceModule = require('../hotel_data/hotel_data_service');
+const { route } = require('./user');
+
+
 
 // |Helper Functions Start--------------------------------------------------------------------------------|
 
@@ -52,11 +56,65 @@ function stitchHotelJsonData(hotelPricingData, hotelDataFromDest){
     return finalHotelsDetails;
 }
 
-function tidyData(compiledJSONData){
+function transferSingleHotelJSONToClass(jsonData){
+    hotelDataTransferService = new hotelDataTransferServiceModule.HotelDataTransferService(jsonData);
+    if (hotelDataDTOClassList.getPriceAvailability() === false){
+        singleHotelDataDTO = hotelDataTransferService
+        .transferKeyDetails()
+        .transferImageDetails()
+        .transferITrustYouScore()
+        .transferAmenitiesData()
+        .transferOriginalMetaData()
+        .getNewHotelDataDTOClass();
+    }
 
+    else{
+        singleHotelDataDTO = hotelDataTransferService
+        .transferKeyDetails()
+        .transferImageDetails()
+        .transferITrustYouScore()
+        .transferOriginalMetaData()
+        .transferPricingRankingData()
+        .transferAmenitiesData()
+        .getNewHotelDataDTOClass();
+    }
+
+    return singleHotelDataDTO;
 }
 
+
+
 // |Helper Functions End-------------------------------------------------------------------------------|
+
+
+//Class to Store List of All Compiled Hotel Data DTO
+//To be exported to MIDDLEWARE!
+class HotelDataDTOClassList{
+    constructor(){
+        this.hotelDataDTOs = [];
+        this.bPriceDataUnavailable = false;
+    }
+    addHotelDataDTO(hotelDataDTO){
+        this.hotelDataDTOs.push(hotelDataDTO);
+    }
+
+    getListHotels(){
+        return this.hotelDataDTOs;
+    }
+
+    setPriceDataUnavailable(bUnavailable){
+        this.bPriceDataUnavailable = bUnavailable;
+    }
+
+    getPriceAvailability(){
+        return this.bPriceDataUnavailable;
+    }
+
+    
+}
+
+var hotelDataDTOClassList = new HotelDataDTOClassList(); //Declare with Global Scope
+
 
 
 // |Main route:                                                                                        |
@@ -127,13 +185,21 @@ router.post('/', async function(req, res, next){
 
     if (priceAPIData.hotels.length === 0){
         console.error("Unable to get prices at the moment, fetching other details...");
+        hotelDataDTOClassList.setPriceDataUnavailable(true);
         res.json(destAPIData);
         return;
     }
 
     compiledData = stitchHotelJsonData(priceAPIData, destAPIData);
 
-    res.json(compiledData);
+    for(let i = 0; i < compiledData.length; i++){
+        dataForSingleHotel = transferSingleHotelJSONToClass(compiledData[i]);
+        hotelDataDTOClassList.addHotelDataDTO(dataForSingleHotel);
+        console.log(`added: ${i}`);
+    }
+    console.log("finished");
+    res.send("Added Hotel Data to DTO Class");
+    return;
 });
 
 
@@ -215,9 +281,10 @@ router.post('/string/', async function(req, res, next){
     }
 
     res.send(result);
-});
+    console.log(hotel1.address);
 
-module.exports = router;
+    
+});
 
 
 router.get("/hotels/images", async function(req, res, next){
@@ -226,16 +293,27 @@ router.get("/hotels/images", async function(req, res, next){
         return;
     }
 
+    // let hotelImages = []
+
+    // for(let i = 0; i < compiledData.length; i++){
+    //     hotelImageData = {"hotel name":compiledData[i].id, "images":[]}
+    //     for(let k = 0; k < compiledData[i].image_details.count; k++){
+    //         imageLink = `${compiledData[i].image_details.prefix}${k}${compiledData[i].image_details.suffix}`;
+    //         hotelImageData.images.push(imageLink);  
+    //     }
+    //     hotelImages.push(hotelImageData);
+    // }
+
+    // res.send(hotelImages);
+
     let hotelImages = []
+    listHotelDatas = hotelDataDTOClassList.getListHotels();
 
-    for(let i = 0; i < compiledData.length; i++){
-        hotelImageData = {"hotel name":compiledData[i].id, "images":[]}
-        for(let k = 0; k < compiledData[i].image_details.count; k++){
-            imageLink = `${compiledData[i].image_details.prefix}${k}${compiledData[i].image_details.suffix}`;
-            hotelImageData.images.push(imageLink);  
-        }
-        hotelImages.push(hotelImageData);
+    for(let i = 0; i < listHotelDatas.length; i ++){
+        hotelImageCollage = {"id":listHotelDatas[i].getKeyDetails().id, "images":listHotelDatas[i].getImageDetails().stitchedImageUrls}
+        hotelImages.push(hotelImageCollage);
     }
-
     res.send(hotelImages);
 });
+
+module.exports={router: router, HotelDataDTOClassList: hotelDataDTOClassList} //export the hotelDTOClassList OBJECT, not the class itself. The object has all of the initialized fields.
