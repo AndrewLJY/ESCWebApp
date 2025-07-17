@@ -15,13 +15,15 @@ process.on('SIGTERM', db.cleanup);
 
 var usersRouter = require('./routes/user');
 var indexRouter = require('./routes/index');
-var hotelRouter = require('./routes/hotel');
+var searchRouter = require('./routes/search');
 
 var userModel = require('./models/user.js');
 var bookingModel = require('./models/booking.js');
+var destinationNamesModel = require('./models/destinations.js');
 
 userModel.sync();
 bookingModel.sync();
+destinationNamesModel.sync().then(destinationNamesModel.insertFromJSON());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,7 +33,7 @@ app.set('view engine', 'ejs');
 app.use('/', indexRouter);
 app.use('/auth', usersRouter); //link to user module under routes/user.js
 // app.use('/bookings', bookingRouter); //link to booking module under routes/booking.js
-app.use('/hotel',hotelRouter);
+app.use('/search',searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

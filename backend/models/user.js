@@ -1,5 +1,4 @@
 const db = require('./db.js');
-const bookingModel = require('./booking.js');
 const tableName = 'user';
 
 class User {
