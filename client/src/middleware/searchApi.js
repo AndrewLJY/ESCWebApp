@@ -74,7 +74,7 @@ const searchHotelsAPI = async (searchParams) => {
     
     return {
       data: {
-        hotels: response.data,
+        hotels: response.data == "Destination File not found" ? [] : response.data,
         totalResults: response.data.length,
         searchParams: searchParams
       }
