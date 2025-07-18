@@ -9,7 +9,7 @@ const Fuse = require('fuse.js'); //use this library to generate search suggestio
 var hotelDataTransferServiceModule = require('../hotel_data/hotel_data_service');
 
 var filledHotelDTOClassList = hotelDataTransferServiceModule.hotelDataDTOClassList;
-
+ 
 
 
 // |Main route:                                                                                        |
@@ -26,7 +26,7 @@ router.post('/', async function(req, res, next){
 
     await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(destination, checkInDate, checkOutDate, guestCount, roomCount);
 
-    res.send(filledHotelDTOClassList.getListHotels());
+    res.send(filledHotelDTOClassList.getListHotels()); //JSON output seen in POSTMAN
 
     return;
 });
@@ -35,7 +35,22 @@ router.post('/', async function(req, res, next){
 //Based on all of the hotel DTO class data we have initialised with the single '/' API call, let us now create all the different endpoints that can query from these classes 
 //Specific data, so that we can then pass this data to the middleware.
 
+/*getting the all the images of a hotel endpoint*/
+router.get('/images/',async function (req,res,next){
+    let imageList = [];
+    let hotelData = filledHotelDTOClassList.getListHotels();
+    let imageDetails = hotelData.map(fullData => fullData.getImageDetails());
+    let imageURLs = imageDetails.map(image => image.stitchedImageUrls);
 
+    for (let count in imageDetails){
+        imageList.push(imageDetails[count].stitchedImageUrls);
+        
+    }
+    console.log(imageList);
+    res.send(imageList);
+
+    
+});
 
 
 
