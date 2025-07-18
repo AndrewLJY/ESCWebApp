@@ -33,7 +33,7 @@ app.set('view engine', 'ejs');
 app.use('/', indexRouter);
 app.use('/auth', usersRouter); //link to user module under routes/user.js
 // app.use('/bookings', bookingRouter); //link to booking module under routes/booking.js
-app.use('/search',searchRouter.router); //Define the router key, since we are exporting the hotelDTOClassList as a separate module for middleware to use!
+app.use('/search',searchRouter); //Define the router key, since we are exporting the hotelDTOClassList as a separate module for middleware to use!
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
