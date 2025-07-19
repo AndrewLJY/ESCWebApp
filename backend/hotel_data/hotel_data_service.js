@@ -44,8 +44,6 @@ class HotelDataTransferService{
     }
 
     transferImageDetails(){
-        console.log(`${this.jsonData} here`);
-        console.log(this.jsonData.image_details);
         this.imageDetails = new hotelDataDTO.ImageDetails.Builder()
         .setImageCounts(this.jsonData.image_details.count)
         .setImageUrlPrefix(this.jsonData.image_details.prefix)
@@ -71,8 +69,7 @@ class HotelDataTransferService{
         .setPrice(this.jsonData.price)
         .setConvertedPrice(this.jsonData.converted_price)
         .setLowestConvertedPrice(this.jsonData.lowest_converted_price)
-        .setMarketRateSupplier(this.jsonData.market_rates.supplier)
-        .setMarketRateRates(this.jsonData.market_rates.rate)
+        .setMarketRates(this.jsonData.market_rates)
         .build();
 
         return this;
@@ -121,7 +118,7 @@ class HotelDataDTOClassList{
         this.bPriceDataUnavailable = bUnavailable;
     }
 
-    getPriceAvailability(){
+    getIsPriceDataUnavailable(){
         return this.bPriceDataUnavailable;
     }
 
@@ -171,7 +168,7 @@ function stitchHotelJsonData(hotelPricingData, hotelDataFromDest){
 
 function transferSingleHotelJSONToClass(jsonData){
     hotelDataTransferService = new HotelDataTransferService(jsonData);
-    if (hotelDataDTOClassList.getPriceAvailability() === false){
+    if (hotelDataDTOClassList.getIsPriceDataUnavailable() === true){
         singleHotelDataDTO = hotelDataTransferService
         .transferKeyDetails()
         .transferImageDetails()
@@ -263,7 +260,6 @@ async function getAllHotelsAndPricesForDestination(destination_name, check_in, c
     for(let i = 0; i < compiledData.length; i++){
         dataForSingleHotel = transferSingleHotelJSONToClass(compiledData[i]);
         hotelDataDTOClassList.addHotelDataDTO(dataForSingleHotel);
-        console.log(`added: ${i}`);
     }
     console.log("finished");
 }

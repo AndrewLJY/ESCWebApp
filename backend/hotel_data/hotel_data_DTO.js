@@ -234,7 +234,7 @@ class ImageDetails{
             stitchImageUrls(){
                 if (this.imageUrlPrefix && this.imageUrlSuffix && this.imageCounts){
                     for(let i = 0; i < this.imageCounts; i ++){
-                        let oneStichedUrl = `${this.imageUrlPrefix}${this.imageCounts[i]}${this.imageUrlSuffix}`;
+                        let oneStichedUrl = `${this.imageUrlPrefix}${i}${this.imageUrlSuffix}`;
                         this.stitchedImageUrls.push(oneStichedUrl);
                     }
                 }
@@ -265,8 +265,7 @@ class PricingRankingData{
         this.price = builder.price;
         this.convertedPrice = builder.convertedPrice;
         this.lowestConvertedPrice = builder.lowestConvertedPrice;
-        this.marketRates.supplier = builder.marketRates.supplier;
-        this.marketRates.rate = builder.marketRates.rate;
+        this.marketRates = builder.marketRates;
     }
 
     static get Builder(){
@@ -287,7 +286,7 @@ class PricingRankingData{
                 this.price = null;                
                 this.convertedPrice = null;
                 this.lowestConvertedPrice = null;
-                this.marketRates = {"supplier": null, "rate": null}
+                this.marketRates = null;
             }
 
             setRank(rank){
@@ -315,7 +314,7 @@ class PricingRankingData{
                 return this;
             }
 
-            setmaxCashPayment(maxCashPayment){
+            setMaxCashPayment(maxCashPayment){
                 this.maxCashPayment = maxCashPayment;
                 return this;
             }
@@ -334,13 +333,13 @@ class PricingRankingData{
                 return this;
             }
 
-            setBonuesTiers(bonusTiers){
+            setBonusTiers(bonusTiers){
                 this.bonusTiers = bonusTiers;
                 return this;
             }
 
-            setLowestTiers(lowestTiers){
-                this.lowestTiers = lowestTiers;
+            setLowestPrice(lowestPrice){
+                this.lowestPrice = lowestPrice;
                 return this;
             }
 
@@ -364,13 +363,8 @@ class PricingRankingData{
                 return this;
             }
 
-            setMarketRateSupplier(supplier){
-                this.marketRates.supplier = supplier;
-                return this;
-            }
-
-            setMarketRatesRate(rate){
-                this.marketRates.rate = rate;
+            setMarketRates(marketRates){
+                this.marketRates = marketRates;
                 return this;
             }
 
@@ -391,7 +385,7 @@ class TrustYouBenchmark{
         return class{
             constructor(){
                 this.trustYouId = null;
-                this.score = {"overall":null, "kaligo_overall":null, "solo":null, "couple":null, "family":null, "business":null}
+                this.score = null;
             }
 
             setTrustYouId(trustYouId){
@@ -400,11 +394,7 @@ class TrustYouBenchmark{
             }
 
             setTrustYouScoreParameters(trustYouJSONString){
-                for (const term of Object.keys(trustYouJSONString)){
-                    if (term in Object.keys(this.score)){
-                        this.score.term = trustYouJSONString.term;
-                    }
-                }
+                this.score = trustYouJSONString;
                 return this;
             }
 
