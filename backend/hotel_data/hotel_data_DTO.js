@@ -52,6 +52,49 @@ class KeyDetails {
         this.distance = builder.distance;
         this.description = builder.description;
     }
+    getId() {
+        return this.id;
+    }
+
+    getImageCount(){
+        return this.imageCount;
+    }
+
+    getLatitude(){
+        return this.latitude;
+    }
+
+    getLongitutde(){
+        return this.longitude;
+    }
+
+    getName(){
+        return this.name;
+    }
+
+    getAddress(){
+        return this.address;
+    }
+
+    getAddress1(){
+        return this.address1;
+    }
+
+    getCheckinTime(){
+        return this.checkinTime;
+    }
+    
+    getRating(){
+        return this.rating;
+    }
+
+    getDistance(){
+        return this.distance;
+    }
+
+    getDescription(){
+        return this.description;
+    }
 
     static get Builder() {
         return class {
@@ -137,6 +180,11 @@ class Amenities{
     constructor(builder){
         this.amenities = builder.amenities;
     }
+
+    getAmenities(){
+        return this.amenities;
+    }
+
     static get Builder(){
         return class{
             constructor(){
@@ -161,6 +209,21 @@ class OriginalMetaData{
         this.city = builder.city;
         this.state = builder.state;
         this.country = builder.country;
+    }
+    getName() {
+        return this.name;
+    }
+
+    getCity() {
+        return this.city;
+    }
+
+    getState() {
+        return this.state;
+    }
+
+    getCountry() {
+        return this.country;
     }
 
     static get Builder(){
@@ -205,6 +268,22 @@ class ImageDetails{
         this.imageUrlPrefix = builder.imageUrlPrefix;
         this.imageUrlSuffix = builder.imageUrlSuffix;
         this.stitchedImageUrls = builder.stitchedImageUrls;
+    }
+    
+    getImageCounts() {
+        return this.imageCounts;
+    }
+
+    getImageUrlPrefix() {
+        return this.imageUrlPrefix;
+    }
+
+    getImageUrlSuffix() {
+        return this.imageUrlSuffix;
+    }
+
+    getStitchedImageUrls() {
+        return this.stitchedImageUrls;
     }
 
     static get Builder(){
@@ -251,7 +330,7 @@ class ImageDetails{
 class PricingRankingData{
     constructor(builder){
         this.rank = builder.rank;
-        this.searchRank - builder.searchRank;
+        this.searchRank = builder.searchRank;
         this.priceType = builder.priceType;
         this.freeCancellation = builder.freeCancellation;
         this.roomsAvailable = builder.roomsAvailable;
@@ -266,6 +345,70 @@ class PricingRankingData{
         this.convertedPrice = builder.convertedPrice;
         this.lowestConvertedPrice = builder.lowestConvertedPrice;
         this.marketRates = builder.marketRates;
+    }
+
+    getRank() {
+        return this.rank;
+    }
+
+    getSearchRank() {
+        return this.searchRank;
+    }
+
+    getPriceType() {
+        return this.priceType;
+    }
+
+    getFreeCancellation() {
+        return this.freeCancellation;
+    }
+
+    getRoomsAvailable() {
+        return this.roomsAvailable;
+    }
+
+    getMaxCashPayment() {
+        return this.maxCashPayment;
+    }
+
+    getConvertedMaxCashPayment() {
+        return this.convertedMaxCashPayment;
+    }
+
+    getPoints() {
+        return this.points;
+    }
+
+    getBonuses() {
+        return this.bonuses;
+    }
+
+    getBonusPrograms() {
+        return this.bonusPrograms;
+    }
+
+    getBonusTiers() {
+        return this.bonusTiers;
+    }
+
+    getLowestPrice() {
+        return this.lowestPrice;
+    }
+
+    getPrice() {
+        return this.price;
+    }
+
+    getConvertedPrice() {
+        return this.convertedPrice;
+    }
+
+    getLowestConvertedPrice() {
+        return this.lowestConvertedPrice;
+    }
+
+    getMarketRates() {
+        return this.marketRates;
     }
 
     static get Builder(){
@@ -353,11 +496,6 @@ class PricingRankingData{
                 return this;
             }
 
-            setConvertedPrice(convertedPrice){
-                this.convertedPrice = convertedPrice;
-                return this;
-            }
-
             setLowestConvertedPrice(lowestConvertedPrice){
                 this.lowestConvertedPrice = lowestConvertedPrice;
                 return this;
@@ -380,6 +518,15 @@ class TrustYouBenchmark{
         this.trustYouId = builder.trustYouId;
         this.score = builder.score;
     }
+
+    getTrustYouId() {
+        return this.trustYouId;
+    }
+
+    getScore() {
+        return this.score;
+    }
+
 
     static get Builder(){
         return class{
