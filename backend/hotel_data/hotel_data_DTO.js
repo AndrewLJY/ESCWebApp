@@ -52,6 +52,49 @@ class KeyDetails {
         this.distance = builder.distance;
         this.description = builder.description;
     }
+    getId() {
+        return this.id;
+    }
+
+    getImageCount(){
+        return this.imageCount;
+    }
+
+    getLatitude(){
+        return this.latitude;
+    }
+
+    getLongitutde(){
+        return this.longitude;
+    }
+
+    getName(){
+        return this.name;
+    }
+
+    getAddress(){
+        return this.address;
+    }
+
+    getAddress1(){
+        return this.address1;
+    }
+
+    getCheckinTime(){
+        return this.checkinTime;
+    }
+    
+    getRating(){
+        return this.rating;
+    }
+
+    getDistance(){
+        return this.distance;
+    }
+
+    getDescription(){
+        return this.description;
+    }
 
     static get Builder() {
         return class {
@@ -137,6 +180,11 @@ class Amenities{
     constructor(builder){
         this.amenities = builder.amenities;
     }
+
+    getAmenities(){
+        return this.amenities;
+    }
+
     static get Builder(){
         return class{
             constructor(){
@@ -161,6 +209,21 @@ class OriginalMetaData{
         this.city = builder.city;
         this.state = builder.state;
         this.country = builder.country;
+    }
+    getName() {
+        return this.name;
+    }
+
+    getCity() {
+        return this.city;
+    }
+
+    getState() {
+        return this.state;
+    }
+
+    getCountry() {
+        return this.country;
     }
 
     static get Builder(){
@@ -206,6 +269,22 @@ class ImageDetails{
         this.imageUrlSuffix = builder.imageUrlSuffix;
         this.stitchedImageUrls = builder.stitchedImageUrls;
     }
+    
+    getImageCounts() {
+        return this.imageCounts;
+    }
+
+    getImageUrlPrefix() {
+        return this.imageUrlPrefix;
+    }
+
+    getImageUrlSuffix() {
+        return this.imageUrlSuffix;
+    }
+
+    getStitchedImageUrls() {
+        return this.stitchedImageUrls;
+    }
 
     static get Builder(){
         return class{
@@ -234,7 +313,7 @@ class ImageDetails{
             stitchImageUrls(){
                 if (this.imageUrlPrefix && this.imageUrlSuffix && this.imageCounts){
                     for(let i = 0; i < this.imageCounts; i ++){
-                        let oneStichedUrl = `${this.imageUrlPrefix}${this.imageCounts[i]}${this.imageUrlSuffix}`;
+                        let oneStichedUrl = `${this.imageUrlPrefix}${i}${this.imageUrlSuffix}`;
                         this.stitchedImageUrls.push(oneStichedUrl);
                     }
                 }
@@ -251,7 +330,7 @@ class ImageDetails{
 class PricingRankingData{
     constructor(builder){
         this.rank = builder.rank;
-        this.searchRank - builder.searchRank;
+        this.searchRank = builder.searchRank;
         this.priceType = builder.priceType;
         this.freeCancellation = builder.freeCancellation;
         this.roomsAvailable = builder.roomsAvailable;
@@ -265,8 +344,71 @@ class PricingRankingData{
         this.price = builder.price;
         this.convertedPrice = builder.convertedPrice;
         this.lowestConvertedPrice = builder.lowestConvertedPrice;
-        this.marketRates.supplier = builder.marketRates.supplier;
-        this.marketRates.rate = builder.marketRates.rate;
+        this.marketRates = builder.marketRates;
+    }
+
+    getRank() {
+        return this.rank;
+    }
+
+    getSearchRank() {
+        return this.searchRank;
+    }
+
+    getPriceType() {
+        return this.priceType;
+    }
+
+    getFreeCancellation() {
+        return this.freeCancellation;
+    }
+
+    getRoomsAvailable() {
+        return this.roomsAvailable;
+    }
+
+    getMaxCashPayment() {
+        return this.maxCashPayment;
+    }
+
+    getConvertedMaxCashPayment() {
+        return this.convertedMaxCashPayment;
+    }
+
+    getPoints() {
+        return this.points;
+    }
+
+    getBonuses() {
+        return this.bonuses;
+    }
+
+    getBonusPrograms() {
+        return this.bonusPrograms;
+    }
+
+    getBonusTiers() {
+        return this.bonusTiers;
+    }
+
+    getLowestPrice() {
+        return this.lowestPrice;
+    }
+
+    getPrice() {
+        return this.price;
+    }
+
+    getConvertedPrice() {
+        return this.convertedPrice;
+    }
+
+    getLowestConvertedPrice() {
+        return this.lowestConvertedPrice;
+    }
+
+    getMarketRates() {
+        return this.marketRates;
     }
 
     static get Builder(){
@@ -287,7 +429,7 @@ class PricingRankingData{
                 this.price = null;                
                 this.convertedPrice = null;
                 this.lowestConvertedPrice = null;
-                this.marketRates = {"supplier": null, "rate": null}
+                this.marketRates = null;
             }
 
             setRank(rank){
@@ -315,7 +457,7 @@ class PricingRankingData{
                 return this;
             }
 
-            setmaxCashPayment(maxCashPayment){
+            setMaxCashPayment(maxCashPayment){
                 this.maxCashPayment = maxCashPayment;
                 return this;
             }
@@ -334,13 +476,13 @@ class PricingRankingData{
                 return this;
             }
 
-            setBonuesTiers(bonusTiers){
+            setBonusTiers(bonusTiers){
                 this.bonusTiers = bonusTiers;
                 return this;
             }
 
-            setLowestTiers(lowestTiers){
-                this.lowestTiers = lowestTiers;
+            setLowestPrice(lowestPrice){
+                this.lowestPrice = lowestPrice;
                 return this;
             }
 
@@ -354,23 +496,13 @@ class PricingRankingData{
                 return this;
             }
 
-            setConvertedPrice(convertedPrice){
-                this.convertedPrice = convertedPrice;
-                return this;
-            }
-
             setLowestConvertedPrice(lowestConvertedPrice){
                 this.lowestConvertedPrice = lowestConvertedPrice;
                 return this;
             }
 
-            setMarketRateSupplier(supplier){
-                this.marketRates.supplier = supplier;
-                return this;
-            }
-
-            setMarketRatesRate(rate){
-                this.marketRates.rate = rate;
+            setMarketRates(marketRates){
+                this.marketRates = marketRates;
                 return this;
             }
 
@@ -387,11 +519,20 @@ class TrustYouBenchmark{
         this.score = builder.score;
     }
 
+    getTrustYouId() {
+        return this.trustYouId;
+    }
+
+    getScore() {
+        return this.score;
+    }
+
+
     static get Builder(){
         return class{
             constructor(){
                 this.trustYouId = null;
-                this.score = {"overall":null, "kaligo_overall":null, "solo":null, "couple":null, "family":null, "business":null}
+                this.score = null;
             }
 
             setTrustYouId(trustYouId){
@@ -400,11 +541,7 @@ class TrustYouBenchmark{
             }
 
             setTrustYouScoreParameters(trustYouJSONString){
-                for (const term of Object.keys(trustYouJSONString)){
-                    if (term in Object.keys(this.score)){
-                        this.score.term = trustYouJSONString.term;
-                    }
-                }
+                this.score = trustYouJSONString;
                 return this;
             }
 
