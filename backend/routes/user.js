@@ -1,6 +1,7 @@
 const express = require('express');
 const userModel = require('../models/user.js');
 var router = express.Router();
+const bcrypt = require('bcrypt')
 
 router.post('/submit/', async function(req, res, next) {
     const name = req.body.email;
@@ -12,12 +13,19 @@ router.post('/submit/', async function(req, res, next) {
     res.send(`${JSON.stringify(users)}`);
 })
 
-/* insert a staff, should have used POST instead of GET */
+/* insert an user, should have used POST instead of GET */
 router.post('/register/', async function(req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
-    userDbObject = new userModel.User(email, password);
+
+    /*hash original password 2^10 times, more times means take longer time taken to encrypt(not necessary a bad thing)*/
+    const hash_password = await bcrypt.hash(password,10)
+    userDbObject = new userModel.User(email,hash_password);
+    // userDbObject = new userModel.User(email, password);
+    
     userModel.insertOne(userDbObject);
+    console.log("account registered successfully");
+
     const users = await userModel.all();
     res.send(`${JSON.stringify(users)}`);
 });
