@@ -35,6 +35,29 @@ router.post('/', async function(req, res, next){
 //Based on all of the hotel DTO class data we have initialised with the single '/' API call, let us now create all the different endpoints that can query from these classes 
 //Specific data, so that we can then pass this data to the middleware.
 
+router.post('/MainDisplay', async function(req, res, next) { 
+    const destination = req.body.destination_name;
+    const checkInDate = req.body.check_in_date;
+    const checkOutDate = req.body.check_out_date;
+    const guestCount = req.body.guest_count;
+    const roomCount = req.body.room_count;
+
+    await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+        destination, checkInDate, checkOutDate, guestCount, roomCount
+    );
+
+    const hotelList = filledHotelDTOClassList.getListHotels();
+
+    // Filter to only name, rating, address
+    const filteredHotelList = hotelList.map(hotel => ({
+        name: hotel.getKeyDetails().name || "N/A",
+        rating: hotel.getKeyDetails().rating || "N/A",
+        address: hotel.getKeyDetails().address || hotel.getKeyDetails().address1 || "N/A"
+    }));
+
+    res.send(filteredHotelList);
+    return;
+});
 
 
 
