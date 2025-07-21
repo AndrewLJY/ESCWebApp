@@ -1,5 +1,6 @@
 const db = require('./db.js');
 const tableName = 'user';
+const bcrypt = require('bcrypt')
 
 class User {
     constructor(email, password) {
@@ -97,10 +98,13 @@ async function login(email, password) {
         }
 
         const user = users[0];
-        if (user.password === password) {
-            return { success: true, message: "Login successful", user };
-        } else {
+        /* check password entered by user with encrypted password */
+        const isValid = await bcrypt.compare(password,user.password);
+        if (!isValid){
             return { success: false, message: "Incorrect password" };
+        }
+        else{
+            return { success: true, message: "Login successful", user };
         }
     } catch (error) {
         console.error("Login error:", error);

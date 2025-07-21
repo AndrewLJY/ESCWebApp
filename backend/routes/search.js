@@ -9,7 +9,7 @@ const Fuse = require('fuse.js'); //use this library to generate search suggestio
 var hotelDataTransferServiceModule = require('../hotel_data/hotel_data_service');
 
 var filledHotelDTOClassList = hotelDataTransferServiceModule.hotelDataDTOClassList;
-
+ 
 
 
 // |Main route:                                                                                        |
@@ -26,7 +26,7 @@ router.post('/', async function(req, res, next){
 
     await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(destination, checkInDate, checkOutDate, guestCount, roomCount);
 
-    res.send(filledHotelDTOClassList.getListHotels());
+    res.send(filledHotelDTOClassList.getListHotels()); //JSON output seen in POSTMAN
 
     return;
 });
@@ -59,6 +59,32 @@ router.post('/MainDisplay', async function(req, res, next) {
     return;
 });
 
+/*getting the all the images of a hotel endpoint*/
+router.get('/images/',async function (req,res,next){
+    let imageList = []; 
+    let id_with_images = {};
+
+    let hotelData = filledHotelDTOClassList.getListHotels();
+
+    let hotel_id =  hotelData.map(id => id.getKeyDetails().id) //returns array of hotel id
+    let imageDetails = hotelData.map(fullData => fullData.getImageDetails());
+    let imageURLs = imageDetails.map(image => image.stitchedImageUrls);
+
+    for (let count in imageDetails){
+        imageList.push(imageDetails[count].stitchedImageUrls);
+    }
+
+    //loop through each element of array (hotel_id) then assign each key(id) with value(element in imagelist)
+    hotel_id.forEach((id,images_index)=>{ 
+        id_with_images[id] = imageList[images_index] 
+    });
+
+    /*will get all the hotel and their respective hotel image URLS 
+    eg. {StY1 : ["URL0","URL1"], g6Ui :["URL0"], ...}*/
+    res.send(id_with_images);
+    
+    
+});
 
 
 
