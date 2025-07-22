@@ -35,6 +35,7 @@ router.post('/', async function(req, res, next){
 //Based on all of the hotel DTO class data we have initialised with the single '/' API call, let us now create all the different endpoints that can query from these classes 
 //Specific data, so that we can then pass this data to the middleware.
 
+//Endpoint to Display Thumbnail Info of Hotels 
 router.post('/MainDisplay', async function(req, res, next) { 
     const destination = req.body.destination_name;
     const checkInDate = req.body.check_in_date;
@@ -57,6 +58,53 @@ router.post('/MainDisplay', async function(req, res, next) {
     //Sort hotels descending order(top hotel first to lower )
     sortHotels(filteredHotelList);
     // res.send(sortList);
+    res.send(filteredHotelList);
+    return;
+});
+
+//Endpoint to More Detailed Info of Hotels
+router.post('/AdvancedDisplay', async function(req, res, next) { 
+    const destination = req.body.destination_name;
+    const checkInDate = req.body.check_in_date;
+    const checkOutDate = req.body.check_out_date;
+    const guestCount = req.body.guest_count;
+    const roomCount = req.body.room_count;
+
+    await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+        destination, checkInDate, checkOutDate, guestCount, roomCount
+    );
+
+    const hotelList = filledHotelDTOClassList.getListHotels();
+
+    const filteredHotelList = hotelList.map(hotel => {
+        const keyDetails = hotel.keyDetails || hotel.getKeyDetails?.() || {};
+        const amenities = hotel.amenities && hotel.amenities.amenities ? hotel.amenities.amenities : {};
+        const trustYouScores = hotel.trustYouBenchmark && hotel.trustYouBenchmark.score && hotel.trustYouBenchmark.score.score
+            ? hotel.trustYouBenchmark.score.score
+            : {};
+        const price = hotel.pricingRankingData && hotel.pricingRankingData.price
+            ? hotel.pricingRankingData.price
+            : "N/A";
+
+        return {
+            name: keyDetails.name || "N/A",
+            address: keyDetails.address || keyDetails.address1 || "N/A",
+            rating: keyDetails.rating || "N/A",
+            description: keyDetails.description || "N/A",
+            check_in_time: keyDetails.checkinTime || "N/A",
+            amenities: amenities,
+            scores: {
+                overall: trustYouScores.overall ?? "N/A",
+                kaligo_overall: trustYouScores.kaligo_overall ?? "N/A",
+                solo: trustYouScores.solo ?? "N/A",
+                couple: trustYouScores.couple ?? "N/A",
+                family: trustYouScores.family ?? "N/A",
+                business: trustYouScores.business ?? "N/A"
+            },
+            price: price
+        };
+    });
+
     res.send(filteredHotelList);
     return;
 });
