@@ -41,6 +41,8 @@ router.post('/MainDisplay', async function(req, res, next) {
     const checkOutDate = req.body.check_out_date;
     const guestCount = req.body.guest_count;
     const roomCount = req.body.room_count;
+    
+    
 
     await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
         destination, checkInDate, checkOutDate, guestCount, roomCount
@@ -54,8 +56,9 @@ router.post('/MainDisplay', async function(req, res, next) {
         rating: hotel.getKeyDetails().rating || "N/A",
         address: hotel.getKeyDetails().address || hotel.getKeyDetails().address1 || "N/A"
     }));
-
-    res.send(filteredHotelList);
+    const sortList = sortByRatings(filteredHotelList);
+    res.send(sortList);
+    // res.send(filteredHotelList);
     return;
 });
 
@@ -81,11 +84,41 @@ router.get('/images/',async function (req,res,next){
 
     /*will get all the hotel and their respective hotel image URLS 
     eg. {StY1 : ["URL0","URL1"], g6Ui :["URL0"], ...}*/
-    res.send(id_with_images);
-    
-    
+    res.send(id_with_images); 
 });
 
+
+/*Helper function*/
+
+function sortByRatings(hotels,order = "asc"){
+
+    if (order === "desc"){
+        return 0;
+    }
+    else if (order === "asc"){
+        hotels.sort((a,b)=>{
+            //take all values of the object
+            const aVal = Object.values(a);
+            const bVal = Object.values(b);
+
+            //sort the array of values
+            const aSorted = aVal.sort();
+            const bSorted = bVal.sort();
+
+            //turn to json strings for comparison
+            const aValue = JSON.stringify(aSorted);
+            const bValue = JSON.stringify(bSorted);
+
+            if (aValue < bValue){
+                return -1;
+            }
+            if (aValue > bValue){
+                return 1;
+            }
+            return 0 
+        });    
+    }
+}
 
 
 
