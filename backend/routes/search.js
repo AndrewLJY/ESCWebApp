@@ -42,8 +42,6 @@ router.post('/MainDisplay', async function(req, res, next) {
     const guestCount = req.body.guest_count;
     const roomCount = req.body.room_count;
     
-    
-
     await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
         destination, checkInDate, checkOutDate, guestCount, roomCount
     );
@@ -56,9 +54,10 @@ router.post('/MainDisplay', async function(req, res, next) {
         rating: hotel.getKeyDetails().rating || "N/A",
         address: hotel.getKeyDetails().address || hotel.getKeyDetails().address1 || "N/A"
     }));
-    const sortList = sortByRatings(filteredHotelList);
-    res.send(sortList);
-    // res.send(filteredHotelList);
+    //Sort hotels descending order(top hotel first to lower )
+    sortHotels(filteredHotelList);
+    // res.send(sortList);
+    res.send(filteredHotelList);
     return;
 });
 
@@ -89,37 +88,15 @@ router.get('/images/',async function (req,res,next){
 
 
 /*Helper function*/
-
-function sortByRatings(hotels,order = "asc"){
-
-    if (order === "desc"){
-        return 0;
-    }
-    else if (order === "asc"){
-        hotels.sort((a,b)=>{
-            //take all values of the object
-            const aVal = Object.values(a);
-            const bVal = Object.values(b);
-
-            //sort the array of values
-            const aSorted = aVal.sort();
-            const bSorted = bVal.sort();
-
-            //turn to json strings for comparison
-            const aValue = JSON.stringify(aSorted);
-            const bValue = JSON.stringify(bSorted);
-
-            if (aValue < bValue){
-                return -1;
-            }
-            if (aValue > bValue){
-                return 1;
-            }
-            return 0 
-        });    
-    }
+function sortHotels(hotels) {
+    hotels.sort((a, b) => {
+        //if rating is "N/A", we assume it is 0 for sorting purposes, else take the numerical value
+        const ratingA = isNaN(a.rating) ? 0 : Number(a.rating);
+        const ratingB = isNaN(b.rating) ? 0 : Number(b.rating);
+        return ratingB - ratingA; // descending
+    });
+    return hotels;
 }
-
 
 
 
