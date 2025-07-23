@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+  axios.defaults.headers.post['Content-Type'] = "application/json";
+
 // Dummy search API that simulates backend response
 const searchHotels = async (searchParams) => {
   // Simulate Delay just in case?
@@ -61,20 +63,24 @@ const searchHotels = async (searchParams) => {
 const searchHotelsAPI = async (searchParams) => {
   try {
     let destination = searchParams.location.replace("_"," ");
-     // For later filter implementation
-    // const response = await axios.get('http://localhost:8080/dest/', {
-    //   location: searchParams.location,
-    //   checkIn: searchParams.checkIn,
-    //   checkOut: searchParams.checkOut,
-    //   guests: searchParams.guests,
-    //   hotelType: searchParams.hotelType
-    // });
 
-    const response = await axios.get('http://localhost:8080/hotel/dest/' + destination);
+    const response = await axios.post('http://localhost:8080/search/MainDisplay', {
+      destination_name: searchParams.location,
+      check_in_date: searchParams.checkIn,
+      check_out_date: searchParams.checkOut,
+      guest_count: searchParams.guests,
+      room_count: 1
+      //hotelType: searchParams.hotelType
+    }).catch((error) => {
+      console.log(error.toJSON());
+        response = {
+            data: []
+        };
+    });
     
     return {
       data: {
-        hotels: response.data == "Destination File not found" ? [] : response.data,
+        hotels: response.data,
         totalResults: response.data.length,
         searchParams: searchParams
       }
