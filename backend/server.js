@@ -21,9 +21,13 @@ var userModel = require('./models/user.js');
 var bookingModel = require('./models/booking.js');
 var destinationNamesModel = require('./models/destinations.js');
 
-userModel.sync();
-bookingModel.sync();
-destinationNamesModel.sync().then(destinationNamesModel.insertFromJSON());
+//Check if the environment is not set to testing!
+if (process.env.NODE_ENV !== 'test') {
+  userModel.sync();
+  bookingModel.sync();
+  destinationNamesModel.sync().then(() => destinationNamesModel.insertFromJSON());
+}
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
