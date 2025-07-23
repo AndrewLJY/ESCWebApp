@@ -1,8 +1,8 @@
 // src/pages/SearchPage.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { searchHotels, searchHotelsAPI } from "../middleware/searchApi";
-import { loginUser, loginUserAPI } from "../middleware/authApi";
+import { searchHotelsAPI } from "../middleware/searchApi";
+import { loginUserAPI } from "../middleware/authApi";
 import "../styles/SearchPage.css";
 
 export default function SearchPage() {
