@@ -16,14 +16,24 @@ process.on('SIGTERM', db.cleanup);
 
 var usersRouter = require('./routes/user');
 var indexRouter = require('./routes/index');
+<<<<<<< HEAD
 var hotelRouter = require('./routes/hotel');
 var stripeRouter = require('./routes/stripe');
+=======
+var searchRouter = require('./routes/search');
+>>>>>>> 47cd77e240b3148516ee821263e9538eefa5c8eb
 
 var userModel = require('./models/user.js');
 var bookingModel = require('./models/booking.js');
+var destinationNamesModel = require('./models/destinations.js');
 
-userModel.sync();
-bookingModel.sync();
+//Check if the environment is not set to testing!
+if (process.env.NODE_ENV !== 'test') {
+  userModel.sync();
+  bookingModel.sync();
+  destinationNamesModel.sync().then(() => destinationNamesModel.insertFromJSON());
+}
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,6 +45,7 @@ app.use('/auth', usersRouter); //link to user module under routes/user.js
 // app.use('/bookings', bookingRouter); //link to booking module under routes/booking.js
 app.use('/hotel',hotelRouter);
 app.use('/stripe',stripeRouter);
+app.use('/search',searchRouter); //Define the router key, since we are exporting the hotelDTOClassList as a separate module for middleware to use!
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

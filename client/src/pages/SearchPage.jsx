@@ -1,8 +1,8 @@
 // src/pages/SearchPage.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { searchHotels } from "../middleware/searchApi";
-import { loginUser, signupUser } from "../middleware/authApi";
+import { searchHotels, searchHotelsAPI } from "../middleware/searchApi";
+import { loginUser, loginUserAPI } from "../middleware/authApi";
 import "../styles/SearchPage.css";
 
 export default function SearchPage() {
@@ -72,7 +72,7 @@ export default function SearchPage() {
     const fetch = async () => {
       setLoading(true);
       try {
-        const response = await searchHotels(buildParams());
+        const response = await searchHotelsAPI(buildParams());
         setHotels(response.data.hotels || []);
       } catch (e) {
         console.error("Search error:", e);
@@ -212,16 +212,20 @@ export default function SearchPage() {
           ) : (
             hotels.map((h) => (
               <div key={h.id} className="hotel-card">
-                <img src={h.image} alt={h.name} className="hotel-img" />
+                {/* Tried to add in given photo. If don't have, provided default */}
+                <img src={h.image_details.count > 0 ? h.image_details.prefix+"10"+h.image_details.suffix : "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"} alt={h.name} className="hotel-img" />
                 <div className="hotel-info">
                   <h3>{h.name}</h3>
-                  <div className="stars">{"★".repeat(h.stars)}</div>
+                  {/* Currently just the rating due to lack of stars info */}
+                  <div className="stars">{"★".repeat(h.rating)}</div>
                   <p className="address">{h.address}</p>
-                  <p className="distance">{h.distance}</p>
-                  {h.rating && <p className="rating">Rating: {h.rating}/5</p>}
+                  <p className="distance">{Math.floor(h.distance)}</p>
+                  {/* Rating updated to at least show rating even if dont have */}
+                   <p className="rating">Rating: {h.rating ? h.rating +"/5": "NA"}</p>
                 </div>
                 <div className="hotel-book">
-                  <span className="price">{h.price}</span>
+                  {/* Will replace with static value for now */}
+                  <span className="price">{h.price ? h.price: 'SGD 140'}</span>
                   <button className="btn book-small">Book</button>
                 </div>
               </div>
@@ -238,7 +242,7 @@ export default function SearchPage() {
             setUserAuthLoading(true);
             try {
               const formData = new FormData(e.target);
-              const result = await loginUser({
+              const result = await loginUserAPI({
                 email: formData.get('email'),
                 password: formData.get('password')
               });

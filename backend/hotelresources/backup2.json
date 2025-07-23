@@ -1,0 +1,5689 @@
+{
+  "searchCompleted": null,
+  "completed": true,
+  "status": null,
+  "currency": "SGD",
+  "hotels": [
+    {
+      "id": "obxM",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 19992,
+      "max_cash_payment": 2313.59,
+      "coverted_max_cash_payment": 3014.63,
+      "points": 75350,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2313.59,
+      "price": 3014.63,
+      "converted_price": 3014.63,
+      "lowest_converted_price": 3014.63,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2668.849503624
+        }
+      ]
+    },
+    {
+      "id": "T9cE",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 23,
+      "max_cash_payment": 1025.54,
+      "coverted_max_cash_payment": 1336.29,
+      "points": 33400,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1025.54,
+      "price": 1336.29,
+      "converted_price": 1336.29,
+      "lowest_converted_price": 1336.29,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1146.84354738
+        }
+      ]
+    },
+    {
+      "id": "tYGr",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 74,
+      "max_cash_payment": 2709.57,
+      "coverted_max_cash_payment": 3530.59,
+      "points": 88250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2709.57,
+      "price": 3530.59,
+      "converted_price": 3530.59,
+      "lowest_converted_price": 3530.59,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3001.781384316
+        }
+      ]
+    },
+    {
+      "id": "lA7u",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 50,
+      "max_cash_payment": 3171.52,
+      "coverted_max_cash_payment": 4132.52,
+      "points": 103300,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3171.52,
+      "price": 4132.52,
+      "converted_price": 4132.52,
+      "lowest_converted_price": 4132.52,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3577.972052556
+        }
+      ]
+    },
+    {
+      "id": "RcLc",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 168,
+      "max_cash_payment": 6001.05,
+      "coverted_max_cash_payment": 7819.42,
+      "points": 195475,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6001.05,
+      "price": 7819.42,
+      "converted_price": 7819.42,
+      "lowest_converted_price": 7819.42,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6711.005553588
+        }
+      ]
+    },
+    {
+      "id": "xU8z",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 1800,
+      "max_cash_payment": 1994.54,
+      "coverted_max_cash_payment": 2598.9,
+      "points": 64950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1994.54,
+      "price": 2598.9,
+      "converted_price": 2598.9,
+      "lowest_converted_price": 2598.9,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2230.478118468
+        }
+      ]
+    },
+    {
+      "id": "wcfx",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 57,
+      "max_cash_payment": 7262.84,
+      "coverted_max_cash_payment": 9463.55,
+      "points": 236575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 7262.84,
+      "price": 9463.55,
+      "converted_price": 9463.55,
+      "lowest_converted_price": 9463.55,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 8083.439083764
+        }
+      ]
+    },
+    {
+      "id": "HL87",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 4,
+      "max_cash_payment": 1389.24,
+      "coverted_max_cash_payment": 1810.19,
+      "points": 45250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1389.24,
+      "price": 1810.19,
+      "converted_price": 1810.19,
+      "lowest_converted_price": 1810.19,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1553.590899252
+        }
+      ]
+    },
+    {
+      "id": "AnZy",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 2,
+      "max_cash_payment": 3318.79,
+      "coverted_max_cash_payment": 4324.41,
+      "points": 108100,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3318.79,
+      "price": 4324.41,
+      "converted_price": 4324.41,
+      "lowest_converted_price": 4324.41,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3684.883957416
+        }
+      ]
+    },
+    {
+      "id": "uQiy",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 61,
+      "max_cash_payment": 1193.82,
+      "coverted_max_cash_payment": 1555.56,
+      "points": 38875,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1193.82,
+      "price": 1555.56,
+      "converted_price": 1555.56,
+      "lowest_converted_price": 1555.56,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1326.359124864
+        }
+      ]
+    },
+    {
+      "id": "erM1",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 158,
+      "max_cash_payment": 5446.73,
+      "coverted_max_cash_payment": 7097.14,
+      "points": 177425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5446.73,
+      "price": 7097.14,
+      "converted_price": 7097.14,
+      "lowest_converted_price": 7097.14,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6226.976726064
+        }
+      ]
+    },
+    {
+      "id": "fggB",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 368,
+      "max_cash_payment": 3984.5,
+      "coverted_max_cash_payment": 5191.84,
+      "points": 129775,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3984.5,
+      "price": 5191.84,
+      "converted_price": 5191.84,
+      "lowest_converted_price": 5191.84,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4436.511784344
+        }
+      ]
+    },
+    {
+      "id": "wS6H",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 3,
+      "max_cash_payment": 1900.21,
+      "coverted_max_cash_payment": 2475.99,
+      "points": 61875,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1900.21,
+      "price": 2475.99,
+      "converted_price": 2475.99,
+      "lowest_converted_price": 2475.99,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2162.760730344
+        }
+      ]
+    },
+    {
+      "id": "NdBH",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 163,
+      "max_cash_payment": 1493.65,
+      "coverted_max_cash_payment": 1946.24,
+      "points": 48650,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1493.65,
+      "price": 1946.24,
+      "converted_price": 1946.24,
+      "lowest_converted_price": 1946.24,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1685.05149744
+        }
+      ]
+    },
+    {
+      "id": "6jmD",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 312,
+      "max_cash_payment": 2197.02,
+      "coverted_max_cash_payment": 2862.74,
+      "points": 71550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2197.02,
+      "price": 2862.74,
+      "converted_price": 2862.74,
+      "lowest_converted_price": 2862.74,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2478.545009964
+        }
+      ]
+    },
+    {
+      "id": "v841",
+      "searchRank": 0.89,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 20,
+      "max_cash_payment": 5366.41,
+      "coverted_max_cash_payment": 6992.48,
+      "points": 174800,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5366.41,
+      "price": 6992.48,
+      "converted_price": 6992.48,
+      "lowest_converted_price": 6992.48,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6411.534949152
+        }
+      ]
+    },
+    {
+      "id": "7JAT",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 2,
+      "max_cash_payment": 2758.2,
+      "coverted_max_cash_payment": 3593.96,
+      "points": 89825,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2758.2,
+      "price": 3593.96,
+      "converted_price": 3593.96,
+      "lowest_converted_price": 3593.96,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3111.625059876
+        }
+      ]
+    },
+    {
+      "id": "kCm1",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 48,
+      "max_cash_payment": 1687.4,
+      "coverted_max_cash_payment": 2198.7,
+      "points": 54950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1687.4,
+      "price": 2198.7,
+      "converted_price": 2198.7,
+      "lowest_converted_price": 2198.7,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1903.63129074
+        }
+      ]
+    },
+    {
+      "id": "ipYL",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 8,
+      "max_cash_payment": 1917.4,
+      "coverted_max_cash_payment": 2498.39,
+      "points": 62450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1917.4,
+      "price": 2498.39,
+      "converted_price": 2498.39,
+      "lowest_converted_price": 2498.39,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2163.12557292
+        }
+      ]
+    },
+    {
+      "id": "5CCH",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 9998,
+      "max_cash_payment": 904.38,
+      "coverted_max_cash_payment": 1178.42,
+      "points": 29450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 904.38,
+      "price": 1178.42,
+      "converted_price": 1178.42,
+      "lowest_converted_price": 1178.42,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 986.404024584
+        }
+      ]
+    },
+    {
+      "id": "FMaW",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 13,
+      "max_cash_payment": 1912.79,
+      "coverted_max_cash_payment": 2492.38,
+      "points": 62300,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1912.79,
+      "price": 2492.38,
+      "converted_price": 2492.38,
+      "lowest_converted_price": 2492.38,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2157.926566212
+        }
+      ]
+    },
+    {
+      "id": "rrtp",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 14997,
+      "max_cash_payment": 2882.61,
+      "coverted_max_cash_payment": 3756.07,
+      "points": 93900,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2882.61,
+      "price": 3756.07,
+      "converted_price": 3756.07,
+      "lowest_converted_price": 3756.07,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3187.447165224
+        }
+      ]
+    },
+    {
+      "id": "mU2X",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 122,
+      "max_cash_payment": 1992.38,
+      "coverted_max_cash_payment": 2596.09,
+      "points": 64900,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1992.38,
+      "price": 2596.09,
+      "converted_price": 2596.09,
+      "lowest_converted_price": 2596.09,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2218.399223184
+        }
+      ]
+    },
+    {
+      "id": "p3WC",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 67,
+      "max_cash_payment": 1051.96,
+      "coverted_max_cash_payment": 1370.71,
+      "points": 34250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1051.96,
+      "price": 1370.71,
+      "converted_price": 1370.71,
+      "lowest_converted_price": 1370.71,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1176.369735852
+        }
+      ]
+    },
+    {
+      "id": "FSmO",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 149,
+      "max_cash_payment": 3133.55,
+      "coverted_max_cash_payment": 4083.04,
+      "points": 102075,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3133.55,
+      "price": 4083.04,
+      "converted_price": 4083.04,
+      "lowest_converted_price": 4083.04,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3566.518601688
+        }
+      ]
+    },
+    {
+      "id": "Eb7e",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 13,
+      "max_cash_payment": 1673.85,
+      "coverted_max_cash_payment": 2181.04,
+      "points": 54525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1673.85,
+      "price": 2181.04,
+      "converted_price": 2181.04,
+      "lowest_converted_price": 2181.04,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1858.48202196
+        }
+      ]
+    },
+    {
+      "id": "uHLH",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 127,
+      "max_cash_payment": 3983.7,
+      "coverted_max_cash_payment": 5190.8,
+      "points": 129750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3983.7,
+      "price": 5190.8,
+      "converted_price": 5190.8,
+      "lowest_converted_price": 5190.8,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4595.374666008
+        }
+      ]
+    },
+    {
+      "id": "NEWj",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 8,
+      "max_cash_payment": 5633.38,
+      "coverted_max_cash_payment": 7340.35,
+      "points": 183500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5633.38,
+      "price": 7340.35,
+      "converted_price": 7340.35,
+      "lowest_converted_price": 7340.35,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6355.284041988
+        }
+      ]
+    },
+    {
+      "id": "EISK",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 412,
+      "max_cash_payment": 3913.16,
+      "coverted_max_cash_payment": 5098.88,
+      "points": 127450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3913.16,
+      "price": 5098.88,
+      "converted_price": 5098.88,
+      "lowest_converted_price": 5098.88,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4319.553678552
+        }
+      ]
+    },
+    {
+      "id": "YEfI",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 40,
+      "max_cash_payment": 8222.57,
+      "coverted_max_cash_payment": 10714.08,
+      "points": 267850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 8222.57,
+      "price": 10714.08,
+      "converted_price": 10714.08,
+      "lowest_converted_price": 10714.08,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 9151.61996574
+        }
+      ]
+    },
+    {
+      "id": "GHAt",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 22,
+      "max_cash_payment": 3481.28,
+      "coverted_max_cash_payment": 4536.14,
+      "points": 113400,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3481.28,
+      "price": 4536.14,
+      "converted_price": 4536.14,
+      "lowest_converted_price": 4536.14,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3978.256478796
+        }
+      ]
+    },
+    {
+      "id": "NBUd",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 89984,
+      "max_cash_payment": 2925.05,
+      "coverted_max_cash_payment": 3811.37,
+      "points": 95275,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2925.05,
+      "price": 3811.37,
+      "converted_price": 3811.37,
+      "lowest_converted_price": 3811.37,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3299.883829092
+        }
+      ]
+    },
+    {
+      "id": "0vcz",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1233,
+      "max_cash_payment": 3291.4,
+      "coverted_max_cash_payment": 4288.72,
+      "points": 107200,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3291.4,
+      "price": 4288.72,
+      "converted_price": 4288.72,
+      "lowest_converted_price": 4288.72,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3754.529799156
+        }
+      ]
+    },
+    {
+      "id": "QDaO",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 143,
+      "max_cash_payment": 8455.63,
+      "coverted_max_cash_payment": 11017.76,
+      "points": 275425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 8455.63,
+      "price": 11017.76,
+      "converted_price": 11017.76,
+      "lowest_converted_price": 11017.76,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 9455.9377644
+        }
+      ]
+    },
+    {
+      "id": "zunx",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 18,
+      "max_cash_payment": 1873.05,
+      "coverted_max_cash_payment": 2440.6,
+      "points": 61000,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1873.05,
+      "price": 2440.6,
+      "converted_price": 2440.6,
+      "lowest_converted_price": 2440.6,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2113.037899272
+        }
+      ]
+    },
+    {
+      "id": "YTqN",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 2,
+      "max_cash_payment": 2519.12,
+      "coverted_max_cash_payment": 3282.44,
+      "points": 82050,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2519.12,
+      "price": 3282.44,
+      "converted_price": 3282.44,
+      "lowest_converted_price": 3282.44,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2780.75193372
+        }
+      ]
+    },
+    {
+      "id": "WUEo",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 15,
+      "max_cash_payment": 1022.68,
+      "coverted_max_cash_payment": 1332.56,
+      "points": 33300,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1022.68,
+      "price": 1332.56,
+      "converted_price": 1332.56,
+      "lowest_converted_price": 1332.56,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1153.723435956
+        }
+      ]
+    },
+    {
+      "id": "NkC8",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 53,
+      "max_cash_payment": 11354.41,
+      "coverted_max_cash_payment": 14794.9,
+      "points": 369850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 11354.41,
+      "price": 14794.9,
+      "converted_price": 14794.9,
+      "lowest_converted_price": 14794.9,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 12637.338966936
+        }
+      ]
+    },
+    {
+      "id": "eqUd",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1668,
+      "max_cash_payment": 3947.12,
+      "coverted_max_cash_payment": 5143.13,
+      "points": 128575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3947.12,
+      "price": 5143.13,
+      "converted_price": 5143.13,
+      "lowest_converted_price": 5143.13,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4502.509200324
+        }
+      ]
+    },
+    {
+      "id": "hTu2",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 1641,
+      "max_cash_payment": 2501.56,
+      "coverted_max_cash_payment": 3259.56,
+      "points": 81475,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2501.56,
+      "price": 3259.56,
+      "converted_price": 3259.56,
+      "lowest_converted_price": 3259.56,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2809.756918512
+        }
+      ]
+    },
+    {
+      "id": "1TOY",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 435,
+      "max_cash_payment": 4680.28,
+      "coverted_max_cash_payment": 6098.45,
+      "points": 152450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4680.28,
+      "price": 6098.45,
+      "converted_price": 6098.45,
+      "lowest_converted_price": 6098.45,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5280.05388024
+        }
+      ]
+    },
+    {
+      "id": "tA2C",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 64,
+      "max_cash_payment": 3683.39,
+      "coverted_max_cash_payment": 4799.49,
+      "points": 119975,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3683.39,
+      "price": 4799.49,
+      "converted_price": 4799.49,
+      "lowest_converted_price": 4799.49,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4155.42663972
+        }
+      ]
+    },
+    {
+      "id": "b3rI",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 39993,
+      "max_cash_payment": 3261.95,
+      "coverted_max_cash_payment": 4250.35,
+      "points": 106250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3261.95,
+      "price": 4250.35,
+      "converted_price": 4250.35,
+      "lowest_converted_price": 4250.35,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3679.971612732
+        }
+      ]
+    },
+    {
+      "id": "WoMd",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 38,
+      "max_cash_payment": 1130.35,
+      "coverted_max_cash_payment": 1472.86,
+      "points": 36800,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1130.35,
+      "price": 1472.86,
+      "converted_price": 1472.86,
+      "lowest_converted_price": 1472.86,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1264.088315196
+        }
+      ]
+    },
+    {
+      "id": "syT6",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 456,
+      "max_cash_payment": 5194.85,
+      "coverted_max_cash_payment": 6768.94,
+      "points": 169200,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5194.85,
+      "price": 6768.94,
+      "converted_price": 6768.94,
+      "lowest_converted_price": 6768.94,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5860.557508932
+        }
+      ]
+    },
+    {
+      "id": "W4NV",
+      "searchRank": 0.91,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 132,
+      "max_cash_payment": 16259.6,
+      "coverted_max_cash_payment": 21186.41,
+      "points": 529650,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 16259.6,
+      "price": 21186.41,
+      "converted_price": 21186.41,
+      "lowest_converted_price": 21186.41,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 19188.126509292
+        }
+      ]
+    },
+    {
+      "id": "cqqh",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 6,
+      "max_cash_payment": 2823.37,
+      "coverted_max_cash_payment": 3678.88,
+      "points": 91950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2823.37,
+      "price": 3678.88,
+      "converted_price": 3678.88,
+      "lowest_converted_price": 3678.88,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3116.589524928
+        }
+      ]
+    },
+    {
+      "id": "K6ew",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 6,
+      "max_cash_payment": 1544.21,
+      "coverted_max_cash_payment": 2012.12,
+      "points": 50300,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1544.21,
+      "price": 2012.12,
+      "converted_price": 2012.12,
+      "lowest_converted_price": 2012.12,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1726.87809276
+        }
+      ]
+    },
+    {
+      "id": "I7nd",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 6,
+      "max_cash_payment": 1626.39,
+      "coverted_max_cash_payment": 2119.2,
+      "points": 52975,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1626.39,
+      "price": 2119.2,
+      "converted_price": 2119.2,
+      "lowest_converted_price": 2119.2,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1834.819374888
+        }
+      ]
+    },
+    {
+      "id": "dFcw",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 2,
+      "max_cash_payment": 1407.46,
+      "coverted_max_cash_payment": 1833.93,
+      "points": 45825,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1407.46,
+      "price": 1833.93,
+      "converted_price": 1833.93,
+      "lowest_converted_price": 1833.93,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1573.996023324
+        }
+      ]
+    },
+    {
+      "id": "jEQ2",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 408,
+      "max_cash_payment": 2666.73,
+      "coverted_max_cash_payment": 3474.77,
+      "points": 86850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2666.73,
+      "price": 3474.77,
+      "converted_price": 3474.77,
+      "lowest_converted_price": 3474.77,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3076.183209636
+        }
+      ]
+    },
+    {
+      "id": "1xUw",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 308,
+      "max_cash_payment": 6711.05,
+      "coverted_max_cash_payment": 8744.56,
+      "points": 218600,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6711.05,
+      "price": 8744.56,
+      "converted_price": 8744.56,
+      "lowest_converted_price": 8744.56,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 7472.340799056
+        }
+      ]
+    },
+    {
+      "id": "yNDH",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 99980,
+      "max_cash_payment": 2383.34,
+      "coverted_max_cash_payment": 3105.51,
+      "points": 77625,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2383.34,
+      "price": 3105.51,
+      "converted_price": 3105.51,
+      "lowest_converted_price": 3105.51,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2693.671828884
+        }
+      ]
+    },
+    {
+      "id": "BlKz",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 2331,
+      "max_cash_payment": 2889.6,
+      "coverted_max_cash_payment": 3765.18,
+      "points": 94125,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2889.6,
+      "price": 3765.18,
+      "converted_price": 3765.18,
+      "lowest_converted_price": 3765.18,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3296.183282964
+        }
+      ]
+    },
+    {
+      "id": "XRpW",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 4,
+      "max_cash_payment": 3707.45,
+      "coverted_max_cash_payment": 4830.84,
+      "points": 120750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3707.45,
+      "price": 4830.84,
+      "converted_price": 4830.84,
+      "lowest_converted_price": 4830.84,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4238.506506312
+        }
+      ]
+    },
+    {
+      "id": "Fo1h",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 66,
+      "max_cash_payment": 2301.32,
+      "coverted_max_cash_payment": 2998.64,
+      "points": 74950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2301.32,
+      "price": 2998.64,
+      "converted_price": 2998.64,
+      "lowest_converted_price": 2998.64,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2606.53960368
+        }
+      ]
+    },
+    {
+      "id": "kzXL",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 159968,
+      "max_cash_payment": 3985.4,
+      "coverted_max_cash_payment": 5193.01,
+      "points": 129825,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3985.4,
+      "price": 5193.01,
+      "converted_price": 5193.01,
+      "lowest_converted_price": 5193.01,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4496.137485336
+        }
+      ]
+    },
+    {
+      "id": "NMBb",
+      "searchRank": 0.92,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 132,
+      "max_cash_payment": 2353.37,
+      "coverted_max_cash_payment": 3066.46,
+      "points": 76650,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2353.37,
+      "price": 3066.46,
+      "converted_price": 3066.46,
+      "lowest_converted_price": 3066.46,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2725.217681616
+        }
+      ]
+    },
+    {
+      "id": "ISEX",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 81,
+      "max_cash_payment": 11419.82,
+      "coverted_max_cash_payment": 14880.13,
+      "points": 372000,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 11419.82,
+      "price": 14880.13,
+      "converted_price": 14880.13,
+      "lowest_converted_price": 14880.13,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 12460.80728052
+        }
+      ]
+    },
+    {
+      "id": "MMOd",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 29994,
+      "max_cash_payment": 1788.99,
+      "coverted_max_cash_payment": 2331.07,
+      "points": 58275,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1788.99,
+      "price": 2331.07,
+      "converted_price": 2331.07,
+      "lowest_converted_price": 2331.07,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1957.927684104
+        }
+      ]
+    },
+    {
+      "id": "bQLE",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 2,
+      "max_cash_payment": 2322.49,
+      "coverted_max_cash_payment": 3026.23,
+      "points": 75650,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2322.49,
+      "price": 3026.23,
+      "converted_price": 3026.23,
+      "lowest_converted_price": 3026.23,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2620.129989636
+        }
+      ]
+    },
+    {
+      "id": "jrzP",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 73,
+      "max_cash_payment": 4990.24,
+      "coverted_max_cash_payment": 6502.33,
+      "points": 162550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4990.24,
+      "price": 6502.33,
+      "converted_price": 6502.33,
+      "lowest_converted_price": 6502.33,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5756.512224312
+        }
+      ]
+    },
+    {
+      "id": "ckVF",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 8,
+      "max_cash_payment": 2032.98,
+      "coverted_max_cash_payment": 2648.99,
+      "points": 66200,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2032.98,
+      "price": 2648.99,
+      "converted_price": 2648.99,
+      "lowest_converted_price": 2648.99,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2293.504673472
+        }
+      ]
+    },
+    {
+      "id": "UeG9",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 100,
+      "max_cash_payment": 3151.11,
+      "coverted_max_cash_payment": 4105.93,
+      "points": 102625,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3151.11,
+      "price": 4105.93,
+      "converted_price": 4105.93,
+      "lowest_converted_price": 4105.93,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3507.140472444
+        }
+      ]
+    },
+    {
+      "id": "Cgei",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 15,
+      "max_cash_payment": 1665.15,
+      "coverted_max_cash_payment": 2169.71,
+      "points": 54225,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1665.15,
+      "price": 2169.71,
+      "converted_price": 2169.71,
+      "lowest_converted_price": 2169.71,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1838.08992798
+        }
+      ]
+    },
+    {
+      "id": "HjLW",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 39,
+      "max_cash_payment": 1946.84,
+      "coverted_max_cash_payment": 2536.75,
+      "points": 63400,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1946.84,
+      "price": 2536.75,
+      "converted_price": 2536.75,
+      "lowest_converted_price": 2536.75,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2245.775446476
+        }
+      ]
+    },
+    {
+      "id": "Ulqm",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 85,
+      "max_cash_payment": 2944.68,
+      "coverted_max_cash_payment": 3836.95,
+      "points": 95900,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2944.68,
+      "price": 3836.95,
+      "converted_price": 3836.95,
+      "lowest_converted_price": 3836.95,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3265.692867684
+        }
+      ]
+    },
+    {
+      "id": "X36o",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 161,
+      "max_cash_payment": 4248.3,
+      "coverted_max_cash_payment": 5535.57,
+      "points": 138375,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4248.3,
+      "price": 5535.57,
+      "converted_price": 5535.57,
+      "lowest_converted_price": 5535.57,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4716.359070228
+        }
+      ]
+    },
+    {
+      "id": "uNR8",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 2064,
+      "max_cash_payment": 3244.96,
+      "coverted_max_cash_payment": 4228.21,
+      "points": 105700,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3244.96,
+      "price": 4228.21,
+      "converted_price": 4228.21,
+      "lowest_converted_price": 4228.21,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3581.9722908
+        }
+      ]
+    },
+    {
+      "id": "oyOm",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 3,
+      "max_cash_payment": 3660.66,
+      "coverted_max_cash_payment": 4769.87,
+      "points": 119225,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3660.66,
+      "price": 4769.87,
+      "converted_price": 4769.87,
+      "lowest_converted_price": 4769.87,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4040.840010672
+        }
+      ]
+    },
+    {
+      "id": "Sjym",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 360,
+      "max_cash_payment": 4025.78,
+      "coverted_max_cash_payment": 5245.63,
+      "points": 131125,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4025.78,
+      "price": 5245.63,
+      "converted_price": 5245.63,
+      "lowest_converted_price": 5245.63,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4469.113074528
+        }
+      ]
+    },
+    {
+      "id": "8zvi",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 28,
+      "max_cash_payment": 1175.93,
+      "coverted_max_cash_payment": 1532.25,
+      "points": 38300,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1175.93,
+      "price": 1532.25,
+      "converted_price": 1532.25,
+      "lowest_converted_price": 1532.25,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1315.0620351
+        }
+      ]
+    },
+    {
+      "id": "RPSx",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 64,
+      "max_cash_payment": 3656.06,
+      "coverted_max_cash_payment": 4763.88,
+      "points": 119075,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3656.06,
+      "price": 4763.88,
+      "converted_price": 4763.88,
+      "lowest_converted_price": 4763.88,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4179.766851576
+        }
+      ]
+    },
+    {
+      "id": "eiUi",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 9,
+      "max_cash_payment": 2226.46,
+      "coverted_max_cash_payment": 2901.1,
+      "points": 72525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2226.46,
+      "price": 2901.1,
+      "converted_price": 2901.1,
+      "lowest_converted_price": 2901.1,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2511.771744564
+        }
+      ]
+    },
+    {
+      "id": "gkOT",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1326,
+      "max_cash_payment": 2410.68,
+      "coverted_max_cash_payment": 3141.14,
+      "points": 78525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2410.68,
+      "price": 3141.14,
+      "converted_price": 3141.14,
+      "lowest_converted_price": 3141.14,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2749.909705956
+        }
+      ]
+    },
+    {
+      "id": "C7Ke",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 450,
+      "max_cash_payment": 2692.18,
+      "coverted_max_cash_payment": 3507.94,
+      "points": 87675,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2692.18,
+      "price": 3507.94,
+      "converted_price": 3507.94,
+      "lowest_converted_price": 3507.94,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3105.553037004
+        }
+      ]
+    },
+    {
+      "id": "ceWZ",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 3,
+      "max_cash_payment": 3023.27,
+      "coverted_max_cash_payment": 3939.35,
+      "points": 98475,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3023.27,
+      "price": 3939.35,
+      "converted_price": 3939.35,
+      "lowest_converted_price": 3939.35,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3410.69173146
+        }
+      ]
+    },
+    {
+      "id": "xc99",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 27,
+      "max_cash_payment": 1097.54,
+      "coverted_max_cash_payment": 1430.1,
+      "points": 35750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1097.54,
+      "price": 1430.1,
+      "converted_price": 1430.1,
+      "lowest_converted_price": 1430.1,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1227.36951594
+        }
+      ]
+    },
+    {
+      "id": "ajrh",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 613,
+      "max_cash_payment": 4549.9,
+      "coverted_max_cash_payment": 5928.56,
+      "points": 148200,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4549.9,
+      "price": 5928.56,
+      "converted_price": 5928.56,
+      "lowest_converted_price": 5928.56,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4964.699593656
+        }
+      ]
+    },
+    {
+      "id": "nXKE",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 2,
+      "max_cash_payment": 2217.13,
+      "coverted_max_cash_payment": 2888.94,
+      "points": 72200,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2217.13,
+      "price": 2888.94,
+      "converted_price": 2888.94,
+      "lowest_converted_price": 2888.94,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2523.485797272
+        }
+      ]
+    },
+    {
+      "id": "Kl9l",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 8,
+      "max_cash_payment": 1551.61,
+      "coverted_max_cash_payment": 2021.76,
+      "points": 50525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1551.61,
+      "price": 2021.76,
+      "converted_price": 2021.76,
+      "lowest_converted_price": 2021.76,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1712.753473032
+        }
+      ]
+    },
+    {
+      "id": "QvTu",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 4,
+      "max_cash_payment": 1644.21,
+      "coverted_max_cash_payment": 2142.42,
+      "points": 53550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1644.21,
+      "price": 2142.42,
+      "converted_price": 2142.42,
+      "lowest_converted_price": 2142.42,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1814.96151468
+        }
+      ]
+    },
+    {
+      "id": "Hkje",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 546,
+      "max_cash_payment": 1995.27,
+      "coverted_max_cash_payment": 2599.86,
+      "points": 64975,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1995.27,
+      "price": 2599.86,
+      "converted_price": 2599.86,
+      "lowest_converted_price": 2599.86,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2259.900066204
+        }
+      ]
+    },
+    {
+      "id": "euna",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 14,
+      "max_cash_payment": 2659.12,
+      "coverted_max_cash_payment": 3464.86,
+      "points": 86600,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2659.12,
+      "price": 3464.86,
+      "converted_price": 3464.86,
+      "lowest_converted_price": 3464.86,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3026.525529024
+        }
+      ]
+    },
+    {
+      "id": "W3kr",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 11,
+      "max_cash_payment": 1061.1,
+      "coverted_max_cash_payment": 1382.62,
+      "points": 34550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1061.1,
+      "price": 1382.62,
+      "converted_price": 1382.62,
+      "lowest_converted_price": 1382.62,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1186.65047844
+        }
+      ]
+    },
+    {
+      "id": "EqjK",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 81,
+      "max_cash_payment": 3207.77,
+      "coverted_max_cash_payment": 4179.75,
+      "points": 104475,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3207.77,
+      "price": 4179.75,
+      "converted_price": 4179.75,
+      "lowest_converted_price": 4179.75,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3618.821390976
+        }
+      ]
+    },
+    {
+      "id": "6LVq",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 90,
+      "max_cash_payment": 7650.46,
+      "coverted_max_cash_payment": 9968.62,
+      "points": 249200,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 7650.46,
+      "price": 9968.62,
+      "converted_price": 9968.62,
+      "lowest_converted_price": 9968.62,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 8514.865429884
+        }
+      ]
+    },
+    {
+      "id": "6KSS",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 568,
+      "max_cash_payment": 4958.84,
+      "coverted_max_cash_payment": 6461.41,
+      "points": 161525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4958.84,
+      "price": 6461.41,
+      "converted_price": 6461.41,
+      "lowest_converted_price": 6461.41,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5644.010409984
+        }
+      ]
+    },
+    {
+      "id": "nc8Y",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 58,
+      "max_cash_payment": 2410.73,
+      "coverted_max_cash_payment": 3141.2,
+      "points": 78525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2410.73,
+      "price": 3141.2,
+      "converted_price": 3141.2,
+      "lowest_converted_price": 3141.2,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2756.098999656
+        }
+      ]
+    },
+    {
+      "id": "8nR9",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 19996,
+      "max_cash_payment": 3949.8,
+      "coverted_max_cash_payment": 5146.63,
+      "points": 128650,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3949.8,
+      "price": 5146.63,
+      "converted_price": 5146.63,
+      "lowest_converted_price": 5146.63,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4556.2974201
+        }
+      ]
+    },
+    {
+      "id": "bbkT",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 13,
+      "max_cash_payment": 2543,
+      "coverted_max_cash_payment": 3313.55,
+      "points": 82825,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2543,
+      "price": 3313.55,
+      "converted_price": 3313.55,
+      "lowest_converted_price": 3313.55,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2807.07271956
+        }
+      ]
+    },
+    {
+      "id": "OAqi",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 169,
+      "max_cash_payment": 2744.96,
+      "coverted_max_cash_payment": 3576.71,
+      "points": 89400,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2744.96,
+      "price": 3576.71,
+      "converted_price": 3576.71,
+      "lowest_converted_price": 3576.71,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3096.73166472
+        }
+      ]
+    },
+    {
+      "id": "Chcx",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 28,
+      "max_cash_payment": 1365.82,
+      "coverted_max_cash_payment": 1779.68,
+      "points": 44475,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1365.82,
+      "price": 1779.68,
+      "converted_price": 1779.68,
+      "lowest_converted_price": 1779.68,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1553.160906216
+        }
+      ]
+    },
+    {
+      "id": "nZLF",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 534,
+      "max_cash_payment": 4293.79,
+      "coverted_max_cash_payment": 5594.85,
+      "points": 139850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4293.79,
+      "price": 5594.85,
+      "converted_price": 5594.85,
+      "lowest_converted_price": 5594.85,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4685.204120256
+        }
+      ]
+    },
+    {
+      "id": "Jt8Q",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 632,
+      "max_cash_payment": 1583.29,
+      "coverted_max_cash_payment": 2063.04,
+      "points": 51575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1583.29,
+      "price": 2063.04,
+      "converted_price": 2063.04,
+      "lowest_converted_price": 2063.04,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1747.700179776
+        }
+      ]
+    },
+    {
+      "id": "nSaz",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 19,
+      "max_cash_payment": 1793.37,
+      "coverted_max_cash_payment": 2336.78,
+      "points": 58400,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1793.37,
+      "price": 2336.78,
+      "converted_price": 2336.78,
+      "lowest_converted_price": 2336.78,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2023.18238484
+        }
+      ]
+    },
+    {
+      "id": "kky2",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1850,
+      "max_cash_payment": 2244.65,
+      "coverted_max_cash_payment": 2924.8,
+      "points": 73100,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2244.65,
+      "price": 2924.8,
+      "converted_price": 2924.8,
+      "lowest_converted_price": 2924.8,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2560.517318736
+        }
+      ]
+    },
+    {
+      "id": "4KUW",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 14,
+      "max_cash_payment": 1454.16,
+      "coverted_max_cash_payment": 1894.78,
+      "points": 47350,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1454.16,
+      "price": 1894.78,
+      "converted_price": 1894.78,
+      "lowest_converted_price": 1894.78,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1605.203093664
+        }
+      ]
+    },
+    {
+      "id": "S7uU",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 11,
+      "max_cash_payment": 1334.51,
+      "coverted_max_cash_payment": 1738.88,
+      "points": 43450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1334.51,
+      "price": 1738.88,
+      "converted_price": 1738.88,
+      "lowest_converted_price": 1738.88,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1492.40158722
+        }
+      ]
+    },
+    {
+      "id": "6Xoe",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 4,
+      "max_cash_payment": 1084.2,
+      "coverted_max_cash_payment": 1412.72,
+      "points": 35300,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1084.2,
+      "price": 1412.72,
+      "converted_price": 1412.72,
+      "lowest_converted_price": 1412.72,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1223.13473604
+        }
+      ]
+    },
+    {
+      "id": "pN2A",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 57,
+      "max_cash_payment": 2201.48,
+      "coverted_max_cash_payment": 2868.55,
+      "points": 71700,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2201.48,
+      "price": 2868.55,
+      "converted_price": 2868.55,
+      "lowest_converted_price": 2868.55,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2440.184419116
+        }
+      ]
+    },
+    {
+      "id": "bTvU",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 14,
+      "max_cash_payment": 1183.45,
+      "coverted_max_cash_payment": 1542.05,
+      "points": 38550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1183.45,
+      "price": 1542.05,
+      "converted_price": 1542.05,
+      "lowest_converted_price": 1542.05,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1345.773961944
+        }
+      ]
+    },
+    {
+      "id": "7Dhu",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 733,
+      "max_cash_payment": 2886.89,
+      "coverted_max_cash_payment": 3761.64,
+      "points": 94025,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2886.89,
+      "price": 3761.64,
+      "converted_price": 3761.64,
+      "lowest_converted_price": 3761.64,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3214.39339548
+        }
+      ]
+    },
+    {
+      "id": "peRz",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 7,
+      "max_cash_payment": 1288.99,
+      "coverted_max_cash_payment": 1679.57,
+      "points": 41975,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1288.99,
+      "price": 1679.57,
+      "converted_price": 1679.57,
+      "lowest_converted_price": 1679.57,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1441.479987684
+        }
+      ]
+    },
+    {
+      "id": "SpFE",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 5,
+      "max_cash_payment": 4003.23,
+      "coverted_max_cash_payment": 5216.25,
+      "points": 130400,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4003.23,
+      "price": 5216.25,
+      "converted_price": 5216.25,
+      "lowest_converted_price": 5216.25,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4556.36257056
+        }
+      ]
+    },
+    {
+      "id": "VIDV",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 357,
+      "max_cash_payment": 8576.94,
+      "coverted_max_cash_payment": 11175.83,
+      "points": 279375,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 8576.94,
+      "price": 11175.83,
+      "converted_price": 11175.83,
+      "lowest_converted_price": 11175.83,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 9591.594052212
+        }
+      ]
+    },
+    {
+      "id": "ehKj",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 29,
+      "max_cash_payment": 1006.38,
+      "coverted_max_cash_payment": 1311.32,
+      "points": 32775,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1006.38,
+      "price": 1311.32,
+      "converted_price": 1311.32,
+      "lowest_converted_price": 1311.32,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1125.435106224
+        }
+      ]
+    },
+    {
+      "id": "48Pm",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 44991,
+      "max_cash_payment": 1789.07,
+      "coverted_max_cash_payment": 2331.17,
+      "points": 58275,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1789.07,
+      "price": 2331.17,
+      "converted_price": 2331.17,
+      "lowest_converted_price": 2331.17,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1951.985962152
+        }
+      ]
+    },
+    {
+      "id": "iRm9",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 64,
+      "max_cash_payment": 4436.35,
+      "coverted_max_cash_payment": 5780.6,
+      "points": 144500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4436.35,
+      "price": 5780.6,
+      "converted_price": 5780.6,
+      "lowest_converted_price": 5780.6,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4937.597002296
+        }
+      ]
+    },
+    {
+      "id": "dwHs",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 2,
+      "max_cash_payment": 1473.79,
+      "coverted_max_cash_payment": 1920.36,
+      "points": 48000,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1473.79,
+      "price": 1920.36,
+      "converted_price": 1920.36,
+      "lowest_converted_price": 1920.36,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1626.8069862
+        }
+      ]
+    },
+    {
+      "id": "spPd",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 49,
+      "max_cash_payment": 2495.46,
+      "coverted_max_cash_payment": 3251.61,
+      "points": 81275,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2495.46,
+      "price": 3251.61,
+      "converted_price": 3251.61,
+      "lowest_converted_price": 3251.61,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2815.255617336
+        }
+      ]
+    },
+    {
+      "id": "nGSX",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 20,
+      "max_cash_payment": 2653.93,
+      "coverted_max_cash_payment": 3458.1,
+      "points": 86450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2653.93,
+      "price": 3458.1,
+      "converted_price": 3458.1,
+      "lowest_converted_price": 3458.1,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3020.622897348
+        }
+      ]
+    },
+    {
+      "id": "XNVf",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 20,
+      "max_cash_payment": 1216.02,
+      "coverted_max_cash_payment": 1584.49,
+      "points": 39600,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1216.02,
+      "price": 1584.49,
+      "converted_price": 1584.49,
+      "lowest_converted_price": 1584.49,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1359.872521488
+        }
+      ]
+    },
+    {
+      "id": "TbRp",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 261,
+      "max_cash_payment": 2468.49,
+      "coverted_max_cash_payment": 3216.47,
+      "points": 80400,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2468.49,
+      "price": 3216.47,
+      "converted_price": 3216.47,
+      "lowest_converted_price": 3216.47,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2693.476377504
+        }
+      ]
+    },
+    {
+      "id": "tbqg",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 29991,
+      "max_cash_payment": 2091.5,
+      "coverted_max_cash_payment": 2725.24,
+      "points": 68125,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2091.5,
+      "price": 2725.24,
+      "converted_price": 2725.24,
+      "lowest_converted_price": 2725.24,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2282.194553616
+        }
+      ]
+    },
+    {
+      "id": "LBIA",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 8,
+      "max_cash_payment": 2106.04,
+      "coverted_max_cash_payment": 2744.19,
+      "points": 68600,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2106.04,
+      "price": 2744.19,
+      "converted_price": 2744.19,
+      "lowest_converted_price": 2744.19,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2375.90697528
+        }
+      ]
+    },
+    {
+      "id": "CKsF",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 142,
+      "max_cash_payment": 2325.17,
+      "coverted_max_cash_payment": 3029.72,
+      "points": 75725,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2325.17,
+      "price": 3029.72,
+      "converted_price": 3029.72,
+      "lowest_converted_price": 3029.72,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2658.216948552
+        }
+      ]
+    },
+    {
+      "id": "1oWG",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 86,
+      "max_cash_payment": 1347.67,
+      "coverted_max_cash_payment": 1756.03,
+      "points": 43900,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1347.67,
+      "price": 1756.03,
+      "converted_price": 1756.03,
+      "lowest_converted_price": 1756.03,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1533.876370056
+        }
+      ]
+    },
+    {
+      "id": "CXt2",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 24,
+      "max_cash_payment": 1928.01,
+      "coverted_max_cash_payment": 2512.21,
+      "points": 62800,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1928.01,
+      "price": 2512.21,
+      "converted_price": 2512.21,
+      "lowest_converted_price": 2512.21,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2194.410823812
+        }
+      ]
+    },
+    {
+      "id": "5Pfa",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 45,
+      "max_cash_payment": 1327.67,
+      "coverted_max_cash_payment": 1729.97,
+      "points": 43225,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1327.67,
+      "price": 1729.97,
+      "converted_price": 1729.97,
+      "lowest_converted_price": 1729.97,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1511.112799332
+        }
+      ]
+    },
+    {
+      "id": "0oF4",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 267,
+      "max_cash_payment": 5611.98,
+      "coverted_max_cash_payment": 7312.46,
+      "points": 182800,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5611.98,
+      "price": 7312.46,
+      "converted_price": 7312.46,
+      "lowest_converted_price": 7312.46,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6275.87866134
+        }
+      ]
+    },
+    {
+      "id": "W4HH",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 6,
+      "max_cash_payment": 1777.28,
+      "coverted_max_cash_payment": 2315.81,
+      "points": 57875,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1777.28,
+      "price": 2315.81,
+      "converted_price": 2315.81,
+      "lowest_converted_price": 2315.81,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1961.836711704
+        }
+      ]
+    },
+    {
+      "id": "dQtv",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 14,
+      "max_cash_payment": 5901.35,
+      "coverted_max_cash_payment": 7689.51,
+      "points": 192225,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5901.35,
+      "price": 7689.51,
+      "converted_price": 7689.51,
+      "lowest_converted_price": 7689.51,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6514.19904402
+        }
+      ]
+    },
+    {
+      "id": "WaXd",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 102,
+      "max_cash_payment": 6134.66,
+      "coverted_max_cash_payment": 7993.52,
+      "points": 199825,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6134.66,
+      "price": 7993.52,
+      "converted_price": 7993.52,
+      "lowest_converted_price": 7993.52,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6809.943042144
+        }
+      ]
+    },
+    {
+      "id": "tmNc",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 36,
+      "max_cash_payment": 1485.38,
+      "coverted_max_cash_payment": 1935.46,
+      "points": 48375,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1485.38,
+      "price": 1935.46,
+      "converted_price": 1935.46,
+      "lowest_converted_price": 1935.46,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1690.602316632
+        }
+      ]
+    },
+    {
+      "id": "18j8",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 21,
+      "max_cash_payment": 5543.8,
+      "coverted_max_cash_payment": 7223.62,
+      "points": 180575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5543.8,
+      "price": 7223.62,
+      "converted_price": 7223.62,
+      "lowest_converted_price": 7223.62,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6254.261738712
+        }
+      ]
+    },
+    {
+      "id": "jOZC",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 7,
+      "max_cash_payment": 2576.21,
+      "coverted_max_cash_payment": 3356.83,
+      "points": 83900,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2576.21,
+      "price": 3356.83,
+      "converted_price": 3356.83,
+      "lowest_converted_price": 3356.83,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2906.348990508
+        }
+      ]
+    },
+    {
+      "id": "0Tki",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 20,
+      "max_cash_payment": 2587.04,
+      "coverted_max_cash_payment": 3370.94,
+      "points": 84250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2587.04,
+      "price": 3370.94,
+      "converted_price": 3370.94,
+      "lowest_converted_price": 3370.94,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2957.609372436
+        }
+      ]
+    },
+    {
+      "id": "JTcI",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 2,
+      "max_cash_payment": 3779.29,
+      "coverted_max_cash_payment": 4924.45,
+      "points": 123100,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3779.29,
+      "price": 4924.45,
+      "converted_price": 4924.45,
+      "lowest_converted_price": 4924.45,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4198.908056724
+        }
+      ]
+    },
+    {
+      "id": "VF3U",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1,
+      "max_cash_payment": 1072.71,
+      "coverted_max_cash_payment": 1397.75,
+      "points": 34925,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1072.71,
+      "price": 1397.75,
+      "converted_price": 1397.75,
+      "lowest_converted_price": 1397.75,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1220.9196204
+        }
+      ]
+    },
+    {
+      "id": "Hwwg",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 22,
+      "max_cash_payment": 1207.85,
+      "coverted_max_cash_payment": 1573.84,
+      "points": 39325,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1207.85,
+      "price": 1573.84,
+      "converted_price": 1573.84,
+      "lowest_converted_price": 1573.84,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1350.751457088
+        }
+      ]
+    },
+    {
+      "id": "lGcc",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 5,
+      "max_cash_payment": 2561.8,
+      "coverted_max_cash_payment": 3338.05,
+      "points": 83450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2561.8,
+      "price": 3338.05,
+      "converted_price": 3338.05,
+      "lowest_converted_price": 3338.05,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2890.087435692
+        }
+      ]
+    },
+    {
+      "id": "yWX0",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 16,
+      "max_cash_payment": 2873.68,
+      "coverted_max_cash_payment": 3744.43,
+      "points": 93600,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2873.68,
+      "price": 3744.43,
+      "converted_price": 3744.43,
+      "lowest_converted_price": 3744.43,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3199.66939152
+        }
+      ]
+    },
+    {
+      "id": "lWiH",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 19996,
+      "max_cash_payment": 3136.3,
+      "coverted_max_cash_payment": 4086.63,
+      "points": 102150,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3136.3,
+      "price": 4086.63,
+      "converted_price": 4086.63,
+      "lowest_converted_price": 4086.63,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3538.230271956
+        }
+      ]
+    },
+    {
+      "id": "8NvP",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 76,
+      "max_cash_payment": 3098.34,
+      "coverted_max_cash_payment": 4037.17,
+      "points": 100925,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3098.34,
+      "price": 4037.17,
+      "converted_price": 4037.17,
+      "lowest_converted_price": 4037.17,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3495.374299368
+        }
+      ]
+    },
+    {
+      "id": "W3Ji",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 7,
+      "max_cash_payment": 1206.9,
+      "coverted_max_cash_payment": 1572.6,
+      "points": 39300,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1206.9,
+      "price": 1572.6,
+      "converted_price": 1572.6,
+      "lowest_converted_price": 1572.6,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1349.709049728
+        }
+      ]
+    },
+    {
+      "id": "Q3Yd",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 192,
+      "max_cash_payment": 2534.88,
+      "coverted_max_cash_payment": 3302.97,
+      "points": 82550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2534.88,
+      "price": 3302.97,
+      "converted_price": 3302.97,
+      "lowest_converted_price": 3302.97,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2859.727321332
+        }
+      ]
+    },
+    {
+      "id": "PfU9",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 245,
+      "max_cash_payment": 4270.85,
+      "coverted_max_cash_payment": 5564.96,
+      "points": 139100,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4270.85,
+      "price": 5564.96,
+      "converted_price": 5564.96,
+      "lowest_converted_price": 5564.96,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4818.163179024
+        }
+      ]
+    },
+    {
+      "id": "UUrN",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 13,
+      "max_cash_payment": 1988.45,
+      "coverted_max_cash_payment": 2590.97,
+      "points": 64750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1988.45,
+      "price": 2590.97,
+      "converted_price": 2590.97,
+      "lowest_converted_price": 2590.97,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2283.26302116
+        }
+      ]
+    },
+    {
+      "id": "S6k7",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 16,
+      "max_cash_payment": 2008.48,
+      "coverted_max_cash_payment": 2617.07,
+      "points": 65425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2008.48,
+      "price": 2617.07,
+      "converted_price": 2617.07,
+      "lowest_converted_price": 2617.07,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2265.86784834
+        }
+      ]
+    },
+    {
+      "id": "SM0j",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 6,
+      "max_cash_payment": 2472.13,
+      "coverted_max_cash_payment": 3221.21,
+      "points": 80525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2472.13,
+      "price": 3221.21,
+      "converted_price": 3221.21,
+      "lowest_converted_price": 3221.21,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2788.934831496
+        }
+      ]
+    },
+    {
+      "id": "yQql",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 1014,
+      "max_cash_payment": 3517.9,
+      "coverted_max_cash_payment": 4583.86,
+      "points": 114575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3517.9,
+      "price": 4583.86,
+      "converted_price": 4583.86,
+      "lowest_converted_price": 4583.86,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3883.254078024
+        }
+      ]
+    },
+    {
+      "id": "atH8",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 46,
+      "max_cash_payment": 2533.91,
+      "coverted_max_cash_payment": 3301.71,
+      "points": 82525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2533.91,
+      "price": 3301.71,
+      "converted_price": 3301.71,
+      "lowest_converted_price": 3301.71,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2812.011124428
+        }
+      ]
+    },
+    {
+      "id": "l2RN",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 256,
+      "max_cash_payment": 2473.94,
+      "coverted_max_cash_payment": 3223.57,
+      "points": 80575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2473.94,
+      "price": 3223.57,
+      "converted_price": 3223.57,
+      "lowest_converted_price": 3223.57,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2853.811659564
+        }
+      ]
+    },
+    {
+      "id": "Ykfj",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 1,
+      "max_cash_payment": 1502.27,
+      "coverted_max_cash_payment": 1957.47,
+      "points": 48925,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1502.27,
+      "price": 1957.47,
+      "converted_price": 1957.47,
+      "lowest_converted_price": 1957.47,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1680.008851836
+        }
+      ]
+    },
+    {
+      "id": "6VaD",
+      "searchRank": 0.92,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 305,
+      "max_cash_payment": 4173.56,
+      "coverted_max_cash_payment": 5438.19,
+      "points": 135950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4173.56,
+      "price": 5438.19,
+      "converted_price": 5438.19,
+      "lowest_converted_price": 5438.19,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4858.13950128
+        }
+      ]
+    },
+    {
+      "id": "q22h",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 8,
+      "max_cash_payment": 2577.7,
+      "coverted_max_cash_payment": 3358.77,
+      "points": 83950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2577.7,
+      "price": 3358.77,
+      "converted_price": 3358.77,
+      "lowest_converted_price": 3358.77,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2908.029872376
+        }
+      ]
+    },
+    {
+      "id": "S57Q",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 276,
+      "max_cash_payment": 4503.02,
+      "coverted_max_cash_payment": 5867.48,
+      "points": 146675,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4503.02,
+      "price": 5867.48,
+      "converted_price": 5867.48,
+      "lowest_converted_price": 5867.48,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5080.081058316
+        }
+      ]
+    },
+    {
+      "id": "gC1u",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 44991,
+      "max_cash_payment": 4858.33,
+      "coverted_max_cash_payment": 6330.45,
+      "points": 158250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4858.33,
+      "price": 6330.45,
+      "converted_price": 6330.45,
+      "lowest_converted_price": 6330.45,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5579.172672192
+        }
+      ]
+    },
+    {
+      "id": "ePrj",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 29,
+      "max_cash_payment": 2942.76,
+      "coverted_max_cash_payment": 3834.44,
+      "points": 95850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2942.76,
+      "price": 3834.44,
+      "converted_price": 3834.44,
+      "lowest_converted_price": 3834.44,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3248.349815232
+        }
+      ]
+    },
+    {
+      "id": "NaGO",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 92,
+      "max_cash_payment": 1918.95,
+      "coverted_max_cash_payment": 2500.41,
+      "points": 62500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1918.95,
+      "price": 2500.41,
+      "converted_price": 2500.41,
+      "lowest_converted_price": 2500.41,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2184.117051132
+        }
+      ]
+    },
+    {
+      "id": "RPGl",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 49,
+      "max_cash_payment": 5184.02,
+      "coverted_max_cash_payment": 6754.83,
+      "points": 168850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5184.02,
+      "price": 6754.83,
+      "converted_price": 6754.83,
+      "lowest_converted_price": 6754.83,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5769.7247376
+        }
+      ]
+    },
+    {
+      "id": "xAd4",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 90,
+      "max_cash_payment": 2679.63,
+      "coverted_max_cash_payment": 3491.58,
+      "points": 87275,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2679.63,
+      "price": 3491.58,
+      "converted_price": 3491.58,
+      "lowest_converted_price": 3491.58,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3049.88848398
+        }
+      ]
+    },
+    {
+      "id": "NMoy",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 56,
+      "max_cash_payment": 1714.73,
+      "coverted_max_cash_payment": 2234.31,
+      "points": 55850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1714.73,
+      "price": 2234.31,
+      "converted_price": 2234.31,
+      "lowest_converted_price": 2234.31,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1934.486548596
+        }
+      ]
+    },
+    {
+      "id": "IvpU",
+      "searchRank": 0.92,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1,
+      "max_cash_payment": 4112.57,
+      "coverted_max_cash_payment": 5358.72,
+      "points": 133950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4112.57,
+      "price": 5358.72,
+      "converted_price": 5358.72,
+      "lowest_converted_price": 5358.72,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4757.951123892
+        }
+      ]
+    },
+    {
+      "id": "DyBD",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1,
+      "max_cash_payment": 6727.27,
+      "coverted_max_cash_payment": 8765.69,
+      "points": 219125,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6727.27,
+      "price": 8765.69,
+      "converted_price": 8765.69,
+      "lowest_converted_price": 8765.69,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 7522.610893992
+        }
+      ]
+    },
+    {
+      "id": "cKGT",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 179968,
+      "max_cash_payment": 5503.4,
+      "coverted_max_cash_payment": 7170.98,
+      "points": 179250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5503.4,
+      "price": 7170.98,
+      "converted_price": 7170.98,
+      "lowest_converted_price": 7170.98,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6208.656416712
+        }
+      ]
+    },
+    {
+      "id": "mEDA",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 14,
+      "max_cash_payment": 2841.83,
+      "coverted_max_cash_payment": 3702.93,
+      "points": 92550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2841.83,
+      "price": 3702.93,
+      "converted_price": 3702.93,
+      "lowest_converted_price": 3702.93,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3177.817927236
+        }
+      ]
+    },
+    {
+      "id": "lw5p",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 560,
+      "max_cash_payment": 3069.21,
+      "coverted_max_cash_payment": 3999.21,
+      "points": 99975,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3069.21,
+      "price": 3999.21,
+      "converted_price": 3999.21,
+      "lowest_converted_price": 3999.21,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3508.886504772
+        }
+      ]
+    },
+    {
+      "id": "CY57",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 5,
+      "max_cash_payment": 2783.49,
+      "coverted_max_cash_payment": 3626.91,
+      "points": 90650,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2783.49,
+      "price": 3626.91,
+      "converted_price": 3626.91,
+      "lowest_converted_price": 3626.91,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3072.573874152
+        }
+      ]
+    },
+    {
+      "id": "ukdc",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 14,
+      "max_cash_payment": 2178.11,
+      "coverted_max_cash_payment": 2838.1,
+      "points": 70950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2178.11,
+      "price": 2838.1,
+      "converted_price": 2838.1,
+      "lowest_converted_price": 2838.1,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2479.066213644
+        }
+      ]
+    },
+    {
+      "id": "oeap",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 34,
+      "max_cash_payment": 1212.88,
+      "coverted_max_cash_payment": 1580.39,
+      "points": 39500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1212.88,
+      "price": 1580.39,
+      "converted_price": 1580.39,
+      "lowest_converted_price": 1580.39,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1338.841953
+        }
+      ]
+    },
+    {
+      "id": "165u",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 369,
+      "max_cash_payment": 4183.4,
+      "coverted_max_cash_payment": 5451.01,
+      "points": 136275,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4183.4,
+      "price": 5451.01,
+      "converted_price": 5451.01,
+      "lowest_converted_price": 5451.01,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4719.486292308
+        }
+      ]
+    },
+    {
+      "id": "BP2Z",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 10,
+      "max_cash_payment": 2624.88,
+      "coverted_max_cash_payment": 3420.24,
+      "points": 85500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2624.88,
+      "price": 3420.24,
+      "converted_price": 3420.24,
+      "lowest_converted_price": 3420.24,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2961.270828288
+        }
+      ]
+    },
+    {
+      "id": "Bt3V",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 7,
+      "max_cash_payment": 2100.54,
+      "coverted_max_cash_payment": 2737.02,
+      "points": 68425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2100.54,
+      "price": 2737.02,
+      "converted_price": 2737.02,
+      "lowest_converted_price": 2737.02,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2369.730711672
+        }
+      ]
+    },
+    {
+      "id": "UOEy",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 46,
+      "max_cash_payment": 1930.26,
+      "coverted_max_cash_payment": 2515.15,
+      "points": 62875,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1930.26,
+      "price": 2515.15,
+      "converted_price": 2515.15,
+      "lowest_converted_price": 2515.15,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2196.964721844
+        }
+      ]
+    },
+    {
+      "id": "cA4m",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 93,
+      "max_cash_payment": 2081.39,
+      "coverted_max_cash_payment": 2712.07,
+      "points": 67800,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2081.39,
+      "price": 2712.07,
+      "converted_price": 2712.07,
+      "lowest_converted_price": 2712.07,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2348.113789044
+        }
+      ]
+    },
+    {
+      "id": "3D7c",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 49990,
+      "max_cash_payment": 10064.72,
+      "coverted_max_cash_payment": 13114.42,
+      "points": 327850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 10064.72,
+      "price": 13114.42,
+      "converted_price": 13114.42,
+      "lowest_converted_price": 13114.42,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 11354.513379444
+        }
+      ]
+    },
+    {
+      "id": "7HMr",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 19996,
+      "max_cash_payment": 1964.59,
+      "coverted_max_cash_payment": 2559.88,
+      "points": 63975,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1964.59,
+      "price": 2559.88,
+      "converted_price": 2559.88,
+      "lowest_converted_price": 2559.88,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2145.287376972
+        }
+      ]
+    },
+    {
+      "id": "3Lpw",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 342,
+      "max_cash_payment": 3024,
+      "coverted_max_cash_payment": 3940.3,
+      "points": 98500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3024,
+      "price": 3940.3,
+      "converted_price": 3940.3,
+      "lowest_converted_price": 3940.3,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3375.64078398
+        }
+      ]
+    },
+    {
+      "id": "XwSY",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 140,
+      "max_cash_payment": 2551.56,
+      "coverted_max_cash_payment": 3324.71,
+      "points": 83100,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2551.56,
+      "price": 3324.71,
+      "converted_price": 3324.71,
+      "lowest_converted_price": 3324.71,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2865.942675216
+        }
+      ]
+    },
+    {
+      "id": "HIjF",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 568,
+      "max_cash_payment": 2740.57,
+      "coverted_max_cash_payment": 3570.99,
+      "points": 89250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2740.57,
+      "price": 3570.99,
+      "converted_price": 3570.99,
+      "lowest_converted_price": 3570.99,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3091.819320036
+        }
+      ]
+    },
+    {
+      "id": "jGNm",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 7,
+      "max_cash_payment": 3956.12,
+      "coverted_max_cash_payment": 5154.86,
+      "points": 128850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3956.12,
+      "price": 5154.86,
+      "converted_price": 5154.86,
+      "lowest_converted_price": 5154.86,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4392.496133568
+        }
+      ]
+    },
+    {
+      "id": "dN5J",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 4,
+      "max_cash_payment": 1365.05,
+      "coverted_max_cash_payment": 1778.67,
+      "points": 44450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1365.05,
+      "price": 1778.67,
+      "converted_price": 1778.67,
+      "lowest_converted_price": 1778.67,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1540.000513296
+        }
+      ]
+    },
+    {
+      "id": "5BTd",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 139968,
+      "max_cash_payment": 2304.06,
+      "coverted_max_cash_payment": 3002.21,
+      "points": 75050,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2304.06,
+      "price": 3002.21,
+      "converted_price": 3002.21,
+      "lowest_converted_price": 3002.21,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2543.317597296
+        }
+      ]
+    },
+    {
+      "id": "jAC0",
+      "searchRank": 0.92,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 126,
+      "max_cash_payment": 3564.7,
+      "coverted_max_cash_payment": 4644.84,
+      "points": 116100,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3564.7,
+      "price": 4644.84,
+      "converted_price": 4644.84,
+      "lowest_converted_price": 4644.84,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4117.587252552
+        }
+      ]
+    },
+    {
+      "id": "KAlO",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 96,
+      "max_cash_payment": 1489.15,
+      "coverted_max_cash_payment": 1940.38,
+      "points": 48500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1489.15,
+      "price": 1940.38,
+      "converted_price": 1940.38,
+      "lowest_converted_price": 1940.38,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1694.915277084
+        }
+      ]
+    },
+    {
+      "id": "jGjw",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1,
+      "max_cash_payment": 2534.39,
+      "coverted_max_cash_payment": 3302.33,
+      "points": 82550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2534.39,
+      "price": 3302.33,
+      "converted_price": 3302.33,
+      "lowest_converted_price": 3302.33,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2813.952608136
+        }
+      ]
+    },
+    {
+      "id": "dtqO",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 88,
+      "max_cash_payment": 2299.43,
+      "coverted_max_cash_payment": 2996.18,
+      "points": 74900,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2299.43,
+      "price": 2996.18,
+      "converted_price": 2996.18,
+      "lowest_converted_price": 2996.18,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2544.724847232
+        }
+      ]
+    },
+    {
+      "id": "8PoV",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 19992,
+      "max_cash_payment": 1828.6,
+      "coverted_max_cash_payment": 2382.68,
+      "points": 59550,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1828.6,
+      "price": 2382.68,
+      "converted_price": 2382.68,
+      "lowest_converted_price": 2382.68,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1996.913719368
+        }
+      ]
+    },
+    {
+      "id": "Hi83",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 4,
+      "max_cash_payment": 895.17,
+      "coverted_max_cash_payment": 1166.41,
+      "points": 29150,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 895.17,
+      "price": 1166.41,
+      "converted_price": 1166.41,
+      "lowest_converted_price": 1166.41,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1001.049847992
+        }
+      ]
+    },
+    {
+      "id": "QijC",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 52,
+      "max_cash_payment": 2526.13,
+      "coverted_max_cash_payment": 3291.57,
+      "points": 82275,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2526.13,
+      "price": 3291.57,
+      "converted_price": 3291.57,
+      "lowest_converted_price": 3291.57,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2887.950500604
+        }
+      ]
+    },
+    {
+      "id": "6UoG",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 260,
+      "max_cash_payment": 4247.13,
+      "coverted_max_cash_payment": 5534.05,
+      "points": 138350,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4247.13,
+      "price": 5534.05,
+      "converted_price": 5534.05,
+      "lowest_converted_price": 5534.05,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4791.399370056
+        }
+      ]
+    },
+    {
+      "id": "hCec",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 10,
+      "max_cash_payment": 997.24,
+      "coverted_max_cash_payment": 1299.41,
+      "points": 32475,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 997.24,
+      "price": 1299.41,
+      "converted_price": 1299.41,
+      "lowest_converted_price": 1299.41,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1115.219514096
+        }
+      ]
+    },
+    {
+      "id": "Tseb",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 182,
+      "max_cash_payment": 3321.85,
+      "coverted_max_cash_payment": 4328.4,
+      "points": 108200,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3321.85,
+      "price": 4328.4,
+      "converted_price": 4328.4,
+      "lowest_converted_price": 4328.4,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3697.197394356
+        }
+      ]
+    },
+    {
+      "id": "PGnp",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 22,
+      "max_cash_payment": 1482.72,
+      "coverted_max_cash_payment": 1932,
+      "points": 48275,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1482.72,
+      "price": 1932,
+      "converted_price": 1932,
+      "lowest_converted_price": 1932,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1658.027086632
+        }
+      ]
+    },
+    {
+      "id": "Cxxl",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 162,
+      "max_cash_payment": 4096.32,
+      "coverted_max_cash_payment": 5337.54,
+      "points": 133425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4096.32,
+      "price": 5337.54,
+      "converted_price": 5337.54,
+      "lowest_converted_price": 5337.54,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4683.093245352
+        }
+      ]
+    },
+    {
+      "id": "U8zK",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 10,
+      "max_cash_payment": 1294.8,
+      "coverted_max_cash_payment": 1687.14,
+      "points": 42175,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1294.8,
+      "price": 1687.14,
+      "converted_price": 1687.14,
+      "lowest_converted_price": 1687.14,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1472.413426092
+        }
+      ]
+    },
+    {
+      "id": "XFQ9",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 19,
+      "max_cash_payment": 2260.11,
+      "coverted_max_cash_payment": 2944.94,
+      "points": 73600,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2260.11,
+      "price": 2944.94,
+      "converted_price": 2944.94,
+      "lowest_converted_price": 2944.94,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2549.72840256
+        }
+      ]
+    },
+    {
+      "id": "y5EZ",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 13,
+      "max_cash_payment": 2455.02,
+      "coverted_max_cash_payment": 3198.91,
+      "points": 79950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2455.02,
+      "price": 3198.91,
+      "converted_price": 3198.91,
+      "lowest_converted_price": 3198.91,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2794.251109032
+        }
+      ]
+    },
+    {
+      "id": "XVBJ",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 79,
+      "max_cash_payment": 1987.98,
+      "coverted_max_cash_payment": 2590.36,
+      "points": 64750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1987.98,
+      "price": 2590.36,
+      "converted_price": 2590.36,
+      "lowest_converted_price": 2590.36,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2232.888685488
+        }
+      ]
+    },
+    {
+      "id": "tlBM",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 35,
+      "max_cash_payment": 7685.62,
+      "coverted_max_cash_payment": 10014.43,
+      "points": 250350,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 7685.62,
+      "price": 10014.43,
+      "converted_price": 10014.43,
+      "lowest_converted_price": 10014.43,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 8553.968735976
+        }
+      ]
+    },
+    {
+      "id": "kSVF",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 89982,
+      "max_cash_payment": 3490.96,
+      "coverted_max_cash_payment": 4548.75,
+      "points": 113700,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3490.96,
+      "price": 4548.75,
+      "converted_price": 4548.75,
+      "lowest_converted_price": 4548.75,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3938.28015654
+        }
+      ]
+    },
+    {
+      "id": "swyZ",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 34,
+      "max_cash_payment": 2017.11,
+      "coverted_max_cash_payment": 2628.31,
+      "points": 65700,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2017.11,
+      "price": 2628.31,
+      "converted_price": 2628.31,
+      "lowest_converted_price": 2628.31,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2275.601327064
+        }
+      ]
+    },
+    {
+      "id": "IqwD",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 14,
+      "max_cash_payment": 1088.41,
+      "coverted_max_cash_payment": 1418.21,
+      "points": 35450,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1088.41,
+      "price": 1418.21,
+      "converted_price": 1418.21,
+      "lowest_converted_price": 1418.21,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1217.166953904
+        }
+      ]
+    },
+    {
+      "id": "5Ik8",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 18,
+      "max_cash_payment": 1422.82,
+      "coverted_max_cash_payment": 1853.95,
+      "points": 46325,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1422.82,
+      "price": 1853.95,
+      "converted_price": 1853.95,
+      "lowest_converted_price": 1853.95,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1595.99081862
+        }
+      ]
+    },
+    {
+      "id": "jzzR",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 23,
+      "max_cash_payment": 1061.96,
+      "coverted_max_cash_payment": 1383.74,
+      "points": 34575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1061.96,
+      "price": 1383.74,
+      "converted_price": 1383.74,
+      "lowest_converted_price": 1383.74,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1187.588645064
+        }
+      ]
+    },
+    {
+      "id": "Mf55",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 352,
+      "max_cash_payment": 3481.06,
+      "coverted_max_cash_payment": 4535.85,
+      "points": 113375,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3481.06,
+      "price": 4535.85,
+      "converted_price": 4535.85,
+      "lowest_converted_price": 4535.85,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3979.78099956
+        }
+      ]
+    },
+    {
+      "id": "Qrwy",
+      "searchRank": 0.98,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 74985,
+      "max_cash_payment": 1499.78,
+      "coverted_max_cash_payment": 1954.23,
+      "points": 48850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1499.78,
+      "price": 1954.23,
+      "converted_price": 1954.23,
+      "lowest_converted_price": 1954.23,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1636.175622348
+        }
+      ]
+    },
+    {
+      "id": "lkX9",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 255,
+      "max_cash_payment": 6162.44,
+      "coverted_max_cash_payment": 8029.72,
+      "points": 200725,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6162.44,
+      "price": 8029.72,
+      "converted_price": 8029.72,
+      "lowest_converted_price": 8029.72,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6802.398618876
+        }
+      ]
+    },
+    {
+      "id": "dXFm",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 11,
+      "max_cash_payment": 1097.51,
+      "coverted_max_cash_payment": 1430.07,
+      "points": 35750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1097.51,
+      "price": 1430.07,
+      "converted_price": 1430.07,
+      "lowest_converted_price": 1430.07,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1227.330425664
+        }
+      ]
+    },
+    {
+      "id": "xvUu",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 32,
+      "max_cash_payment": 1517.52,
+      "coverted_max_cash_payment": 1977.34,
+      "points": 49425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1517.52,
+      "price": 1977.34,
+      "converted_price": 1977.34,
+      "lowest_converted_price": 1977.34,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1675.174687704
+        }
+      ]
+    },
+    {
+      "id": "onxz",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 798,
+      "max_cash_payment": 1999.24,
+      "coverted_max_cash_payment": 2605.03,
+      "points": 65125,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1999.24,
+      "price": 2605.03,
+      "converted_price": 2605.03,
+      "lowest_converted_price": 2605.03,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2280.565792116
+        }
+      ]
+    },
+    {
+      "id": "Yhe6",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 10,
+      "max_cash_payment": 5675.84,
+      "coverted_max_cash_payment": 7395.67,
+      "points": 184875,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5675.84,
+      "price": 7395.67,
+      "converted_price": 7395.67,
+      "lowest_converted_price": 7395.67,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6306.04332432
+        }
+      ]
+    },
+    {
+      "id": "11fD",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 105,
+      "max_cash_payment": 5645.84,
+      "coverted_max_cash_payment": 7356.58,
+      "points": 183900,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5645.84,
+      "price": 7356.58,
+      "converted_price": 7356.58,
+      "lowest_converted_price": 7356.58,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6313.744108692
+        }
+      ]
+    },
+    {
+      "id": "sKMI",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 60,
+      "max_cash_payment": 1188.68,
+      "coverted_max_cash_payment": 1548.86,
+      "points": 38700,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1188.68,
+      "price": 1548.86,
+      "converted_price": 1548.86,
+      "lowest_converted_price": 1548.86,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1329.343015932
+        }
+      ]
+    },
+    {
+      "id": "662u",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 16,
+      "max_cash_payment": 2692.05,
+      "coverted_max_cash_payment": 3507.77,
+      "points": 87675,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2692.05,
+      "price": 3507.77,
+      "converted_price": 3507.77,
+      "lowest_converted_price": 3507.77,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3023.724059244
+        }
+      ]
+    },
+    {
+      "id": "fu1K",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 2,
+      "max_cash_payment": 6067.95,
+      "coverted_max_cash_payment": 7906.59,
+      "points": 197650,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6067.95,
+      "price": 7906.59,
+      "converted_price": 7906.59,
+      "lowest_converted_price": 7906.59,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6906.352692852
+        }
+      ]
+    },
+    {
+      "id": "FtBV",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 92,
+      "max_cash_payment": 8975.9,
+      "coverted_max_cash_payment": 11695.68,
+      "points": 292375,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 8975.9,
+      "price": 11695.68,
+      "converted_price": 11695.68,
+      "lowest_converted_price": 11695.68,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 9990.080325756
+        }
+      ]
+    },
+    {
+      "id": "Kiy6",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 28,
+      "max_cash_payment": 2424.85,
+      "coverted_max_cash_payment": 3159.6,
+      "points": 78975,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2424.85,
+      "price": 3159.6,
+      "converted_price": 3159.6,
+      "lowest_converted_price": 3159.6,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2676.667558824
+        }
+      ]
+    },
+    {
+      "id": "nQX6",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 28,
+      "max_cash_payment": 9298.21,
+      "coverted_max_cash_payment": 12115.65,
+      "points": 302875,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 9298.21,
+      "price": 12115.65,
+      "converted_price": 12115.65,
+      "lowest_converted_price": 12115.65,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 10263.790438308
+        }
+      ]
+    },
+    {
+      "id": "BbOZ",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 1,
+      "max_cash_payment": 1128.48,
+      "coverted_max_cash_payment": 1470.42,
+      "points": 36750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1128.48,
+      "price": 1470.42,
+      "converted_price": 1470.42,
+      "lowest_converted_price": 1470.42,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1253.781512424
+        }
+      ]
+    },
+    {
+      "id": "Rrnc",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 22,
+      "max_cash_payment": 1827.06,
+      "coverted_max_cash_payment": 2380.68,
+      "points": 59500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1827.06,
+      "price": 2380.68,
+      "converted_price": 2380.68,
+      "lowest_converted_price": 2380.68,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2029.918942404
+        }
+      ]
+    },
+    {
+      "id": "lXJq",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 5,
+      "max_cash_payment": 1093.88,
+      "coverted_max_cash_payment": 1425.34,
+      "points": 35625,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1093.88,
+      "price": 1425.34,
+      "converted_price": 1425.34,
+      "lowest_converted_price": 1425.34,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1223.291097144
+        }
+      ]
+    },
+    {
+      "id": "chIm",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 5,
+      "max_cash_payment": 5701.57,
+      "coverted_max_cash_payment": 7429.2,
+      "points": 185725,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5701.57,
+      "price": 7429.2,
+      "converted_price": 7429.2,
+      "lowest_converted_price": 7429.2,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6330.487776912
+        }
+      ]
+    },
+    {
+      "id": "cf0f",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 6,
+      "max_cash_payment": 3600.1,
+      "coverted_max_cash_payment": 4690.96,
+      "points": 117250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3600.1,
+      "price": 4690.96,
+      "converted_price": 4690.96,
+      "lowest_converted_price": 4690.96,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3999.795220872
+        }
+      ]
+    },
+    {
+      "id": "W2Mj",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 78,
+      "max_cash_payment": 1353.71,
+      "coverted_max_cash_payment": 1763.9,
+      "points": 44075,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1353.71,
+      "price": 1763.9,
+      "converted_price": 1763.9,
+      "lowest_converted_price": 1763.9,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1494.277920468
+        }
+      ]
+    },
+    {
+      "id": "ZYt8",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 114,
+      "max_cash_payment": 4260.8,
+      "coverted_max_cash_payment": 5551.86,
+      "points": 138775,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4260.8,
+      "price": 5551.86,
+      "converted_price": 5551.86,
+      "lowest_converted_price": 5551.86,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4806.826998984
+        }
+      ]
+    },
+    {
+      "id": "yFji",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 6,
+      "max_cash_payment": 1189.06,
+      "coverted_max_cash_payment": 1549.36,
+      "points": 38725,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1189.06,
+      "price": 1549.36,
+      "converted_price": 1549.36,
+      "lowest_converted_price": 1549.36,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1321.094967696
+        }
+      ]
+    },
+    {
+      "id": "WJZQ",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 51,
+      "max_cash_payment": 1216.04,
+      "coverted_max_cash_payment": 1584.51,
+      "points": 39600,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1216.04,
+      "price": 1584.51,
+      "converted_price": 1584.51,
+      "lowest_converted_price": 1584.51,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1359.911611764
+        }
+      ]
+    },
+    {
+      "id": "1Z6R",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 13,
+      "max_cash_payment": 2296.71,
+      "coverted_max_cash_payment": 2992.63,
+      "points": 74800,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2296.71,
+      "price": 2992.63,
+      "converted_price": 2992.63,
+      "lowest_converted_price": 2992.63,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2591.0337942
+        }
+      ]
+    },
+    {
+      "id": "aUeC",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 27,
+      "max_cash_payment": 2421.27,
+      "coverted_max_cash_payment": 3154.94,
+      "points": 78850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2421.27,
+      "price": 3154.94,
+      "converted_price": 3154.94,
+      "lowest_converted_price": 3154.94,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2731.524246144
+        }
+      ]
+    },
+    {
+      "id": "53PX",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 49,
+      "max_cash_payment": 2069.2,
+      "coverted_max_cash_payment": 2696.19,
+      "points": 67400,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2069.2,
+      "price": 2696.19,
+      "converted_price": 2696.19,
+      "lowest_converted_price": 2696.19,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2334.354011892
+        }
+      ]
+    },
+    {
+      "id": "4vyb",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 16,
+      "max_cash_payment": 6159.85,
+      "coverted_max_cash_payment": 8026.34,
+      "points": 200650,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6159.85,
+      "price": 8026.34,
+      "converted_price": 8026.34,
+      "lowest_converted_price": 8026.34,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6924.8423934
+        }
+      ]
+    },
+    {
+      "id": "VuCh",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 60,
+      "max_cash_payment": 4530.59,
+      "coverted_max_cash_payment": 5903.4,
+      "points": 147575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4530.59,
+      "price": 5903.4,
+      "converted_price": 5903.4,
+      "lowest_converted_price": 5903.4,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5111.18388792
+        }
+      ]
+    },
+    {
+      "id": "CxrG",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 44989,
+      "max_cash_payment": 3488.38,
+      "coverted_max_cash_payment": 4545.39,
+      "points": 113625,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3488.38,
+      "price": 4545.39,
+      "converted_price": 4545.39,
+      "lowest_converted_price": 4545.39,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3935.400506208
+        }
+      ]
+    },
+    {
+      "id": "bVl1",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 239952,
+      "max_cash_payment": 2356.28,
+      "coverted_max_cash_payment": 3070.25,
+      "points": 76750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2356.28,
+      "price": 3070.25,
+      "converted_price": 3070.25,
+      "lowest_converted_price": 3070.25,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2658.229978644
+        }
+      ]
+    },
+    {
+      "id": "6lYS",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 16,
+      "max_cash_payment": 2281.7,
+      "coverted_max_cash_payment": 2973.08,
+      "points": 74325,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2281.7,
+      "price": 2973.08,
+      "converted_price": 2973.08,
+      "lowest_converted_price": 2973.08,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2518.638603048
+        }
+      ]
+    },
+    {
+      "id": "GRwi",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 566,
+      "max_cash_payment": 2131.26,
+      "coverted_max_cash_payment": 2777.05,
+      "points": 69425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2131.26,
+      "price": 2777.05,
+      "converted_price": 2777.05,
+      "lowest_converted_price": 2777.05,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2383.386248088
+        }
+      ]
+    },
+    {
+      "id": "Noz8",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 176,
+      "max_cash_payment": 2687.56,
+      "coverted_max_cash_payment": 3501.92,
+      "points": 87525,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2687.56,
+      "price": 3501.92,
+      "converted_price": 3501.92,
+      "lowest_converted_price": 3501.92,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3072.573874152
+        }
+      ]
+    },
+    {
+      "id": "FkVS",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 22,
+      "max_cash_payment": 1146.76,
+      "coverted_max_cash_payment": 1494.24,
+      "points": 37350,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1146.76,
+      "price": 1494.24,
+      "converted_price": 1494.24,
+      "lowest_converted_price": 1494.24,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1282.382564364
+        }
+      ]
+    },
+    {
+      "id": "YHQ6",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 107,
+      "max_cash_payment": 2589.72,
+      "coverted_max_cash_payment": 3374.43,
+      "points": 84350,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2589.72,
+      "price": 3374.43,
+      "converted_price": 3374.43,
+      "lowest_converted_price": 3374.43,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2933.217040212
+        }
+      ]
+    },
+    {
+      "id": "4ldi",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 108,
+      "max_cash_payment": 3722.37,
+      "coverted_max_cash_payment": 4850.28,
+      "points": 121250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3722.37,
+      "price": 4850.28,
+      "converted_price": 4850.28,
+      "lowest_converted_price": 4850.28,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4199.351079852
+        }
+      ]
+    },
+    {
+      "id": "EDy3",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 5,
+      "max_cash_payment": 2440.57,
+      "coverted_max_cash_payment": 3180.09,
+      "points": 79500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2440.57,
+      "price": 3180.09,
+      "converted_price": 3180.09,
+      "lowest_converted_price": 3180.09,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2753.32359006
+        }
+      ]
+    },
+    {
+      "id": "PXFa",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 15,
+      "max_cash_payment": 4448.59,
+      "coverted_max_cash_payment": 5796.55,
+      "points": 144900,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4448.59,
+      "price": 5796.55,
+      "converted_price": 5796.55,
+      "lowest_converted_price": 5796.55,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5014.253033532
+        }
+      ]
+    },
+    {
+      "id": "qO6Y",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 172,
+      "max_cash_payment": 3978.04,
+      "coverted_max_cash_payment": 5183.42,
+      "points": 129575,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3978.04,
+      "price": 5183.42,
+      "converted_price": 5183.42,
+      "lowest_converted_price": 5183.42,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4487.82428664
+        }
+      ]
+    },
+    {
+      "id": "fM4D",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 40,
+      "max_cash_payment": 1343.63,
+      "coverted_max_cash_payment": 1750.76,
+      "points": 43750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1343.63,
+      "price": 1750.76,
+      "converted_price": 1750.76,
+      "lowest_converted_price": 1750.76,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1502.604149256
+        }
+      ]
+    },
+    {
+      "id": "gWo3",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 50,
+      "max_cash_payment": 2300.8,
+      "coverted_max_cash_payment": 2997.96,
+      "points": 74925,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2300.8,
+      "price": 2997.96,
+      "converted_price": 2997.96,
+      "lowest_converted_price": 2997.96,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2595.5943264
+        }
+      ]
+    },
+    {
+      "id": "Z5Hx",
+      "searchRank": 0.93,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 114,
+      "max_cash_payment": 2418.22,
+      "coverted_max_cash_payment": 3150.96,
+      "points": 78750,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2418.22,
+      "price": 3150.96,
+      "converted_price": 3150.96,
+      "lowest_converted_price": 3150.96,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 2764.607649732
+        }
+      ]
+    },
+    {
+      "id": "ne1F",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 55,
+      "max_cash_payment": 5520.78,
+      "coverted_max_cash_payment": 7193.63,
+      "points": 179825,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5520.78,
+      "price": 7193.63,
+      "converted_price": 7193.63,
+      "lowest_converted_price": 7193.63,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 6206.206759416
+        }
+      ]
+    },
+    {
+      "id": "f0fe",
+      "searchRank": 0.97,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 6,
+      "max_cash_payment": 3340.94,
+      "coverted_max_cash_payment": 4353.28,
+      "points": 108825,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3340.94,
+      "price": 4353.28,
+      "converted_price": 4353.28,
+      "lowest_converted_price": 4353.28,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3687.867848484
+        }
+      ]
+    },
+    {
+      "id": "Albg",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 121,
+      "max_cash_payment": 4636.73,
+      "coverted_max_cash_payment": 6041.7,
+      "points": 151025,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4636.73,
+      "price": 6041.7,
+      "converted_price": 6041.7,
+      "lowest_converted_price": 6041.7,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 5230.9304334
+        }
+      ]
+    },
+    {
+      "id": "z6kE",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 344,
+      "max_cash_payment": 3676.98,
+      "coverted_max_cash_payment": 4791.14,
+      "points": 119775,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 3676.98,
+      "price": 4791.14,
+      "converted_price": 4791.14,
+      "lowest_converted_price": 4791.14,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4081.48086762
+        }
+      ]
+    },
+    {
+      "id": "y7XA",
+      "searchRank": 0.96,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 9,
+      "max_cash_payment": 1192.35,
+      "coverted_max_cash_payment": 1553.64,
+      "points": 38825,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1192.35,
+      "price": 1553.64,
+      "converted_price": 1553.64,
+      "lowest_converted_price": 1553.64,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1333.408404636
+        }
+      ]
+    },
+    {
+      "id": "jsGI",
+      "searchRank": 0.92,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 32,
+      "max_cash_payment": 2605.74,
+      "coverted_max_cash_payment": 3395.3,
+      "points": 84875,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 2605.74,
+      "price": 3395.3,
+      "converted_price": 3395.3,
+      "lowest_converted_price": 3395.3,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 3028.545193284
+        }
+      ]
+    },
+    {
+      "id": "t7oL",
+      "searchRank": 0.95,
+      "price_type": "multi",
+      "free_cancellation": false,
+      "rooms_available": 84985,
+      "max_cash_payment": 7657.07,
+      "coverted_max_cash_payment": 9977.23,
+      "points": 249425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 7657.07,
+      "price": 9977.23,
+      "converted_price": 9977.23,
+      "lowest_converted_price": 9977.23,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 8638.325551584
+        }
+      ]
+    },
+    {
+      "id": "qXM9",
+      "searchRank": 0.94,
+      "price_type": "multi",
+      "free_cancellation": true,
+      "rooms_available": 42,
+      "max_cash_payment": 1192.85,
+      "coverted_max_cash_payment": 1554.29,
+      "points": 38850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 1192.85,
+      "price": 1554.29,
+      "converted_price": 1554.29,
+      "lowest_converted_price": 1554.29,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 1357.67043594
+        }
+      ]
+    }
+  ]
+}
