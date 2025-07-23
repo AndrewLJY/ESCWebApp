@@ -16,12 +16,9 @@ process.on('SIGTERM', db.cleanup);
 
 var usersRouter = require('./routes/user');
 var indexRouter = require('./routes/index');
-<<<<<<< HEAD
 var hotelRouter = require('./routes/hotel');
 var stripeRouter = require('./routes/stripe');
-=======
 var searchRouter = require('./routes/search');
->>>>>>> 47cd77e240b3148516ee821263e9538eefa5c8eb
 
 var userModel = require('./models/user.js');
 var bookingModel = require('./models/booking.js');
