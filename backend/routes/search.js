@@ -22,6 +22,8 @@ router.post("/", async function (req, res, next) {
   const guestCount = req.body.guest_count;
   const roomCount = req.body.room_count;
 
+  //set the initialized variable to false everytime, because when we call this endpoint the goal is to initlialize all fields in the DTO, for every single time we search a new destination
+
   //Await a response from all the API calls and rudimentarily the Ascenda Server. If no data retrieved then log as HTTP 500 Server error.
   try {
     await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
@@ -208,13 +210,8 @@ router.post("/string/", async function (req, res, next) {
   allDestinationNames = await destinationModel.findAllDestinations();
   const fuse = new Fuse(allDestinationNames, options);
   result = fuse.search(searchString, { limit: 10 });
-  if (result.length === 0) {
-    res.send("No available results");
-    return;
-  }
 
   res.send(result);
-  console.log(hotel1.address);
 });
 
 router.get("/hotels/images", async function (req, res, next) {
