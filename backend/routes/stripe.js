@@ -3,7 +3,7 @@ const express = require('express');
 var router = express.Router();
 
 const YOUR_DOMAIN = 'http://localhost:5173';
-const stripe = require('stripe')('sk_test_51Ro2oWGfz5d03nx5HgBGjVH2qHEfvZFRjiHFNvI2gjDHVpj7g5sM8SEYMh93dXVUtSZEtT4nfogQ2hNngyaoctdm00r1VPtAss');
+const stripe = require('stripe')('INSERT SK HERE');
 
 router.post('/create-checkout-session', async (req, res) => {
   const session = await stripe.checkout.sessions.create({

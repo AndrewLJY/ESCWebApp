@@ -6,7 +6,7 @@ import {
 } from '@stripe/react-stripe-js';
 import axios from "axios";
 
-const stripePromise = loadStripe("pk_test_51Ro2oWGfz5d03nx5xffORatorHe9Alo7pBN5aQt03D1a7iUJ8Vbz8YuAssfVNalGjYRUmKLYAKOJfwJ4dg5BiosF00r2FAj6JT");
+const stripePromise = loadStripe("INSERT PK HERE");
 
 export default function CheckoutForm() {
   const fetchClientSecret = useCallback(async () => {
