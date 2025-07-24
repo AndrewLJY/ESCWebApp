@@ -841,3 +841,8 @@ describe("GET localhost:8080/search/images (API to return the images of all the 
     expect(response.body).toEqual(expect.objectContaining(expectOneResource));
   });
 });
+
+describe("GET localhost:8080/search/MainDisplay/: ... (Display search hotel result after destination search)", () =>{
+  jest.setTimeout(60000);
+  jest.mock()
+});
