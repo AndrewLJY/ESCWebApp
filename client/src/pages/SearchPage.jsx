@@ -211,21 +211,21 @@ export default function SearchPage() {
             <div>No hotels found.</div>
           ) : (
             hotels.map((h) => (
-              <div key={h.id} className="hotel-card">
+              <div key={h.keyDetails.id} className="hotel-card">
                 {/* Tried to add in given photo. If don't have, provided default */}
-                <img src={h.image_details.count > 0 ? h.image_details.prefix+"10"+h.image_details.suffix : "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"} alt={h.name} className="hotel-img" />
+                <img src={h.imageDetails.imageCounts > 0 ? h.imageDetails.stitchedImageUrls[0]: "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"} alt={h.name} className="hotel-img" />
                 <div className="hotel-info">
-                  <h3>{h.name}</h3>
+                  <h3>{h.keyDetails.name}</h3>
                   {/* Currently just the rating due to lack of stars info */}
-                  <div className="stars">{"★".repeat(h.rating)}</div>
-                  <p className="address">{h.address}</p>
-                  <p className="distance">{Math.floor(h.distance)}</p>
+                  <div className="stars">{"★".repeat(h.keyDetails.rating)}</div>
+                  <p className="address">{h.keyDetails.address}</p>
+                  <p className="distance">{Math.floor(h.keyDetails.distance)}</p>
                   {/* Rating updated to at least show rating even if dont have */}
-                   <p className="rating">Rating: {h.rating ? h.rating +"/5": "NA"}</p>
+                   <p className="rating">Rating: {h.keyDetails.rating ? h.keyDetails.rating +"/5": "NA"}</p>
                 </div>
                 <div className="hotel-book">
                   {/* Will replace with static value for now */}
-                  <span className="price">{h.price ? h.price: 'SGD 140'}</span>
+                  <span className="price">{h.price ? h.keyDetails.price: 'SGD 140'}</span>
                   <button className="btn book-small">Book</button>
                 </div>
               </div>
