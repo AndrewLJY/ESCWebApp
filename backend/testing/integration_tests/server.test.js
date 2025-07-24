@@ -3,7 +3,7 @@ const app = require("../../server");
 const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
 const { json } = require("express");
 
-describe("POST localhost:8080/search/ (Main API route to initialise all variables for HotelDTO)", () => {
+describe("GET localhost:8080/search/ (Main API route to initialise all variables for HotelDTO)", () => {
   jest.setTimeout(60000);
 
   jest.mock("../../models/destinations", () => ({

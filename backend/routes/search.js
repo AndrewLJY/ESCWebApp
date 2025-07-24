@@ -14,18 +14,58 @@ var filledHotelDTOClassList =
 // |Main route:                                                                                        |
 // |Displaying List of Hotels with Prices for given duration of stay, destination and number of guests.|
 
-router.post("/", async function (req, res, next) {
-  //Required Request Body Parameters:
-  const destination = req.body.destination_name;
-  const checkInDate = req.body.check_in_date;
-  const checkOutDate = req.body.check_out_date;
-  const guestCount = req.body.guest_count;
-  const roomCount = req.body.room_count;
+router.get(
+  "/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
+  async function (req, res, next) {
+    //Required Request Body Parameters:
+    const destination = req.params.destination_name.replace("_", " ");
+    const checkInDate = req.params.check_in_date;
+    const checkOutDate = req.params.check_out_date;
+    const guestCount = req.params.guest_count;
+    const roomCount = req.params.room_count;
 
-  //set the initialized variable to false everytime, because when we call this endpoint the goal is to initlialize all fields in the DTO, for every single time we search a new destination
+    //set the initialized variable to false everytime, because when we call this endpoint the goal is to initlialize all fields in the DTO, for every single time we search a new destination
 
-  //Await a response from all the API calls and rudimentarily the Ascenda Server. If no data retrieved then log as HTTP 500 Server error.
-  try {
+    //Await a response from all the API calls and rudimentarily the Ascenda Server. If no data retrieved then log as HTTP 500 Server error.
+    try {
+      await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+        destination,
+        checkInDate,
+        checkOutDate,
+        guestCount,
+        roomCount
+      );
+
+      if (filledHotelDTOClassList.getIsEmpty() === true) {
+        console.log("here");
+        filledHotelDTOClassList.setIsEmpty(false);
+        res.status(500).send("Internal Server Error");
+      } else {
+        console.log("sending!!!");
+        res.status(200).send(filledHotelDTOClassList.getListHotels()); //JSON output seen in POSTMAN
+      }
+    } catch (error) {
+      res.status(500).send(error + "Internal Server Error");
+    }
+
+    return;
+  }
+);
+
+//TODO:
+//Based on all of the hotel DTO class data we have initialised with the single '/' API call, let us now create all the different endpoints that can query from these classes
+//Specific data, so that we can then pass this data to the middleware.
+
+//Endpoint to Display Thumbnail Info of Hotels
+router.get(
+  "/MainDisplay/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
+  async function (req, res, next) {
+    const destination = req.params.destination_name.replace("_", " ");
+    const checkInDate = req.params.check_in_date;
+    const checkOutDate = req.params.check_out_date;
+    const guestCount = req.params.guest_count;
+    const roomCount = req.params.room_count;
+
     await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
       destination,
       checkInDate,
@@ -34,112 +74,83 @@ router.post("/", async function (req, res, next) {
       roomCount
     );
 
-    if (filledHotelDTOClassList.getIsEmpty() === true) {
-      console.log("here");
-      filledHotelDTOClassList.setIsEmpty(false);
-      res.status(500).send("Internal Server Error");
-    } else {
-      console.log("sending!!!");
-      res.status(200).send(filledHotelDTOClassList.getListHotels()); //JSON output seen in POSTMAN
-    }
-  } catch (error) {
-    res.status(500).send(error + "Internal Server Error");
+    const hotelList = filledHotelDTOClassList.getListHotels();
+
+    // Filter to only name, rating, address
+    const filteredHotelList = hotelList.map((hotel) => ({
+      name: hotel.getKeyDetails().name || "N/A",
+      rating: hotel.getKeyDetails().rating || "N/A",
+      address:
+        hotel.getKeyDetails().address ||
+        hotel.getKeyDetails().address1 ||
+        "N/A",
+    }));
+
+    res.send(filteredHotelList);
+    return;
   }
-
-  return;
-});
-
-//TODO:
-//Based on all of the hotel DTO class data we have initialised with the single '/' API call, let us now create all the different endpoints that can query from these classes
-//Specific data, so that we can then pass this data to the middleware.
-
-//Endpoint to Display Thumbnail Info of Hotels
-router.post("/MainDisplay", async function (req, res, next) {
-  const destination = req.body.destination_name;
-  const checkInDate = req.body.check_in_date;
-  const checkOutDate = req.body.check_out_date;
-  const guestCount = req.body.guest_count;
-  const roomCount = req.body.room_count;
-
-  await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
-    destination,
-    checkInDate,
-    checkOutDate,
-    guestCount,
-    roomCount
-  );
-
-  const hotelList = filledHotelDTOClassList.getListHotels();
-
-  // Filter to only name, rating, address
-  const filteredHotelList = hotelList.map((hotel) => ({
-    name: hotel.getKeyDetails().name || "N/A",
-    rating: hotel.getKeyDetails().rating || "N/A",
-    address:
-      hotel.getKeyDetails().address || hotel.getKeyDetails().address1 || "N/A",
-  }));
-
-  res.send(filteredHotelList);
-  return;
-});
+);
 
 //Endpoint to More Detailed Info of Hotels
-router.post("/AdvancedDisplay", async function (req, res, next) {
-  const destination = req.body.destination_name;
-  const checkInDate = req.body.check_in_date;
-  const checkOutDate = req.body.check_out_date;
-  const guestCount = req.body.guest_count;
-  const roomCount = req.body.room_count;
+router.get(
+  "/AdvancedDisplay/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
+  async function (req, res, next) {
+    const destination = req.params.destination_name.replace("_", " ");
+    const checkInDate = req.params.check_in_date;
+    const checkOutDate = req.params.check_out_date;
+    const guestCount = req.params.guest_count;
+    const roomCount = req.params.room_count;
 
-  await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
-    destination,
-    checkInDate,
-    checkOutDate,
-    guestCount,
-    roomCount
-  );
+    await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+      destination,
+      checkInDate,
+      checkOutDate,
+      guestCount,
+      roomCount
+    );
 
-  const hotelList = filledHotelDTOClassList.getListHotels();
+    const hotelList = filledHotelDTOClassList.getListHotels();
 
-  const filteredHotelList = hotelList.map((hotel) => {
-    const keyDetails = hotel.keyDetails || hotel.getKeyDetails?.() || {};
-    const amenities =
-      hotel.amenities && hotel.amenities.amenities
-        ? hotel.amenities.amenities
-        : {};
-    const trustYouScores =
-      hotel.trustYouBenchmark &&
-      hotel.trustYouBenchmark.score &&
-      hotel.trustYouBenchmark.score.score
-        ? hotel.trustYouBenchmark.score.score
-        : {};
-    const price =
-      hotel.pricingRankingData && hotel.pricingRankingData.price
-        ? hotel.pricingRankingData.price
-        : "N/A";
+    const filteredHotelList = hotelList.map((hotel) => {
+      const keyDetails = hotel.keyDetails || hotel.getKeyDetails?.() || {};
+      const amenities =
+        hotel.amenities && hotel.amenities.amenities
+          ? hotel.amenities.amenities
+          : {};
+      const trustYouScores =
+        hotel.trustYouBenchmark &&
+        hotel.trustYouBenchmark.score &&
+        hotel.trustYouBenchmark.score.score
+          ? hotel.trustYouBenchmark.score.score
+          : {};
+      const price =
+        hotel.pricingRankingData && hotel.pricingRankingData.price
+          ? hotel.pricingRankingData.price
+          : "N/A";
 
-    return {
-      name: keyDetails.name || "N/A",
-      address: keyDetails.address || keyDetails.address1 || "N/A",
-      rating: keyDetails.rating || "N/A",
-      description: keyDetails.description || "N/A",
-      check_in_time: keyDetails.checkinTime || "N/A",
-      amenities: amenities,
-      scores: {
-        overall: trustYouScores.overall ?? "N/A",
-        kaligo_overall: trustYouScores.kaligo_overall ?? "N/A",
-        solo: trustYouScores.solo ?? "N/A",
-        couple: trustYouScores.couple ?? "N/A",
-        family: trustYouScores.family ?? "N/A",
-        business: trustYouScores.business ?? "N/A",
-      },
-      price: price,
-    };
-  });
+      return {
+        name: keyDetails.name || "N/A",
+        address: keyDetails.address || keyDetails.address1 || "N/A",
+        rating: keyDetails.rating || "N/A",
+        description: keyDetails.description || "N/A",
+        check_in_time: keyDetails.checkinTime || "N/A",
+        amenities: amenities,
+        scores: {
+          overall: trustYouScores.overall ?? "N/A",
+          kaligo_overall: trustYouScores.kaligo_overall ?? "N/A",
+          solo: trustYouScores.solo ?? "N/A",
+          couple: trustYouScores.couple ?? "N/A",
+          family: trustYouScores.family ?? "N/A",
+          business: trustYouScores.business ?? "N/A",
+        },
+        price: price,
+      };
+    });
 
-  res.send(filteredHotelList);
-  return;
-});
+    res.send(filteredHotelList);
+    return;
+  }
+);
 
 /*getting the all the images of a hotel endpoint*/
 router.get("/images/", async function (req, res, next) {
@@ -179,24 +190,27 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
 });
 
 //Get the room pricings for a specific hotel, at a specific destination
-router.post("/hotel/prices", async function (req, res, next) {
-  const hotelId = req.body.hotel_id;
-  const destinationId = req.body.destination_id;
-  const checkInDate = req.body.check_in_date;
-  const checkOutDate = req.body.check_out_date;
-  const guestCount = req.body.guest_count;
-  const roomCount = req.body.room_count;
+router.get(
+  "/hotel/prices/:hotel_id/:destination_id/:check_in_date/:check_out_date/:guest_count/:room_count",
+  async function (req, res, next) {
+    const hotelId = req.params.hotel_id;
+    const destinationId = req.params.destination_id;
+    const checkInDate = req.params.check_in_date;
+    const checkOutDate = req.params.check_out_date;
+    const guestCount = req.params.guest_count;
+    const roomCount = req.params.room_count;
 
-  result = await hotelDataTransferServiceModule.getSingleHotelPriceDetails(
-    hotelId,
-    destinationId,
-    checkInDate,
-    checkOutDate,
-    guestCount,
-    roomCount
-  );
-  res.json(result);
-});
+    result = await hotelDataTransferServiceModule.getSingleHotelPriceDetails(
+      hotelId,
+      destinationId,
+      checkInDate,
+      checkOutDate,
+      guestCount,
+      roomCount
+    );
+    res.json(result);
+  }
+);
 
 const options = {
   threshold: 0.8, //the higher the threshold the stricter the search, returning more similar results but also less variations.
@@ -205,8 +219,8 @@ const options = {
 };
 
 //Router to generate search suggestions based off database destinaton entries.
-router.post("/string/", async function (req, res, next) {
-  const searchString = req.body.searchString;
+router.get("/string/:searchLiteral", async function (req, res, next) {
+  const searchString = req.params.searchLiteral;
   allDestinationNames = await destinationModel.findAllDestinations();
   const fuse = new Fuse(allDestinationNames, options);
   result = fuse.search(searchString, { limit: 10 });
