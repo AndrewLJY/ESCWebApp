@@ -64,14 +64,8 @@ const searchHotelsAPI = async (searchParams) => {
   try {
     let destination = searchParams.location.replace("_"," ");
 
-    const response = await axios.post('http://localhost:8080/search/', {
-      destination_name: searchParams.location,
-      check_in_date: searchParams.checkIn,
-      check_out_date: searchParams.checkOut,
-      guest_count: searchParams.guests,
-      room_count: 1
-      //hotelType: searchParams.hotelType
-    }).catch((error) => {
+    const response = await axios.get(`http://localhost:8080/search/${searchParams.location}/${searchParams.checkIn}/${searchParams.checkOut}/${searchParams.guests}/1`)
+    .catch((error) => {
       console.log(error.toJSON());
     });
 
