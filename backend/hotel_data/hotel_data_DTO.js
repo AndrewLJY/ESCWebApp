@@ -327,6 +327,7 @@ class ImageDetails{
     }
 }
 
+
 class PricingRankingData{
     constructor(builder){
         this.rank = builder.rank;
