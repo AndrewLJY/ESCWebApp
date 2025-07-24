@@ -55,10 +55,8 @@ router.post('/MainDisplay', async function(req, res, next) {
         rating: hotel.getKeyDetails().rating || "N/A",
         address: hotel.getKeyDetails().address || hotel.getKeyDetails().address1 || "N/A"
     }));
-    //Sort hotels descending order(top hotel first to lower )
-    sortHotels(filteredHotelList);
-    // res.send(sortList);
-    res.send(filteredHotelList);
+    let sorted = sortHotels(filteredHotelList)
+    res.send(sorted);
     return;
 });
 
