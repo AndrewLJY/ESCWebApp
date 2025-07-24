@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import {
-  Navigate
+  Navigate,
+  useNavigate
 } from "react-router-dom";
 import axios from "axios";
 
@@ -28,7 +29,7 @@ export default function Return() {
 
       let navigate = useNavigate(); 
       const routeChange = () =>{ 
-        let path = `http://localhost:5173/`; 
+        let path = `/`; 
         navigate(path);
       }
     
@@ -40,7 +41,7 @@ export default function Return() {
     
               If you have any questions, please email <a href="mailto:orders@example.com">orders@example.com</a>.
             </p>
-            <button onClick={routeChange}/>
+            <button onClick={routeChange}>Back to Home Page</button>
           </section>
         )
       }

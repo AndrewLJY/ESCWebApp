@@ -3,19 +3,22 @@ const express = require('express');
 var router = express.Router();
 
 const YOUR_DOMAIN = 'http://localhost:5173';
-const stripe = require('stripe')('INSERT SK HERE');
+// const stripe = require('stripe')('INSERT SK HERE');
+const stripe = require('stripe')(`${process.env.VITE_STRIPE_SK}`);
 
 router.post('/create-checkout-session', async (req, res) => {
+  const roomName = req.body.roomName;
+  const roomPrice = req.body.roomPrice;
   const session = await stripe.checkout.sessions.create({
     ui_mode: 'embedded',
     line_items: [
       {
         price_data: {
-          currency: 'usd',
+          currency: 'sgd',
           product_data: {
-            name: 'T-shirt',
+            name: roomName,
           },
-          unit_amount: 2000,
+          unit_amount: roomPrice,
         },
         quantity: 1,
       },
