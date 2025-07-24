@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-  axios.defaults.headers.post['Content-Type'] = "application/json";
+axios.defaults.headers.post['Content-Type'] = "application/json";
 
 // Dummy search API that simulates backend response
 const searchHotels = async (searchParams) => {
@@ -73,15 +73,12 @@ const searchHotelsAPI = async (searchParams) => {
       //hotelType: searchParams.hotelType
     }).catch((error) => {
       console.log(error.toJSON());
-        response = {
-            data: []
-        };
     });
-    
+
     return {
       data: {
-        hotels: response.data,
-        totalResults: response.data.length,
+        hotels: response ? response.data : [],
+        totalResults: response ? response.data.length : 0,
         searchParams: searchParams
       }
     }
