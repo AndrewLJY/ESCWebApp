@@ -223,6 +223,8 @@ async function getAllHotelsAndPricesForDestination(
     return;
   }
 
+  console.log(destination_name);
+
   const data = jsonData; //Bring over main json data file
 
   if (!data) {
@@ -240,7 +242,6 @@ async function getAllHotelsAndPricesForDestination(
       method: "GET",
     }
   );
-
   destAPIData = await response.json(); //Results from Dest API
 
   if (Array.isArray(destAPIData) && destAPIData.length === 0) {

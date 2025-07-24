@@ -20,7 +20,7 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
 
   test("Should return a partial data without pricing details is price API is unavailable", async () => {
     const requestBody = {
-      destination_name: "Singapore, Singapore",
+      destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
       check_out_date: "25-10-17",
       language: "en_US",
@@ -196,8 +196,9 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
       });
 
     const response = await request(app)
-      .post("/search/")
-      .send(requestBody)
+      .get(
+        `/search/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
+      )
       .expect(200); //Expect a 200 Status OK
 
     expect(Array.isArray(response.body)).toBe(true);
@@ -334,7 +335,7 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
 
   test("Should return a 500 server error if the retrieved data is null, and that data has not been initialied beforehand", async () => {
     const requestBody = {
-      destination_name: "Singapore, Singapore",
+      destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
       check_out_date: "25-10-17",
       language: "en_US",
@@ -366,14 +367,15 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
     });
 
     const response = await request(app)
-      .post("/search/")
-      .send(requestBody)
+      .get(
+        `/search/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
+      )
       .expect(500); //Expect a 200 Status OK
   });
 
   test("Should return entire suite of data, if prices API is working", async () => {
     const requestBody = {
-      destination_name: "Singapore, Singapore",
+      destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
       check_out_date: "25-10-17",
       language: "en_US",
@@ -520,8 +522,9 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
       });
 
     const response = await request(app)
-      .post("/search/")
-      .send(requestBody)
+      .get(
+        `/search/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
+      )
       .expect(200); //Expect a 200 Status OK
 
     expect(Array.isArray(response.body)).toBe(true);
