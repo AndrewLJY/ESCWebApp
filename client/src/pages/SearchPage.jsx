@@ -183,7 +183,12 @@ export default function SearchPage() {
                       ? `SGD ${h.keyDetails.price}`
                       : "SGD 140"}
                   </span>
-                  <button className="btn book-small">Book</button>
+                  <button
+                    className="btn book-small"
+                    onClick={() => navigate(`/hotel/${h.keyDetails.id}`)}
+                  >
+                    Book
+                  </button>
                 </div>
               </div>
             ))

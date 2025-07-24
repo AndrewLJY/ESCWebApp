@@ -142,8 +142,6 @@
 //     </>
 //   );
 // }
-
-// src/components/Header.jsx
 import React, { useState, useEffect } from "react";
 import "../styles/Header.css";
 import { loginUserAPI, signupUserAPI } from "../middleware/authApi";
@@ -153,11 +151,12 @@ export default function Header() {
   const [signupOpen, setSignupOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // blur either .landing OR .search-page, depending on where it's used
+  // blur Landing, Search or HotelDetail page when dropdown is open
   useEffect(() => {
     const container =
       document.querySelector(".landing") ||
-      document.querySelector(".search-page");
+      document.querySelector(".search-page") ||
+      document.querySelector(".hotel-detail-page");
     if (!container) return;
     if (loginOpen || signupOpen) container.classList.add("blurred");
     else container.classList.remove("blurred");

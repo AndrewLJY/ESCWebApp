@@ -1,5 +1,3 @@
-/* src/styles/Header.css */
-
 /* =============================================================================
    1) LOGO + ACTIONS - Always on Top
    ============================================================================= */
@@ -13,7 +11,6 @@
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   z-index: 1002;
 }
-
 .header__actions {
   position: absolute;
   top: 60px;
@@ -22,7 +19,6 @@
   gap: 10px;
   z-index: 1002;
 }
-
 .header__actions .btn {
   background: none;
   border: none;
@@ -123,7 +119,8 @@
 }
 
 /* =============================================================================
-   5) BLUR RULES (Landing & Search)
+   5) BLUR RULES (Landing, Search & Detail)
+   Blur all other direct children except header and dropdowns when open
    ============================================================================= */
 .landing.blurred
   > *:not(.header__logo):not(.header__actions):not(.login-dropdown):not(
@@ -132,10 +129,16 @@
 .search-page.blurred
   > *:not(.header__logo):not(.header__actions):not(.login-dropdown):not(
     .signup-dropdown
+  ),
+.hotel-detail-page.blurred
+  > *:not(.header__logo):not(.header__actions):not(.login-dropdown):not(
+    .signup-dropdown
   ) {
   filter: blur(5px);
   pointer-events: none;
 }
+
+/* Reveal only header elements & dropdowns */
 .landing.blurred .header__logo,
 .landing.blurred .header__actions,
 .landing.blurred .login-dropdown,
@@ -143,7 +146,11 @@
 .search-page.blurred .header__logo,
 .search-page.blurred .header__actions,
 .search-page.blurred .login-dropdown,
-.search-page.blurred .signup-dropdown {
+.search-page.blurred .signup-dropdown,
+.hotel-detail-page.blurred .header__logo,
+.hotel-detail-page.blurred .header__actions,
+.hotel-detail-page.blurred .login-dropdown,
+.hotel-detail-page.blurred .signup-dropdown {
   filter: none;
   opacity: 1;
   pointer-events: auto;
