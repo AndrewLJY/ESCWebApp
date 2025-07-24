@@ -108,6 +108,7 @@ class HotelDataDTOClassList {
     this.hotelDataDTOs = [];
     this.bPriceDataUnavailable = false;
     this.emptyData = false;
+    this.currentSearchDestinationName = null;
   }
   addHotelDataDTO(hotelDataDTO) {
     this.hotelDataDTOs.push(hotelDataDTO);
@@ -131,6 +132,18 @@ class HotelDataDTOClassList {
 
   getIsEmpty() {
     return this.emptyData;
+  }
+
+  setCurrentSearchDestinationName(destName) {
+    this.currentSearchDestinationName = destName;
+  }
+
+  getCurrentDestinationName() {
+    return this.currentSearchDestinationName;
+  }
+
+  resetHotelDTOList() {
+    this.hotelDataDTOs = [];
   }
 }
 
@@ -204,6 +217,12 @@ async function getAllHotelsAndPricesForDestination(
   guest_count,
   room_count
 ) {
+  //We do an initial check here to avoid calling the API repeatedly. If we have already initialized our data for the same current destination, then leave it.
+  if (hotelDataDTOClassList.getCurrentDestinationName() === destination_name) {
+    console.log("Data has already been initialised");
+    return;
+  }
+
   const data = jsonData; //Bring over main json data file
 
   if (!data) {
@@ -222,11 +241,7 @@ async function getAllHotelsAndPricesForDestination(
     }
   );
 
-  console.log("here");
-
   destAPIData = await response.json(); //Results from Dest API
-
-  console.log(destAPIData);
 
   if (Array.isArray(destAPIData) && destAPIData.length === 0) {
     hotelDataDTOClassList.setIsEmpty(true);
@@ -238,14 +253,12 @@ async function getAllHotelsAndPricesForDestination(
   for (let i = 1; i < room_count; i++) {
     guestInputField += `|${guest_count}`;
   }
-  console.log(guestInputField);
 
   let priceAPIData = { hotels: [] };
   let count = 0;
   const waitDelay = 2000; //wait 1 second before trying again
 
   while (priceAPIData.hotels.length === 0) {
-    console.log("looping here!");
     if (count > 3) {
       break;
     }
@@ -257,7 +270,6 @@ async function getAllHotelsAndPricesForDestination(
       }
     );
     priceAPIData = await response2.json(); //Results from Price API
-    console.log(priceAPIData);
 
     if (priceAPIData.hotels.length > 0) {
       break;
@@ -278,14 +290,19 @@ async function getAllHotelsAndPricesForDestination(
     compiledData = stitchHotelJsonData(priceAPIData, destAPIData);
   }
 
+  hotelDataDTOClassList.resetHotelDTOList();
+  //reset to clear pass data, cus this code block will only call for a novel destination not searched yet.
+
   for (let i = 0; i < compiledData.length; i++) {
     dataForSingleHotel = transferSingleHotelJSONToClass(compiledData[i]);
     hotelDataDTOClassList.addHotelDataDTO(dataForSingleHotel);
   }
 
-  console.log(hotelDataDTOClassList.getListHotels());
-
   console.log("finished");
+  hotelDataDTOClassList.setCurrentSearchDestinationName(destination_name);
+  //SAVE the current destination name we are searching for, as the subject of our DTO class.
+  //That way, when we call a search for new destination through any of the endpoints the code will know when to reach back
+  //to Ascenda API to get results for a new destination or not.
   return;
 }
 

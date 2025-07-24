@@ -1,8 +1,9 @@
 const request = require("supertest");
 const app = require("../../server");
+const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
 const { json } = require("express");
 
-describe("POST localhost:8080/search/ (Main API route to initialise all variables for HotelDTO)", () => {
+describe("GET localhost:8080/search/ (Main API route to initialise all variables for HotelDTO)", () => {
   jest.setTimeout(60000);
 
   jest.mock("../../models/destinations", () => ({
@@ -331,7 +332,7 @@ describe("POST localhost:8080/search/ (Main API route to initialise all variable
     expect(response.body)[0] = expectedFirstResource;
   });
 
-  test("Should return a 500 server error if the retrieved data is null", async () => {
+  test("Should return a 500 server error if the retrieved data is null, and that data has not been initialied beforehand", async () => {
     const requestBody = {
       destination_name: "Singapore, Singapore",
       check_in_date: "25-10-11",
@@ -342,9 +343,9 @@ describe("POST localhost:8080/search/ (Main API route to initialise all variable
       room_count: "2",
     };
 
-    jest.mock("../../models/destinations", () => ({
-      insertFromJSON: jest.fn(() => console.log("Mocked insertFromJSON")),
-    }));
+    hotelDataDTOService.hotelDataDTOClassList.setCurrentSearchDestinationName(
+      null
+    );
 
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -718,10 +719,6 @@ describe("POST localhost:8080/search/ (Main API route to initialise all variable
 describe("GET localhost:8080/search/images (API to return the images of all the hotels for a given destination", () => {
   jest.setTimeout(60000);
 
-  jest.mock("../../models/destinations", () => ({
-    insertFromJSON: jest.fn(() => console.log("Mocked insertFromJSON")),
-  }));
-
   beforeEach(() => {
     global.fetch = jest.fn();
   });
@@ -730,73 +727,111 @@ describe("GET localhost:8080/search/images (API to return the images of all the 
     jest.resetAllMocks();
   });
 
-  test("Should return the images for the list of hotels, after running the above main API", async () => {
+  test("Should return the images for the list of hotels, after running the above main API, with complete suite of data retrieved", async () => {
     const response = await request(app).get("/search/images").expect(200);
 
     expectOneResource = {
-      "050G": [
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/0.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/1.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/2.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/3.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/4.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/5.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/6.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/7.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/8.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/9.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/11.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/12.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/13.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/14.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/15.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/16.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/17.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/18.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/19.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/20.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/21.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/22.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/23.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/24.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/25.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/26.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/27.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/28.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/29.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/30.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/31.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/32.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/33.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/34.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/35.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/36.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/37.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/38.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/39.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/40.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/41.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/42.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/43.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/44.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/45.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/46.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/47.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/48.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/49.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/50.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/51.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/52.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/53.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/54.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/55.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/56.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/57.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/58.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/59.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/60.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/61.jpg",
+      obxM: [
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/0.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/1.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/2.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/3.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/4.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/5.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/6.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/7.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/8.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/9.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/10.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/11.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/12.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/13.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/14.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/15.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/16.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/17.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/18.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/19.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/20.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/21.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/22.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/23.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/24.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/25.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/26.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/27.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/28.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/29.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/30.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/31.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/32.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/33.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/34.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/35.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/36.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/37.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/38.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/39.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/40.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/41.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/42.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/43.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/44.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/45.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/46.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/47.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/48.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/49.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/50.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/51.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/52.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/53.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/54.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/55.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/56.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/57.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/58.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/59.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/60.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/61.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/62.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/63.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/64.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/65.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/66.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/67.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/68.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/69.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/70.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/71.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/72.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/73.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/74.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/75.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/76.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/77.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/78.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/79.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/80.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/81.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/82.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/83.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/84.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/85.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/86.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/87.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/88.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/89.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/90.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/91.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/92.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/93.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/94.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/95.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/96.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/97.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/98.jpg",
+        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/99.jpg",
       ],
     };
 

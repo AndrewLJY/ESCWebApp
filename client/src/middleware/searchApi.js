@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-  axios.defaults.headers.post['Content-Type'] = "application/json";
+axios.defaults.headers.post['Content-Type'] = "application/json";
 
 // Dummy search API that simulates backend response
 const searchHotels = async (searchParams) => {
@@ -64,24 +64,15 @@ const searchHotelsAPI = async (searchParams) => {
   try {
     let destination = searchParams.location.replace("_"," ");
 
-    const response = await axios.post('http://localhost:8080/search/MainDisplay', {
-      destination_name: searchParams.location,
-      check_in_date: searchParams.checkIn,
-      check_out_date: searchParams.checkOut,
-      guest_count: searchParams.guests,
-      room_count: 1
-      //hotelType: searchParams.hotelType
-    }).catch((error) => {
+    const response = await axios.get(`http://localhost:8080/search/${searchParams.location}/${searchParams.checkIn}/${searchParams.checkOut}/${searchParams.guests}/1`)
+    .catch((error) => {
       console.log(error.toJSON());
-        response = {
-            data: []
-        };
     });
-    
+
     return {
       data: {
-        hotels: response.data,
-        totalResults: response.data.length,
+        hotels: response.data != null ? response.data : [],
+        totalResults: response != null ? response.data.length : 0,
         searchParams: searchParams
       }
     }
