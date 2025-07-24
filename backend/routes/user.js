@@ -42,7 +42,8 @@ router.post('/login/', async function(req, res, next) {
             message: "Login successful"
         }));
     } else {
-        res.console.error("Login Failed");
+        console.log("User not authorised");
+        res.status(401).send("Login unsuccessful.");
     }
 });
 

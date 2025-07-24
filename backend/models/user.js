@@ -1,5 +1,10 @@
 const db = require('./db.js');
-const tableName = 'user';
+var tableName;
+if (process.env.NODE_ENV !== 'test') {
+    tableName = 'user';
+}else{
+    tableName = 'user_test_table';
+}
 const bcrypt = require('bcrypt')
 
 class User {
@@ -112,4 +117,4 @@ async function login(email, password) {
     }
 }
 
-module.exports= {User, sync, insertOne, all, login};
+module.exports= {User, sync, insertOne, all, login, tableName};

@@ -3,6 +3,8 @@ const app = require("../../server");
 const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
 const { json } = require("express");
 
+//import database model
+
 describe("GET localhost:8080/search/ (Main API route to initialise all variables for HotelDTO)", () => {
   jest.setTimeout(60000);
 
@@ -839,5 +841,70 @@ describe("GET localhost:8080/search/images (API to return the images of all the 
     };
 
     expect(response.body).toEqual(expect.objectContaining(expectOneResource));
+  });
+});
+
+const db = require("../../models/db");
+
+//Testing user.js /login and /register routes
+//Steps:
+//1. Try to login with a user credentials which do not exist in the database (should return 401 unauthorized)
+//2. Register with the same credentials (should return 200)
+//3. Login again with now registered credentials (should return 200)
+//4. Clear test values from database
+describe("Testing user registration and login", () => {
+  async function createTestDbTable() {
+    try {
+      // for simplicity, we assume staff names are uniqe (in the absence of NRIC or personal email)
+      db.pool.query(`
+          CREATE TABLE IF NOT EXISTS USER_TEST_TABLE (
+              id INTEGER AUTO_INCREMENT PRIMARY KEY,
+              email VARCHAR(255),
+              password VARCHAR(255)
+          )
+          `);
+    } catch (error) {
+      console.error("database connection failed. ", error);
+      throw error;
+    }
+  }
+
+  async function teardownDatabaseValues() {
+    try {
+      db.pool.query(`
+			DROP TABLE IF EXISTS USER_TEST_TABLE
+			`);
+    } catch (error) {
+      console.error("database connection failed", error);
+      throw error;
+    }
+  }
+
+  //Make sure no stray values in database for testing purposes.
+
+  beforeAll(async () => {
+    await createTestDbTable();
+    console.log("Test database initialised for tests");
+  });
+
+  requestBody = {
+    email: "testingUser@gmail.com",
+    password: "testingPassword",
+  };
+
+  test("Logging in with unregistered user details. Should return an error", async () => {
+    await request(app).post("/auth/login").send(requestBody).expect(401);
+  });
+
+  test("Registering with user details not already existing in the database", async () => {
+    await request(app).post("/auth/register").send(requestBody).expect(200);
+  });
+
+  test("Logging in with the newly registered user", async () => {
+    await request(app).post("/auth/login").send(requestBody).expect(200);
+  });
+
+  afterAll(async () => {
+    await teardownDatabaseValues();
   });
 });
