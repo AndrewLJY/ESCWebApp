@@ -5,9 +5,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-top: 120px; /* clear fixed header */
+  padding-top: 120px; /* clear fixed Header */
 }
-
 .search-page::before {
   content: "";
   position: fixed;
@@ -21,7 +20,6 @@
   background-repeat: no-repeat;
   z-index: 0;
 }
-
 .search-page > .sp-main {
   position: relative;
   z-index: 1;
@@ -47,14 +45,13 @@ body {
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
-/* main content */
 .sp-main {
   display: flex;
   flex-direction: column;
   padding-top: 1rem;
 }
 
-/* filter bar */
+/* Filter bar */
 .filter-bar-wrapper {
   width: 100%;
   display: flex;
@@ -85,7 +82,7 @@ body {
   background: #005a9e;
 }
 
-/* results */
+/* Results */
 .sp-results {
   padding: 1rem 2rem;
 }
@@ -143,14 +140,14 @@ body {
   background: #005a9e;
 }
 
-/* blur main */
+/* Blur main when login/signup open */
 .search-page.blurred .sp-main {
   filter: blur(5px);
   pointer-events: none;
   user-select: none;
   transition: filter 0.3s ease;
 }
-/* reveal dropdown */
+/* Reveal dropdowns above the blur */
 .search-page.blurred .login-dropdown,
 .search-page.blurred .signup-dropdown {
   opacity: 1;
