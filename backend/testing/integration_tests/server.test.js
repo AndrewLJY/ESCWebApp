@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../../server");
 const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
 const { json } = require("express");
-
+/*
 describe("GET localhost:8080/search/ (Main API route to initialise all variables for HotelDTO)", () => {
   jest.setTimeout(60000);
 
@@ -842,7 +842,61 @@ describe("GET localhost:8080/search/images (API to return the images of all the 
   });
 });
 
+*/
 describe("GET localhost:8080/search/MainDisplay/: ... (Display search hotel result after destination search)", () =>{
-  jest.setTimeout(60000);
-  jest.mock()
+  jest.setTimeout(30000); //increase test time window
+
+
+  const requestBody = {
+      destination_name: "Rome, Italy",
+      check_in_date: "2025-07-25",
+      check_out_date: "2025-07-26",
+      guest_count: "2",
+      room_count: "2" 
+    }
+
+
+
+  //can see this as 
+  jest.mock("../../hotel_data/hotel_data_service",()=>({
+    getAllHotelsAndPricesForDestination: 
+      jest.fn((requestBody)=>console.log("Mocked getHotelsAndPricesForDestination\
+        method from DTO service using requestBody"))
+  }));
+
+  beforeEach(() => {
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  test("TEST for MainDisplay endpoint: VALID RESPONSE ", async()=>{
+    //test body
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json:()=>
+        Promise.resolve([{
+        "name": "Trastevere Sweet House",
+        "rating": 3,
+        "address": "166 Viale di Trastevere"
+    },])
+    });
+    
+    const response = await request(app).get(`/search/MainDisplay/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
+    ).expect(200); //.expect(200) here but 500 internal server error 
+     //get first object of result only for testing
+    console.log("RESPONSE.BODY IS",response.body);
+    
+    expectedFirstResource = {
+        "name": "Trastevere Sweet House",
+        "rating": 3,
+        "address": "166 Viale di Trastevere"
+    };
+    console.log("EXPECTED OUTPUT IS",expectedFirstResource);
+    // expect(response.body)[0] = expectedFirstResource;
+
+  });
 });

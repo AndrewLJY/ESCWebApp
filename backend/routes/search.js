@@ -60,12 +60,15 @@ router.get(
 router.get(
   "/MainDisplay/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+    console.log("HELLO FROM MAIN DISPLAY");
     const destination = req.params.destination_name.replace("_", " ");
     const checkInDate = req.params.check_in_date;
     const checkOutDate = req.params.check_out_date;
     const guestCount = req.params.guest_count;
     const roomCount = req.params.room_count;
+    
 
+    
     await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
       destination,
       checkInDate,
@@ -73,7 +76,6 @@ router.get(
       guestCount,
       roomCount
     );
-
     const hotelList = filledHotelDTOClassList.getListHotels();
 
     // Filter to only name, rating, address
@@ -85,8 +87,8 @@ router.get(
         hotel.getKeyDetails().address1 ||
         "N/A",
     }));
-    let sorted = sortHotels(filteredHotelList)
-    res.send(sorted);
+
+    res.status(200).json(filteredHotelList);
     return;
   }
 );
