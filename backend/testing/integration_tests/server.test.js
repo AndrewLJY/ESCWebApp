@@ -1,7 +1,6 @@
 const request = require("supertest");
 const app = require("../../server");
 const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
-const { json } = require("express");
 
 //import database model
 
@@ -863,6 +862,7 @@ describe("Testing user registration and login", () => {
               password VARCHAR(255)
           )
           `);
+      console.log("Test database initialised for tests");
     } catch (error) {
       console.error("database connection failed. ", error);
       throw error;
@@ -884,7 +884,6 @@ describe("Testing user registration and login", () => {
 
   beforeAll(async () => {
     await createTestDbTable();
-    console.log("Test database initialised for tests");
   });
 
   requestBody = {
