@@ -18,10 +18,20 @@ router.post('/register/', async function(req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
 
-    /*hash original password 2^10 times, more times means take longer time taken to encrypt(not necessary a bad thing)*/
+    // Email format validation (simple regex)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        return res.status(400).send("Invalid email format.");
+    }
+
+    // Password non-empty validation
+    if (!password || password.trim() === "") {
+        return res.status(400).send("Password cannot be empty.");
+    }
+
+    /*hash original password 2^10 times, more times means take longer time taken to encrypt(not necessarily a bad thing)*/
     const hash_password = await bcrypt.hash(password,10)
     userDbObject = new userModel.User(email,hash_password);
-    // userDbObject = new userModel.User(email, password);
     
     userModel.insertOne(userDbObject);
     console.log("account registered successfully");
