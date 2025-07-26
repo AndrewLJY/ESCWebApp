@@ -1,209 +1,101 @@
 // src/pages/SearchPage.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { searchHotelsAPI } from "../middleware/searchApi";
-import { loginUserAPI } from "../middleware/authApi";
+import Header from "../components/header";
+import FilterBar from "../components/FilterBar";
 import "../styles/SearchPage.css";
 
 export default function SearchPage() {
   const navigate = useNavigate();
-  const locationHook = useLocation();
+  const { search } = useLocation();
 
-  // Filters state, initialized from URL params
-  const initialParams = new URLSearchParams(locationHook.search);
-  const [filters, setFilters] = useState({
-    location: {
-      open: false,
-      value: initialParams.get("location") || "Singapore",
-    },
-    hotel: { open: false, value: initialParams.get("hotel") || "" },
-    checkin: {
-      open: false,
-      value: initialParams.get("checkin") || "2025-07-01",
-    },
-    checkout: {
-      open: false,
-      value: initialParams.get("checkout") || "2025-07-24",
-    },
-    guests: { open: false, value: initialParams.get("guests") || "2" },
-  });
-
-  // Hotels data
   const [hotels, setHotels] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // Helper to format dates
-  const fmtDate = (iso) =>
-    iso
-      ? new Date(iso).toLocaleDateString("en-GB", {
-          weekday: "short",
-          day: "2-digit",
-          month: "2-digit",
-          year: "2-digit",
-        })
-      : "";
+  // Fetch the API (backend currently returns static data, so we apply client-side filter)
+  const fetchData = useCallback(async (queryString) => {
+    setLoading(true);
+    const params = new URLSearchParams(queryString);
+    const payload = { hotelType: "Hotel" };
+    if (params.get("location")) payload.location = params.get("location");
+    if (params.get("hotel")) payload.hotel = params.get("hotel");
+    if (params.get("checkin")) payload.checkIn = params.get("checkin");
+    if (params.get("checkout")) payload.checkOut = params.get("checkout");
+    if (params.get("guests")) payload.guests = Number(params.get("guests"));
 
-  // Toggle input open/close
-  const toggle = (key) =>
-    setFilters((f) => ({
-      ...f,
-      [key]: { ...f[key], open: !f[key].open },
-    }));
-
-  // Update filter value
-  const update = (key, val) =>
-    setFilters((f) => ({
-      ...f,
-      [key]: { ...f[key], value: val },
-    }));
-
-  // Build searchParams object for API
-  const buildParams = () => ({
-    location: filters.location.value,
-    hotel: filters.hotel.value,
-    checkIn: filters.checkin.value,
-    checkOut: filters.checkout.value,
-    guests: Number(filters.guests.value),
-    hotelType: "Hotel",
-  });
-
-  // Fetch hotels whenever URL query changes
-  useEffect(() => {
-    const fetch = async () => {
-      setLoading(true);
-      try {
-        const response = await searchHotelsAPI(buildParams());
-        setHotels(response.data.hotels || []);
-      } catch (e) {
-        console.error("Search error:", e);
-      } finally {
-        setLoading(false);
+    try {
+      const resp = await searchHotelsAPI(payload);
+      let data = resp.data.hotels || [];
+      // client-side filter if backend doesn't filter
+      if (payload.location) {
+        const loc = payload.location.toLowerCase();
+        data = data.filter(
+          (h) =>
+            h.keyDetails.address.toLowerCase().includes(loc) ||
+            h.keyDetails.name.toLowerCase().includes(loc)
+        );
       }
-    };
-    fetch();
-  }, [locationHook.search]);
+      if (payload.hotel) {
+        const name = payload.hotel.toLowerCase();
+        data = data.filter((h) =>
+          h.keyDetails.name.toLowerCase().includes(name)
+        );
+      }
+      setHotels(data);
+    } catch (err) {
+      console.error("Search error:", err);
+      setHotels([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  // Submit modified filters -> reload URL
-  const onModify = () => {
-    const params = new URLSearchParams();
-    if (filters.location.value) params.set("location", filters.location.value);
-    if (filters.hotel.value) params.set("hotel", filters.hotel.value);
-    params.set("checkin", filters.checkin.value);
-    params.set("checkout", filters.checkout.value);
-    params.set("guests", filters.guests.value);
-    navigate(`/search?${params.toString()}`);
-  };
+  // Sync URL → inputs + fetch on change
+  useEffect(() => {
+    const qs = search.startsWith("?") ? search.substring(1) : search;
+    fetchData(qs);
+  }, [search, fetchData]);
 
-  // Modals
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [signupOpen, setSignupOpen] = useState(false);
-  const [userAuthLoading, setUserAuthLoading] = useState(false);
-  const closeAll = () => {
-    setLoginOpen(false);
-    setSignupOpen(false);
+  // Build query and navigate
+  const onSearch = () => {
+    if (!locationFilter.trim() && !hotelFilter.trim()) {
+      alert("Please enter a location or hotel name.");
+      return;
+    }
+    if (!checkin) {
+      alert("Please select a check‑in date.");
+      return;
+    }
+    if (!checkout) {
+      alert("Please select a check‑out date.");
+      return;
+    }
+    if (!guests) {
+      alert("Please specify number of guests.");
+      return;
+    }
+    const q = new URLSearchParams();
+    if (locationFilter.trim()) q.set("location", locationFilter.trim());
+    if (hotelFilter.trim()) q.set("hotel", hotelFilter.trim());
+    q.set("checkin", checkin);
+    q.set("checkout", checkout);
+    q.set("guests", guests);
+
+    navigate(`/search?${q.toString()}`);
   };
-  const blurClass = loginOpen || signupOpen ? " blurred" : "";
 
   return (
-    <div className={`search-page${blurClass}`}>
-      {/* HEADER */}
-      <header className="sp-header">
-        <div className="sp-logo" onClick={() => navigate("/")}>
-          Ascenda
-        </div>
-        <div className="sp-actions">
-          <button
-            className="btn login"
-            onClick={() => {
-              closeAll();
-              setLoginOpen(true);
-            }}
-          >
-            Login
-          </button>
-          <button
-            className="btn book"
-            onClick={() => {
-              closeAll();
-              setLoginOpen(true);
-            }}
-          >
-            Book Now
-          </button>
-        </div>
-      </header>
-      {/* MAIN CONTENT */}
+    <div className="search-page">
+      <Header />
       <main className="sp-main">
-        {/* FILTER BAR */}
         <div className="filter-bar-wrapper">
-          <div className="sp-filter-bar">
-            {["location", "hotel", "checkin", "checkout", "guests"].map(
-              (key) => (
-                <React.Fragment key={key}>
-                  <div className="filter">
-                    {filters[key].open ? (
-                      key === "checkin" || key === "checkout" ? (
-                        <input
-                          type="date"
-                          className="filter-input"
-                          value={filters[key].value}
-                          onChange={(e) => update(key, e.target.value)}
-                          onBlur={() => toggle(key)}
-                          autoFocus
-                        />
-                      ) : key === "guests" ? (
-                        <input
-                          type="number"
-                          min="1"
-                          placeholder="1"
-                          className="filter-input"
-                          value={filters[key].value}
-                          onChange={(e) => update(key, e.target.value)}
-                          onBlur={() => toggle(key)}
-                          autoFocus
-                        />
-                      ) : (
-                        <input
-                          className="filter-input"
-                          placeholder={
-                            key === "location" ? "Where to?" : "Hotel name"
-                          }
-                          value={filters[key].value}
-                          onChange={(e) => update(key, e.target.value)}
-                          onBlur={() => toggle(key)}
-                          autoFocus
-                        />
-                      )
-                    ) : (
-                      <button
-                        className="filter-btn"
-                        onClick={() => toggle(key)}
-                      >
-                        <span>
-                          {filters[key].value ||
-                            (key === "checkin"
-                              ? "Check in"
-                              : key === "checkout"
-                              ? "Check out"
-                              : key.charAt(0).toUpperCase() + key.slice(1))}
-                        </span>
-                      </button>
-                    )}
-                  </div>
-                  <div className="separator" />
-                </React.Fragment>
-              )
-            )}
-            <button className="filter-search-btn" onClick={onModify}>
-              Modify
-            </button>
-          </div>
+           <FilterBar 
+              search={search}
+              fetchData={fetchData}
+              isSearchPage={true}
+            />
         </div>
-
-        {/* SORT & FILTER CONTROLS */}
-        {/* ... unchanged ... */}
-
-        {/* RESULTS LIST */}
         <section className="sp-results">
           {loading ? (
             <div className="loading">Loading hotels...</div>
@@ -212,104 +104,45 @@ export default function SearchPage() {
           ) : (
             hotels.map((h) => (
               <div key={h.keyDetails.id} className="hotel-card">
-                {/* Tried to add in given photo. If don't have, provided default */}
-                <img src={h.imageDetails.imageCounts > 0 ? h.imageDetails.stitchedImageUrls[0]: "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"} alt={h.name} className="hotel-img" />
+                <img
+                  className="hotel-img"
+                  src={
+                    h.imageDetails.imageCounts > 0
+                      ? h.imageDetails.stitchedImageUrls[0]
+                      : "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"
+                  }
+                  alt={h.keyDetails.name}
+                />
                 <div className="hotel-info">
                   <h3>{h.keyDetails.name}</h3>
-                  {/* Currently just the rating due to lack of stars info */}
                   <div className="stars">{"★".repeat(h.keyDetails.rating)}</div>
                   <p className="address">{h.keyDetails.address}</p>
-                  <p className="distance">{Math.floor(h.keyDetails.distance)}</p>
-                  {/* Rating updated to at least show rating even if dont have */}
-                   <p className="rating">Rating: {h.keyDetails.rating ? h.keyDetails.rating +"/5": "NA"}</p>
+                  <p className="distance">
+                    {Math.floor(h.keyDetails.distance)} km
+                  </p>
+                  <p className="rating">
+                    Rating:{" "}
+                    {h.keyDetails.rating ? `${h.keyDetails.rating}/5` : "NA"}
+                  </p>
                 </div>
                 <div className="hotel-book">
-                  {/* Will replace with static value for now */}
-                  <span className="price">{h.price ? h.keyDetails.price: 'SGD 140'}</span>
-                  <button className="btn book-small">Book</button>
+                  <span className="price">
+                    {h.keyDetails.price
+                      ? `SGD ${h.keyDetails.price}`
+                      : "SGD 140"}
+                  </span>
+                  <button
+                    className="btn book-small"
+                    onClick={() => navigate(`/hotel/${h.keyDetails.id}`)}
+                  >
+                    Book
+                  </button>
                 </div>
               </div>
             ))
           )}
         </section>
       </main>
-      {/* LOGIN DROPDOWN */}
-      {loginOpen && !signupOpen && (
-        <div className="login-dropdown">
-          <h2 className="dropdown__title">Sign In</h2>
-          <form className="login-form" onSubmit={async (e) => {
-            e.preventDefault();
-            setUserAuthLoading(true);
-            try {
-              const formData = new FormData(e.target);
-              const result = await loginUserAPI({
-                email: formData.get('email'),
-                password: formData.get('password')
-              });
-              alert('Login successful!');
-              closeAll();
-            } catch (error) {
-              alert(error.message);
-            } finally {
-              setUserAuthLoading(false);
-            }
-          }}>
-            <div className="form-group">
-              <label htmlFor="email">Email Address</label>
-              <input name="email" id="email" type="email" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input name="password" id="password" type="password" required />
-            </div>
-            <button type="submit" className="btn submit" disabled={userAuthLoading}>
-              {userAuthLoading ? 'Signing In...' : 'Sign In Now'}
-            </button>
-            <p className="dropdown__signup">
-              Don’t have an account? Click{" "}
-              <button
-                type="button"
-                className="btn signup"
-                onClick={() => {
-                  setSignupOpen(true);
-                  setLoginOpen(false);
-                }}
-              >
-                here
-              </button>
-            </p>
-            <button type="button" className="btn close" onClick={closeAll}>
-              Close
-            </button>
-          </form>
-        </div>
-      )}
-      {/* SIGNUP DROPDOWN */}
-      {signupOpen && !loginOpen && (
-        <div className="signup-dropdown">
-          <h2 className="dropdown__title">Create Account</h2>
-          <form className="login-form">
-            <div className="form-group">
-              <label htmlFor="new-email">Email Address</label>
-              <input id="new-email" type="email" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="new-password">Password</label>
-              <input id="new-password" type="password" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="confirm-password">Confirm Password</label>
-              <input id="confirm-password" type="password" required />
-            </div>
-            <button type="submit" className="btn submit">
-              Sign Up Now
-            </button>
-            <button type="button" className="btn close" onClick={closeAll}>
-              Close
-            </button>
-          </form>
-        </div>
-      )}
     </div>
   );
 }

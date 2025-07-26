@@ -8,7 +8,7 @@ import axios from "axios";
 
 // const stripePromise = loadStripe("INSERT PK HERE");
 const env = await import.meta.env
-const stripePromise = loadStripe(`${env.VITE_STRIPE_PK}`);
+// const stripePromise = loadStripe(`${env.VITE_STRIPE_PK}`);
 
 export default function CheckoutForm() {
   const fetchClientSecret = useCallback(async () => {
