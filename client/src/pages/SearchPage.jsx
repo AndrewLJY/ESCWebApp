@@ -3,18 +3,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { searchHotelsAPI } from "../middleware/searchApi";
 import Header from "../components/header";
+import FilterBar from "../components/FilterBar";
 import "../styles/SearchPage.css";
 
 export default function SearchPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
-
-  // Controlled filter state
-  const [locationFilter, setLocationFilter] = useState("");
-  const [hotelFilter, setHotelFilter] = useState("");
-  const [checkin, setCheckin] = useState("");
-  const [checkout, setCheckout] = useState("");
-  const [guests, setGuests] = useState("1");
 
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -60,12 +54,6 @@ export default function SearchPage() {
   // Sync URL → inputs + fetch on change
   useEffect(() => {
     const qs = search.startsWith("?") ? search.substring(1) : search;
-    const params = new URLSearchParams(qs);
-    setLocationFilter(params.get("location") || "");
-    setHotelFilter(params.get("hotel") || "");
-    setCheckin(params.get("checkin") || "");
-    setCheckout(params.get("checkout") || "");
-    setGuests(params.get("guests") || "1");
     fetchData(qs);
   }, [search, fetchData]);
 
@@ -102,51 +90,11 @@ export default function SearchPage() {
       <Header />
       <main className="sp-main">
         <div className="filter-bar-wrapper">
-          <div className="sp-filter-bar">
-            <input
-              className="filter-input"
-              type="text"
-              placeholder="Location"
-              value={locationFilter}
-              onChange={(e) => {
-                setLocationFilter(e.target.value);
-                setHotelFilter("");
-              }}
+           <FilterBar 
+              search={search}
+              fetchData={fetchData}
+              isSearchPage={true}
             />
-            <input
-              className="filter-input"
-              type="text"
-              placeholder="Hotel name"
-              value={hotelFilter}
-              onChange={(e) => {
-                setHotelFilter(e.target.value);
-                setLocationFilter("");
-              }}
-            />
-            <input
-              className="filter-input"
-              type="date"
-              value={checkin}
-              onChange={(e) => setCheckin(e.target.value)}
-            />
-            <input
-              className="filter-input"
-              type="date"
-              value={checkout}
-              onChange={(e) => setCheckout(e.target.value)}
-            />
-            <input
-              className="filter-input"
-              type="number"
-              min="1"
-              placeholder="Guests"
-              value={guests}
-              onChange={(e) => setGuests(e.target.value)}
-            />
-            <button className="filter-search-btn" onClick={onSearch}>
-              Search
-            </button>
-          </div>
         </div>
         <section className="sp-results">
           {loading ? (

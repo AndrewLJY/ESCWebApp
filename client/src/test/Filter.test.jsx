@@ -1,3 +1,7 @@
+// src/test/LandingPage.test.jsx
+
+//unittest
+
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -16,7 +20,7 @@ jest.mock("react-router-dom", () => {
 describe("LandingPage Search", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    global.alert = jest.fn(); // ✅ Mock alert
+    global.alert = jest.fn(); // Mock alert
   });
 
   test("Search fails with missing fields", () => {
@@ -49,21 +53,23 @@ describe("LandingPage Search", () => {
 
     // Open & fill Check-in
     fireEvent.click(screen.getByText("Check in"));
-    const checkinInput = await screen.findByPlaceholderText("Check in");
+    const checkinInput = screen.getByDisplayValue(""); // Because it's an <input type="date" value="" />
     fireEvent.change(checkinInput, {
       target: { value: "2025-08-01" },
     });
 
     // Open & fill Check-out
     fireEvent.click(screen.getByText("Check out"));
-    const checkoutInput = await screen.findByPlaceholderText("Check out");
+    const checkoutInput = screen
+      .getAllByDisplayValue("")
+      .find((el) => el.getAttribute("type") === "date");
     fireEvent.change(checkoutInput, {
       target: { value: "2025-08-05" },
     });
 
     // Open & fill Guests
     fireEvent.click(screen.getByText("Guests"));
-    const guestsInput = await screen.findByPlaceholderText("1");
+    const guestsInput = screen.getByPlaceholderText("1");
     fireEvent.change(guestsInput, {
       target: { value: "2" },
     });
