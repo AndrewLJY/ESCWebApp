@@ -102,6 +102,7 @@ export default function LandingPage() {
         <div className="filter">
           {filters.checkin.open ? (
             <input
+              placeholder="Check in"
               className="filter-input"
               type="date"
               value={filters.checkin.value}
@@ -124,6 +125,7 @@ export default function LandingPage() {
         <div className="filter">
           {filters.checkout.open ? (
             <input
+              placeholder="Check out"
               className="filter-input"
               type="date"
               value={filters.checkout.value}
