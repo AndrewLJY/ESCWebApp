@@ -58,16 +58,14 @@ async function findByEmail(email) {
 async function insertOne(user) {
     try {
         const exists = await findByEmail(user.email);
-        console.log(exists);
         
         if (exists.length == 0) {
-            console.log("inserting...");
             const [rows, fieldDefs] = await db.pool.query(`
             INSERT INTO ${tableName} (email, password) VALUES (?,?)
             `, [user.email, user.password]);
         }
         else{
-            console.log("Exists already!!!!");
+            // console.log("Exists already!!!!");
             return "entry already exists.";
         }
     } catch (error) {

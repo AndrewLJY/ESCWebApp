@@ -55,6 +55,7 @@ class KeyDetails {
     this.distance = builder.distance;
     this.description = builder.description;
   }
+
   getId() {
     return this.id;
   }
@@ -270,6 +271,11 @@ class ImageDetails {
     this.imageUrlPrefix = builder.imageUrlPrefix;
     this.imageUrlSuffix = builder.imageUrlSuffix;
     this.stitchedImageUrls = builder.stitchedImageUrls;
+	this.bNoAvailableImages = builder.bNoAvailableImages;
+  }
+
+  noAvailableImages(){
+	return this.bNoAvailableImages;
   }
 
   getImageCounts() {
@@ -295,30 +301,49 @@ class ImageDetails {
         this.imageUrlPrefix = null;
         this.imageUrlSuffix = null;
         this.stitchedImageUrls = [];
+        this.bNoAvailableImages = false;
       }
 
-      setImageCounts(imageCount) {
-        this.imageCounts = imageCount;
-        return this;
+      setImageCounts(hiresImageIndexString) {
+		if(hiresImageIndexString === "" || hiresImageIndexString === null)
+		{
+			this.bNoAvailableImages = true;
+			return this;
+		}
+		this.imageCounts = hiresImageIndexString.split(",");
+		return this;
       }
 
       setImageUrlPrefix(imageUrlPrefix) {
+		if (imageUrlPrefix === null || imageUrlPrefix === "") {
+			this.bNoAvailableImages = true;
+			return this;
+        }
         this.imageUrlPrefix = imageUrlPrefix;
         return this;
       }
 
       setImageUrlSuffix(imageUrlSuffix) {
+        if (imageUrlSuffix === null || imageUrlSuffix === "") {
+			this.bNoAvailableImages = true;
+			return this;
+        }
         this.imageUrlSuffix = imageUrlSuffix;
         return this;
       }
 
       stitchImageUrls() {
-        if (this.imageUrlPrefix && this.imageUrlSuffix && this.imageCounts) {
-          for (let i = 0; i < this.imageCounts; i++) {
-            let oneStichedUrl = `${this.imageUrlPrefix}${i}${this.imageUrlSuffix}`;
-            this.stitchedImageUrls.push(oneStichedUrl);
-          }
+		if(this.bNoAvailableImages === true){
+			console.log("No Available Images");
+			return this;
+		}
+
+		//Else:
+		for (let index of this.imageCounts) {
+		let oneStichedUrl = `${this.imageUrlPrefix}${index}${this.imageUrlSuffix}`;
+		this.stitchedImageUrls.push(oneStichedUrl);
         }
+
         return this;
       }
 

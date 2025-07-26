@@ -8,8 +8,11 @@ const Fuse = require("fuse.js"); //use this library to generate search suggestio
 
 var hotelDataTransferServiceModule = require("../hotel_data/hotel_data_service");
 
-var filledHotelDTOClassList =
-  hotelDataTransferServiceModule.hotelDataDTOClassList;
+var filledHotelDTOClassList = hotelDataTransferServiceModule.hotelDataDTOClassList;
+
+
+var hotelRoomDataTransferServiceModule = require("../hotel_data/hotel_room_data_service");
+var filledHotelRoomDataDTOClassList = hotelRoomDataTransferServiceModule.hotelRoomDataDTOClassList;
 
 // |Main route:                                                                                        |
 // |Displaying List of Hotels with Prices for given duration of stay, destination and number of guests.|
@@ -185,9 +188,10 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
   console.log(hotelId);
 
   result =
-    await hotelDataTransferServiceModule.getSingleHotelDetailsWithoutPrice();
+    await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice();
   res.json(result);
 });
+
 
 //Get the room pricings for a specific hotel, at a specific destination
 router.get(
@@ -208,9 +212,24 @@ router.get(
       guestCount,
       roomCount
     );
-    res.json(result);
+
+    if(result === -1){
+      //No rooms were avaialable, hence return an error 500.
+      res.status(500).send("Server Error, unable to retrieve rooms");
+      return;
+    }
+    
+    res.status(200).send(filledHotelRoomDataDTOClassList.getListHotelRooms());
   }
 );
+
+
+
+
+
+
+
+
 
 const options = {
   threshold: 0.8, //the higher the threshold the stricter the search, returning more similar results but also less variations.

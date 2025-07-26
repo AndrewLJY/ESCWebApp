@@ -34,8 +34,6 @@ router.post('/register/', async function(req, res, next) {
 router.post('/login/', async function(req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email)
-    console.log(password)
     const result = await userModel.login(email, password);
     if (result.success) {
         res.send(JSON.stringify({

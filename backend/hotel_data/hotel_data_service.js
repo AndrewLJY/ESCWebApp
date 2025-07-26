@@ -42,7 +42,7 @@ class HotelDataTransferService {
 
   transferImageDetails() {
     this.imageDetails = new hotelDataDTO.ImageDetails.Builder()
-      .setImageCounts(this.jsonData.image_details.count)
+      .setImageCounts(this.jsonData.hires_image_index)
       .setImageUrlPrefix(this.jsonData.image_details.prefix)
       .setImageUrlSuffix(this.jsonData.image_details.suffix)
       .stitchImageUrls()
@@ -155,7 +155,6 @@ async function getHotelID(term, jsonData) {
   let destination = jsonData.find((item) => item.term == term);
   if (destination) {
     let uid = destination.uid;
-    console.log("UId", uid);
     return uid;
   } else {
     return "-1";
@@ -222,8 +221,6 @@ async function getAllHotelsAndPricesForDestination(
     console.log("Data has already been initialised");
     return;
   }
-
-  console.log(destination_name);
 
   const data = jsonData; //Bring over main json data file
 
@@ -299,7 +296,7 @@ async function getAllHotelsAndPricesForDestination(
     hotelDataDTOClassList.addHotelDataDTO(dataForSingleHotel);
   }
 
-  console.log("finished");
+  // console.log("finished");
   hotelDataDTOClassList.setCurrentSearchDestinationName(destination_name);
   //SAVE the current destination name we are searching for, as the subject of our DTO class.
   //That way, when we call a search for new destination through any of the endpoints the code will know when to reach back
