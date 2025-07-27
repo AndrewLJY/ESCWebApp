@@ -8,11 +8,12 @@ const Fuse = require("fuse.js"); //use this library to generate search suggestio
 
 var hotelDataTransferServiceModule = require("../hotel_data/hotel_data_service");
 
-var filledHotelDTOClassList = hotelDataTransferServiceModule.hotelDataDTOClassList;
-
+var filledHotelDTOClassList =
+  hotelDataTransferServiceModule.hotelDataDTOClassList;
 
 var hotelRoomDataTransferServiceModule = require("../hotel_data/hotel_room_data_service");
-var filledHotelRoomDataDTOClassList = hotelRoomDataTransferServiceModule.hotelRoomDataDTOClassList;
+var filledHotelRoomDataDTOClassList =
+  hotelRoomDataTransferServiceModule.hotelRoomDataDTOClassList;
 
 // |Main route:                                                                                        |
 // |Displaying List of Hotels with Prices for given duration of stay, destination and number of guests.|
@@ -20,6 +21,16 @@ var filledHotelRoomDataDTOClassList = hotelRoomDataTransferServiceModule.hotelRo
 router.get(
   "/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+    if (
+      process.env.NODE_ENV === "test" &&
+      !process.env.INTEGRATION_TEST === "true"
+    ) {
+      res
+        .status(200)
+        .send("Hello from the backend, running main search endpoint now");
+      return;
+    }
+
     //Required Request Body Parameters:
     const destination = req.params.destination_name.replace("_", " ");
     const checkInDate = req.params.check_in_date;
@@ -63,6 +74,18 @@ router.get(
 router.get(
   "/MainDisplay/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+    if (
+      process.env.NODE_ENV === "test" &&
+      !process.env.INTEGRATION_TEST === "true"
+    ) {
+      res
+        .status(200)
+        .send(
+          "Hello from the backend, running search/MainDisplay endpoint now"
+        );
+      return;
+    }
+
     const destination = req.params.destination_name.replace("_", " ");
     const checkInDate = req.params.check_in_date;
     const checkOutDate = req.params.check_out_date;
@@ -98,6 +121,18 @@ router.get(
 router.get(
   "/AdvancedDisplay/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+    if (
+      process.env.NODE_ENV === "test" &&
+      !process.env.INTEGRATION_TEST === "true"
+    ) {
+      res
+        .status(200)
+        .send(
+          "Hello from the backend, running search/AdvancedDisplay endpoint now"
+        );
+      return;
+    }
+
     const destination = req.params.destination_name.replace("_", " ");
     const checkInDate = req.params.check_in_date;
     const checkOutDate = req.params.check_out_date;
@@ -157,6 +192,16 @@ router.get(
 
 /*getting the all the images of a hotel endpoint*/
 router.get("/images/", async function (req, res, next) {
+  if (
+    process.env.NODE_ENV === "test" &&
+    !process.env.INTEGRATION_TEST === "true"
+  ) {
+    res
+      .status(200)
+      .send("Hello from the backend, running search/images endpoint now");
+    return;
+  }
+
   let imageList = [];
   let id_with_images = {};
 
@@ -184,6 +229,18 @@ router.get("/images/", async function (req, res, next) {
 
 //Get info for a single hotel, returning the same fields as the API listing hotels for a particular destination
 router.get("/hotel/:hotel_id", async function (req, res, next) {
+  if (
+    process.env.NODE_ENV === "test" &&
+    !process.env.INTEGRATION_TEST === "true"
+  ) {
+    res
+      .status(200)
+      .send(
+        "Hello from the backend, running search/hotel/hotel_id endpoint now"
+      );
+    return;
+  }
+
   let hotelId = req.params.hotel_id;
   console.log(hotelId);
 
@@ -192,11 +249,22 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
   res.json(result);
 });
 
-
 //Get the room pricings for a specific hotel, at a specific destination
 router.get(
   "/hotel/prices/:hotel_id/:destination_id/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+    if (
+      process.env.NODE_ENV === "test" &&
+      !process.env.INTEGRATION_TEST === "true"
+    ) {
+      res
+        .status(200)
+        .send(
+          "Hello from the backend, running search/hotel/prices endpoint now"
+        );
+      return;
+    }
+
     const hotelId = req.params.hotel_id;
     const destinationId = req.params.destination_id;
     const checkInDate = req.params.check_in_date;
@@ -204,32 +272,26 @@ router.get(
     const guestCount = req.params.guest_count;
     const roomCount = req.params.room_count;
 
-    result = await hotelDataTransferServiceModule.getSingleHotelPriceDetails(
-      hotelId,
-      destinationId,
-      checkInDate,
-      checkOutDate,
-      guestCount,
-      roomCount
-    );
+    result =
+      await hotelRoomDataTransferServiceModule.getSingleHotelPriceDetails(
+        hotelId,
+        destinationId,
+        checkInDate,
+        checkOutDate,
+        guestCount,
+        roomCount
+      );
 
-    if(result === -1){
+    if (result === -1) {
       //No rooms were avaialable, hence return an error 500.
       res.status(500).send("Server Error, unable to retrieve rooms");
       return;
     }
-    
+
     res.status(200).send(filledHotelRoomDataDTOClassList.getListHotelRooms());
+    return;
   }
 );
-
-
-
-
-
-
-
-
 
 const options = {
   threshold: 0.8, //the higher the threshold the stricter the search, returning more similar results but also less variations.
@@ -239,6 +301,16 @@ const options = {
 
 //Router to generate search suggestions based off database destinaton entries.
 router.get("/string/:searchLiteral", async function (req, res, next) {
+  if (
+    process.env.NODE_ENV === "test" &&
+    !process.env.INTEGRATION_TEST === "true"
+  ) {
+    res
+      .status(200)
+      .send("Hello from the backend, running search/string/ endpoint now");
+    return;
+  }
+
   const searchString = req.params.searchLiteral;
   allDestinationNames = await destinationModel.findAllDestinations();
   const fuse = new Fuse(allDestinationNames, options);
@@ -248,6 +320,18 @@ router.get("/string/:searchLiteral", async function (req, res, next) {
 });
 
 router.get("/hotels/images", async function (req, res, next) {
+  if (
+    process.env.NODE_ENV === "test" &&
+    !process.env.INTEGRATION_TEST === "true"
+  ) {
+    res
+      .status(200)
+      .send(
+        "Hello from the backend, running search/hotels/images endpoint now"
+      );
+    return;
+  }
+
   let hotelImages = [];
   listHotelDatas = filledHotelDTOClassList.getListHotels();
 

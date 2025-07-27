@@ -16,16 +16,22 @@ process.on("SIGTERM", db.cleanup);
 var usersRouter = require("./routes/user");
 var indexRouter = require("./routes/index");
 var searchRouter = require("./routes/search");
+var addHotelNamesRouter = require("./routes/addHotelNames.js");
 
 var userModel = require("./models/user.js");
 var bookingModel = require("./models/booking.js");
 var destinationNamesModel = require("./models/destinations.js");
+var hotelNamesModel = require("./models/hotels.js");
 
 //Check if the environment is not set to testing!
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   userModel.sync();
   bookingModel.sync();
-  destinationNamesModel.sync().then(() => destinationNamesModel.insertFromJSON());
+  destinationNamesModel
+    .sync()
+    .then(() => destinationNamesModel.insertFromJSON());
+
+  hotelNamesModel.sync();
 }
 
 // view engine setup
@@ -33,9 +39,9 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use("/", indexRouter);
-app.use("/auth", usersRouter); //link to user module under routes/user.js
-// app.use('/bookings', bookingRouter); //link to booking module under routes/booking.js
-app.use("/search", searchRouter); //Define the router key, since we are exporting the hotelDTOClassList as a separate module for middleware to use!
+app.use("/auth", usersRouter);
+app.use("/search", searchRouter);
+app.use("/addHotelNames", addHotelNamesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

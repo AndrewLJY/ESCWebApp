@@ -1,5 +1,4 @@
 const hotelDataDTO = require("../../hotel_data/hotel_data_DTO");
-const supertest = require("supertest");
 
 describe("Initialising Respective Hotel DTO SubClass Attributes with Mock Values", () => {
   test("Testing the KeyDetails subclass. Should return a class object with attributes being set", () => {
@@ -95,170 +94,189 @@ describe("Initialising Respective Hotel DTO SubClass Attributes with Mock Values
         .setMarketRates(pricingRanking_data.market_rates)
         .build();
 
-        expect(pricingRankingDataTestDTOObject.getRank()).toBe("4.8");
-        expect(pricingRankingDataTestDTOObject.getSearchRank()).toBe("5.0");
-        expect(pricingRankingDataTestDTOObject.getPriceType()).toBe("Single");
-        expect(pricingRankingDataTestDTOObject.getFreeCancellation()).toBe(true);
-        expect(pricingRankingDataTestDTOObject.getRoomsAvailable()).toBe(30);
-        expect(pricingRankingDataTestDTOObject.getMaxCashPayment()).toBe("2890.70");
-        expect(pricingRankingDataTestDTOObject.getPoints()).toBe("40");
-        expect(pricingRankingDataTestDTOObject.getBonuses()).toBe("50.0");
-        expect(pricingRankingDataTestDTOObject.getBonusTiers()).toBe("NA");
-        expect(pricingRankingDataTestDTOObject.getLowestPrice()).toBe("2500.50");
-        expect(pricingRankingDataTestDTOObject.getPrice()).toBe("2650.73");
-        expect(pricingRankingDataTestDTOObject.getConvertedMaxCashPayment()).toBe("5880.50");
-        expect(pricingRankingDataTestDTOObject.getConvertedPrice()).toBe("4600.25");
-        expect(pricingRankingDataTestDTOObject.getLowestConvertedPrice()).toBe("4600.00");
-        expect(pricingRankingDataTestDTOObject.getMarketRates()).toStrictEqual(new Array(
-          {
-            supplier: "expedia",
-            rates: "2.50"
-          }
-        ));
+    expect(pricingRankingDataTestDTOObject.getRank()).toBe("4.8");
+    expect(pricingRankingDataTestDTOObject.getSearchRank()).toBe("5.0");
+    expect(pricingRankingDataTestDTOObject.getPriceType()).toBe("Single");
+    expect(pricingRankingDataTestDTOObject.getFreeCancellation()).toBe(true);
+    expect(pricingRankingDataTestDTOObject.getRoomsAvailable()).toBe(30);
+    expect(pricingRankingDataTestDTOObject.getMaxCashPayment()).toBe("2890.70");
+    expect(pricingRankingDataTestDTOObject.getPoints()).toBe("40");
+    expect(pricingRankingDataTestDTOObject.getBonuses()).toBe("50.0");
+    expect(pricingRankingDataTestDTOObject.getBonusTiers()).toBe("NA");
+    expect(pricingRankingDataTestDTOObject.getLowestPrice()).toBe("2500.50");
+    expect(pricingRankingDataTestDTOObject.getPrice()).toBe("2650.73");
+    expect(pricingRankingDataTestDTOObject.getConvertedMaxCashPayment()).toBe(
+      "5880.50"
+    );
+    expect(pricingRankingDataTestDTOObject.getConvertedPrice()).toBe("4600.25");
+    expect(pricingRankingDataTestDTOObject.getLowestConvertedPrice()).toBe(
+      "4600.00"
+    );
+    expect(pricingRankingDataTestDTOObject.getMarketRates()).toStrictEqual(
+      new Array({
+        supplier: "expedia",
+        rates: "2.50",
+      })
+    );
   });
 
-  test("Testing the OriginalMetaData subclass. Should return a class objet with attributes being set.", ()=>{
+  test("Testing the OriginalMetaData subclass. Should return a class objet with attributes being set.", () => {
     originalMetaData_data = {
-      name : "United States of America",
-      city : "Washington, DC.",
-      state : "Washington, DC.",
-      country : "US"
+      name: "United States of America",
+      city: "Washington, DC.",
+      state: "Washington, DC.",
+      country: "US",
     };
 
     originalMetaDataTestDTOObject = new hotelDataDTO.OriginalMetaData.Builder()
-    .setName(originalMetaData_data.name)
-    .setCity(originalMetaData_data.city)
-    .setState(originalMetaData_data.state)
-    .setCountry(originalMetaData_data.country)
-    .build();
+      .setName(originalMetaData_data.name)
+      .setCity(originalMetaData_data.city)
+      .setState(originalMetaData_data.state)
+      .setCountry(originalMetaData_data.country)
+      .build();
 
-    expect(originalMetaDataTestDTOObject.getName()).toBe("United States of America");
+    expect(originalMetaDataTestDTOObject.getName()).toBe(
+      "United States of America"
+    );
     expect(originalMetaDataTestDTOObject.getCity()).toBe("Washington, DC.");
     expect(originalMetaDataTestDTOObject.getState()).toBe("Washington, DC.");
     expect(originalMetaDataTestDTOObject.getCountry()).toBe("US");
   });
 
-  test("Testing the TrustYouBenchmark subclass. Should return a class object with attributes being set.", ()=>{
+  test("Testing the TrustYouBenchmark subclass. Should return a class object with attributes being set.", () => {
     trustYouBenchmark_data = {
-      trustYouId : "1ed9",
-      score : {
-        "Overall":7.5,
-        "Romantic": 8.0,
-        "Business": 1.0,
-        "Casual":9.2
+      trustYouId: "1ed9",
+      score: {
+        Overall: 7.5,
+        Romantic: 8.0,
+        Business: 1.0,
+        Casual: 9.2,
       },
     };
 
-    trustYouBenchmarkTestDTOObject = new hotelDataDTO.TrustYouBenchmark.Builder()
-    .setTrustYouId(trustYouBenchmark_data.trustYouId)
-    .setTrustYouScoreParameters(trustYouBenchmark_data.score)
-    .build();
+    trustYouBenchmarkTestDTOObject =
+      new hotelDataDTO.TrustYouBenchmark.Builder()
+        .setTrustYouId(trustYouBenchmark_data.trustYouId)
+        .setTrustYouScoreParameters(trustYouBenchmark_data.score)
+        .build();
 
     expect(trustYouBenchmarkTestDTOObject.getTrustYouId()).toBe("1ed9");
     expect(trustYouBenchmarkTestDTOObject.getScore()).toStrictEqual({
-        "Overall":7.5,
-        "Romantic": 8.0,
-        "Business": 1.0,
-        "Casual":9.2
-      });
+      Overall: 7.5,
+      Romantic: 8.0,
+      Business: 1.0,
+      Casual: 9.2,
+    });
   });
 
-  test("Testing the Amenities subclass. Should return a class object with attributes being set.", ()=>{
+  test("Testing the Amenities subclass. Should return a class object with attributes being set.", () => {
     amenities_data = {
-      "Emporio Armani Eau De Cologne":true,
-      "Maps":true,
-      "Spare tires":true,
-      "Henessey Venom GT Daily Test Drive":true,
-      "toilet paper":false,
+      "Emporio Armani Eau De Cologne": true,
+      Maps: true,
+      "Spare tires": true,
+      "Henessey Venom GT Daily Test Drive": true,
+      "toilet paper": false,
     };
 
     amenitiesTestDTOObject = new hotelDataDTO.Amenities.Builder()
-    .setAmenities(amenities_data).build();
+      .setAmenities(amenities_data)
+      .build();
 
     expect(amenitiesTestDTOObject.getAmenities()).toStrictEqual({
-      "Emporio Armani Eau De Cologne":true,
-      "Maps":true,
-      "Spare tires":true,
-      "Henessey Venom GT Daily Test Drive":true,
-      "toilet paper":false,
+      "Emporio Armani Eau De Cologne": true,
+      Maps: true,
+      "Spare tires": true,
+      "Henessey Venom GT Daily Test Drive": true,
+      "toilet paper": false,
     });
-  })
+  });
 });
 
-describe("Testing the ImageDetails subclass separately. Test cases accounting for absence of imageCount, URL Prefix and Suffix respectively.", ()=>{
-  test("Testing with all 3 attributes present: proper image URL prefix, suffix and image count. Class boolean attribute bNoAvailableImages should return false.", ()=>{
+describe("Testing the ImageDetails subclass separately. Test cases accounting for absence of imageCount, URL Prefix and Suffix respectively.", () => {
+  test("Testing with all 3 attributes present: proper image URL prefix, suffix and image count. Class boolean attribute bNoAvailableImages should return false.", () => {
     imageDetailsData = {
-      hires_image_index:"1,2,3,4,5",
-      image_url_prefix:"https://imageViewer/",
-      image_url_suffix:".jpg"
-    }
+      hires_image_index: "1,2,3,4,5",
+      image_url_prefix: "https://imageViewer/",
+      image_url_suffix: ".jpg",
+    };
 
     imageDetailsDTOTestObject = new hotelDataDTO.ImageDetails.Builder()
-    .setImageCounts(imageDetailsData.hires_image_index)
-    .setImageUrlPrefix(imageDetailsData.image_url_prefix)
-    .setImageUrlSuffix(imageDetailsData.image_url_suffix)
-    .build();
+      .setImageCounts(imageDetailsData.hires_image_index)
+      .setImageUrlPrefix(imageDetailsData.image_url_prefix)
+      .setImageUrlSuffix(imageDetailsData.image_url_suffix)
+      .build();
 
-    expect(imageDetailsDTOTestObject.getImageCounts()).toStrictEqual(new Array("1","2","3","4","5"));
-    expect(imageDetailsDTOTestObject.getImageUrlPrefix()).toBe("https://imageViewer/");
+    expect(imageDetailsDTOTestObject.getImageCounts()).toStrictEqual(
+      new Array("1", "2", "3", "4", "5")
+    );
+    expect(imageDetailsDTOTestObject.getImageUrlPrefix()).toBe(
+      "https://imageViewer/"
+    );
     expect(imageDetailsDTOTestObject.getImageUrlSuffix()).toBe(".jpg");
     expect(imageDetailsDTOTestObject.noAvailableImages()).toBe(false);
   });
 
-  test("Testing with attribute image count absent. Class boolean attribute bNoAvailableImages should return true.", ()=>{
+  test("Testing with attribute image count absent. Class boolean attribute bNoAvailableImages should return true.", () => {
     imageDetailsData = {
-      hires_image_index:"",
-      image_url_prefix:"https://imageViewer/",
-      image_url_suffix:".jpg"
-    }
+      hires_image_index: "",
+      image_url_prefix: "https://imageViewer/",
+      image_url_suffix: ".jpg",
+    };
 
     imageDetailsDTOTestObject = new hotelDataDTO.ImageDetails.Builder()
-    .setImageCounts(imageDetailsData.hires_image_index)
-    .setImageUrlPrefix(imageDetailsData.image_url_prefix)
-    .setImageUrlSuffix(imageDetailsData.image_url_suffix)
-    .build();
+      .setImageCounts(imageDetailsData.hires_image_index)
+      .setImageUrlPrefix(imageDetailsData.image_url_prefix)
+      .setImageUrlSuffix(imageDetailsData.image_url_suffix)
+      .build();
 
     expect(imageDetailsDTOTestObject.getImageCounts()).toBe(null);
-    expect(imageDetailsDTOTestObject.getImageUrlPrefix()).toBe("https://imageViewer/");
+    expect(imageDetailsDTOTestObject.getImageUrlPrefix()).toBe(
+      "https://imageViewer/"
+    );
     expect(imageDetailsDTOTestObject.getImageUrlSuffix()).toBe(".jpg");
     expect(imageDetailsDTOTestObject.noAvailableImages()).toBe(true);
   });
 
-  test("Testing with attribute image URL prefix absent. Class boolean attribute bNoAvailableImages should return true.", ()=>{
+  test("Testing with attribute image URL prefix absent. Class boolean attribute bNoAvailableImages should return true.", () => {
     imageDetailsData = {
-      hires_image_index:"1,2,3,4,5",
-      image_url_prefix:"",
-      image_url_suffix:".jpg"
-    }
+      hires_image_index: "1,2,3,4,5",
+      image_url_prefix: "",
+      image_url_suffix: ".jpg",
+    };
 
     imageDetailsDTOTestObject = new hotelDataDTO.ImageDetails.Builder()
-    .setImageCounts(imageDetailsData.hires_image_index)
-    .setImageUrlPrefix(imageDetailsData.image_url_prefix)
-    .setImageUrlSuffix(imageDetailsData.image_url_suffix)
-    .build();
+      .setImageCounts(imageDetailsData.hires_image_index)
+      .setImageUrlPrefix(imageDetailsData.image_url_prefix)
+      .setImageUrlSuffix(imageDetailsData.image_url_suffix)
+      .build();
 
-    expect(imageDetailsDTOTestObject.getImageCounts()).toStrictEqual(new Array("1","2","3","4","5"));
+    expect(imageDetailsDTOTestObject.getImageCounts()).toStrictEqual(
+      new Array("1", "2", "3", "4", "5")
+    );
     expect(imageDetailsDTOTestObject.getImageUrlPrefix()).toBe(null);
     expect(imageDetailsDTOTestObject.getImageUrlSuffix()).toBe(".jpg");
     expect(imageDetailsDTOTestObject.noAvailableImages()).toBe(true);
-    
   });
 
-  test("Testing with attribute image URL suffix absent. Class boolean attribute bNoAvailableImages should return true.", async()=>{
+  test("Testing with attribute image URL suffix absent. Class boolean attribute bNoAvailableImages should return true.", async () => {
     imageDetailsData = {
-      hires_image_index:"1,2,3,4,5",
-      image_url_prefix:"https://imageViewer/",
-      image_url_suffix:""
-    }
+      hires_image_index: "1,2,3,4,5",
+      image_url_prefix: "https://imageViewer/",
+      image_url_suffix: "",
+    };
 
     imageDetailsDTOTestObject = new hotelDataDTO.ImageDetails.Builder()
-    .setImageCounts(imageDetailsData.hires_image_index)
-    .setImageUrlPrefix(imageDetailsData.image_url_prefix)
-    .setImageUrlSuffix(imageDetailsData.image_url_suffix)
-    .build();
+      .setImageCounts(imageDetailsData.hires_image_index)
+      .setImageUrlPrefix(imageDetailsData.image_url_prefix)
+      .setImageUrlSuffix(imageDetailsData.image_url_suffix)
+      .build();
 
-    expect(imageDetailsDTOTestObject.getImageCounts()).toStrictEqual(new Array("1","2","3","4","5"));
-    expect(imageDetailsDTOTestObject.getImageUrlPrefix()).toBe("https://imageViewer/");
+    expect(imageDetailsDTOTestObject.getImageCounts()).toStrictEqual(
+      new Array("1", "2", "3", "4", "5")
+    );
+    expect(imageDetailsDTOTestObject.getImageUrlPrefix()).toBe(
+      "https://imageViewer/"
+    );
     expect(imageDetailsDTOTestObject.getImageUrlSuffix()).toBe(null);
     expect(imageDetailsDTOTestObject.noAvailableImages()).toBe(true);
   });

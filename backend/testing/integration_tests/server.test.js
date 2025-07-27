@@ -2,9 +2,11 @@ const request = require("supertest");
 const app = require("../../server");
 const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
 
-//import database model
+process.env.INTEGRATION_TEST = "true";
+process.env.NODE_ENV = "test";
 
-describe("GET localhost:8080/search/ (Main API route to initialise all variables for HotelDTO)", () => {
+//Testing destination search
+describe("GET /search/ (Main API route to initialise all variables for HotelDTO)", () => {
   jest.setTimeout(60000);
 
   jest.mock("../../models/destinations", () => ({
@@ -243,7 +245,9 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
         },
       },
       imageDetails: {
-        imageCounts: ["0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51"],
+        imageCounts: [
+          "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51",
+        ],
         imageUrlPrefix: "https://d2ey9sqrvkqdfs.cloudfront.net/050G/",
         imageUrlSuffix: ".jpg",
         stitchedImageUrls: [
@@ -559,7 +563,9 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
         },
       },
       imageDetails: {
-        imageCounts: ["0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48"],
+        imageCounts: [
+          "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48",
+        ],
         imageUrlPrefix: "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/",
         imageUrlSuffix: ".jpg",
         stitchedImageUrls: [
@@ -659,7 +665,7 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
   });
 });
 
-describe("GET localhost:8080/search/images (API to return the images of all the hotels for a given destination", () => {
+describe("GET /search/images (API to return the images of all the hotels for a given destination", () => {
   jest.setTimeout(60000);
 
   beforeEach(() => {
@@ -793,5 +799,262 @@ describe("Testing user registration and login", () => {
 
   afterAll(async () => {
     await teardownDatabaseValues();
+  });
+});
+
+//Testing Hotel room details listing
+describe("GET /search/hotel/prices (API to return the room details for a specific hotel).", () => {
+  test("Should return entire suite of data if the API is working, simulated after 3 tries. If this test works, data is properly instantiated.", async () => {
+    global.fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [
+              {
+                key: "4e3ccfc3-00ab-5d88-8bab-cece629e67ce",
+                roomDescription: "Double room",
+                roomNormalizedDescription: "Double Room",
+                type: "1",
+                free_cancellation: false,
+                long_description: null,
+                roomAdditionalInfo: {
+                  breakfastInfo: "hotel_detail_room_only",
+                  displayFields: {
+                    special_check_in_instructions: null,
+                    check_in_instructions: null,
+                    know_before_you_go: null,
+                    fees_optional: null,
+                    fees_mandatory: null,
+                    kaligo_service_fee: 0,
+                    hotel_fees: [],
+                    surcharges: [
+                      {
+                        type: "TaxAndServiceFee",
+                        amount: 544.41,
+                      },
+                    ],
+                  },
+                },
+                description: "Double room",
+                price_type: "single",
+                max_cash_payment: 4173.84,
+                coverted_max_cash_payment: 5450.23,
+                points: 136250,
+                bonuses: 0,
+                bonus_programs: [],
+                bonus_tiers: [],
+                lowest_price: 4173.84,
+                price: 5450.23,
+                converted_price: 5450.23,
+                lowest_converted_price: 5450.23,
+                chargeableRate: 4173.84,
+                market_rates: [
+                  {
+                    supplier: "expedia",
+                    rate: 4710.6112420344,
+                  },
+                ],
+                base_rate: 3629.43,
+                base_rate_in_currency: 4739.34,
+                included_taxes_and_fees_total: 544.41,
+                included_taxes_and_fees_total_in_currency: 710.9,
+                excluded_taxes_and_fees_currency: "USD",
+                excluded_taxes_and_fees_total: 0,
+                excluded_taxes_and_fees_total_in_currency: 0,
+                included_taxes_and_fees: [
+                  {
+                    id: "tax_and_service_fee",
+                    amount: 544.41,
+                    currency: "USD",
+                  },
+                ],
+                included_taxes_and_fees_in_currency: [
+                  {
+                    id: "tax_and_service_fee",
+                    amount: 710.9,
+                    currency: "SGD",
+                  },
+                ],
+              },
+            ],
+          }),
+      });
+
+    expectedOutput = {
+      keyRoomDetails: {
+        keyId: "4e3ccfc3-00ab-5d88-8bab-cece629e67ce",
+        roomDescription: "Double room",
+        roomTypeIndex: "1",
+        freeCancellation: false,
+        longDescription: null,
+      },
+      priceDetails: {
+        description: "Double room",
+        priceType: "single",
+        maxCashPayment: 4173.84,
+        points: 136250,
+        bonusPrograms: [],
+        bonusTiers: [],
+        lowestPrice: 4173.84,
+        price: 5450.23,
+        convertedPrice: 5450.23,
+        lowestConvertedPrice: 5450.23,
+        chargeableRate: 4173.84,
+        marketRates: [
+          {
+            supplier: "expedia",
+            rate: 4710.611242034396,
+          },
+        ],
+      },
+      taxDetails: {
+        baseRate: 3629.43,
+        baseRateInCurrency: 4739.34,
+        includedTaxesFeesTotal: 544.41,
+        includedTaxesFeesTotalInCurrency: 710.9,
+        excludedTaxesFeesTotal: 0,
+        excludedTaxesFeesTotalInCurrency: 0,
+        includedTaxesFeesDetails: [
+          {
+            id: "tax_and_service_fee",
+            amount: 544.41,
+            currency: "USD",
+          },
+        ],
+        includedTaxesFeesInCurrencyDetails: [
+          {
+            id: "tax_and_service_fee",
+            amount: 710.9,
+            currency: "SGD",
+          },
+        ],
+        excludedTaxesFeesInCurrencyDetails: null,
+        excludedTaxesFeesDetails: null,
+      },
+      roomAdditionalInfo: {
+        breakfastInfo: "hotel_detail_room_only",
+        specialCheckInInstructions: null,
+        knowBeforeYouGo: null,
+        optionalFees: null,
+        mandatoryFees: null,
+        kaligoServiceFee: 0,
+        hotelFees: [],
+        surcharges: [
+          {
+            type: "TaxAndServiceFee",
+            amount: 544.41,
+          },
+        ],
+      },
+    };
+
+    requestParameters = {
+      hotel_id: "diH7",
+      destination_id: "WD0M",
+      check_in_date: "2025-10-10",
+      check_out_date: "2025-10-17",
+      guest_count: "2",
+      room_count: "1",
+    };
+
+    const response = await request(app)
+      .get(
+        `/search/hotel/prices/${requestParameters.hotel_id}/${requestParameters.destination_id}/${requestParameters.check_in_date}/${requestParameters.check_out_date}/${requestParameters.guest_count}/${requestParameters.room_count}`
+      )
+      .expect(200);
+
+    expect(response)[0] = expectedOutput;
+  });
+
+  test("Should return error 500 if the API is unavaialble", async () => {
+    global.fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      });
+
+    response = await request(app)
+      .get(
+        `/search/hotel/prices/${requestParameters.hotel_id}/${requestParameters.destination_id}/${requestParameters.check_in_date}/${requestParameters.check_out_date}/${requestParameters.guest_count}/${requestParameters.room_count}`
+      )
+      .expect(500);
   });
 });

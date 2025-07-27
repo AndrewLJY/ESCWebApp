@@ -304,66 +304,8 @@ async function getAllHotelsAndPricesForDestination(
   return;
 }
 
-async function getSingleHotelPriceDetails(
-  hotelId,
-  destinationId,
-  checkInDate,
-  checkOutDate,
-  guestCount,
-  roomCount
-) {
-  let result = { rooms: [] };
-  let count = 0;
-  const waitDelay = 2000;
-
-  while (result.rooms.length === 0) {
-    if (count > 3) {
-      console.log(
-        "Unable to retrieve data, check for errors in request parameters."
-      );
-      break;
-    }
-
-    guestInputField = `${guestCount}`;
-    for (let i = 1; i < roomCount; i++) {
-      guestInputField += `|${guestCount}`;
-    }
-
-    const response = await fetch(
-      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1`,
-      {
-        method: "GET",
-      }
-    );
-
-    result = await response.json();
-
-    if (result.rooms.length > 0) {
-      break;
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, waitDelay));
-
-    count += 1;
-  }
-  return result;
-}
-
-async function getSingleHotelDetailsWithoutPrice(hotelId) {
-  const response = await fetch(
-    `https://hotelapi.loyalty.dev/api/hotels/${hotelId}`,
-    {
-      method: "GET",
-    }
-  );
-
-  result = await response.json();
-  return result;
-}
-
 module.exports = {
   hotelDataDTOClassList,
   getAllHotelsAndPricesForDestination,
-  getSingleHotelPriceDetails,
-  getSingleHotelDetailsWithoutPrice,
+  HotelDataTransferService,
 };
