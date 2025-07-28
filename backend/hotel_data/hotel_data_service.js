@@ -109,6 +109,10 @@ class HotelDataDTOClassList {
     this.bPriceDataUnavailable = false;
     this.emptyData = false;
     this.currentSearchDestinationName = null;
+    this.currentGuestCount = null;
+    this.currentRoomCount = null;
+    this.currentCheckIn = null;
+    this.currentCheckOut = null;
   }
   addHotelDataDTO(hotelDataDTO) {
     this.hotelDataDTOs.push(hotelDataDTO);
@@ -138,8 +142,40 @@ class HotelDataDTOClassList {
     this.currentSearchDestinationName = destName;
   }
 
+  setCurrentGuestCount(guestCount) {
+    this.currentGuestCount = guestCount;
+  }
+
+  setCurrentRoomCount(roomCount) {
+    this.currentRoomCount = roomCount;
+  }
+
+  setCurrentCheckIn(checkIn) {
+    this.currentCheckIn = checkIn;
+  }
+
+  setCurrentCheckOut(checkOut) {
+    this.currentCheckOut = checkOut;
+  }
+
   getCurrentDestinationName() {
     return this.currentSearchDestinationName;
+  }
+
+  getCurrentGuestCount() {
+    return this.currentGuestCount;
+  }
+
+  getCurrentRoomCount() {
+    return this.currentRoomCount;
+  }
+
+  getCurrentCheckIn() {
+    return this.currentCheckIn;
+  }
+
+  getCurrentCheckOut() {
+    return this.currentCheckOut;
   }
 
   resetHotelDTOList() {
@@ -217,20 +253,27 @@ async function getAllHotelsAndPricesForDestination(
   room_count
 ) {
   //We do an initial check here to avoid calling the API repeatedly. If we have already initialized our data for the same current destination, then leave it.
-  if (hotelDataDTOClassList.getCurrentDestinationName() === destination_name) {
+  if (
+    hotelDataDTOClassList.getCurrentDestinationName() === destination_name &&
+    hotelDataDTOClassList.getCurrentCheckIn() === check_in &&
+    hotelDataDTOClassList.getCurrentCheckOut() === check_out &&
+    hotelDataDTOClassList.getCurrentRoomCount() === room_count &&
+    hotelDataDTOClassList.getCurrentGuestCount() === guest_count
+  ) {
     console.log("Data has already been initialised");
-    return;
+    return 0;
   }
 
   const data = jsonData; //Bring over main json data file
 
   if (!data) {
-    return console.log("unable to load json data");
+    console.log("unable to load json data");
+    return -1;
   }
   let destinationId = await getHotelID(destination_name, jsonData);
   if (destinationId === "-1") {
     console.log("destination not found");
-    return;
+    return -1;
   }
 
   const response = await fetch(
@@ -244,7 +287,7 @@ async function getAllHotelsAndPricesForDestination(
   if (Array.isArray(destAPIData) && destAPIData.length === 0) {
     hotelDataDTOClassList.setIsEmpty(true);
     console.log("Unable to retrieve data from given destination.");
-    return;
+    return -1;
   }
 
   guestInputField = `${guest_count}`;
@@ -298,10 +341,14 @@ async function getAllHotelsAndPricesForDestination(
 
   // console.log("finished");
   hotelDataDTOClassList.setCurrentSearchDestinationName(destination_name);
+  hotelDataDTOClassList.setCurrentCheckIn(check_in);
+  hotelDataDTOClassList.setCurrentCheckOut(check_out);
+  hotelDataDTOClassList.setCurrentGuestCount(guest_count);
+  hotelDataDTOClassList.setCurrentRoomCount(room_count);
   //SAVE the current destination name we are searching for, as the subject of our DTO class.
   //That way, when we call a search for new destination through any of the endpoints the code will know when to reach back
   //to Ascenda API to get results for a new destination or not.
-  return;
+  return 0;
 }
 
 module.exports = {

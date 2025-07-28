@@ -271,11 +271,11 @@ class ImageDetails {
     this.imageUrlPrefix = builder.imageUrlPrefix;
     this.imageUrlSuffix = builder.imageUrlSuffix;
     this.stitchedImageUrls = builder.stitchedImageUrls;
-	this.bNoAvailableImages = builder.bNoAvailableImages;
+    this.bNoAvailableImages = builder.bNoAvailableImages;
   }
 
-  noAvailableImages(){
-	return this.bNoAvailableImages;
+  noAvailableImages() {
+    return this.bNoAvailableImages;
   }
 
   getImageCounts() {
@@ -305,19 +305,22 @@ class ImageDetails {
       }
 
       setImageCounts(hiresImageIndexString) {
-		if(hiresImageIndexString === "" || hiresImageIndexString === null)
-		{
-			this.bNoAvailableImages = true;
-			return this;
-		}
-		this.imageCounts = hiresImageIndexString.split(",");
-		return this;
+        if (
+          hiresImageIndexString === "" ||
+          hiresImageIndexString === null ||
+          hiresImageIndexString === undefined
+        ) {
+          this.bNoAvailableImages = true;
+          return this;
+        }
+        this.imageCounts = hiresImageIndexString.split(",");
+        return this;
       }
 
       setImageUrlPrefix(imageUrlPrefix) {
-		if (imageUrlPrefix === null || imageUrlPrefix === "") {
-			this.bNoAvailableImages = true;
-			return this;
+        if (imageUrlPrefix === null || imageUrlPrefix === "") {
+          this.bNoAvailableImages = true;
+          return this;
         }
         this.imageUrlPrefix = imageUrlPrefix;
         return this;
@@ -325,23 +328,23 @@ class ImageDetails {
 
       setImageUrlSuffix(imageUrlSuffix) {
         if (imageUrlSuffix === null || imageUrlSuffix === "") {
-			this.bNoAvailableImages = true;
-			return this;
+          this.bNoAvailableImages = true;
+          return this;
         }
         this.imageUrlSuffix = imageUrlSuffix;
         return this;
       }
 
       stitchImageUrls() {
-		if(this.bNoAvailableImages === true){
-			console.log("No Available Images");
-			return this;
-		}
+        if (this.bNoAvailableImages === true) {
+          console.log("No Available Images");
+          return this;
+        }
 
-		//Else:
-		for (let index of this.imageCounts) {
-		let oneStichedUrl = `${this.imageUrlPrefix}${index}${this.imageUrlSuffix}`;
-		this.stitchedImageUrls.push(oneStichedUrl);
+        //Else:
+        for (let index of this.imageCounts) {
+          let oneStichedUrl = `${this.imageUrlPrefix}${index}${this.imageUrlSuffix}`;
+          this.stitchedImageUrls.push(oneStichedUrl);
         }
 
         return this;

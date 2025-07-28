@@ -5,7 +5,7 @@ const hotelDataDTOServiceModule = require("../../hotel_data/hotel_data_service")
 const hotelDataDTOModule = require("../../hotel_data/hotel_data_DTO");
 
 //Mock the jsondata recieved from Ascenda. Should be able to facilitate the data transference by initialising the respective attributes in the DTO unit below, through its builder pattern
-describe("Testing its facilitation of data transference, by being able to initialise attributes in a test DTO Object.", () => {
+describe("(WHITE-BOX UNIT) Testing hotel_data_service, its facilitation of data transference by initialising attributes in the test hotel_data DTO", () => {
   testJSONData = {
     id: "obxM",
     imageCount: 100,
@@ -140,7 +140,7 @@ describe("Testing its facilitation of data transference, by being able to initia
       .setCountry(testJSONData.country)
       .build();
 
-  test("Test if the Transfer Service works for this particular hotel data", () => {
+  test("Test if the Transfer Service works for a given set of particular hotel data. Should initialise all attributes as provided.", () => {
     hotelDataTransferService =
       new hotelDataDTOServiceModule.HotelDataTransferService(testJSONData);
 
