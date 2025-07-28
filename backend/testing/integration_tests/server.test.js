@@ -1,9 +1,12 @@
 const request = require("supertest");
 const app = require("../../server");
 const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
-const { json } = require("express");
 
-describe("GET localhost:8080/search/ (Main API route to initialise all variables for HotelDTO)", () => {
+process.env.INTEGRATION_TEST = "true";
+process.env.NODE_ENV = "test";
+
+//Testing destination search
+describe("GET /search/ (Main API route to initialise all variables for HotelDTO)", () => {
   jest.setTimeout(60000);
 
   jest.mock("../../models/destinations", () => ({
@@ -20,7 +23,7 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
 
   test("Should return a partial data without pricing details is price API is unavailable", async () => {
     const requestBody = {
-      destination_name: "Singapore, Singapore",
+      destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
       check_out_date: "25-10-17",
       language: "en_US",
@@ -196,8 +199,9 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
       });
 
     const response = await request(app)
-      .post("/search/")
-      .send(requestBody)
+      .get(
+        `/search/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
+      )
       .expect(200); //Expect a 200 Status OK
 
     expect(Array.isArray(response.body)).toBe(true);
@@ -241,7 +245,9 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
         },
       },
       imageDetails: {
-        imageCounts: 62,
+        imageCounts: [
+          "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51",
+        ],
         imageUrlPrefix: "https://d2ey9sqrvkqdfs.cloudfront.net/050G/",
         imageUrlSuffix: ".jpg",
         stitchedImageUrls: [
@@ -297,16 +303,6 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
           "https://d2ey9sqrvkqdfs.cloudfront.net/050G/49.jpg",
           "https://d2ey9sqrvkqdfs.cloudfront.net/050G/50.jpg",
           "https://d2ey9sqrvkqdfs.cloudfront.net/050G/51.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/52.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/53.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/54.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/55.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/56.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/57.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/58.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/59.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/60.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/050G/61.jpg",
         ],
       },
       originalMetaData: {
@@ -334,7 +330,7 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
 
   test("Should return a 500 server error if the retrieved data is null, and that data has not been initialied beforehand", async () => {
     const requestBody = {
-      destination_name: "Singapore, Singapore",
+      destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
       check_out_date: "25-10-17",
       language: "en_US",
@@ -366,14 +362,15 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
     });
 
     const response = await request(app)
-      .post("/search/")
-      .send(requestBody)
+      .get(
+        `/search/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
+      )
       .expect(500); //Expect a 200 Status OK
   });
 
   test("Should return entire suite of data, if prices API is working", async () => {
     const requestBody = {
-      destination_name: "Singapore, Singapore",
+      destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
       check_out_date: "25-10-17",
       language: "en_US",
@@ -520,8 +517,9 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
       });
 
     const response = await request(app)
-      .post("/search/")
-      .send(requestBody)
+      .get(
+        `/search/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
+      )
       .expect(200); //Expect a 200 Status OK
 
     expect(Array.isArray(response.body)).toBe(true);
@@ -565,7 +563,9 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
         },
       },
       imageDetails: {
-        imageCounts: 100,
+        imageCounts: [
+          "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48",
+        ],
         imageUrlPrefix: "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/",
         imageUrlSuffix: ".jpg",
         stitchedImageUrls: [
@@ -618,57 +618,6 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
           "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/46.jpg",
           "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/47.jpg",
           "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/48.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/49.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/50.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/51.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/52.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/53.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/54.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/55.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/56.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/57.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/58.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/59.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/60.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/61.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/62.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/63.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/64.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/65.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/66.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/67.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/68.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/69.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/70.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/71.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/72.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/73.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/74.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/75.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/76.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/77.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/78.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/79.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/80.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/81.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/82.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/83.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/84.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/85.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/86.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/87.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/88.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/89.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/90.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/91.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/92.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/93.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/94.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/95.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/96.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/97.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/98.jpg",
-          "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/99.jpg",
         ],
       },
       originalMetaData: {
@@ -716,7 +665,7 @@ describe("GET localhost:8080/search/ (Main API route to initialise all variables
   });
 });
 
-describe("GET localhost:8080/search/images (API to return the images of all the hotels for a given destination", () => {
+describe("GET /search/images (API to return the images of all the hotels for a given destination", () => {
   jest.setTimeout(60000);
 
   beforeEach(() => {
@@ -781,60 +730,331 @@ describe("GET localhost:8080/search/images (API to return the images of all the 
         "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/46.jpg",
         "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/47.jpg",
         "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/48.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/49.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/50.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/51.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/52.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/53.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/54.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/55.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/56.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/57.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/58.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/59.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/60.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/61.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/62.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/63.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/64.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/65.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/66.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/67.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/68.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/69.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/70.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/71.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/72.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/73.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/74.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/75.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/76.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/77.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/78.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/79.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/80.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/81.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/82.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/83.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/84.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/85.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/86.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/87.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/88.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/89.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/90.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/91.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/92.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/93.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/94.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/95.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/96.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/97.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/98.jpg",
-        "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/99.jpg",
       ],
     };
 
     expect(response.body).toEqual(expect.objectContaining(expectOneResource));
+  });
+});
+
+const db = require("../../models/db");
+
+//Testing user.js /login and /register routes
+//Steps:
+//1. Try to login with a user credentials which do not exist in the database (should return 401 unauthorized)
+//2. Register with the same credentials (should return 200)
+//3. Login again with now registered credentials (should return 200)
+//4. Clear test values from database
+describe("Testing user registration and login", () => {
+  async function createTestDbTable() {
+    try {
+      // for simplicity, we assume staff names are uniqe (in the absence of NRIC or personal email)
+      db.pool.query(`
+          CREATE TABLE IF NOT EXISTS USER_TEST_TABLE (
+              id INTEGER AUTO_INCREMENT PRIMARY KEY,
+              email VARCHAR(255),
+              password VARCHAR(255)
+          )
+          `);
+      console.log("Test database initialised for tests");
+    } catch (error) {
+      console.error("database connection failed. ", error);
+      throw error;
+    }
+  }
+
+  async function teardownDatabaseValues() {
+    try {
+      db.pool.query(`
+			DROP TABLE IF EXISTS USER_TEST_TABLE
+			`);
+    } catch (error) {
+      console.error("database connection failed", error);
+      throw error;
+    }
+  }
+
+  //Make sure no stray values in database for testing purposes.
+
+  beforeAll(async () => {
+    await createTestDbTable();
+  });
+
+  requestBody = {
+    email: "testingUser@gmail.com",
+    password: "testingPassword",
+  };
+
+  test("Logging in with unregistered user details. Should return an error", async () => {
+    await request(app).post("/auth/login").send(requestBody).expect(401);
+  });
+
+  test("Registering with user details not already existing in the database", async () => {
+    await request(app).post("/auth/register").send(requestBody).expect(200);
+  });
+
+  test("Logging in with the newly registered user", async () => {
+    await request(app).post("/auth/login").send(requestBody).expect(200);
+  });
+
+  afterAll(async () => {
+    await teardownDatabaseValues();
+  });
+});
+
+//Testing Hotel room details listing
+describe("GET /search/hotel/prices (API to return the room details for a specific hotel).", () => {
+  test("Should return entire suite of data if the API is working, simulated after 3 tries. If this test works, data is properly instantiated.", async () => {
+    global.fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [
+              {
+                key: "4e3ccfc3-00ab-5d88-8bab-cece629e67ce",
+                roomDescription: "Double room",
+                roomNormalizedDescription: "Double Room",
+                type: "1",
+                free_cancellation: false,
+                long_description: null,
+                roomAdditionalInfo: {
+                  breakfastInfo: "hotel_detail_room_only",
+                  displayFields: {
+                    special_check_in_instructions: null,
+                    check_in_instructions: null,
+                    know_before_you_go: null,
+                    fees_optional: null,
+                    fees_mandatory: null,
+                    kaligo_service_fee: 0,
+                    hotel_fees: [],
+                    surcharges: [
+                      {
+                        type: "TaxAndServiceFee",
+                        amount: 544.41,
+                      },
+                    ],
+                  },
+                },
+                description: "Double room",
+                price_type: "single",
+                max_cash_payment: 4173.84,
+                coverted_max_cash_payment: 5450.23,
+                points: 136250,
+                bonuses: 0,
+                bonus_programs: [],
+                bonus_tiers: [],
+                lowest_price: 4173.84,
+                price: 5450.23,
+                converted_price: 5450.23,
+                lowest_converted_price: 5450.23,
+                chargeableRate: 4173.84,
+                market_rates: [
+                  {
+                    supplier: "expedia",
+                    rate: 4710.6112420344,
+                  },
+                ],
+                base_rate: 3629.43,
+                base_rate_in_currency: 4739.34,
+                included_taxes_and_fees_total: 544.41,
+                included_taxes_and_fees_total_in_currency: 710.9,
+                excluded_taxes_and_fees_currency: "USD",
+                excluded_taxes_and_fees_total: 0,
+                excluded_taxes_and_fees_total_in_currency: 0,
+                included_taxes_and_fees: [
+                  {
+                    id: "tax_and_service_fee",
+                    amount: 544.41,
+                    currency: "USD",
+                  },
+                ],
+                included_taxes_and_fees_in_currency: [
+                  {
+                    id: "tax_and_service_fee",
+                    amount: 710.9,
+                    currency: "SGD",
+                  },
+                ],
+              },
+            ],
+          }),
+      });
+
+    expectedOutput = {
+      keyRoomDetails: {
+        keyId: "4e3ccfc3-00ab-5d88-8bab-cece629e67ce",
+        roomDescription: "Double room",
+        roomTypeIndex: "1",
+        freeCancellation: false,
+        longDescription: null,
+      },
+      priceDetails: {
+        description: "Double room",
+        priceType: "single",
+        maxCashPayment: 4173.84,
+        points: 136250,
+        bonusPrograms: [],
+        bonusTiers: [],
+        lowestPrice: 4173.84,
+        price: 5450.23,
+        convertedPrice: 5450.23,
+        lowestConvertedPrice: 5450.23,
+        chargeableRate: 4173.84,
+        marketRates: [
+          {
+            supplier: "expedia",
+            rate: 4710.611242034396,
+          },
+        ],
+      },
+      taxDetails: {
+        baseRate: 3629.43,
+        baseRateInCurrency: 4739.34,
+        includedTaxesFeesTotal: 544.41,
+        includedTaxesFeesTotalInCurrency: 710.9,
+        excludedTaxesFeesTotal: 0,
+        excludedTaxesFeesTotalInCurrency: 0,
+        includedTaxesFeesDetails: [
+          {
+            id: "tax_and_service_fee",
+            amount: 544.41,
+            currency: "USD",
+          },
+        ],
+        includedTaxesFeesInCurrencyDetails: [
+          {
+            id: "tax_and_service_fee",
+            amount: 710.9,
+            currency: "SGD",
+          },
+        ],
+        excludedTaxesFeesInCurrencyDetails: null,
+        excludedTaxesFeesDetails: null,
+      },
+      roomAdditionalInfo: {
+        breakfastInfo: "hotel_detail_room_only",
+        specialCheckInInstructions: null,
+        knowBeforeYouGo: null,
+        optionalFees: null,
+        mandatoryFees: null,
+        kaligoServiceFee: 0,
+        hotelFees: [],
+        surcharges: [
+          {
+            type: "TaxAndServiceFee",
+            amount: 544.41,
+          },
+        ],
+      },
+    };
+
+    requestParameters = {
+      hotel_id: "diH7",
+      destination_id: "WD0M",
+      check_in_date: "2025-10-10",
+      check_out_date: "2025-10-17",
+      guest_count: "2",
+      room_count: "1",
+    };
+
+    const response = await request(app)
+      .get(
+        `/search/hotel/prices/${requestParameters.hotel_id}/${requestParameters.destination_id}/${requestParameters.check_in_date}/${requestParameters.check_out_date}/${requestParameters.guest_count}/${requestParameters.room_count}`
+      )
+      .expect(200);
+
+    expect(response)[0] = expectedOutput;
+  });
+
+  test("Should return error 500 if the API is unavaialble", async () => {
+    global.fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            searchCompleted: null,
+            completed: true,
+            status: null,
+            currency: null,
+            rooms: [],
+          }),
+      });
+
+    response = await request(app)
+      .get(
+        `/search/hotel/prices/${requestParameters.hotel_id}/${requestParameters.destination_id}/${requestParameters.check_in_date}/${requestParameters.check_out_date}/${requestParameters.guest_count}/${requestParameters.room_count}`
+      )
+      .expect(500);
   });
 });

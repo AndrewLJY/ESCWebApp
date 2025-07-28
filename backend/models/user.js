@@ -1,5 +1,10 @@
 const db = require('./db.js');
-const tableName = 'user';
+var tableName;
+if (process.env.NODE_ENV !== 'test') {
+    tableName = 'user';
+}else{
+    tableName = 'user_test_table';
+}
 const bcrypt = require('bcrypt')
 
 class User {
@@ -53,16 +58,14 @@ async function findByEmail(email) {
 async function insertOne(user) {
     try {
         const exists = await findByEmail(user.email);
-        console.log(exists);
         
         if (exists.length == 0) {
-            console.log("inserting...");
             const [rows, fieldDefs] = await db.pool.query(`
             INSERT INTO ${tableName} (email, password) VALUES (?,?)
             `, [user.email, user.password]);
         }
         else{
-            console.log("Exists already!!!!");
+            // console.log("Exists already!!!!");
             return "entry already exists.";
         }
     } catch (error) {
@@ -112,4 +115,4 @@ async function login(email, password) {
     }
 }
 
-module.exports= {User, sync, insertOne, all, login};
+module.exports= {User, sync, insertOne, all, login, tableName};

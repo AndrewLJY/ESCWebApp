@@ -42,7 +42,7 @@ class HotelDataTransferService {
 
   transferImageDetails() {
     this.imageDetails = new hotelDataDTO.ImageDetails.Builder()
-      .setImageCounts(this.jsonData.image_details.count)
+      .setImageCounts(this.jsonData.hires_image_index)
       .setImageUrlPrefix(this.jsonData.image_details.prefix)
       .setImageUrlSuffix(this.jsonData.image_details.suffix)
       .stitchImageUrls()
@@ -155,7 +155,6 @@ async function getHotelID(term, jsonData) {
   let destination = jsonData.find((item) => item.term == term);
   if (destination) {
     let uid = destination.uid;
-    console.log("UId", uid);
     return uid;
   } else {
     return "-1";
@@ -240,7 +239,6 @@ async function getAllHotelsAndPricesForDestination(
       method: "GET",
     }
   );
-
   destAPIData = await response.json(); //Results from Dest API
 
   if (Array.isArray(destAPIData) && destAPIData.length === 0) {
@@ -298,7 +296,7 @@ async function getAllHotelsAndPricesForDestination(
     hotelDataDTOClassList.addHotelDataDTO(dataForSingleHotel);
   }
 
-  console.log("finished");
+  // console.log("finished");
   hotelDataDTOClassList.setCurrentSearchDestinationName(destination_name);
   //SAVE the current destination name we are searching for, as the subject of our DTO class.
   //That way, when we call a search for new destination through any of the endpoints the code will know when to reach back
@@ -306,66 +304,8 @@ async function getAllHotelsAndPricesForDestination(
   return;
 }
 
-async function getSingleHotelPriceDetails(
-  hotelId,
-  destinationId,
-  checkInDate,
-  checkOutDate,
-  guestCount,
-  roomCount
-) {
-  let result = { rooms: [] };
-  let count = 0;
-  const waitDelay = 2000;
-
-  while (result.rooms.length === 0) {
-    if (count > 3) {
-      console.log(
-        "Unable to retrieve data, check for errors in request parameters."
-      );
-      break;
-    }
-
-    guestInputField = `${guestCount}`;
-    for (let i = 1; i < roomCount; i++) {
-      guestInputField += `|${guestCount}`;
-    }
-
-    const response = await fetch(
-      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1`,
-      {
-        method: "GET",
-      }
-    );
-
-    result = await response.json();
-
-    if (result.rooms.length > 0) {
-      break;
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, waitDelay));
-
-    count += 1;
-  }
-  return result;
-}
-
-async function getSingleHotelDetailsWithoutPrice(hotelId) {
-  const response = await fetch(
-    `https://hotelapi.loyalty.dev/api/hotels/${hotelId}`,
-    {
-      method: "GET",
-    }
-  );
-
-  result = await response.json();
-  return result;
-}
-
 module.exports = {
   hotelDataDTOClassList,
   getAllHotelsAndPricesForDestination,
-  getSingleHotelPriceDetails,
-  getSingleHotelDetailsWithoutPrice,
+  HotelDataTransferService,
 };

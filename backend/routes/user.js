@@ -34,15 +34,14 @@ router.post('/register/', async function(req, res, next) {
 router.post('/login/', async function(req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email)
-    console.log(password)
     const result = await userModel.login(email, password);
     if (result.success) {
         res.send(JSON.stringify({
             message: "Login successful"
         }));
     } else {
-        res.console.error("Login Failed");
+        console.log("User not authorised");
+        res.status(401).send("Login unsuccessful.");
     }
 });
 

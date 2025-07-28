@@ -1,7 +1,7 @@
-var path = require('path');
-var createError = require('http-errors');
-var process = require('process');
-var db = require('./models/db.js');
+var path = require("path");
+var createError = require("http-errors");
+var process = require("process");
+var db = require("./models/db.js");
 const express = require("express");
 const cors = require("cors");
 require('dotenv').config()
@@ -9,60 +9,50 @@ require('dotenv').config()
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 
-process.on('SIGINT', db.cleanup);
-process.on('SIGTERM', db.cleanup);
+process.on("SIGINT", db.cleanup);
+process.on("SIGTERM", db.cleanup);
 
-var usersRouter = require('./routes/user');
-var indexRouter = require('./routes/index');
-// var hotelRouter = require('./routes/hotel');
-var stripeRouter = require('./routes/stripe');
-var searchRouter = require('./routes/search');
+var usersRouter = require("./routes/user");
+var indexRouter = require("./routes/index");
+var searchRouter = require("./routes/search");
 
-var userModel = require('./models/user.js');
-var bookingModel = require('./models/booking.js');
-var destinationNamesModel = require('./models/destinations.js');
+var userModel = require("./models/user.js");
+var bookingModel = require("./models/booking.js");
+var destinationNamesModel = require("./models/destinations.js");
 
 //Check if the environment is not set to testing!
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   userModel.sync();
   bookingModel.sync();
-  destinationNamesModel.sync().then(() => destinationNamesModel.insertFromJSON());
+  destinationNamesModel
+    .sync()
+    .then(() => destinationNamesModel.insertFromJSON());
 }
 
-
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
-
-app.use('/', indexRouter);
-app.use('/auth', usersRouter); //link to user module under routes/user.js
-// app.use('/bookings', bookingRouter); //link to booking module under routes/booking.js
-// app.use('/hotel',hotelRouter);
-app.use('/stripe',stripeRouter);
-app.use('/search',searchRouter); //Define the router key, since we are exporting the hotelDTOClassList as a separate module for middleware to use!
+app.use("/", indexRouter);
+app.use("/auth", usersRouter);
+app.use("/search", searchRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
 
 module.exports = app;
-
-
-
-
