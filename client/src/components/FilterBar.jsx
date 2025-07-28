@@ -1,4 +1,5 @@
-// import React, { useState, useEffect, useCallback } from "react";
+// // src/components/FilterBar.jsx
+// import React, { useState, useEffect } from "react";
 // import "../styles/FilterBar.css";
 // import { useNavigate } from "react-router-dom";
 
@@ -12,7 +13,6 @@
 //     guests_filters: { open: false, value: "" },
 //   });
 
-//   // Controlled filter state
 //   const [locationFilter, setLocationFilter] = useState("");
 //   const [hotelFilter, setHotelFilter] = useState("");
 //   const [checkin, setCheckin] = useState("");
@@ -21,10 +21,8 @@
 
 //   const toggle = (key) =>
 //     setFilters((f) => ({ ...f, [key]: { ...f[key], open: !f[key].open } }));
-
 //   const update = (key, val) =>
 //     setFilters((f) => ({ ...f, [key]: { ...f[key], value: val } }));
-
 //   const fmtDate = (iso) => (iso ? new Date(iso).toLocaleDateString() : "");
 
 //   const onSearch = () => {
@@ -36,6 +34,7 @@
 //       guests_filters,
 //     } = filters;
 
+//     // 1) Location/hotel required
 //     if (
 //       !location_filters.value.trim() &&
 //       !hotel_filters.value.trim() &&
@@ -45,6 +44,8 @@
 //       alert("Please enter a location or a hotel name.");
 //       return;
 //     }
+
+//     // 2) Dates required
 //     if (!checkin_filters.value && !checkin) {
 //       alert("Please select a check-in date.");
 //       return;
@@ -53,13 +54,24 @@
 //       alert("Please select a check-out date.");
 //       return;
 //     }
-//     if (!guests_filters.value && !guests) {
-//       alert("Please specify number of guests.");
-//       return;
+
+//     // 3) Guests required — split per mode
+//     if (isSearchPage) {
+//       // on the SearchPage view, use the controlled `guests`
+//       if (!guests) {
+//         alert("Please specify number of guests.");
+//         return;
+//       }
+//     } else {
+//       // on the LandingPage view, use filters.guests_filters.value
+//       if (!guests_filters.value) {
+//         alert("Please specify number of guests.");
+//         return;
+//       }
 //     }
 
+//     // 4) Build query params
 //     const params = new URLSearchParams();
-
 //     if (isSearchPage) {
 //       if (locationFilter.trim()) params.set("location", locationFilter.trim());
 //       if (hotelFilter.trim()) params.set("hotel", hotelFilter.trim());
@@ -76,12 +88,14 @@
 //       params.set("guests", guests_filters.value);
 //     }
 
+//     // 5) Navigate
 //     navigate(`/search?${params.toString()}`);
 //   };
 
+//   // Populate controlled state when on SearchPage
 //   useEffect(() => {
 //     if (isSearchPage) {
-//       const qs = search.startsWith("?") ? search.substring(1) : search;
+//       const qs = search.startsWith("?") ? search.slice(1) : search;
 //       const params = new URLSearchParams(qs);
 //       setLocationFilter(params.get("location") || "");
 //       setHotelFilter(params.get("hotel") || "");
@@ -89,49 +103,46 @@
 //       setCheckout(params.get("checkout") || "");
 //       setGuests(params.get("guests") || "1");
 //     }
-//   }, [search, fetchData]);
+//   }, [search, fetchData, isSearchPage]);
 
 //   return (
 //     <div>
 //       {isSearchPage ? (
+//         // --- SearchPage filter UI ---
 //         <div className="sp-filter-bar">
 //           <input
-//             className="filter-input"
 //             type="text"
 //             placeholder="Location"
+//             className="filter-input"
 //             value={locationFilter}
-//             onChange={(e) => {
-//               setLocationFilter(e.target.value);
-//             }}
+//             onChange={(e) => setLocationFilter(e.target.value)}
 //           />
 //           <input
-//             className="filter-input"
 //             type="text"
 //             placeholder="Hotel name"
+//             className="filter-input"
 //             value={hotelFilter}
-//             onChange={(e) => {
-//               setHotelFilter(e.target.value);
-//             }}
+//             onChange={(e) => setHotelFilter(e.target.value)}
 //           />
 //           <input
+//             type="date"
 //             placeholder="Check-in"
 //             className="filter-input"
-//             type="date"
 //             value={checkin}
 //             onChange={(e) => setCheckin(e.target.value)}
 //           />
 //           <input
+//             type="date"
 //             placeholder="Check-out"
 //             className="filter-input"
-//             type="date"
 //             value={checkout}
 //             onChange={(e) => setCheckout(e.target.value)}
 //           />
 //           <input
-//             className="filter-input"
 //             type="number"
-//             min="1"
 //             placeholder="Guests"
+//             className="filter-input"
+//             min="1"
 //             value={guests}
 //             onChange={(e) => setGuests(e.target.value)}
 //           />
@@ -140,16 +151,18 @@
 //           </button>
 //         </div>
 //       ) : (
+//         // --- LandingPage filter UI ---
 //         <div className="filter-bar">
+//           {/* Location */}
 //           <div className="filter">
 //             {filters.location_filters.open ? (
 //               <input
+//                 autoFocus
 //                 className="filter-input"
 //                 placeholder="Where to?"
 //                 value={filters.location_filters.value}
 //                 onChange={(e) => update("location_filters", e.target.value)}
 //                 onBlur={() => toggle("location_filters")}
-//                 autoFocus
 //               />
 //             ) : (
 //               <button
@@ -162,15 +175,16 @@
 //           </div>
 //           <div className="separator" />
 
+//           {/* Hotel */}
 //           <div className="filter">
 //             {filters.hotel_filters.open ? (
 //               <input
+//                 autoFocus
 //                 className="filter-input"
 //                 placeholder="Hotel name"
 //                 value={filters.hotel_filters.value}
 //                 onChange={(e) => update("hotel_filters", e.target.value)}
 //                 onBlur={() => toggle("hotel_filters")}
-//                 autoFocus
 //               />
 //             ) : (
 //               <button
@@ -183,15 +197,16 @@
 //           </div>
 //           <div className="separator" />
 
+//           {/* Check-in */}
 //           <div className="filter">
 //             {filters.checkin_filters.open ? (
 //               <input
+//                 autoFocus
 //                 className="filter-input"
 //                 type="date"
 //                 value={filters.checkin_filters.value}
 //                 onChange={(e) => update("checkin_filters", e.target.value)}
 //                 onBlur={() => toggle("checkin_filters")}
-//                 autoFocus
 //               />
 //             ) : (
 //               <button
@@ -208,15 +223,16 @@
 //           </div>
 //           <div className="separator" />
 
+//           {/* Check-out */}
 //           <div className="filter">
 //             {filters.checkout_filters.open ? (
 //               <input
+//                 autoFocus
 //                 className="filter-input"
 //                 type="date"
 //                 value={filters.checkout_filters.value}
 //                 onChange={(e) => update("checkout_filters", e.target.value)}
 //                 onBlur={() => toggle("checkout_filters")}
-//                 autoFocus
 //               />
 //             ) : (
 //               <button
@@ -233,9 +249,11 @@
 //           </div>
 //           <div className="separator" />
 
+//           {/* Guests */}
 //           <div className="filter">
 //             {filters.guests_filters.open ? (
 //               <input
+//                 autoFocus
 //                 className="filter-input"
 //                 type="number"
 //                 min="1"
@@ -243,7 +261,6 @@
 //                 value={filters.guests_filters.value}
 //                 onChange={(e) => update("guests_filters", e.target.value)}
 //                 onBlur={() => toggle("guests_filters")}
-//                 autoFocus
 //               />
 //             ) : (
 //               <button
@@ -267,12 +284,18 @@
 //     </div>
 //   );
 // }
+
 // src/components/FilterBar.jsx
 import React, { useState, useEffect } from "react";
 import "../styles/FilterBar.css";
 import { useNavigate } from "react-router-dom";
 
-export default function FilterBar({ search, fetchData, isSearchPage = false }) {
+export default function FilterBar({
+  search,
+  fetchData,
+  isSearchPage = false,
+  className = "",
+}) {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     location_filters: { open: false, value: "" },
@@ -303,7 +326,6 @@ export default function FilterBar({ search, fetchData, isSearchPage = false }) {
       guests_filters,
     } = filters;
 
-    // 1) Location/hotel required
     if (
       !location_filters.value.trim() &&
       !hotel_filters.value.trim() &&
@@ -314,7 +336,6 @@ export default function FilterBar({ search, fetchData, isSearchPage = false }) {
       return;
     }
 
-    // 2) Dates required
     if (!checkin_filters.value && !checkin) {
       alert("Please select a check-in date.");
       return;
@@ -324,22 +345,18 @@ export default function FilterBar({ search, fetchData, isSearchPage = false }) {
       return;
     }
 
-    // 3) Guests required — split per mode
     if (isSearchPage) {
-      // on the SearchPage view, use the controlled `guests`
       if (!guests) {
         alert("Please specify number of guests.");
         return;
       }
     } else {
-      // on the LandingPage view, use filters.guests_filters.value
       if (!guests_filters.value) {
         alert("Please specify number of guests.");
         return;
       }
     }
 
-    // 4) Build query params
     const params = new URLSearchParams();
     if (isSearchPage) {
       if (locationFilter.trim()) params.set("location", locationFilter.trim());
@@ -357,11 +374,9 @@ export default function FilterBar({ search, fetchData, isSearchPage = false }) {
       params.set("guests", guests_filters.value);
     }
 
-    // 5) Navigate
     navigate(`/search?${params.toString()}`);
   };
 
-  // Populate controlled state when on SearchPage
   useEffect(() => {
     if (isSearchPage) {
       const qs = search.startsWith("?") ? search.slice(1) : search;
@@ -375,9 +390,8 @@ export default function FilterBar({ search, fetchData, isSearchPage = false }) {
   }, [search, fetchData, isSearchPage]);
 
   return (
-    <div>
+    <div className={`filter-bar-wrapper ${className}`}>
       {isSearchPage ? (
-        // --- SearchPage filter UI ---
         <div className="sp-filter-bar">
           <input
             type="text"
@@ -395,21 +409,18 @@ export default function FilterBar({ search, fetchData, isSearchPage = false }) {
           />
           <input
             type="date"
-            placeholder="Check-in"
             className="filter-input"
             value={checkin}
             onChange={(e) => setCheckin(e.target.value)}
           />
           <input
             type="date"
-            placeholder="Check-out"
             className="filter-input"
             value={checkout}
             onChange={(e) => setCheckout(e.target.value)}
           />
           <input
             type="number"
-            placeholder="Guests"
             className="filter-input"
             min="1"
             value={guests}
@@ -420,131 +431,47 @@ export default function FilterBar({ search, fetchData, isSearchPage = false }) {
           </button>
         </div>
       ) : (
-        // --- LandingPage filter UI ---
         <div className="filter-bar">
-          {/* Location */}
-          <div className="filter">
-            {filters.location_filters.open ? (
-              <input
-                autoFocus
-                className="filter-input"
-                placeholder="Where to?"
-                value={filters.location_filters.value}
-                onChange={(e) => update("location_filters", e.target.value)}
-                onBlur={() => toggle("location_filters")}
-              />
-            ) : (
-              <button
-                className="filter-btn"
-                onClick={() => toggle("location_filters")}
-              >
-                <span>{filters.location_filters.value || "Location"}</span>
-              </button>
-            )}
-          </div>
-          <div className="separator" />
-
-          {/* Hotel */}
-          <div className="filter">
-            {filters.hotel_filters.open ? (
-              <input
-                autoFocus
-                className="filter-input"
-                placeholder="Hotel name"
-                value={filters.hotel_filters.value}
-                onChange={(e) => update("hotel_filters", e.target.value)}
-                onBlur={() => toggle("hotel_filters")}
-              />
-            ) : (
-              <button
-                className="filter-btn"
-                onClick={() => toggle("hotel_filters")}
-              >
-                <span>{filters.hotel_filters.value || "Hotel"}</span>
-              </button>
-            )}
-          </div>
-          <div className="separator" />
-
-          {/* Check-in */}
-          <div className="filter">
-            {filters.checkin_filters.open ? (
-              <input
-                autoFocus
-                className="filter-input"
-                type="date"
-                value={filters.checkin_filters.value}
-                onChange={(e) => update("checkin_filters", e.target.value)}
-                onBlur={() => toggle("checkin_filters")}
-              />
-            ) : (
-              <button
-                className="filter-btn"
-                onClick={() => toggle("checkin_filters")}
-              >
-                <span>
-                  {filters.checkin_filters.value
-                    ? fmtDate(filters.checkin_filters.value)
-                    : "Check in"}
-                </span>
-              </button>
-            )}
-          </div>
-          <div className="separator" />
-
-          {/* Check-out */}
-          <div className="filter">
-            {filters.checkout_filters.open ? (
-              <input
-                autoFocus
-                className="filter-input"
-                type="date"
-                value={filters.checkout_filters.value}
-                onChange={(e) => update("checkout_filters", e.target.value)}
-                onBlur={() => toggle("checkout_filters")}
-              />
-            ) : (
-              <button
-                className="filter-btn"
-                onClick={() => toggle("checkout_filters")}
-              >
-                <span>
-                  {filters.checkout_filters.value
-                    ? fmtDate(filters.checkout_filters.value)
-                    : "Check out"}
-                </span>
-              </button>
-            )}
-          </div>
-          <div className="separator" />
-
-          {/* Guests */}
-          <div className="filter">
-            {filters.guests_filters.open ? (
-              <input
-                autoFocus
-                className="filter-input"
-                type="number"
-                min="1"
-                placeholder="1"
-                value={filters.guests_filters.value}
-                onChange={(e) => update("guests_filters", e.target.value)}
-                onBlur={() => toggle("guests_filters")}
-              />
-            ) : (
-              <button
-                className="filter-btn"
-                onClick={() => toggle("guests_filters")}
-              >
-                <span>
-                  {filters.guests_filters.value
-                    ? `Guests: ${filters.guests_filters.value}`
-                    : "Guests"}
-                </span>
-              </button>
-            )}
-          </div>
-
+          {Object.entries(filters).map(([key, obj]) => (
+            <React.Fragment key={key}>
+              <div className="filter">
+                {obj.open ? (
+                  <input
+                    autoFocus
+                    className="filter-input"
+                    type={
+                      key.includes("date") || key.includes("check")
+                        ? "date"
+                        : key.includes("guests")
+                        ? "number"
+                        : "text"
+                    }
+                    placeholder={key.includes("guests") ? "1" : ""}
+                    min={key.includes("guests") ? "1" : undefined}
+                    value={obj.value}
+                    onChange={(e) => update(key, e.target.value)}
+                    onBlur={() => toggle(key)}
+                  />
+                ) : (
+                  <button className="filter-btn" onClick={() => toggle(key)}>
+                    <span>
+                      {obj.value
+                        ? key.includes("guests")
+                          ? `Guests: ${obj.value}`
+                          : key.includes("check")
+                          ? fmtDate(obj.value)
+                          : obj.value
+                        : key
+                            .replace("_filters", "")
+                            .replace("_", " ")
+                            .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </span>
+                  </button>
+                )}
+              </div>
+              <div className="separator" />
+            </React.Fragment>
+          ))}
           <button className="filter-search-btn" onClick={onSearch}>
             Search
           </button>
