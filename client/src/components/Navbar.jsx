@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { loginUserAPI, signupUserAPI, logoutUserAPI } from "../middleware/authApi";
-import "../styles/Header.css";
+import "../styles/Navbar.css";
 
-export default function Header({ showBook = true }) {
+export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, login, logout, isAuthenticated } = useAuth();
@@ -12,7 +12,10 @@ export default function Header({ showBook = true }) {
   const [signupOpen, setSignupOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   
+  // Check if we're on the landing page
   const isLandingPage = location.pathname === "/";
+  
+  // Add blur class when modals are open
   const isModalOpen = loginOpen || signupOpen;
 
   const closeAll = () => {
@@ -20,6 +23,7 @@ export default function Header({ showBook = true }) {
     setSignupOpen(false);
   };
 
+  // Use document.body to apply blur effect to entire page
   React.useEffect(() => {
     if (isModalOpen) {
       document.body.classList.add('modal-open');
@@ -27,6 +31,7 @@ export default function Header({ showBook = true }) {
       document.body.classList.remove('modal-open');
     }
     
+    // Cleanup on unmount
     return () => {
       document.body.classList.remove('modal-open');
     };
@@ -34,11 +39,11 @@ export default function Header({ showBook = true }) {
   
   return (
     <div className={isModalOpen ? 'blur-background' : ''}>
-      <header className={`site-header ${isLandingPage ? 'landing-header' : ''}`}>
-        <div className="logo" onClick={() => navigate("/")}>
+      <header className={`navbar ${isLandingPage ? 'landing-navbar' : ''}`}>
+        <div className="navbar-logo" onClick={() => navigate("/")}>
           Ascenda
         </div>
-        <div className="actions">
+        <div className="navbar-actions">
           {isAuthenticated() ? (
             <>
               <span className="user-greeting">Hello, {user?.name || user?.email}</span>
@@ -63,17 +68,15 @@ export default function Header({ showBook = true }) {
               >
                 Login
               </button>
-              {showBook && (
-                <button
-                  className="btn book"
-                  onClick={() => {
-                    closeAll();
-                    setLoginOpen(true);
-                  }}
-                >
-                  Book Now
-                </button>
-              )}
+              <button
+                className="btn book"
+                onClick={() => {
+                  closeAll();
+                  setLoginOpen(true);
+                }}
+              >
+                Book Now
+              </button>
             </>
           )}
         </div>

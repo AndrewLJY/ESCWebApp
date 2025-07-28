@@ -1,8 +1,7 @@
-// src/pages/SearchPage.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { searchHotelsAPI } from "../middleware/searchApi";
-import { loginUserAPI } from "../middleware/authApi";
+import Header from "../components/header";
 import "../styles/SearchPage.css";
 
 export default function SearchPage() {
@@ -94,44 +93,10 @@ export default function SearchPage() {
     navigate(`/search?${params.toString()}`);
   };
 
-  // Modals
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [signupOpen, setSignupOpen] = useState(false);
-  const [userAuthLoading, setUserAuthLoading] = useState(false);
-  const closeAll = () => {
-    setLoginOpen(false);
-    setSignupOpen(false);
-  };
-  const blurClass = loginOpen || signupOpen ? " blurred" : "";
-
   return (
-    <div className={`search-page${blurClass}`}>
-      {/* HEADER */}
-      <header className="sp-header">
-        <div className="sp-logo" onClick={() => navigate("/")}>
-          Ascenda
-        </div>
-        <div className="sp-actions">
-          <button
-            className="btn login"
-            onClick={() => {
-              closeAll();
-              setLoginOpen(true);
-            }}
-          >
-            Login
-          </button>
-          <button
-            className="btn book"
-            onClick={() => {
-              closeAll();
-              setLoginOpen(true);
-            }}
-          >
-            Book Now
-          </button>
-        </div>
-      </header>
+    <div className="search-page">
+      <Header showBook={false} />
+      
       {/* MAIN CONTENT */}
       <main className="sp-main">
         {/* FILTER BAR */}
@@ -200,9 +165,6 @@ export default function SearchPage() {
           </div>
         </div>
 
-        {/* SORT & FILTER CONTROLS */}
-        {/* ... unchanged ... */}
-
         {/* RESULTS LIST */}
         <section className="sp-results">
           {loading ? (
@@ -211,21 +173,17 @@ export default function SearchPage() {
             <div>No hotels found.</div>
           ) : (
             hotels.map((h) => (
-              <div key={h.keyDetails.id} className="hotel-card">
-                {/* Tried to add in given photo. If don't have, provided default */}
-                <img src={h.imageDetails.imageCounts > 0 ? h.imageDetails.stitchedImageUrls[0]: "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"} alt={h.name} className="hotel-img" />
+              <div key={h.keyDetails?.id || h.id} className="hotel-card">
+                <img src={h.imageDetails?.imageCounts > 0 ? h.imageDetails.stitchedImageUrls[0]: "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"} alt={h.keyDetails?.name || h.name} className="hotel-img" />
                 <div className="hotel-info">
-                  <h3>{h.keyDetails.name}</h3>
-                  {/* Currently just the rating due to lack of stars info */}
-                  <div className="stars">{"★".repeat(h.keyDetails.rating)}</div>
-                  <p className="address">{h.keyDetails.address}</p>
-                  <p className="distance">{Math.floor(h.keyDetails.distance)}</p>
-                  {/* Rating updated to at least show rating even if dont have */}
-                   <p className="rating">Rating: {h.keyDetails.rating ? h.keyDetails.rating +"/5": "NA"}</p>
+                  <h3>{h.keyDetails?.name || h.name}</h3>
+                  <div className="stars">{"★".repeat(h.keyDetails?.rating || h.rating || 0)}</div>
+                  <p className="address">{h.keyDetails?.address || h.address}</p>
+                  <p className="distance">{Math.floor(h.keyDetails?.distance || h.distance || 0)}</p>
+                  <p className="rating">Rating: {h.keyDetails?.rating || h.rating ? (h.keyDetails?.rating || h.rating) +"/5": "NA"}</p>
                 </div>
                 <div className="hotel-book">
-                  {/* Will replace with static value for now */}
-                  <span className="price">{h.price ? h.keyDetails.price: 'SGD 140'}</span>
+                  <span className="price">{h.keyDetails?.price || h.price || 'SGD 140'}</span>
                   <button className="btn book-small">Book</button>
                 </div>
               </div>
@@ -233,83 +191,6 @@ export default function SearchPage() {
           )}
         </section>
       </main>
-      {/* LOGIN DROPDOWN */}
-      {loginOpen && !signupOpen && (
-        <div className="login-dropdown">
-          <h2 className="dropdown__title">Sign In</h2>
-          <form className="login-form" onSubmit={async (e) => {
-            e.preventDefault();
-            setUserAuthLoading(true);
-            try {
-              const formData = new FormData(e.target);
-              const result = await loginUserAPI({
-                email: formData.get('email'),
-                password: formData.get('password')
-              });
-              alert('Login successful!');
-              closeAll();
-            } catch (error) {
-              alert(error.message);
-            } finally {
-              setUserAuthLoading(false);
-            }
-          }}>
-            <div className="form-group">
-              <label htmlFor="email">Email Address</label>
-              <input name="email" id="email" type="email" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input name="password" id="password" type="password" required />
-            </div>
-            <button type="submit" className="btn submit" disabled={userAuthLoading}>
-              {userAuthLoading ? 'Signing In...' : 'Sign In Now'}
-            </button>
-            <p className="dropdown__signup">
-              Don’t have an account? Click{" "}
-              <button
-                type="button"
-                className="btn signup"
-                onClick={() => {
-                  setSignupOpen(true);
-                  setLoginOpen(false);
-                }}
-              >
-                here
-              </button>
-            </p>
-            <button type="button" className="btn close" onClick={closeAll}>
-              Close
-            </button>
-          </form>
-        </div>
-      )}
-      {/* SIGNUP DROPDOWN */}
-      {signupOpen && !loginOpen && (
-        <div className="signup-dropdown">
-          <h2 className="dropdown__title">Create Account</h2>
-          <form className="login-form">
-            <div className="form-group">
-              <label htmlFor="new-email">Email Address</label>
-              <input id="new-email" type="email" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="new-password">Password</label>
-              <input id="new-password" type="password" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="confirm-password">Confirm Password</label>
-              <input id="confirm-password" type="password" required />
-            </div>
-            <button type="submit" className="btn submit">
-              Sign Up Now
-            </button>
-            <button type="button" className="btn close" onClick={closeAll}>
-              Close
-            </button>
-          </form>
-        </div>
-      )}
     </div>
   );
 }

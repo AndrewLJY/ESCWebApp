@@ -1,0 +1,267 @@
+/* Header component styling */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Landing page style header */
+.landing .site-header,
+.site-header.landing-header {
+  background-color: transparent;
+  box-shadow: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0077cc;
+  cursor: pointer;
+}
+
+/* Landing page style logo */
+.landing .logo,
+.site-header.landing-header .logo {
+  font-size: 3rem;
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  margin-left: 50px;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Landing page style actions */
+.landing .actions,
+.site-header.landing-header .actions {
+  margin-right: 50px;
+}
+
+/* Button styles */
+.site-header .btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #0077cc;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.site-header .btn.login {
+  background-color: transparent;
+  color: #0077cc;
+}
+
+.site-header .btn.book {
+  background-color: #0077cc;
+  color: white;
+}
+
+.site-header .btn:hover {
+  background-color: #005a9e;
+  color: white;
+}
+
+/* Landing page style buttons */
+.landing .site-header .btn,
+.site-header.landing-header .btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.landing .site-header .btn:hover,
+.site-header.landing-header .btn:hover {
+  opacity: 0.7;
+  background: none;
+}
+
+/* User greeting and logout button */
+.user-greeting {
+  color: #0077cc;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+
+.landing .user-greeting,
+.site-header.landing-header .user-greeting {
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+
+.btn.logout {
+  background-color: #dc3545;
+  color: white;
+  border: 1px solid #dc3545;
+}
+
+.btn.logout:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.landing .btn.logout,
+.site-header.landing-header .btn.logout {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.landing .btn.logout:hover,
+.site-header.landing-header .btn.logout:hover {
+  opacity: 0.7;
+  background: none;
+}
+
+/* Login/Signup dropdowns */
+.login-dropdown,
+.signup-dropdown {
+  position: fixed;
+  top: 80px;
+  right: 40px;
+  width: 300px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  z-index: 1000;
+  opacity: 1;
+}
+
+/* Form styling */
+.dropdown__title {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  color: #444;
+  text-align: left;
+  padding-left: 0.25rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  outline: none;
+}
+
+.btn.submit {
+  width: 100%;
+  padding: 0.5rem;
+  background: #ff6a3d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn.close {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: center;
+  margin-top: 0.5rem;
+}
+
+.dropdown__signup {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: #444;
+  text-align: center;
+}
+
+.btn.signup {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  color: #ff6a3d;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Blur effect when modals are open */
+.blur-background::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  pointer-events: all;
+}
+
+/* Keep header above blur */
+.blur-background .site-header {
+  position: relative;
+  z-index: 1001;
+}
+
+/* Keep dropdowns above blur */
+.blur-background .login-dropdown,
+.blur-background .signup-dropdown {
+  position: relative;
+  z-index: 1001;
+}
+
+/* Prevent interaction with page content when modals are open */
+.blur-background .landing__headline,
+.blur-background .landing__subheadline,
+.blur-background .filter-bar,
+.blur-background .sp-main {
+  pointer-events: none;
+}
+
+/* Prevent scrolling when modals are open */
+body.modal-open {
+  overflow: hidden;
+}

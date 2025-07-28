@@ -47,11 +47,22 @@ const signupUser = async (userData) => {
   };
 };
 
-// Real API calls (commented out)
+// JWT token management
+const setAuthToken = (token) => {
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common['Authorization'];
+  }
+};
+
+// Real API calls with JWT support
 const loginUserAPI = async (credentials) => {
   try {
     const response = await axios.post("http://localhost:8080/auth/login", credentials);
-    return response.data;
+    const { token, user } = response.data;
+    setAuthToken(token);
+    return { success: true, data: { user, token } };
   } catch (error) {
     console.error("Login API error:", error);
     return await loginUser(credentials);
@@ -61,11 +72,35 @@ const loginUserAPI = async (credentials) => {
 const signupUserAPI = async (userData) => {
   try {
     const response = await axios.post("http://localhost:8080/auth/register", userData);
-    return response.data;
+    const { token, user } = response.data;
+    setAuthToken(token);
+    return { success: true, data: { user, token } };
   } catch (error) {
     console.log("Signup API error:", error);
     return await signupUser(userData);
   }
 };
 
-export { loginUser, signupUser, loginUserAPI, signupUserAPI };
+// Logout API call
+const logoutUserAPI = async () => {
+  try {
+    await axios.post("http://localhost:8080/auth/logout");
+  } catch (error) {
+    console.error("Logout API error:", error);
+  } finally {
+    setAuthToken(null);
+  }
+};
+
+// Verify token validity
+const verifyToken = async () => {
+  try {
+    const response = await axios.get("http://localhost:8080/auth/verify");
+    return response.data;
+  } catch (error) {
+    console.error("Token verification failed:", error);
+    throw error;
+  }
+};
+
+export { loginUser, signupUser, loginUserAPI, signupUserAPI, logoutUserAPI, verifyToken, setAuthToken };
