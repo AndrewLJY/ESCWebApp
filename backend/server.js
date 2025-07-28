@@ -16,12 +16,10 @@ process.on("SIGTERM", db.cleanup);
 var usersRouter = require("./routes/user");
 var indexRouter = require("./routes/index");
 var searchRouter = require("./routes/search");
-var addHotelNamesRouter = require("./routes/addHotelNames.js");
 
 var userModel = require("./models/user.js");
 var bookingModel = require("./models/booking.js");
 var destinationNamesModel = require("./models/destinations.js");
-var hotelNamesModel = require("./models/hotels.js");
 
 //Check if the environment is not set to testing!
 if (process.env.NODE_ENV !== "test") {
@@ -30,8 +28,6 @@ if (process.env.NODE_ENV !== "test") {
   destinationNamesModel
     .sync()
     .then(() => destinationNamesModel.insertFromJSON());
-
-  hotelNamesModel.sync();
 }
 
 // view engine setup
@@ -41,7 +37,6 @@ app.set("view engine", "ejs");
 app.use("/", indexRouter);
 app.use("/auth", usersRouter);
 app.use("/search", searchRouter);
-app.use("/addHotelNames", addHotelNamesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

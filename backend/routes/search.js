@@ -23,11 +23,11 @@ router.get(
   async function (req, res, next) {
     if (
       process.env.NODE_ENV === "test" &&
-      !process.env.INTEGRATION_TEST === "true"
+      !(process.env.INTEGRATION_TEST === "true")
     ) {
       res
         .status(200)
-        .send("Hello from the backend, running main search endpoint now");
+        .json("Hello from the backend, running main search endpoint now");
       return;
     }
 
@@ -76,11 +76,11 @@ router.get(
   async function (req, res, next) {
     if (
       process.env.NODE_ENV === "test" &&
-      !process.env.INTEGRATION_TEST === "true"
+      !(process.env.INTEGRATION_TEST === "true")
     ) {
       res
         .status(200)
-        .send(
+        .json(
           "Hello from the backend, running search/MainDisplay endpoint now"
         );
       return;
@@ -123,11 +123,11 @@ router.get(
   async function (req, res, next) {
     if (
       process.env.NODE_ENV === "test" &&
-      !process.env.INTEGRATION_TEST === "true"
+      !(process.env.INTEGRATION_TEST === "true")
     ) {
       res
         .status(200)
-        .send(
+        .json(
           "Hello from the backend, running search/AdvancedDisplay endpoint now"
         );
       return;
@@ -185,7 +185,7 @@ router.get(
       };
     });
 
-    res.send(filteredHotelList);
+    res.json(filteredHotelList);
     return;
   }
 );
@@ -194,11 +194,11 @@ router.get(
 router.get("/images/", async function (req, res, next) {
   if (
     process.env.NODE_ENV === "test" &&
-    !process.env.INTEGRATION_TEST === "true"
+    !(process.env.INTEGRATION_TEST === "true")
   ) {
     res
       .status(200)
-      .send("Hello from the backend, running search/images endpoint now");
+      .json("Hello from the backend, running search/images endpoint now");
     return;
   }
 
@@ -231,11 +231,11 @@ router.get("/images/", async function (req, res, next) {
 router.get("/hotel/:hotel_id", async function (req, res, next) {
   if (
     process.env.NODE_ENV === "test" &&
-    !process.env.INTEGRATION_TEST === "true"
+    !(process.env.INTEGRATION_TEST === "true")
   ) {
     res
       .status(200)
-      .send(
+      .json(
         "Hello from the backend, running search/hotel/hotel_id endpoint now"
       );
     return;
@@ -255,11 +255,11 @@ router.get(
   async function (req, res, next) {
     if (
       process.env.NODE_ENV === "test" &&
-      !process.env.INTEGRATION_TEST === "true"
+      !(process.env.INTEGRATION_TEST === "true")
     ) {
       res
         .status(200)
-        .send(
+        .json(
           "Hello from the backend, running search/hotel/prices endpoint now"
         );
       return;
@@ -303,11 +303,11 @@ const options = {
 router.get("/string/:searchLiteral", async function (req, res, next) {
   if (
     process.env.NODE_ENV === "test" &&
-    !process.env.INTEGRATION_TEST === "true"
+    !(process.env.INTEGRATION_TEST === "true")
   ) {
     res
       .status(200)
-      .send("Hello from the backend, running search/string/ endpoint now");
+      .json("Hello from the backend, running search/string/ endpoint now");
     return;
   }
 
@@ -322,11 +322,11 @@ router.get("/string/:searchLiteral", async function (req, res, next) {
 router.get("/hotels/images", async function (req, res, next) {
   if (
     process.env.NODE_ENV === "test" &&
-    !process.env.INTEGRATION_TEST === "true"
+    !(process.env.INTEGRATION_TEST === "true")
   ) {
     res
       .status(200)
-      .send(
+      .json(
         "Hello from the backend, running search/hotels/images endpoint now"
       );
     return;
