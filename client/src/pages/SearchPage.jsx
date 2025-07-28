@@ -177,21 +177,6 @@ export default function SearchPage() {
       const resp = await searchHotelsAPI(payload);
       let data = resp.data.hotels || [];
 
-      // Client‑side filtering (in case backend didn't)
-      if (payload.location) {
-        const loc = payload.location.toLowerCase();
-        data = data.filter(
-          (h) =>
-            h.keyDetails.address.toLowerCase().includes(loc) ||
-            h.keyDetails.name.toLowerCase().includes(loc)
-        );
-      }
-      if (payload.hotel) {
-        const name = payload.hotel.toLowerCase();
-        data = data.filter((h) =>
-          h.keyDetails.name.toLowerCase().includes(name)
-        );
-      }
 
       setHotels(data);
     } catch (err) {
