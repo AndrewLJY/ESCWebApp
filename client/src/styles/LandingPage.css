@@ -111,91 +111,7 @@ body,
   padding: 0 1rem;
 }
 
-/* 8. Filter Bar */
-.filter-bar {
-  position: absolute;
-  bottom: 45%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(6px);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  z-index: 1;
-}
-
-.filter {
-  display: flex;
-  align-items: center;
-}
-
-/* filter buttons’ text black */
-.filter-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: none;
-  color: black;
-  font-size: 1rem;
-  cursor: pointer;
-}
-.filter-btn .icon {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.separator {
-  width: 1px;
-  height: 1.5rem;
-  background: #ccc;
-  margin: 0 1rem;
-}
-
-/* filter inputs white background, black text */
-.filter-input {
-  font-size: 1rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-  outline: none;
-  width: 8rem;
-  background: white;
-  color: black;
-}
-.filter-input::placeholder {
-  color: #666;
-}
-
-.filter-input[type="date"] {
-  min-width: 9rem;
-}
-.filter-input:focus {
-  border-color: #888;
-  background: white;
-  color: black;
-}
-
-/* 9. Search button */
-.filter-search-btn {
-  margin-left: 1rem;
-  padding: 0.5rem 1rem;
-  background: #ff6a3d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.filter-search-btn:hover {
-  background: #e55a2d;
-}
-
-/* 10. Dropdown panel */
+/* 8. Dropdown panel */
 .login-dropdown {
   position: fixed;
   top: 80px;
@@ -211,7 +127,7 @@ body,
   transition: opacity 0.3s ease 0.3s;
 }
 
-/* 11. Panel title */
+/* 9. Panel title */
 .dropdown__title {
   margin: 0 0 1rem;
   font-size: 1.5rem;
@@ -219,7 +135,7 @@ body,
   color: #333;
 }
 
-/* 12. Form layout */
+/* 10. Form layout */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -250,7 +166,7 @@ body,
   border-color: #888;
 }
 
-/* 13. Sign In button */
+/* 11. Sign In button */
 .btn.submit {
   width: 100%;
   padding: 0.5rem;
@@ -267,7 +183,7 @@ body,
   opacity: 0.9;
 }
 
-/* 14. Close button */
+/* 12. Close button */
 .btn.close {
   background: none;
   border: none;
@@ -279,7 +195,7 @@ body,
   margin-top: 0.5rem;
 }
 
-/* 15. Signup prompt */
+/* 13. Signup prompt */
 .dropdown__signup {
   margin: 0.75rem 0 0;
   font-size: 0.9rem;
@@ -299,7 +215,7 @@ body,
   opacity: 0.8;
 }
 
-/* 16. Blur everything except dropdown when active */
+/* 14. Blur everything except dropdown when active */
 .landing.blurred::before,
 .landing.blurred .landing__logo,
 .landing.blurred .landing__actions,
@@ -314,7 +230,7 @@ body,
   pointer-events: auto;
 }
 
-/* 17. Sign-up panel (same as login) */
+/* 15. Sign-up panel (same as login) */
 .signup-dropdown {
   position: fixed;
   top: 80px;
@@ -330,7 +246,7 @@ body,
   transition: opacity 0.3s ease 0.3s;
 }
 
-/* 18. Show sign-up when blurred */
+/* 16. Show sign-up when blurred */
 .landing.blurred .signup-dropdown {
   opacity: 1;
   pointer-events: auto;
