@@ -136,7 +136,7 @@ export default function Header() {
                   email: data.get("email"),
                   password: data.get("password"),
                 });
-                login(result.user, result.token);
+                login(result, result.token);
                 alert("Login successful!");
                 closeAll();
                 window.location.reload();

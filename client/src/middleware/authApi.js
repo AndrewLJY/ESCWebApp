@@ -50,7 +50,17 @@ const signupUser = async (userData) => {
 // Real API calls (commented out)
 const loginUserAPI = async (credentials) => {
   try {
-    const response = await axios.post("http://localhost:8080/auth/login", credentials);
+    const response = await axios.post(
+      "http://localhost:8080/auth/login",
+      credentials
+    );
+
+    // 2. Store the JWT token
+    const token = response.data.token; // Axios response data contains the token
+    localStorage.setItem("authToken", token); // Consistent naming
+    console.log("Login successful! Token:", token);
+
+    // 3. Return data for the calling component to handle
     return response.data;
   } catch (error) {
     console.error("Login API error:", error);
@@ -58,9 +68,29 @@ const loginUserAPI = async (credentials) => {
   }
 };
 
+const fetchBookmarks = async () => {
+  const token = localStorage.getItem("authToken"); // Match the storage key
+  if (!token) throw new Error("No token found");
+
+  try {
+    const response = await axios.get("/auth/bookmarks", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch bookmarks:", error);
+    throw error;
+  }
+};
+
 const signupUserAPI = async (userData) => {
   try {
-    const response = await axios.post("http://localhost:8080/auth/register", userData);
+    const response = await axios.post(
+      "http://localhost:8080/auth/register",
+      userData
+    );
     return response.data;
   } catch (error) {
     console.log("Signup API error:", error);
@@ -68,4 +98,4 @@ const signupUserAPI = async (userData) => {
   }
 };
 
-export { loginUser, signupUser, loginUserAPI, signupUserAPI };
+export { loginUser, signupUser, loginUserAPI, signupUserAPI, fetchBookmarks };

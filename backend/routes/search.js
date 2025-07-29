@@ -91,6 +91,7 @@ router.get(
     const checkOutDate = req.params.check_out_date;
     const guestCount = req.params.guest_count;
     const roomCount = req.params.room_count;
+    
 
     try {
       await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
