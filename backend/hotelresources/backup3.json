@@ -1,0 +1,684 @@
+{
+  "searchCompleted": null,
+  "completed": true,
+  "status": null,
+  "currency": null,
+  "rooms": [
+    {
+      "key": "c9369179-69f3-530c-872f-5cf8c5b345d8",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": false,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_room_only",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 544.41
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 4173.84,
+      "coverted_max_cash_payment": 5450.23,
+      "points": 136250,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4173.84,
+      "price": 5450.23,
+      "converted_price": 5450.23,
+      "lowest_converted_price": 5450.23,
+      "chargeableRate": 4173.84,
+      "market_rates": [
+        {
+          "supplier": "expedia",
+          "rate": 4710.6112420344
+        }
+      ],
+      "base_rate": 3629.43,
+      "base_rate_in_currency": 4739.34,
+      "included_taxes_and_fees_total": 544.41,
+      "included_taxes_and_fees_total_in_currency": 710.9,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 544.41,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 710.9,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "5749e8c3-2a09-5e06-b429-3dbb522e26bd",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": false,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_breakfast_included",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 578.54
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 4435.41,
+      "coverted_max_cash_payment": 5791.79,
+      "points": 144775,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4435.41,
+      "price": 5791.79,
+      "converted_price": 5791.79,
+      "lowest_converted_price": 5791.79,
+      "chargeableRate": 4435.41,
+      "market_rates": [],
+      "base_rate": 3856.87,
+      "base_rate_in_currency": 5036.33,
+      "included_taxes_and_fees_total": 578.54,
+      "included_taxes_and_fees_total_in_currency": 755.47,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 578.54,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 755.47,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "a52269fd-03cb-5784-891f-1bf8b620ff6c",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": true,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_room_only",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 600.84
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 4606.45,
+      "coverted_max_cash_payment": 6015.14,
+      "points": 150375,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4606.45,
+      "price": 6015.14,
+      "converted_price": 6015.14,
+      "lowest_converted_price": 6015.14,
+      "chargeableRate": 4606.45,
+      "market_rates": [],
+      "base_rate": 4005.61,
+      "base_rate_in_currency": 5230.55,
+      "included_taxes_and_fees_total": 600.84,
+      "included_taxes_and_fees_total_in_currency": 784.59,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 600.84,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 784.59,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "0e694d75-12fb-5139-badb-8b8d24eb4601",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": true,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_breakfast_included",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 649.72
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 4981.2,
+      "coverted_max_cash_payment": 6504.49,
+      "points": 162600,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 4981.2,
+      "price": 6504.49,
+      "converted_price": 6504.49,
+      "lowest_converted_price": 6504.49,
+      "chargeableRate": 4981.2,
+      "market_rates": [],
+      "base_rate": 4331.48,
+      "base_rate_in_currency": 5656.09,
+      "included_taxes_and_fees_total": 649.72,
+      "included_taxes_and_fees_total_in_currency": 848.41,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 649.72,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 848.41,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "886aaf5d-d062-5769-8cf2-10e9f35d0ba2",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": true,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_breakfast_included",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 657.27
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 5039.05,
+      "coverted_max_cash_payment": 6580.03,
+      "points": 164500,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5039.05,
+      "price": 6580.03,
+      "converted_price": 6580.03,
+      "lowest_converted_price": 6580.03,
+      "chargeableRate": 5039.05,
+      "market_rates": [],
+      "base_rate": 4381.78,
+      "base_rate_in_currency": 5721.77,
+      "included_taxes_and_fees_total": 657.27,
+      "included_taxes_and_fees_total_in_currency": 858.27,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 657.27,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 858.27,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "66d50d66-aa94-512a-ae70-070962de5680",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": false,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_room_only",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 658.74
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 5050.37,
+      "coverted_max_cash_payment": 6594.81,
+      "points": 164850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5050.37,
+      "price": 6594.81,
+      "converted_price": 6594.81,
+      "lowest_converted_price": 6594.81,
+      "chargeableRate": 5050.37,
+      "market_rates": [],
+      "base_rate": 4391.63,
+      "base_rate_in_currency": 5734.63,
+      "included_taxes_and_fees_total": 658.74,
+      "included_taxes_and_fees_total_in_currency": 860.19,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 658.74,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 860.19,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "e5769a7f-249d-5945-af08-95497e630c77",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": true,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_breakfast_included",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 723.05
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 5543.33,
+      "coverted_max_cash_payment": 7238.53,
+      "points": 180950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5543.33,
+      "price": 7238.53,
+      "converted_price": 7238.53,
+      "lowest_converted_price": 7238.53,
+      "chargeableRate": 5543.33,
+      "market_rates": [],
+      "base_rate": 4820.28,
+      "base_rate_in_currency": 6294.36,
+      "included_taxes_and_fees_total": 723.05,
+      "included_taxes_and_fees_total_in_currency": 944.17,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 723.05,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 944.17,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "6de78b8c-d692-5e98-9bad-37e74ffacdf8",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": true,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_room_only",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 723.05
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 5543.33,
+      "coverted_max_cash_payment": 7238.53,
+      "points": 180950,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 5543.33,
+      "price": 7238.53,
+      "converted_price": 7238.53,
+      "lowest_converted_price": 7238.53,
+      "chargeableRate": 5543.33,
+      "market_rates": [],
+      "base_rate": 4820.28,
+      "base_rate_in_currency": 6294.36,
+      "included_taxes_and_fees_total": 723.05,
+      "included_taxes_and_fees_total_in_currency": 944.17,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 723.05,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 944.17,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "3669dad5-f723-57e7-8e3b-986924a2fb83",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": true,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_breakfast_included",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 838.52
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 6428.65,
+      "coverted_max_cash_payment": 8394.58,
+      "points": 209850,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6428.65,
+      "price": 8394.58,
+      "converted_price": 8394.58,
+      "lowest_converted_price": 8394.58,
+      "chargeableRate": 6428.65,
+      "market_rates": [],
+      "base_rate": 5590.13,
+      "base_rate_in_currency": 7299.64,
+      "included_taxes_and_fees_total": 838.52,
+      "included_taxes_and_fees_total_in_currency": 1094.95,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 838.52,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 1094.95,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "56c8d257-eb25-59c8-b020-8cbd66421c3e",
+      "roomDescription": "Double room",
+      "roomNormalizedDescription": "Double Room",
+      "type": "1",
+      "free_cancellation": false,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_room_only",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 840.33
+            }
+          ]
+        }
+      },
+      "description": "Double room",
+      "price_type": "single",
+      "max_cash_payment": 6442.49,
+      "coverted_max_cash_payment": 8412.66,
+      "points": 210300,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 6442.49,
+      "price": 8412.66,
+      "converted_price": 8412.66,
+      "lowest_converted_price": 8412.66,
+      "chargeableRate": 6442.49,
+      "market_rates": [],
+      "base_rate": 5602.16,
+      "base_rate_in_currency": 7315.35,
+      "included_taxes_and_fees_total": 840.33,
+      "included_taxes_and_fees_total_in_currency": 1097.31,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 840.33,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 1097.31,
+          "currency": "SGD"
+        }
+      ]
+    },
+    {
+      "key": "2ec93818-4da2-542e-9b51-9c72d685e9d9",
+      "roomDescription": "Suite",
+      "roomNormalizedDescription": "Suite",
+      "type": "41",
+      "free_cancellation": false,
+      "long_description": null,
+      "roomAdditionalInfo": {
+        "breakfastInfo": "hotel_detail_breakfast_included",
+        "displayFields": {
+          "special_check_in_instructions": null,
+          "check_in_instructions": null,
+          "know_before_you_go": null,
+          "fees_optional": null,
+          "fees_mandatory": null,
+          "kaligo_service_fee": 0,
+          "hotel_fees": [],
+          "surcharges": [
+            {
+              "type": "TaxAndServiceFee",
+              "amount": 1631.93
+            }
+          ]
+        }
+      },
+      "description": "Suite",
+      "price_type": "single",
+      "max_cash_payment": 12511.48,
+      "coverted_max_cash_payment": 16337.59,
+      "points": 408425,
+      "bonuses": 0,
+      "bonus_programs": [],
+      "bonus_tiers": [],
+      "lowest_price": 12511.48,
+      "price": 16337.59,
+      "converted_price": 16337.59,
+      "lowest_converted_price": 16337.59,
+      "chargeableRate": 12511.48,
+      "market_rates": [],
+      "base_rate": 10879.55,
+      "base_rate_in_currency": 14206.61,
+      "included_taxes_and_fees_total": 1631.93,
+      "included_taxes_and_fees_total_in_currency": 2130.99,
+      "excluded_taxes_and_fees_currency": "USD",
+      "excluded_taxes_and_fees_total": 0,
+      "excluded_taxes_and_fees_total_in_currency": 0,
+      "included_taxes_and_fees": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 1631.93,
+          "currency": "USD"
+        }
+      ],
+      "included_taxes_and_fees_in_currency": [
+        {
+          "id": "tax_and_service_fee",
+          "amount": 2130.99,
+          "currency": "SGD"
+        }
+      ]
+    }
+  ]
+}

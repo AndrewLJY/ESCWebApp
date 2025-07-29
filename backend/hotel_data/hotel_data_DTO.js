@@ -1,557 +1,591 @@
-const express = require('express');
+class HotelData {
+  constructor(
+    keyDetails,
+    amenities,
+    imageDetails,
+    originalMetaData,
+    pricingRankingData,
+    trustYouBenchmark
+  ) {
+    this.keyDetails = keyDetails;
+    this.amenities = amenities;
+    this.imageDetails = imageDetails;
+    this.originalMetaData = originalMetaData;
+    this.pricingRankingData = pricingRankingData;
+    this.trustYouBenchmark = trustYouBenchmark;
+  }
 
-class HotelData{
-    constructor(keyDetails, amenities, imageDetails, originalMetaData, pricingRankingData, trustYouBenchmark){
-        this.keyDetails = keyDetails;
-        this.amenities = amenities;
-        this.imageDetails = imageDetails;
-        this.originalMetaData = originalMetaData;
-        this.pricingRankingData = pricingRankingData;
-        this.trustYouBenchmark = trustYouBenchmark;
-    }
+  //Getters for each of these class fields
+  getKeyDetails() {
+    return this.keyDetails;
+  }
 
-    //Getters for each of these class fields
-    getKeyDetails(){
-        return this.keyDetails;
-    }
+  getAmenities() {
+    return this.amenities;
+  }
 
-    getAmenities(){
-        return this.amenities;
-    }
+  getImageDetails() {
+    return this.imageDetails;
+  }
 
-    getImageDetails(){
-        return this.imageDetails;
-    }
+  getOriginalMetaData() {
+    return this.originalMetaData;
+  }
 
-    getOriginalMetaData(){
-        return this.originalMetaData;
-    }
+  getPricingRankingData() {
+    return this.pricingRankingData;
+  }
 
-    getPricingRankingData(){
-        return this.pricingRankingData;
-    }
-
-    getTrustYouBenchmark(){
-        return this.trustYouBenchmark;
-    }
+  getTrustYouBenchmark() {
+    return this.trustYouBenchmark;
+  }
 }
-
-
 
 class KeyDetails {
-    constructor(builder) {
-        this.id = builder.id;
-        this.imageCount = builder.imageCount;
-        this.latitude = builder.latitude;
-        this.longitude = builder.longitude;
-        this.name = builder.name;
-        this.address = builder.address;
-        this.address1 = builder.address1;
-        this.checkinTime = builder.checkinTime;
-        this.rating = builder.rating;
-        this.distance = builder.distance;
-        this.description = builder.description;
-    }
-    getId() {
-        return this.id;
-    }
+  constructor(builder) {
+    this.id = builder.id;
+    this.imageCount = builder.imageCount;
+    this.latitude = builder.latitude;
+    this.longitude = builder.longitude;
+    this.name = builder.name;
+    this.address = builder.address;
+    this.address1 = builder.address1;
+    this.checkinTime = builder.checkinTime;
+    this.rating = builder.rating;
+    this.distance = builder.distance;
+    this.description = builder.description;
+  }
 
-    getImageCount(){
-        return this.imageCount;
-    }
+  getId() {
+    return this.id;
+  }
 
-    getLatitude(){
-        return this.latitude;
-    }
+  getImageCount() {
+    return this.imageCount;
+  }
 
-    getLongitutde(){
-        return this.longitude;
-    }
+  getLatitude() {
+    return this.latitude;
+  }
 
-    getName(){
-        return this.name;
-    }
+  getLongitude() {
+    return this.longitude;
+  }
 
-    getAddress(){
-        return this.address;
-    }
+  getName() {
+    return this.name;
+  }
 
-    getAddress1(){
-        return this.address1;
-    }
+  getAddress() {
+    return this.address;
+  }
 
-    getCheckinTime(){
-        return this.checkinTime;
-    }
-    
-    getRating(){
-        return this.rating;
-    }
+  getAddress1() {
+    return this.address1;
+  }
 
-    getDistance(){
-        return this.distance;
-    }
+  getCheckInTime() {
+    return this.checkinTime;
+  }
 
-    getDescription(){
-        return this.description;
-    }
+  getRating() {
+    return this.rating;
+  }
 
-    static get Builder() {
-        return class {
-            constructor() {
-                this.id = null;
-                this.imageCount = null;
-                this.latitude = null;
-                this.longitude = null;
-                this.name = null;
-                this.address = null;
-                this.address1 = null;
-                this.rating = null;
-                this.description = null;
-                this.distance = null;
-            }
+  getDistance() {
+    return this.distance;
+  }
 
-            setId(id) {
-                this.id = id;
-                return this;
-            }
+  getDescription() {
+    return this.description;
+  }
 
-            setImageCount(imageCount) {
-                this.imageCount = imageCount;
-                return this;
-            }
+  static get Builder() {
+    return class {
+      constructor() {
+        this.id = null;
+        this.imageCount = null;
+        this.latitude = null;
+        this.longitude = null;
+        this.name = null;
+        this.address = null;
+        this.address1 = null;
+        this.rating = null;
+        this.description = null;
+        this.distance = null;
+      }
 
-            setLatitude(latitude) {
-                this.latitude = latitude;
-                return this;
-            }
+      setId(id) {
+        this.id = id;
+        return this;
+      }
 
-            setLongitude(longitude) {
-                this.longitude = longitude;
-                return this;
-            }
+      setImageCount(imageCount) {
+        this.imageCount = imageCount;
+        return this;
+      }
 
-            setName(name) {
-                this.name = name;
-                return this;
-            }
+      setLatitude(latitude) {
+        this.latitude = latitude;
+        return this;
+      }
 
-            setAddress(address) {
-                this.address = address;
-                return this;
-            }
+      setLongitude(longitude) {
+        this.longitude = longitude;
+        return this;
+      }
 
-            setAddress1(address1) {
-                this.address1 = address1;
-                return this;
-            }
+      setName(name) {
+        this.name = name;
+        return this;
+      }
 
-            setRating(rating) {
-                this.rating = rating;
-                return this;
-            }
+      setAddress(address) {
+        this.address = address;
+        return this;
+      }
 
-            setDistance(distance) {
-                this.distance = distance;
-                return this;
-            }
+      setAddress1(address1) {
+        this.address1 = address1;
+        return this;
+      }
 
-            setCheckinTime(checkin){
-                this.checkinTime = checkin;
-                return this;
-            }
+      setRating(rating) {
+        this.rating = rating;
+        return this;
+      }
 
-            setDescription(description){
-                this.description = description;
-                return this;
-            }
+      setDistance(distance) {
+        this.distance = distance;
+        return this;
+      }
 
-            build() {
-                return new KeyDetails(this);
-            }
-        };
-    }
+      setCheckinTime(checkin) {
+        this.checkinTime = checkin;
+        return this;
+      }
+
+      setDescription(description) {
+        this.description = description;
+        return this;
+      }
+
+      build() {
+        return new KeyDetails(this);
+      }
+    };
+  }
 }
-
 
 //Define classes for all of the more complicated data
-class Amenities{
-    //class constructor here
-    constructor(builder){
-        this.amenities = builder.amenities;
-    }
+class Amenities {
+  //class constructor here
+  constructor(builder) {
+    this.amenities = builder.amenities;
+  }
 
-    getAmenities(){
-        return this.amenities;
-    }
+  getAmenities() {
+    return this.amenities;
+  }
 
-    static get Builder(){
-        return class{
-            constructor(){
-                this.amenities = null;
-            }
+  static get Builder() {
+    return class {
+      constructor() {
+        this.amenities = null;
+      }
 
-            setAmenities(amenities){
-                this.amenities = amenities;
-                return this;
-            }
+      setAmenities(amenities) {
+        this.amenities = amenities;
+        return this;
+      }
 
-            build(){
-                return new Amenities(this);
-            }
-        } 
-    }
+      build() {
+        return new Amenities(this);
+      }
+    };
+  }
 }
 
-class OriginalMetaData{
-    constructor(builder){
-        this.name = builder.name;
-        this.city = builder.city;
-        this.state = builder.state;
-        this.country = builder.country;
-    }
-    getName() {
-        return this.name;
-    }
+class OriginalMetaData {
+  constructor(builder) {
+    this.name = builder.name;
+    this.city = builder.city;
+    this.state = builder.state;
+    this.country = builder.country;
+  }
+  getName() {
+    return this.name;
+  }
 
-    getCity() {
-        return this.city;
-    }
+  getCity() {
+    return this.city;
+  }
 
-    getState() {
-        return this.state;
-    }
+  getState() {
+    return this.state;
+  }
 
-    getCountry() {
-        return this.country;
-    }
+  getCountry() {
+    return this.country;
+  }
 
-    static get Builder(){
-        return class{
-            constructor(){
-                this.name = null;
-                this.city = null;
-                this.state = null;
-                this.country = null;
-            }
+  static get Builder() {
+    return class {
+      constructor() {
+        this.name = null;
+        this.city = null;
+        this.state = null;
+        this.country = null;
+      }
 
-            setName(name){
-                this.name = name;
-                return this;
-            }
+      setName(name) {
+        this.name = name;
+        return this;
+      }
 
-            setCity(city){
-                this.city = city;
-                return this;
-            }
+      setCity(city) {
+        this.city = city;
+        return this;
+      }
 
-            setState(state){
-                this.state = state;
-                return this;
-            }
+      setState(state) {
+        this.state = state;
+        return this;
+      }
 
-            setCountry(country){
-                this.country = country;
-                return this;
-            }
+      setCountry(country) {
+        this.country = country;
+        return this;
+      }
 
-            build(){
-                return new OriginalMetaData(this);
-            }
+      build() {
+        return new OriginalMetaData(this);
+      }
+    };
+  }
+}
+
+class ImageDetails {
+  constructor(builder) {
+    this.imageCounts = builder.imageCounts;
+    this.imageUrlPrefix = builder.imageUrlPrefix;
+    this.imageUrlSuffix = builder.imageUrlSuffix;
+    this.stitchedImageUrls = builder.stitchedImageUrls;
+    this.bNoAvailableImages = builder.bNoAvailableImages;
+  }
+
+  noAvailableImages() {
+    return this.bNoAvailableImages;
+  }
+
+  getImageCounts() {
+    return this.imageCounts;
+  }
+
+  getImageUrlPrefix() {
+    return this.imageUrlPrefix;
+  }
+
+  getImageUrlSuffix() {
+    return this.imageUrlSuffix;
+  }
+
+  getStitchedImageUrls() {
+    return this.stitchedImageUrls;
+  }
+
+  static get Builder() {
+    return class {
+      constructor() {
+        this.imageCounts = null;
+        this.imageUrlPrefix = null;
+        this.imageUrlSuffix = null;
+        this.stitchedImageUrls = [];
+        this.bNoAvailableImages = false;
+      }
+
+      setImageCounts(hiresImageIndexString) {
+        if (
+          hiresImageIndexString === "" ||
+          hiresImageIndexString === null ||
+          hiresImageIndexString === undefined
+        ) {
+          this.bNoAvailableImages = true;
+          return this;
         }
-    }
-}
+        this.imageCounts = hiresImageIndexString.split(",");
+        return this;
+      }
 
-class ImageDetails{
-    constructor(builder){
-        this.imageCounts = builder.imageCounts
-        this.imageUrlPrefix = builder.imageUrlPrefix;
-        this.imageUrlSuffix = builder.imageUrlSuffix;
-        this.stitchedImageUrls = builder.stitchedImageUrls;
-    }
-    
-    getImageCounts() {
-        return this.imageCounts;
-    }
-
-    getImageUrlPrefix() {
-        return this.imageUrlPrefix;
-    }
-
-    getImageUrlSuffix() {
-        return this.imageUrlSuffix;
-    }
-
-    getStitchedImageUrls() {
-        return this.stitchedImageUrls;
-    }
-
-    static get Builder(){
-        return class{
-            constructor(){
-                this.imageCounts = null;
-                this.imageUrlPrefix = null;
-                this.imageUrlSuffix = null;
-                this.stitchedImageUrls = [];
-            }
-
-            setImageCounts(imageCount){
-                this.imageCounts = imageCount;
-                return this;
-            }
-
-            setImageUrlPrefix(imageUrlPrefix){
-                this.imageUrlPrefix = imageUrlPrefix;
-                return this;
-            }
-
-            setImageUrlSuffix(imageUrlSuffix){
-                this.imageUrlSuffix = imageUrlSuffix;
-                return this;
-            }
-
-            stitchImageUrls(){
-                if (this.imageUrlPrefix && this.imageUrlSuffix && this.imageCounts){
-                    for(let i = 0; i < this.imageCounts; i ++){
-                        let oneStichedUrl = `${this.imageUrlPrefix}${i}${this.imageUrlSuffix}`;
-                        this.stitchedImageUrls.push(oneStichedUrl);
-                    }
-                }
-                return this;
-            }
-
-            build(){
-                return new ImageDetails(this);
-            }
+      setImageUrlPrefix(imageUrlPrefix) {
+        if (imageUrlPrefix === null || imageUrlPrefix === "") {
+          this.bNoAvailableImages = true;
+          return this;
         }
-    }
-}
+        this.imageUrlPrefix = imageUrlPrefix;
+        return this;
+      }
 
-
-class PricingRankingData{
-    constructor(builder){
-        this.rank = builder.rank;
-        this.searchRank = builder.searchRank;
-        this.priceType = builder.priceType;
-        this.freeCancellation = builder.freeCancellation;
-        this.roomsAvailable = builder.roomsAvailable;
-        this.maxCashPayment = builder.maxCashPayment;
-        this.convertedMaxCashPayment = builder.convertedMaxCashPayment;
-        this.points = builder.points;
-        this.bonuses = builder.bonuses;
-        this.bonusPrograms = builder.bonusPrograms;
-        this.bonusTiers = builder.bonusTiers;
-        this.lowestPrice = builder.lowestPrice;
-        this.price = builder.price;
-        this.convertedPrice = builder.convertedPrice;
-        this.lowestConvertedPrice = builder.lowestConvertedPrice;
-        this.marketRates = builder.marketRates;
-    }
-
-    getRank() {
-        return this.rank;
-    }
-
-    getSearchRank() {
-        return this.searchRank;
-    }
-
-    getPriceType() {
-        return this.priceType;
-    }
-
-    getFreeCancellation() {
-        return this.freeCancellation;
-    }
-
-    getRoomsAvailable() {
-        return this.roomsAvailable;
-    }
-
-    getMaxCashPayment() {
-        return this.maxCashPayment;
-    }
-
-    getConvertedMaxCashPayment() {
-        return this.convertedMaxCashPayment;
-    }
-
-    getPoints() {
-        return this.points;
-    }
-
-    getBonuses() {
-        return this.bonuses;
-    }
-
-    getBonusPrograms() {
-        return this.bonusPrograms;
-    }
-
-    getBonusTiers() {
-        return this.bonusTiers;
-    }
-
-    getLowestPrice() {
-        return this.lowestPrice;
-    }
-
-    getPrice() {
-        return this.price;
-    }
-
-    getConvertedPrice() {
-        return this.convertedPrice;
-    }
-
-    getLowestConvertedPrice() {
-        return this.lowestConvertedPrice;
-    }
-
-    getMarketRates() {
-        return this.marketRates;
-    }
-
-    static get Builder(){
-        return class{
-            constructor(){
-                this.rank = null;
-                this.searchRank = null
-                this.priceType = null;
-                this.freeCancellation = null;
-                this.roomsAvailable = null;
-                this.maxCashPayment = null;
-                this.convertedMaxCashPayment = null;
-                this.points = null;
-                this.bonuses = null;
-                this.bonusPrograms = null;
-                this.bonusTiers = null;
-                this.lowestPrice = null;
-                this.price = null;                
-                this.convertedPrice = null;
-                this.lowestConvertedPrice = null;
-                this.marketRates = null;
-            }
-
-            setRank(rank){
-                this.rank= rank;
-                return this;
-            }
-
-            setSearchRank(searchRank){
-                this.searchRank = searchRank;
-                return this;
-            }
-
-            setPriceType(priceType){
-                this.priceType = priceType;
-                return this;
-            }
-
-            setFreeCancellation(freeCancellation){
-                this.freeCancellation = freeCancellation;
-                return this;
-            }
-
-            setRoomsAvailable(roomsAvailable){
-                this.roomsAvailable = roomsAvailable;
-                return this;
-            }
-
-            setMaxCashPayment(maxCashPayment){
-                this.maxCashPayment = maxCashPayment;
-                return this;
-            }
-
-            setConvertedMaxCashPayment(convertedMaxCashPayment){
-                this.convertedMaxCashPayment= convertedMaxCashPayment;
-                return this;
-            }
-            setPoints(points){
-                this.points = points;
-                return this;
-            }
-
-            setBonuses(bonuses){
-                this.bonuses = bonuses;
-                return this;
-            }
-
-            setBonusTiers(bonusTiers){
-                this.bonusTiers = bonusTiers;
-                return this;
-            }
-
-            setLowestPrice(lowestPrice){
-                this.lowestPrice = lowestPrice;
-                return this;
-            }
-
-            setPrice(price){
-                this.price = price;
-                return this;
-            }
-
-            setConvertedPrice(convertedPrice){
-                this.convertedPrice = convertedPrice;
-                return this;
-            }
-
-            setLowestConvertedPrice(lowestConvertedPrice){
-                this.lowestConvertedPrice = lowestConvertedPrice;
-                return this;
-            }
-
-            setMarketRates(marketRates){
-                this.marketRates = marketRates;
-                return this;
-            }
-
-            build(){
-                return new PricingRankingData(this);
-            }
+      setImageUrlSuffix(imageUrlSuffix) {
+        if (imageUrlSuffix === null || imageUrlSuffix === "") {
+          this.bNoAvailableImages = true;
+          return this;
         }
-    }
-}
+        this.imageUrlSuffix = imageUrlSuffix;
+        return this;
+      }
 
-class TrustYouBenchmark{
-    constructor(builder){
-        this.trustYouId = builder.trustYouId;
-        this.score = builder.score;
-    }
-
-    getTrustYouId() {
-        return this.trustYouId;
-    }
-
-    getScore() {
-        return this.score;
-    }
-
-
-    static get Builder(){
-        return class{
-            constructor(){
-                this.trustYouId = null;
-                this.score = null;
-            }
-
-            setTrustYouId(trustYouId){
-                this.trustYouId = trustYouId;
-                return this;
-            }
-
-            setTrustYouScoreParameters(trustYouJSONString){
-                this.score = trustYouJSONString;
-                return this;
-            }
-
-            build(){
-                return new TrustYouBenchmark(this);
-            }
+      stitchImageUrls() {
+        if (this.bNoAvailableImages === true) {
+          return this;
         }
-    }
+
+        //Else:
+        for (let index of this.imageCounts) {
+          let oneStichedUrl = `${this.imageUrlPrefix}${index}${this.imageUrlSuffix}`;
+          this.stitchedImageUrls.push(oneStichedUrl);
+        }
+
+        return this;
+      }
+
+      build() {
+        return new ImageDetails(this);
+      }
+    };
+  }
 }
 
+class PricingRankingData {
+  constructor(builder) {
+    this.rank = builder.rank;
+    this.searchRank = builder.searchRank;
+    this.priceType = builder.priceType;
+    this.freeCancellation = builder.freeCancellation;
+    this.roomsAvailable = builder.roomsAvailable;
+    this.maxCashPayment = builder.maxCashPayment;
+    this.convertedMaxCashPayment = builder.convertedMaxCashPayment;
+    this.points = builder.points;
+    this.bonuses = builder.bonuses;
+    this.bonusPrograms = builder.bonusPrograms;
+    this.bonusTiers = builder.bonusTiers;
+    this.lowestPrice = builder.lowestPrice;
+    this.price = builder.price;
+    this.convertedPrice = builder.convertedPrice;
+    this.lowestConvertedPrice = builder.lowestConvertedPrice;
+    this.marketRates = builder.marketRates;
+  }
 
-module.exports = {HotelData,KeyDetails, Amenities, OriginalMetaData, ImageDetails, PricingRankingData, TrustYouBenchmark};
+  getRank() {
+    return this.rank;
+  }
+
+  getSearchRank() {
+    return this.searchRank;
+  }
+
+  getPriceType() {
+    return this.priceType;
+  }
+
+  getFreeCancellation() {
+    return this.freeCancellation;
+  }
+
+  getRoomsAvailable() {
+    return this.roomsAvailable;
+  }
+
+  getMaxCashPayment() {
+    return this.maxCashPayment;
+  }
+
+  getConvertedMaxCashPayment() {
+    return this.convertedMaxCashPayment;
+  }
+
+  getPoints() {
+    return this.points;
+  }
+
+  getBonuses() {
+    return this.bonuses;
+  }
+
+  getBonusPrograms() {
+    return this.bonusPrograms;
+  }
+
+  getBonusTiers() {
+    return this.bonusTiers;
+  }
+
+  getLowestPrice() {
+    return this.lowestPrice;
+  }
+
+  getPrice() {
+    return this.price;
+  }
+
+  getConvertedPrice() {
+    return this.convertedPrice;
+  }
+
+  getLowestConvertedPrice() {
+    return this.lowestConvertedPrice;
+  }
+
+  getMarketRates() {
+    return this.marketRates;
+  }
+
+  static get Builder() {
+    return class {
+      constructor() {
+        this.rank = null;
+        this.searchRank = null;
+        this.priceType = null;
+        this.freeCancellation = null;
+        this.roomsAvailable = null;
+        this.maxCashPayment = null;
+        this.convertedMaxCashPayment = null;
+        this.points = null;
+        this.bonuses = null;
+        this.bonusPrograms = null;
+        this.bonusTiers = null;
+        this.lowestPrice = null;
+        this.price = null;
+        this.convertedPrice = null;
+        this.lowestConvertedPrice = null;
+        this.marketRates = null;
+      }
+
+      setRank(rank) {
+        this.rank = rank;
+        return this;
+      }
+
+      setSearchRank(searchRank) {
+        this.searchRank = searchRank;
+        return this;
+      }
+
+      setPriceType(priceType) {
+        this.priceType = priceType;
+        return this;
+      }
+
+      setFreeCancellation(freeCancellation) {
+        this.freeCancellation = freeCancellation;
+        return this;
+      }
+
+      setRoomsAvailable(roomsAvailable) {
+        this.roomsAvailable = roomsAvailable;
+        return this;
+      }
+
+      setMaxCashPayment(maxCashPayment) {
+        this.maxCashPayment = maxCashPayment;
+        return this;
+      }
+
+      setConvertedMaxCashPayment(convertedMaxCashPayment) {
+        this.convertedMaxCashPayment = convertedMaxCashPayment;
+        return this;
+      }
+      setPoints(points) {
+        this.points = points;
+        return this;
+      }
+
+      setBonuses(bonuses) {
+        this.bonuses = bonuses;
+        return this;
+      }
+
+      setBonusTiers(bonusTiers) {
+        this.bonusTiers = bonusTiers;
+        return this;
+      }
+
+      setLowestPrice(lowestPrice) {
+        this.lowestPrice = lowestPrice;
+        return this;
+      }
+
+      setPrice(price) {
+        this.price = price;
+        return this;
+      }
+
+      setConvertedPrice(convertedPrice) {
+        this.convertedPrice = convertedPrice;
+        return this;
+      }
+
+      setLowestConvertedPrice(lowestConvertedPrice) {
+        this.lowestConvertedPrice = lowestConvertedPrice;
+        return this;
+      }
+
+      setMarketRates(marketRates) {
+        this.marketRates = marketRates;
+        return this;
+      }
+
+      build() {
+        return new PricingRankingData(this);
+      }
+    };
+  }
+}
+
+class TrustYouBenchmark {
+  constructor(builder) {
+    this.trustYouId = builder.trustYouId;
+    this.score = builder.score;
+  }
+
+  getTrustYouId() {
+    return this.trustYouId;
+  }
+
+  getScore() {
+    return this.score;
+  }
+
+  static get Builder() {
+    return class {
+      constructor() {
+        this.trustYouId = null;
+        this.score = null;
+      }
+
+      setTrustYouId(trustYouId) {
+        this.trustYouId = trustYouId;
+        return this;
+      }
+
+      setTrustYouScoreParameters(trustYouJSONString) {
+        this.score = trustYouJSONString;
+        return this;
+      }
+
+      build() {
+        return new TrustYouBenchmark(this);
+      }
+    };
+  }
+}
+
+module.exports = {
+  HotelData,
+  KeyDetails,
+  Amenities,
+  OriginalMetaData,
+  ImageDetails,
+  PricingRankingData,
+  TrustYouBenchmark,
+};
