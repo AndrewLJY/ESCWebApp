@@ -3,6 +3,7 @@ const userModel = require("../models/user.js");
 var router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 // router.post('/submit/', async function(req, res, next) {
 //     const name = req.body.email;
 //     const code = req.body.password;
@@ -44,13 +45,19 @@ router.post("/register/", async function (req, res, next) {
 router.post("/login/", async function (req, res, next) {
   const email = req.body.email;
   const password = req.body.password;
+
+  const user = userModel.findByEmail(email);
   const result = await userModel.login(email, password);
   if (result.success) {
-    res.send(
-      JSON.stringify({
-        message: "Login successful",
-      })
-    );
+    const token = jwt.sign(JSON.stringify(user),process.env.SECRET_TOKEN);
+    
+    // res.send(
+    //   JSON.stringify({
+    //     message: "Login successful",
+    //   })
+    // );
+    // res.end();
+    res.json({token:token});
   } else {
     console.log("User not authorised");
     res.status(401).send("Login unsuccessful.");
