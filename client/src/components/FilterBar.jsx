@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/FilterBar.css";
+// import "../styles/FilterBar.css";
 
 export default function FilterBar({
   filters,
