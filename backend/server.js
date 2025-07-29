@@ -4,6 +4,7 @@ var process = require("process");
 var db = require("./models/db.js");
 const express = require("express");
 const cors = require("cors");
+require('dotenv').config()
 
 const app = express();
 app.use(cors());

@@ -337,7 +337,6 @@ class ImageDetails {
 
       stitchImageUrls() {
         if (this.bNoAvailableImages === true) {
-          console.log("No Available Images");
           return this;
         }
 

@@ -348,6 +348,7 @@ async function getAllHotelsAndPricesForDestination(
   //SAVE the current destination name we are searching for, as the subject of our DTO class.
   //That way, when we call a search for new destination through any of the endpoints the code will know when to reach back
   //to Ascenda API to get results for a new destination or not.
+  console.log("DTO classes have been initialised");
   return 0;
 }
 
