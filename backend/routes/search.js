@@ -74,9 +74,6 @@ router.get(
 router.get(
   "/MainDisplay/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
-<<<<<<< HEAD
-    console.log("HELLO FROM MAIN DISPLAY");
-=======
     if (
       process.env.NODE_ENV === "test" &&
       !(process.env.INTEGRATION_TEST === "true")
@@ -89,7 +86,6 @@ router.get(
       return;
     }
 
->>>>>>> backendTentativeUpdates
     const destination = req.params.destination_name.replace("_", " ");
     const checkInDate = req.params.check_in_date;
     const checkOutDate = req.params.check_out_date;
@@ -97,17 +93,6 @@ router.get(
     const roomCount = req.params.room_count;
     
 
-<<<<<<< HEAD
-    
-    await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
-      destination,
-      checkInDate,
-      checkOutDate,
-      guestCount,
-      roomCount
-    );
-    const hotelList = filledHotelDTOClassList.getListHotels();
-=======
     try {
       await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
         destination,
@@ -118,7 +103,6 @@ router.get(
       );
 
       const hotelList = filledHotelDTOClassList.getListHotels();
->>>>>>> backendTentativeUpdates
 
       // Filter to only name, rating, address
       const filteredHotelList = hotelList.map((hotel) => ({
@@ -127,16 +111,11 @@ router.get(
         address: hotel.keyDetails.address || hotel.keyDetails.address1 || "N/A",
       }));
 
-<<<<<<< HEAD
-    res.status(200).json(filteredHotelList);
-    return;
-=======
       res.send(filteredHotelList);
       return;
     } catch (error) {
       res.status(500).json(error + "Internal Server Error");
     }
->>>>>>> backendTentativeUpdates
   }
 );
 
