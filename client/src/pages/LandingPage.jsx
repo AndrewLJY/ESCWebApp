@@ -277,7 +277,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LandingPage.css";
-import { loginUser, signupUser, loginUserAPI,signupUserAPI } from "../middleware/authApi";
+import { loginUserAPI,signupUserAPI } from "../middleware/authApi";
 
 export default function LandingPage() {
   const navigate = useNavigate();
