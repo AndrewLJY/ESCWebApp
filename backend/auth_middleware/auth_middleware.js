@@ -1,9 +1,10 @@
 const express = require("express");
 
-async function verifyToken(req, res, next) {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
+const jwt = require("jsonwebtoken");
+function verifyToken(req, res, next) {
+  console.log("helloedede!!!");
+  const token = req.header("Authorization");
   if (!token) return res.status(401).json({ error: "Access denied" });
-
   try {
     const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
     req.userId = decoded.userId;

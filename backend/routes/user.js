@@ -67,6 +67,7 @@ router.post("/login/", async function (req, res, next) {
 });
 
 router.get("/bookmarks/", verifyFunction, (req, res, next) => {
+  console.log("Hello");
   res.send("Hello!!!! I am accessing bookmarks now.");
 });
 
