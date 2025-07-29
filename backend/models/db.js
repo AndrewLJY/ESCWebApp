@@ -1,4 +1,4 @@
-const mysql = require('mysql2')
+const mysql = require("mysql2");
 let pool = mysql
   .createPool({
     host: "localhost",
@@ -6,9 +6,23 @@ let pool = mysql
     database: "hotelbookingapp",
     password: "12345",
     connectionLimit: 10,
+    keepAliveInitialDelay: 10000, // 0 by default.
+    enableKeepAlive: true, // false by default.
   })
   .promise();
+
 async function cleanup() {
-    await pool.end();
+  await pool.end();
 }
-module.exports = {pool, cleanup};
+
+async function verifyConnection() {
+  try {
+    const [rows] = await pool.query("SELECT 1 AS connection_test");
+    return rows[0].connection_test === 1;
+  } catch (error) {
+    console.error("Database connection verification failed:", error);
+    return false;
+  }
+}
+
+module.exports = { pool, cleanup, verifyConnection };

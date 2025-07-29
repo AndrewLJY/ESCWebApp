@@ -11,12 +11,26 @@ var hotelDataTransferServiceModule = require("../hotel_data/hotel_data_service")
 var filledHotelDTOClassList =
   hotelDataTransferServiceModule.hotelDataDTOClassList;
 
+var hotelRoomDataTransferServiceModule = require("../hotel_data/hotel_room_data_service");
+var filledHotelRoomDataDTOClassList =
+  hotelRoomDataTransferServiceModule.hotelRoomDataDTOClassList;
+
 // |Main route:                                                                                        |
 // |Displaying List of Hotels with Prices for given duration of stay, destination and number of guests.|
 
 router.get(
   "/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+    if (
+      process.env.NODE_ENV === "test" &&
+      !(process.env.INTEGRATION_TEST === "true")
+    ) {
+      res
+        .status(200)
+        .json("Hello from the backend, running main search endpoint now");
+      return;
+    }
+
     //Required Request Body Parameters:
     const destination = req.params.destination_name.replace("_", " ");
     const checkInDate = req.params.check_in_date;
@@ -45,7 +59,7 @@ router.get(
         res.status(200).send(filledHotelDTOClassList.getListHotels()); //JSON output seen in POSTMAN
       }
     } catch (error) {
-      res.status(500).send(error + "Internal Server Error");
+      res.status(500).json(error + "Internal Server Error");
     }
 
     return;
@@ -60,7 +74,22 @@ router.get(
 router.get(
   "/MainDisplay/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+<<<<<<< HEAD
     console.log("HELLO FROM MAIN DISPLAY");
+=======
+    if (
+      process.env.NODE_ENV === "test" &&
+      !(process.env.INTEGRATION_TEST === "true")
+    ) {
+      res
+        .status(200)
+        .json(
+          "Hello from the backend, running search/MainDisplay endpoint now"
+        );
+      return;
+    }
+
+>>>>>>> backendTentativeUpdates
     const destination = req.params.destination_name.replace("_", " ");
     const checkInDate = req.params.check_in_date;
     const checkOutDate = req.params.check_out_date;
@@ -68,6 +97,7 @@ router.get(
     const roomCount = req.params.room_count;
     
 
+<<<<<<< HEAD
     
     await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
       destination,
@@ -77,19 +107,36 @@ router.get(
       roomCount
     );
     const hotelList = filledHotelDTOClassList.getListHotels();
+=======
+    try {
+      await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+        destination,
+        checkInDate,
+        checkOutDate,
+        guestCount,
+        roomCount
+      );
 
-    // Filter to only name, rating, address
-    const filteredHotelList = hotelList.map((hotel) => ({
-      name: hotel.getKeyDetails().name || "N/A",
-      rating: hotel.getKeyDetails().rating || "N/A",
-      address:
-        hotel.getKeyDetails().address ||
-        hotel.getKeyDetails().address1 ||
-        "N/A",
-    }));
+      const hotelList = filledHotelDTOClassList.getListHotels();
+>>>>>>> backendTentativeUpdates
 
+      // Filter to only name, rating, address
+      const filteredHotelList = hotelList.map((hotel) => ({
+        name: hotel.keyDetails.name || "N/A",
+        rating: hotel.keyDetails.rating || "N/A",
+        address: hotel.keyDetails.address || hotel.keyDetails.address1 || "N/A",
+      }));
+
+<<<<<<< HEAD
     res.status(200).json(filteredHotelList);
     return;
+=======
+      res.send(filteredHotelList);
+      return;
+    } catch (error) {
+      res.status(500).json(error + "Internal Server Error");
+    }
+>>>>>>> backendTentativeUpdates
   }
 );
 
@@ -97,65 +144,92 @@ router.get(
 router.get(
   "/AdvancedDisplay/:destination_name/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+    if (
+      process.env.NODE_ENV === "test" &&
+      !(process.env.INTEGRATION_TEST === "true")
+    ) {
+      res
+        .status(200)
+        .json(
+          "Hello from the backend, running search/AdvancedDisplay endpoint now"
+        );
+      return;
+    }
+
     const destination = req.params.destination_name.replace("_", " ");
     const checkInDate = req.params.check_in_date;
     const checkOutDate = req.params.check_out_date;
     const guestCount = req.params.guest_count;
     const roomCount = req.params.room_count;
 
-    await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
-      destination,
-      checkInDate,
-      checkOutDate,
-      guestCount,
-      roomCount
-    );
+    try {
+      await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+        destination,
+        checkInDate,
+        checkOutDate,
+        guestCount,
+        roomCount
+      );
 
-    const hotelList = filledHotelDTOClassList.getListHotels();
+      const hotelList = filledHotelDTOClassList.getListHotels();
 
-    const filteredHotelList = hotelList.map((hotel) => {
-      const keyDetails = hotel.keyDetails || hotel.getKeyDetails?.() || {};
-      const amenities =
-        hotel.amenities && hotel.amenities.amenities
-          ? hotel.amenities.amenities
-          : {};
-      const trustYouScores =
-        hotel.trustYouBenchmark &&
-        hotel.trustYouBenchmark.score &&
-        hotel.trustYouBenchmark.score.score
-          ? hotel.trustYouBenchmark.score.score
-          : {};
-      const price =
-        hotel.pricingRankingData && hotel.pricingRankingData.price
-          ? hotel.pricingRankingData.price
-          : "N/A";
+      const filteredHotelList = hotelList.map((hotel) => {
+        const keyDetails = hotel.keyDetails || hotel.getKeyDetails?.() || {};
+        const amenities =
+          hotel.amenities && hotel.amenities.amenities
+            ? hotel.amenities.amenities
+            : {};
+        const trustYouScores =
+          hotel.trustYouBenchmark &&
+          hotel.trustYouBenchmark.score &&
+          hotel.trustYouBenchmark.score.score
+            ? hotel.trustYouBenchmark.score.score
+            : {};
+        const price =
+          hotel.pricingRankingData && hotel.pricingRankingData.price
+            ? hotel.pricingRankingData.price
+            : "N/A";
 
-      return {
-        name: keyDetails.name || "N/A",
-        address: keyDetails.address || keyDetails.address1 || "N/A",
-        rating: keyDetails.rating || "N/A",
-        description: keyDetails.description || "N/A",
-        check_in_time: keyDetails.checkinTime || "N/A",
-        amenities: amenities,
-        scores: {
-          overall: trustYouScores.overall ?? "N/A",
-          kaligo_overall: trustYouScores.kaligo_overall ?? "N/A",
-          solo: trustYouScores.solo ?? "N/A",
-          couple: trustYouScores.couple ?? "N/A",
-          family: trustYouScores.family ?? "N/A",
-          business: trustYouScores.business ?? "N/A",
-        },
-        price: price,
-      };
-    });
+        return {
+          name: keyDetails.name || "N/A",
+          address: keyDetails.address || keyDetails.address1 || "N/A",
+          rating: keyDetails.rating || "N/A",
+          description: keyDetails.description || "N/A",
+          check_in_time: keyDetails.checkinTime || "N/A",
+          amenities: amenities,
+          scores: {
+            overall: trustYouScores.overall ?? "N/A",
+            kaligo_overall: trustYouScores.kaligo_overall ?? "N/A",
+            solo: trustYouScores.solo ?? "N/A",
+            couple: trustYouScores.couple ?? "N/A",
+            family: trustYouScores.family ?? "N/A",
+            business: trustYouScores.business ?? "N/A",
+          },
+          price: price,
+        };
+      });
 
-    res.send(filteredHotelList);
+      res.json(filteredHotelList);
+      return;
+    } catch (error) {
+      res.status(500).json(error + "Internal Server Error");
+    }
     return;
   }
 );
 
 /*getting the all the images of a hotel endpoint*/
 router.get("/images/", async function (req, res, next) {
+  if (
+    process.env.NODE_ENV === "test" &&
+    !(process.env.INTEGRATION_TEST === "true")
+  ) {
+    res
+      .status(200)
+      .json("Hello from the backend, running search/images endpoint now");
+    return;
+  }
+
   let imageList = [];
   let id_with_images = {};
 
@@ -183,11 +257,23 @@ router.get("/images/", async function (req, res, next) {
 
 //Get info for a single hotel, returning the same fields as the API listing hotels for a particular destination
 router.get("/hotel/:hotel_id", async function (req, res, next) {
+  if (
+    process.env.NODE_ENV === "test" &&
+    !(process.env.INTEGRATION_TEST === "true")
+  ) {
+    res
+      .status(200)
+      .json(
+        "Hello from the backend, running search/hotel/hotel_id endpoint now"
+      );
+    return;
+  }
+
   let hotelId = req.params.hotel_id;
   console.log(hotelId);
 
   result =
-    await hotelDataTransferServiceModule.getSingleHotelDetailsWithoutPrice();
+    await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice();
   res.json(result);
 });
 
@@ -195,6 +281,18 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
 router.get(
   "/hotel/prices/:hotel_id/:destination_id/:check_in_date/:check_out_date/:guest_count/:room_count",
   async function (req, res, next) {
+    if (
+      process.env.NODE_ENV === "test" &&
+      !(process.env.INTEGRATION_TEST === "true")
+    ) {
+      res
+        .status(200)
+        .json(
+          "Hello from the backend, running search/hotel/prices endpoint now"
+        );
+      return;
+    }
+
     const hotelId = req.params.hotel_id;
     const destinationId = req.params.destination_id;
     const checkInDate = req.params.check_in_date;
@@ -202,15 +300,24 @@ router.get(
     const guestCount = req.params.guest_count;
     const roomCount = req.params.room_count;
 
-    result = await hotelDataTransferServiceModule.getSingleHotelPriceDetails(
-      hotelId,
-      destinationId,
-      checkInDate,
-      checkOutDate,
-      guestCount,
-      roomCount
-    );
-    res.json(result);
+    result =
+      await hotelRoomDataTransferServiceModule.getSingleHotelPriceDetails(
+        hotelId,
+        destinationId,
+        checkInDate,
+        checkOutDate,
+        guestCount,
+        roomCount
+      );
+
+    if (result === -1) {
+      //No rooms were avaialable, hence return an error 500.
+      res.status(500).send("Server Error, unable to retrieve rooms");
+      return;
+    }
+
+    res.status(200).send(filledHotelRoomDataDTOClassList.getListHotelRooms());
+    return;
   }
 );
 
@@ -222,6 +329,16 @@ const options = {
 
 //Router to generate search suggestions based off database destinaton entries.
 router.get("/string/:searchLiteral", async function (req, res, next) {
+  if (
+    process.env.NODE_ENV === "test" &&
+    !(process.env.INTEGRATION_TEST === "true")
+  ) {
+    res
+      .status(200)
+      .json("Hello from the backend, running search/string/ endpoint now");
+    return;
+  }
+
   const searchString = req.params.searchLiteral;
   allDestinationNames = await destinationModel.findAllDestinations();
   const fuse = new Fuse(allDestinationNames, options);
@@ -231,13 +348,25 @@ router.get("/string/:searchLiteral", async function (req, res, next) {
 });
 
 router.get("/hotels/images", async function (req, res, next) {
+  if (
+    process.env.NODE_ENV === "test" &&
+    !(process.env.INTEGRATION_TEST === "true")
+  ) {
+    res
+      .status(200)
+      .json(
+        "Hello from the backend, running search/hotels/images endpoint now"
+      );
+    return;
+  }
+
   let hotelImages = [];
   listHotelDatas = filledHotelDTOClassList.getListHotels();
 
   for (let i = 0; i < listHotelDatas.length; i++) {
     hotelImageCollage = {
       id: listHotelDatas[i].getKeyDetails().id,
-      images: listHotelDatas[i].getImageDetails().stitchedImageUrls,
+      images: listHotelDatas[i].getImageDetails().getStitchedImageUrls(),
     };
     hotelImages.push(hotelImageCollage);
   }
