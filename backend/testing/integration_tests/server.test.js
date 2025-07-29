@@ -6,7 +6,7 @@ process.env.INTEGRATION_TEST = "true";
 process.env.NODE_ENV = "test";
 
 //Testing destination search
-describe("GET /search/ (Main API route to initialise all variables for HotelDTO)", () => {
+describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all variables for HotelDTO)", () => {
   jest.setTimeout(60000);
 
   jest.mock("../../models/destinations", () => ({
@@ -21,7 +21,7 @@ describe("GET /search/ (Main API route to initialise all variables for HotelDTO)
     jest.resetAllMocks();
   });
 
-  test("Should return a partial data without pricing details is price API is unavailable", async () => {
+  test("Should return partial data without pricing details if price API is unavailable.", async () => {
     const requestBody = {
       destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
@@ -328,7 +328,7 @@ describe("GET /search/ (Main API route to initialise all variables for HotelDTO)
     expect(response.body)[0] = expectedFirstResource;
   });
 
-  test("Should return a 500 server error if the retrieved data is null, and that data has not been initialied beforehand", async () => {
+  test("Should return a 500 server error if the retrieved data is null, and exceeding maximum of 4 fetch attempts.", async () => {
     const requestBody = {
       destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
@@ -368,7 +368,7 @@ describe("GET /search/ (Main API route to initialise all variables for HotelDTO)
       .expect(500); //Expect a 200 Status OK
   });
 
-  test("Should return entire suite of data, if prices API is working", async () => {
+  test("Should return entire suite of data if both destination and prices API by Ascenda are working.", async () => {
     const requestBody = {
       destination_name: "Singapore,_Singapore",
       check_in_date: "25-10-11",
@@ -665,7 +665,7 @@ describe("GET /search/ (Main API route to initialise all variables for HotelDTO)
   });
 });
 
-describe("GET /search/images (API to return the images of all the hotels for a given destination", () => {
+describe("(BLACK-BOX INTEGRATION) GET /search/images (API to return the images of all the hotels for a given destination)", () => {
   jest.setTimeout(60000);
 
   beforeEach(() => {
@@ -676,7 +676,7 @@ describe("GET /search/images (API to return the images of all the hotels for a g
     jest.resetAllMocks();
   });
 
-  test("Should return the images for the list of hotels, after running the above main API, with complete suite of data retrieved", async () => {
+  test("Should return the images for the list of hotels.", async () => {
     const response = await request(app).get("/search/images").expect(200);
 
     expectOneResource = {
@@ -745,11 +745,11 @@ const db = require("../../models/db");
 //2. Register with the same credentials (should return 200)
 //3. Login again with now registered credentials (should return 200)
 //4. Clear test values from database
-describe("Testing user registration and login", () => {
+describe("(BLACK-BOX INTEGRATION) Testing user registration and login", () => {
   async function createTestDbTable() {
     try {
       // for simplicity, we assume staff names are uniqe (in the absence of NRIC or personal email)
-      db.pool.query(`
+      await db.pool.query(`
           CREATE TABLE IF NOT EXISTS USER_TEST_TABLE (
               id INTEGER AUTO_INCREMENT PRIMARY KEY,
               email VARCHAR(255),
@@ -777,7 +777,13 @@ describe("Testing user registration and login", () => {
   //Make sure no stray values in database for testing purposes.
 
   beforeAll(async () => {
-    await createTestDbTable();
+    while (!db.verifyConnection()) {
+      console.log("Verifying db connection...");
+    }
+  });
+
+  beforeAll(async () => {
+    return await createTestDbTable();
   });
 
   requestBody = {
@@ -785,26 +791,26 @@ describe("Testing user registration and login", () => {
     password: "testingPassword",
   };
 
-  test("Logging in with unregistered user details. Should return an error", async () => {
+  test("Logging in with unregistered user details. Should return an error 401 unauthorised.", async () => {
     await request(app).post("/auth/login").send(requestBody).expect(401);
   });
 
-  test("Registering with user details not already existing in the database", async () => {
+  test("Registering with user details not already existing in the database. Should proceed with 200 OK.", async () => {
     await request(app).post("/auth/register").send(requestBody).expect(200);
   });
 
-  test("Logging in with the newly registered user", async () => {
+  test("Logging in with the newly registered user, should now return 200 OK.", async () => {
     await request(app).post("/auth/login").send(requestBody).expect(200);
   });
 
   afterAll(async () => {
-    await teardownDatabaseValues();
+    return await teardownDatabaseValues();
   });
 });
 
 //Testing Hotel room details listing
-describe("GET /search/hotel/prices (API to return the room details for a specific hotel).", () => {
-  test("Should return entire suite of data if the API is working, simulated after 3 tries. If this test works, data is properly instantiated.", async () => {
+describe("(GREY-BOX INTEGRATION) GET /search/hotel/prices (API to return the room details for a specific hotel)", () => {
+  test("Should return entire suite of data if the API is working, simulated after 3 tries of fetch failure.", async () => {
     global.fetch
       .mockResolvedValueOnce({
         ok: true,
@@ -1004,7 +1010,7 @@ describe("GET /search/hotel/prices (API to return the room details for a specifi
     expect(response)[0] = expectedOutput;
   });
 
-  test("Should return error 500 if the API is unavaialble", async () => {
+  test("Should return error 500 if the API is unavailable, after exceeding maximum fetch attempts of 4 tries.", async () => {
     global.fetch
       .mockResolvedValueOnce({
         ok: true,

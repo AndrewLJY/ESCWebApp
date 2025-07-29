@@ -1,6 +1,6 @@
 const hotelRoomDataDTOModule = require("../../hotel_data/hotel_room_data_DTO");
 
-describe("Testing the respective Hotel Room Data Trasnfer Object Subclasses to see if they can set their attributes correctly.", () => {
+describe("(WHITE-BOX UNIT) Testing the respective Hotel Room DTO subclasses, ensure code sets attributes for given arguments", () => {
   test("Testing the KeyRoomDetails subclass. Should return a class object with attributes being set.", () => {
     keyRoomDetails_data = {
       key: "c9369179-69f3-530c-872f-5cf8c5b345d8",

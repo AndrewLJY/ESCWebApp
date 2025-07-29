@@ -1,7 +1,7 @@
 const hotelDataDTO = require("../../hotel_data/hotel_data_DTO");
 
-describe("Initialising Respective Hotel DTO SubClass Attributes with Mock Values", () => {
-  test("Testing the KeyDetails subclass. Should return a class object with attributes being set", () => {
+describe("(WHITE-BOX UNIT) Initialising Respective Hotel DTO SubClass Attributes with Mock Values", () => {
+  test("Testing the KeyDetails subclass. Should return a class object with attributes being set.", () => {
     keyDetails_data = {
       id: "OXCM",
       imageCount: 3,
@@ -192,7 +192,7 @@ describe("Initialising Respective Hotel DTO SubClass Attributes with Mock Values
   });
 });
 
-describe("Testing the ImageDetails subclass separately. Test cases accounting for absence of imageCount, URL Prefix and Suffix respectively.", () => {
+describe("(WHITE-BOX UNIT) Testing the ImageDetails subclass separately. Test cases accounting for absence of imageCount, URL Prefix and Suffix respectively.", () => {
   test("Testing with all 3 attributes present: proper image URL prefix, suffix and image count. Class boolean attribute bNoAvailableImages should return false.", () => {
     imageDetailsData = {
       hires_image_index: "1,2,3,4,5",

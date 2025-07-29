@@ -1,7 +1,7 @@
 const hotelRoomDataTransferServiceModule = require("../../hotel_data/hotel_room_data_service");
 const hotelRoomDataDTOModule = require("../../hotel_data/hotel_room_data_DTO");
 
-describe("Testing its facilitation of data transference, by being able to initialise attributes in a test DTO Object.", () => {
+describe("(WHITE-BOX UNIT) Testing hotel_room_data service, its facilitation of data transference, by initialising attributes in the test hotel_room_data DTO", () => {
   testJSONData = {
     key: "c9369179-69f3-530c-872f-5cf8c5b345d8",
     roomDescription: "Double room",
@@ -136,7 +136,7 @@ describe("Testing its facilitation of data transference, by being able to initia
       .setSurcharges(testJSONData.roomAdditionalInfo.displayFields.surcharges)
       .build();
 
-  test("Test if the Transfer Service works for this particular hotel room data", () => {
+  test("Test if the Transfer Service works for a given set of particular hotel room data. Should initialise all attributes as provided.", () => {
     hotelRoomDataTransferService =
       new hotelRoomDataTransferServiceModule.HotelRoomDataTransferService(
         testJSONData
