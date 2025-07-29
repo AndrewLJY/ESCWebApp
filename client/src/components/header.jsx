@@ -9,60 +9,59 @@ export default function Header() {
   const [loading, setLoading] = useState(false);
 
   // Check if user is logged in
- useEffect(() => {
-  console.log("[Auth] Checking if user is logged in on mount...");
-  
-  const token = localStorage.getItem('token');
-  const userData = localStorage.getItem('user');
+  useEffect(() => {
+    console.log("[Auth] Checking if user is logged in on mount...");
 
-  console.log(`[Auth] Retrieved token: ${token}`);
-  console.log(`[Auth] Retrieved user data: ${userData}`);
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
 
-  if (token && userData) {
-    try {
-      const parsedUser = JSON.parse(userData);
-      setUser(parsedUser);
-      console.log("[Auth] User successfully parsed and set:", parsedUser);
-    } catch (error) {
-      console.error("[Auth] Failed to parse user data:", error);
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      console.log("[Auth] Cleared invalid token and user from localStorage.");
+    console.log(`[Auth] Retrieved token: ${token}`);
+    console.log(`[Auth] Retrieved user data: ${userData}`);
+
+    if (token && userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+        console.log("[Auth] User successfully parsed and set:", parsedUser);
+      } catch (error) {
+        console.error("[Auth] Failed to parse user data:", error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        console.log("[Auth] Cleared invalid token and user from localStorage.");
+      }
+    } else {
+      console.log("[Auth] No token or user found. User not logged in.");
     }
-  } else {
-    console.log("[Auth] No token or user found. User not logged in.");
-  }
-}, []);
+  }, []);
 
-const isAuthenticated = () => {
-  const hasToken = !!localStorage.getItem('token');
-  const authStatus = !!user && hasToken;
-  console.log(`[Auth] isAuthenticated? ${authStatus}`);
-  return authStatus;
-};
+  const isAuthenticated = () => {
+    const hasToken = !!localStorage.getItem("token");
+    const authStatus = !!user && hasToken;
+    console.log(`[Auth] isAuthenticated? ${authStatus}`);
+    return authStatus;
+  };
 
-const login = (userData, token) => {
-  console.log("[Auth] Logging in user...");
-  console.log("User data:", userData);
-  console.log("Token:", token);
+  const login = (userData, token) => {
+    console.log("[Auth] Logging in user...");
+    console.log("User data:", userData);
+    console.log("Token:", token);
 
-  localStorage.setItem('token', token);
-  localStorage.setItem('user', JSON.stringify(userData));
-  setUser(userData);
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
 
-  console.log("[Auth] User logged in and saved to localStorage.");
-};
+    console.log("[Auth] User logged in and saved to localStorage.");
+  };
 
-const logout = () => {
-  console.log("[Auth] Logging out user...");
+  const logout = () => {
+    console.log("[Auth] Logging out user...");
 
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  setUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
 
-  console.log("[Auth] User logged out and data cleared.");
-};
-
+    console.log("[Auth] User logged out and data cleared.");
+  };
 
   // blur Landing, Search or HotelDetail page when dropdown is open
   useEffect(() => {
@@ -97,8 +96,8 @@ const logout = () => {
         {isAuthenticated() ? (
           <>
             <span className="user-email">{user?.email}</span>
-            <button 
-              className="btn logout" 
+            <button
+              className="btn logout"
               onClick={() => {
                 logout();
                 window.location.reload();
@@ -133,7 +132,7 @@ const logout = () => {
                   email: data.get("email"),
                   password: data.get("password"),
                 });
-                login(result.user, result.token);
+                login(result, result.token);
                 alert("Login successful!");
                 closeAll();
                 window.location.reload();
@@ -197,8 +196,12 @@ const logout = () => {
                   return;
                 }
 
-                const result = await signupUserAPI({ email, password, confirmPassword });
-                login(result.user, result.token);
+                const result = await signupUserAPI({
+                  email,
+                  password,
+                  confirmPassword,
+                });
+                login(result, result.token);
                 alert("Account created!");
                 closeAll();
                 window.location.reload();
