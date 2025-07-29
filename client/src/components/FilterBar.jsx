@@ -290,6 +290,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/FilterBar.css";
 import { useNavigate } from "react-router-dom";
 
+
 export default function FilterBar({
   search,
   fetchData,
@@ -411,13 +412,23 @@ export default function FilterBar({
             type="date"
             className="filter-input"
             value={checkin}
-            onChange={(e) => setCheckin(e.target.value)}
+            onChange={(e) => {
+              setCheckin(e.target.value);
+              // Auto-set checkout to next day if not set or if checkout is before checkin
+              if (!checkout || new Date(e.target.value) >= new Date(checkout)) {
+                const nextDay = new Date(e.target.value);
+                nextDay.setDate(nextDay.getDate() + 1);
+                setCheckout(nextDay.toISOString().split('T')[0]);
+              }
+            }}
+            min={new Date().toISOString().split('T')[0]}
           />
           <input
             type="date"
             className="filter-input"
             value={checkout}
             onChange={(e) => setCheckout(e.target.value)}
+            min={checkin || new Date().toISOString().split('T')[0]}
           />
           <input
             type="number"
@@ -447,9 +458,28 @@ export default function FilterBar({
                         : "text"
                     }
                     placeholder={key.includes("guests") ? "1" : ""}
-                    min={key.includes("guests") ? "1" : undefined}
+                    min={
+                      key.includes("guests") 
+                        ? "1" 
+                        : key === "checkin_filters"
+                        ? new Date().toISOString().split('T')[0]
+                        : key === "checkout_filters"
+                        ? filters.checkin_filters.value || new Date().toISOString().split('T')[0]
+                        : undefined
+                    }
                     value={obj.value}
-                    onChange={(e) => update(key, e.target.value)}
+                    onChange={(e) => {
+                      update(key, e.target.value);
+                      // Auto-set checkout when checkin is selected
+                      if (key === "checkin_filters") {
+                        const checkoutValue = filters.checkout_filters.value;
+                        if (!checkoutValue || new Date(e.target.value) >= new Date(checkoutValue)) {
+                          const nextDay = new Date(e.target.value);
+                          nextDay.setDate(nextDay.getDate() + 1);
+                          update("checkout_filters", nextDay.toISOString().split('T')[0]);
+                        }
+                      }
+                    }}
                     onBlur={() => toggle(key)}
                   />
                 ) : (
