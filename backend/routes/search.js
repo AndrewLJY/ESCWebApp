@@ -252,7 +252,7 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
   console.log(hotelId);
 
   result =
-    await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice();
+    await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(hotelId);
   res.json(result);
 });
 
