@@ -48,18 +48,21 @@ router.post("/login/", async function (req, res, next) {
   const email = req.body.email;
   const password = req.body.password;
 
-  const user = userModel.findByEmail(email);
+  //String slicing, remove all characters behind the "@" to generate a username
+  username = email.split("@")[0];
+
+  const user = await userModel.findByEmail(email);
+  console.log(user);
   const result = await userModel.login(email, password);
   if (result.success) {
     const token = jwt.sign(JSON.stringify(user), process.env.SECRET_TOKEN);
 
-    // res.send(
-    //   JSON.stringify({
-    //     message: "Login successful",
-    //   })
-    // );
-    // res.end();
-    res.json({ token: token });
+    output = {
+      user: JSON.stringify(user),
+      token: token,
+      email: username,
+    };
+    res.send(output);
   } else {
     console.log("User not authorised");
     res.status(401).send("Login unsuccessful.");
