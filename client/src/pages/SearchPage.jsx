@@ -177,6 +177,7 @@ export default function SearchPage() {
       const resp = await searchHotelsAPI(payload);
       let data = resp.data.hotels || [];
 
+
       setHotels(data);
     } catch (err) {
       console.error("Search error:", err);
