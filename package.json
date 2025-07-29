@@ -1,5 +1,19 @@
 {
   "dependencies": {
     "mysql": "^2.18.1"
-  }
+  },
+  "devDependencies": {
+    "cypress": "^14.5.3"
+  },
+  "name": "escwebapp",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dev": "vite --host"
 }
