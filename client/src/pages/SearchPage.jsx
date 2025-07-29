@@ -176,7 +176,12 @@ export default function SearchPage() {
     try {
       const resp = await searchHotelsAPI(payload);
       let data = resp.data.hotels || [];
-
+      if (payload.hotel) {
+        const name = payload.hotel.toLowerCase();
+        data = data.filter((h) =>
+          h.keyDetails.name.toLowerCase().includes(name)
+        );
+      }
 
       setHotels(data);
     } catch (err) {
