@@ -15,5 +15,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dev": "vite --host"
+  "dev": "vite --host",
+  "cross-env": "^7.0.3",
+  "jest": "^30.0.5",
+  "supertest": "^7.1.4"
 }
