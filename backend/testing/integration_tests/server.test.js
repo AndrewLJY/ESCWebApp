@@ -888,6 +888,8 @@ describe("GET localhost:8080/search/MainDisplay/: ... (Display search hotel resu
     const response = await request(app).get(`/search/MainDisplay/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
     ).expect(200); //.expect(200) here but 500 internal server error 
      //get first object of result only for testing
+
+     
     console.log("RESPONSE.BODY IS",response.body);
     
     expectedFirstResource = {
