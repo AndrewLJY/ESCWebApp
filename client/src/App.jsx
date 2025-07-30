@@ -30,7 +30,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import RoomDetailPage from "./pages/HotelDetailPage.jsx";
-import Bookmark from "./pages/Bookmark";
+import Bookmark from "./pages/BookmarkPage.jsx";
 
 import "./App.css"; // keep this if you have shared/global styles
 

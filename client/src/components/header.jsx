@@ -109,14 +109,14 @@ export default function Header() {
             >
               Logout
             </button>
+            <button className="btn book" onClick={() => navigate("/bookmark")}>
+              Your Bookmarks
+            </button>
           </>
         ) : (
           <>
             <button className="btn login" onClick={handleLoginClick}>
               Login
-            </button>
-            <button className="btn book" onClick={() => navigate("/bookmark")}>
-              Bookmark
             </button>
           </>
         )}
