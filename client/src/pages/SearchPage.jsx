@@ -160,13 +160,15 @@ export default function SearchPage() {
   const { search } = useLocation();
 
   const [hotels, setHotels] = useState([]);
+  const [destinationId, setDestinationId] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Fetch hotels (real API or fallback mock)
   const fetchData = useCallback(async (queryString) => {
     setLoading(true);
-    const params = new URLSearchParams(queryString);
+
     const payload = { hotelType: "Hotel" };
+    const params = new URLSearchParams(queryString);
     if (params.get("location")) payload.location = params.get("location");
     if (params.get("hotel")) payload.hotel = params.get("hotel");
     if (params.get("checkin")) payload.checkIn = params.get("checkin");
@@ -175,6 +177,7 @@ export default function SearchPage() {
 
     try {
       const resp = await searchHotelsAPI(payload);
+      console.log(resp);
       let data = resp.data.hotels || [];
       if (payload.hotel) {
         const name = payload.hotel.toLowerCase();
@@ -184,6 +187,7 @@ export default function SearchPage() {
       }
 
       setHotels(data);
+      setDestinationId(resp.data.destination_id)
     } catch (err) {
       console.error("Search error:", err);
       setHotels([]);
@@ -243,19 +247,21 @@ export default function SearchPage() {
                 </div>
 
                 <div className="hotel-book">
-                  <span className="price">
+                  {/* <span className="price">
                     {h.keyDetails.price
                       ? `SGD ${h.keyDetails.price}`
                       : "SGD 140"}
-                  </span>
+                  </span> */}
                   <button
                     className="btn book-small"
                     // include the original search query so detail page has the same filters
                     onClick={() =>
-                      navigate(`/hotel/${h.keyDetails.id}${search}`)
+                      navigate(`/hotel/${h.keyDetails.id}${search}`, {
+                        state: { hotelDetails: h, destinationId: destinationId },
+                      })
                     }
                   >
-                    Book
+                    View More Details
                   </button>
                 </div>
               </div>

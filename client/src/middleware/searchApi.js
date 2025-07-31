@@ -62,7 +62,7 @@ const searchHotels = async (searchParams) => {
 // Possible real API call example
 const searchHotelsAPI = async (searchParams) => {
   try {
-    let destination = searchParams.location.replace("_", " ");
+    // let destination = searchParams.location.replace("_", " ");
 
     const response = await axios
       .get(
@@ -74,9 +74,10 @@ const searchHotelsAPI = async (searchParams) => {
 
     return {
       data: {
-        hotels: response.data != null ? response.data : [],
-        totalResults: response != null ? response.data.length : 0,
+        hotels: response.data.hotelList != null ? response.data.hotelList : [],
+        totalResults: response != null ? response.data.hotelList.length : 0,
         searchParams: searchParams,
+        destination_id: response.data.destination_id
       },
     };
   } catch (error) {
