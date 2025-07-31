@@ -254,7 +254,7 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
   const hotelId = req.params.hotel_id;
 
   const result =
-    await hotelDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(hotelId);
+    await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(hotelId);
     
   res.json(result);
 });

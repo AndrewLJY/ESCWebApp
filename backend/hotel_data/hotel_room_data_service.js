@@ -163,9 +163,9 @@ async function getSingleHotelPriceDetails(
     for (let i = 1; i < roomCount; i++) {
       guestInputField += `|${guestCount}`;
     }
-
+    //changes made to ascenda's api ~nam
     const response = await fetch(
-      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1`,
+      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1098&landing_page=wl-acme-earn&product_type=earn`,
       {
         method: "GET",
       }
