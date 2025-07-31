@@ -42,7 +42,10 @@ router.get(
         res.status(500).send("Internal Server Error");
       } else {
         console.log("sending!!!");
-        res.status(200).send(filledHotelDTOClassList.getListHotels()); //JSON output seen in POSTMAN
+        res.status(200).send({
+          hotelList: filledHotelDTOClassList.getListHotels(),
+          destination_id: filledHotelDTOClassList.getCurrentDestinationId()
+        }); //JSON output seen in POSTMAN
       }
     } catch (error) {
       res.status(500).send(error + "Internal Server Error");
@@ -181,11 +184,11 @@ router.get("/images/", async function (req, res, next) {
 
 //Get info for a single hotel, returning the same fields as the API listing hotels for a particular destination
 router.get("/hotel/:hotel_id", async function (req, res, next) {
-  let hotelId = req.params.hotel_id;
-  console.log(hotelId);
+  const hotelId = req.params.hotel_id;
 
-  result =
-    await hotelDataTransferServiceModule.getSingleHotelDetailsWithoutPrice();
+  const result =
+    await hotelDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(hotelId);
+  
   res.json(result);
 });
 
@@ -200,7 +203,7 @@ router.get(
     const guestCount = req.params.guest_count;
     const roomCount = req.params.room_count;
 
-    result = await hotelDataTransferServiceModule.getSingleHotelPriceDetails(
+    const result = await hotelDataTransferServiceModule.getSingleHotelPriceDetails(
       hotelId,
       destinationId,
       checkInDate,

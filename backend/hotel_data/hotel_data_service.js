@@ -109,6 +109,7 @@ class HotelDataDTOClassList {
     this.bPriceDataUnavailable = false;
     this.emptyData = false;
     this.currentSearchDestinationName = null;
+    this.currentSearchDestinationId = null;
   }
   addHotelDataDTO(hotelDataDTO) {
     this.hotelDataDTOs.push(hotelDataDTO);
@@ -140,6 +141,14 @@ class HotelDataDTOClassList {
 
   getCurrentDestinationName() {
     return this.currentSearchDestinationName;
+  }
+
+  setCurrentSearchDestinationId(destId) {
+    this.currentSearchDestinationId = destId;
+  }
+
+  getCurrentDestinationId() {
+    return this.currentSearchDestinationId;
   }
 
   resetHotelDTOList() {
@@ -300,6 +309,7 @@ async function getAllHotelsAndPricesForDestination(
 
   console.log("finished");
   hotelDataDTOClassList.setCurrentSearchDestinationName(destination_name);
+  hotelDataDTOClassList.setCurrentSearchDestinationId(destinationId);
   //SAVE the current destination name we are searching for, as the subject of our DTO class.
   //That way, when we call a search for new destination through any of the endpoints the code will know when to reach back
   //to Ascenda API to get results for a new destination or not.
@@ -359,7 +369,7 @@ async function getSingleHotelDetailsWithoutPrice(hotelId) {
     }
   );
 
-  result = await response.json();
+  const result = await response.json();
   return result;
 }
 
