@@ -422,5 +422,7 @@ async function getSingleHotelDetailsWithoutPrice(hotelId) {
 module.exports = {
   hotelDataDTOClassList,
   getAllHotelsAndPricesForDestination,
+  getSingleHotelPriceDetails,
+  getSingleHotelDetailsWithoutPrice,
   HotelDataTransferService,
 };

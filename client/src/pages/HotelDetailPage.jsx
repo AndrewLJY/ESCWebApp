@@ -145,7 +145,7 @@ export default function HotelDetailPage() {
           hotelDetails.keyDetails.id,
           payload
         );
-        setRooms(roomResp.data.rooms);
+        setRooms(roomResp.data);
       } catch (err) {
         console.error("Error loading rooms:", err);
         setRooms([]);
@@ -160,8 +160,8 @@ export default function HotelDetailPage() {
   const handleBookRoom = (room) => {
     navigate("/checkout", {
       state: {
-        roomName: room.name || room.description,
-        roomPrice: room.price,
+        roomName: room.keyRoomDetails.name || room.keyRoomDetails.roomDescription,
+        roomPrice: room.priceDetails.price,
       },
     });
   };
@@ -204,12 +204,17 @@ export default function HotelDetailPage() {
         <div className="loading">Loading…</div>
       ) : (
         <div className="room-list">
-          {rooms.map((room) => (
-            <div key={room.key} className="room-card">
-              <img src={room.images[0].url || ""} alt={room.name} />
-              <h3>{room.name}</h3>
-              <p>{room.description}</p>
-              <div className="room-price">SGD {room.price}</div>
+          {rooms.map((room) => {
+
+            const roomKeyDetails = room.keyRoomDetails;
+            const roomPriceDetails = room.priceDetails;
+            
+            return (
+            <div key={roomKeyDetails.keyId} className="room-card">
+              <img src={roomKeyDetails.roomImages[0].url || ""} alt={roomKeyDetails.name} />
+              <h3>{roomKeyDetails.name}</h3>
+              <p>{roomKeyDetails.roomDescription}</p>
+              <div className="room-price">SGD {roomPriceDetails.price}</div>
               <button
                 className="btn book-room"
                 onClick={() => handleBookRoom(room)}
@@ -217,7 +222,7 @@ export default function HotelDetailPage() {
                 Book
               </button>
             </div>
-          ))}
+          )})}
         </div>
       )}
     </div>

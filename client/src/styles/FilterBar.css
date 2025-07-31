@@ -57,6 +57,7 @@
 
 .filter-input[type="date"] {
   min-width: 9rem;
+  color-scheme: dark;
 }
 .filter-input:focus {
   border-color: #888;
