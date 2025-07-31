@@ -1,5 +1,6 @@
 /* src/styles/HotelDetailPage.css */
 .hotel-detail-page {
+  position: relative;
   padding-top: 72px;
   display: flex;
   flex-direction: column;
@@ -8,7 +9,7 @@
 .hotel-filter {
   width: 100%;
   max-width: 1000px;
-  margin: 0.5rem 0 1.5rem;
+  margin: 4rem 0 1.5rem;
 }
 .detail-header {
   background: rgba(255, 255, 255, 0.9);

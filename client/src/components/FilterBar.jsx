@@ -286,9 +286,11 @@
 // }
 
 // src/components/FilterBar.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/FilterBar.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 export default function FilterBar({
   search,
@@ -310,11 +312,53 @@ export default function FilterBar({
   const [checkin, setCheckin] = useState("");
   const [checkout, setCheckout] = useState("");
   const [guests, setGuests] = useState("1");
+  
+  // Autocomplete state
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [activeField, setActiveField] = useState(null);
+  const timeoutRef = useRef(null);
+  
+  // Fetch suggestions from backend
+  const fetchSuggestions = async (searchTerm, field) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/search/string/${searchTerm}`);
+      const top3 = response.data.slice(0, 3).map(item => item.item || item);
+      setSuggestions(top3);
+      setShowSuggestions(true);
+      setActiveField(field);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+  
+  // Handle suggestion selection
+  const selectSuggestion = (suggestion) => {
+    if (activeField === "location_filters") {
+      update("location_filters", suggestion);
+    } else if (activeField === "locationFilter") {
+      setLocationFilter(suggestion);
+    }
+    setShowSuggestions(false);
+    setSuggestions([]);
+  };
 
   const toggle = (key) =>
     setFilters((f) => ({ ...f, [key]: { ...f[key], open: !f[key].open } }));
-  const update = (key, val) =>
+  const update = (key, val) => {
     setFilters((f) => ({ ...f, [key]: { ...f[key], value: val } }));
+    
+    // Trigger autocomplete for location fields
+    if (key === "location_filters" && val.length > 0) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => fetchSuggestions(val, key), 2000);
+      setActiveField(key);
+    } else if (key === "location_filters") {
+      setShowSuggestions(false);
+    }
+  };
   const fmtDate = (iso) => (iso ? new Date(iso).toLocaleDateString() : "");
 
   const onSearch = () => {
@@ -393,13 +437,37 @@ export default function FilterBar({
     <div className={`filter-bar-wrapper ${className}`}>
       {isSearchPage ? (
         <div className="sp-filter-bar">
-          <input
-            type="text"
-            placeholder="Location"
-            className="filter-input"
-            value={locationFilter}
-            onChange={(e) => setLocationFilter(e.target.value)}
-          />
+          <div style={{position: 'relative'}}>
+            <input
+              type="text"
+              placeholder="Location"
+              className="filter-input"
+              value={locationFilter}
+              onChange={(e) => {
+                setLocationFilter(e.target.value);
+                if (e.target.value.length > 0) {
+                  clearTimeout(timeoutRef.current);
+                  timeoutRef.current = setTimeout(() => fetchSuggestions(e.target.value, "locationFilter"), 2000);
+                  setActiveField("locationFilter");
+                } else {
+                  setShowSuggestions(false);
+                }
+              }}
+            />
+            {showSuggestions && activeField === "locationFilter" && suggestions.length > 0 && (
+              <div className="suggestions-dropdown">
+                {suggestions.map((suggestion, index) => (
+                  <div 
+                    key={index} 
+                    className="suggestion-item"
+                    onClick={() => selectSuggestion(suggestion)}
+                  >
+                    {suggestion}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <input
             type="text"
             placeholder="Hotel name"
@@ -411,13 +479,23 @@ export default function FilterBar({
             type="date"
             className="filter-input"
             value={checkin}
-            onChange={(e) => setCheckin(e.target.value)}
+            onChange={(e) => {
+              setCheckin(e.target.value);
+              // Auto-set checkout to next day if not set or if checkout is before checkin
+              if (!checkout || new Date(e.target.value) >= new Date(checkout)) {
+                const nextDay = new Date(e.target.value);
+                nextDay.setDate(nextDay.getDate() + 1);
+                setCheckout(nextDay.toISOString().split('T')[0]);
+              }
+            }}
+            min={new Date().toISOString().split('T')[0]}
           />
           <input
             type="date"
             className="filter-input"
             value={checkout}
             onChange={(e) => setCheckout(e.target.value)}
+            min={checkin || new Date().toISOString().split('T')[0]}
           />
           <input
             type="number"
@@ -447,9 +525,28 @@ export default function FilterBar({
                         : "text"
                     }
                     placeholder={key.includes("guests") ? "1" : ""}
-                    min={key.includes("guests") ? "1" : undefined}
+                    min={
+                      key.includes("guests") 
+                        ? "1" 
+                        : key === "checkin_filters"
+                        ? new Date().toISOString().split('T')[0]
+                        : key === "checkout_filters"
+                        ? filters.checkin_filters.value || new Date().toISOString().split('T')[0]
+                        : undefined
+                    }
                     value={obj.value}
-                    onChange={(e) => update(key, e.target.value)}
+                    onChange={(e) => {
+                      update(key, e.target.value);
+                      // Auto-set checkout when checkin is selected
+                      if (key === "checkin_filters") {
+                        const checkoutValue = filters.checkout_filters.value;
+                        if (!checkoutValue || new Date(e.target.value) >= new Date(checkoutValue)) {
+                          const nextDay = new Date(e.target.value);
+                          nextDay.setDate(nextDay.getDate() + 1);
+                          update("checkout_filters", nextDay.toISOString().split('T')[0]);
+                        }
+                      }
+                    }}
                     onBlur={() => toggle(key)}
                   />
                 ) : (
