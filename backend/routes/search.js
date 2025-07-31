@@ -56,7 +56,10 @@ router.get(
         res.status(500).send("Internal Server Error");
       } else {
         console.log("sending!!!");
-        res.status(200).send(filledHotelDTOClassList.getListHotels()); //JSON output seen in POSTMAN
+        res.status(200).send({
+          hotelList: filledHotelDTOClassList.getListHotels(),
+          destination_id: filledHotelDTOClassList.getCurrentDestinationId()
+        }); //JSON output seen in POSTMAN
       }
     } catch (error) {
       res.status(500).json(error + "Internal Server Error");
@@ -248,11 +251,11 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
     return;
   }
 
-  let hotelId = req.params.hotel_id;
-  console.log(hotelId);
+  const hotelId = req.params.hotel_id;
 
-  result =
+  const result =
     await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(hotelId);
+    
   res.json(result);
 });
 
@@ -279,7 +282,7 @@ router.get(
     const guestCount = req.params.guest_count;
     const roomCount = req.params.room_count;
 
-    result =
+    const result =
       await hotelRoomDataTransferServiceModule.getSingleHotelPriceDetails(
         hotelId,
         destinationId,

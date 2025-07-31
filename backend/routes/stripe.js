@@ -3,11 +3,11 @@ const express = require('express');
 var router = express.Router();
 
 const YOUR_DOMAIN = 'http://localhost:5173';
-// const stripe = require('stripe')(`${process.env.VITE_STRIPE_SK}`);
+const stripe = require('stripe')(`${process.env.VITE_STRIPE_SK}`);
 
 router.post('/create-checkout-session', async (req, res) => {
   const roomName = req.body.roomName;
-  const roomPrice = req.body.roomPrice;
+  const roomPrice = req.body.roomPrice * 100;
   const session = await stripe.checkout.sessions.create({
     ui_mode: 'embedded',
     line_items: [

@@ -109,6 +109,7 @@ class HotelDataDTOClassList {
     this.bPriceDataUnavailable = false;
     this.emptyData = false;
     this.currentSearchDestinationName = null;
+    this.currentSearchDestinationId = null;
     this.currentGuestCount = null;
     this.currentRoomCount = null;
     this.currentCheckIn = null;
@@ -162,6 +163,14 @@ class HotelDataDTOClassList {
     return this.currentSearchDestinationName;
   }
 
+  setCurrentSearchDestinationId(destId) {
+    this.currentSearchDestinationId = destId;
+  }
+
+  getCurrentDestinationId() {
+    return this.currentSearchDestinationId;
+  }
+  
   getCurrentGuestCount() {
     return this.currentGuestCount;
   }
@@ -341,6 +350,7 @@ async function getAllHotelsAndPricesForDestination(
 
   // console.log("finished");
   hotelDataDTOClassList.setCurrentSearchDestinationName(destination_name);
+  hotelDataDTOClassList.setCurrentSearchDestinationId(destinationId);
   hotelDataDTOClassList.setCurrentCheckIn(check_in);
   hotelDataDTOClassList.setCurrentCheckOut(check_out);
   hotelDataDTOClassList.setCurrentGuestCount(guest_count);
@@ -352,8 +362,67 @@ async function getAllHotelsAndPricesForDestination(
   return 0;
 }
 
+async function getSingleHotelPriceDetails(
+  hotelId,
+  destinationId,
+  checkInDate,
+  checkOutDate,
+  guestCount,
+  roomCount
+) {
+  let result = { rooms: [] };
+  let count = 0;
+  const waitDelay = 2000;
+
+  while (result.rooms.length === 0) {
+    if (count > 3) {
+      console.log(
+        "Unable to retrieve data, check for errors in request parameters."
+      );
+      break;
+    }
+
+    guestInputField = `${guestCount}`;
+    for (let i = 1; i < roomCount; i++) {
+      guestInputField += `|${guestCount}`;
+    }
+
+    const response = await fetch(
+      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1`,
+      {
+        method: "GET",
+      }
+    );
+
+    result = await response.json();
+
+    if (result.rooms.length > 0) {
+      break;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, waitDelay));
+
+    count += 1;
+  }
+  return result;
+}
+
+async function getSingleHotelDetailsWithoutPrice(hotelId) {
+  const response = await fetch(
+    `https://hotelapi.loyalty.dev/api/hotels/${hotelId}`,
+    {
+      method: "GET",
+    }
+  );
+
+  const result = await response.json();
+  return result;
+}
+
 module.exports = {
   hotelDataDTOClassList,
   getAllHotelsAndPricesForDestination,
+  getSingleHotelPriceDetails,
+  getSingleHotelDetailsWithoutPrice,
   HotelDataTransferService,
 };
