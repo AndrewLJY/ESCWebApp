@@ -96,6 +96,7 @@ import {
 } from "../middleware/hotelDetailsApi";
 import Header from "../components/header";
 import FilterBar from "../components/FilterBar";
+import BookmarkButton from "../components/BookmarkButton";
 import "../styles/HotelDetailPage.css";
 
 export default function HotelDetailPage() {
@@ -110,57 +111,62 @@ export default function HotelDetailPage() {
     "/images/default-bg.jpg"
   );
 
-  useEffect(() => {
-    async function fetchDetail() {
-      setLoading(true);
+  const isAuthenticated = () => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+    return !!token && !!user;
+  };
 
-      const hotelDetails = state.hotelDetails;
+  async function fetchDetail() {
+    const hotelDetails = state.hotelDetails;
 
-      // 1) grab your URL params
-      const params = new URLSearchParams(search);
-      const payload = {
-        location: params.get("location") || "",
-        hotel: hotelDetails.keyDetails.name || "",
-        checkIn: params.get("checkin") || "",
-        checkOut: params.get("checkout") || "",
-        guests: Number(params.get("guests") || 1),
-        destinationId: state.destinationId,
-      };
+    // 1) grab your URL params
+    const params = new URLSearchParams(search);
+    const payload = {
+      location: params.get("location") || "",
+      hotel: hotelDetails.keyDetails.name || "",
+      checkIn: params.get("checkin") || "",
+      checkOut: params.get("checkout") || "",
+      guests: Number(params.get("guests") || 1),
+      destinationId: state.destinationId,
+    };
 
-      // 2) load the hotel header exactly as before
-      try {
-        const resp = await getHotelDetailsAPI(hotelDetails.keyDetails.id);
-        // const found = resp.data.hotels.find(
-        //   (h) => String(h.keyDetails.id) === id
-        // );
-        setHotel(resp || null);
-      } catch (err) {
-        console.error("Error loading hotel:", err);
-        setHotel(null);
-      }
-
-      // 3) *always* load mock rooms (never show empty)
-      try {
-        const roomResp = await getRoomPricingAPI(
-          hotelDetails.keyDetails.id,
-          payload
-        );
-        setRooms(roomResp.data);
-      } catch (err) {
-        console.error("Error loading rooms:", err);
-        setRooms([]);
-      }
-
-      setLoading(false);
+    // 2) load the hotel header exactly as before
+    try {
+      const resp = await getHotelDetailsAPI(hotelDetails.keyDetails.id);
+      // const found = resp.data.hotels.find(
+      //   (h) => String(h.keyDetails.id) === id
+      // );
+      setHotel(resp || null);
+    } catch (err) {
+      console.error("Error loading hotel:", err);
+      setHotel(null);
     }
 
+    // 3) *always* load mock rooms (never show empty)
+    try {
+      const roomResp = await getRoomPricingAPI(
+        hotelDetails.keyDetails.id,
+        payload
+      );
+      setRooms(roomResp.data);
+    } catch (err) {
+      console.error("Error loading rooms:", err);
+      setRooms([]);
+    }
+
+    setLoading(false);
+  }
+
+  useEffect(() => {
     fetchDetail();
   }, [id, search]);
 
   const handleBookRoom = (room) => {
     navigate("/checkout", {
       state: {
-        roomName: room.keyRoomDetails.name || room.keyRoomDetails.roomDescription,
+        roomName:
+          room.keyRoomDetails.name || room.keyRoomDetails.roomDescription,
         roomPrice: room.priceDetails.price,
       },
     });
@@ -179,13 +185,11 @@ export default function HotelDetailPage() {
       {/* your filter bar stays exactly the same */}
       {/* <FilterBar
         search={search}
-        fetchData={() => {}}
+        fetchData={fetchDetail}
         isSearchPage={true}
         className="hotel-filter"
       /> */}
 
-      {/* —————————————————————————————— */}
-      {/* HOTEL HEADER (unchanged) */}
       {!loading && hotel && (
         <div className="detail-header">
           <h1>{hotel.data.name}</h1>
@@ -195,34 +199,49 @@ export default function HotelDetailPage() {
             className="desription"
             dangerouslySetInnerHTML={{ __html: hotel.data.description }}
           />
+          {isAuthenticated() && (
+            <BookmarkButton
+              hotel={{
+                id: hotel.keyDetails.id,
+                name: hotel.keyDetails.name,
+                address: hotel.keyDetails.address,
+                rating: hotel.keyDetails.rating,
+                price: hotel.keyDetails.price,
+                imageUrl:
+                  hotel?.imageDetails?.stitchedImageUrls?.[0] ||
+                  "https://via.placeholder.com/300x200?text=No+Image",
+              }}
+            />
+          )}
         </div>
       )}
 
-      {/* —————————————————————————————— */}
-      {/* NOW: ALWAYS SHOW MOCK ROOMS BELOW */}
       {loading ? (
         <div className="loading">Loading…</div>
       ) : (
         <div className="room-list">
           {rooms.map((room) => {
-
             const roomKeyDetails = room.keyRoomDetails;
             const roomPriceDetails = room.priceDetails;
-            
+
             return (
-            <div key={roomKeyDetails.keyId} className="room-card">
-              <img src={roomKeyDetails.roomImages[0].url || ""} alt={roomKeyDetails.name} />
-              <h3>{roomKeyDetails.name}</h3>
-              <p>{roomKeyDetails.roomDescription}</p>
-              <div className="room-price">SGD {roomPriceDetails.price}</div>
-              <button
-                className="btn book-room"
-                onClick={() => handleBookRoom(room)}
-              >
-                Book
-              </button>
-            </div>
-          )})}
+              <div key={roomKeyDetails.keyId} className="room-card">
+                <img
+                  src={roomKeyDetails.roomImages[0].url || ""}
+                  alt={roomKeyDetails.name}
+                />
+                <h3>{roomKeyDetails.name}</h3>
+                <p>{roomKeyDetails.roomDescription}</p>
+                <div className="room-price">SGD {roomPriceDetails.price}</div>
+                <button
+                  className="btn book-room"
+                  onClick={() => handleBookRoom(room)}
+                >
+                  Book
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

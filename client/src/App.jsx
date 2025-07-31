@@ -7,7 +7,7 @@ import SearchPage from "./pages/SearchPage.jsx";
 import CheckoutForm from "./pages/stripe/CheckoutForm.jsx";
 import Return from "./pages/stripe/Return.jsx";
 import RoomDetailPage from "./pages/HotelDetailPage.jsx";
-import Bookmark from "./pages/Bookmark";
+import Bookmark from "./pages/BookmarkPage.jsx";
 
 import "./App.css"; // keep this if you have shared/global styles
 
