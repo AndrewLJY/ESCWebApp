@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LandingPage.css";
 import Header from "../components/header";
-import FilterBar from "../components/FilterBar";
+import SearchBar from "../components/SearchBar";
 
 export default function LandingPage() {
   return (
@@ -16,7 +16,7 @@ export default function LandingPage() {
         Discover the world with Ascenda. You deserve the best.
       </h2>
 
-      <FilterBar />
+      <SearchBar />
     </div>
   );
 }
