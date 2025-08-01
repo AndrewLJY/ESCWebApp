@@ -15,7 +15,6 @@ export default function CheckoutForm() {
   const location = useLocation();
 
   const fetchClientSecret = useCallback(async () => {
-
     // Create a Checkout Session
     try {
       return await axios
