@@ -1,5 +1,5 @@
 const db = require("./db.js");
-const tableName = "booking";
+const tableName = "bookmark";
 
 class Booking {
   constructor(id, hotel_id) {
@@ -13,7 +13,10 @@ async function sync() {
         CREATE TABLE IF NOT EXISTS ${tableName} (
             id INTEGER,
             hotel_id VARCHAR(255),
-            destination_id VARCHAR(255),
+            hotel_name VARCHAR(255),
+            Image_url VARCHAR(255),
+            rating INTEGER(255),
+            address VARCHAR(255),
             PRIMARY KEY (id, hotel_id),
             FOREIGN KEY (id) REFERENCES user (id)
         )

@@ -4,7 +4,7 @@ var process = require("process");
 var db = require("./models/db.js");
 const express = require("express");
 const cors = require("cors");
-require('dotenv').config()
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
@@ -20,13 +20,13 @@ var searchRouter = require("./routes/search");
 var stripeRouter = require("./routes/stripe");
 
 var userModel = require("./models/user.js");
-var bookingModel = require("./models/booking.js");
+var bookMarkModel = require("./models/bookmark.js");
 var destinationNamesModel = require("./models/destinations.js");
 
 //Check if the environment is not set to testing!
 if (process.env.NODE_ENV !== "test") {
   userModel.sync();
-  bookingModel.sync();
+  bookMarkModel.sync();
   destinationNamesModel
     .sync()
     .then(() => destinationNamesModel.insertFromJSON());
