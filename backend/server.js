@@ -18,15 +18,14 @@ var usersRouter = require("./routes/user");
 var indexRouter = require("./routes/index");
 var searchRouter = require("./routes/search");
 var stripeRouter = require("./routes/stripe");
-
 var userModel = require("./models/user.js");
-var bookingModel = require("./models/booking.js");
+var bookmarkModel = require("./models/bookmark.js");
 var destinationNamesModel = require("./models/destinations.js");
 
 //Check if the environment is not set to testing!
 if (process.env.NODE_ENV !== "test") {
   userModel.sync();
-  bookingModel.sync();
+  bookmarkModel.sync();
   destinationNamesModel
     .sync()
     .then(() => destinationNamesModel.insertFromJSON());
@@ -40,7 +39,6 @@ app.use("/", indexRouter);
 app.use("/auth", usersRouter);
 app.use("/search", searchRouter);
 app.use("/stripe", stripeRouter);
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
