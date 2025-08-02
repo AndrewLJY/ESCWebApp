@@ -356,10 +356,10 @@ export default function SearchBar({
     }
   };
 
-  // Select a suggestion
+  // When you click a suggestion
   const selectSuggestion = (s) => {
     if (activeField === "location_filters") {
-      updateFilter("location_filters", s);
+      update("location_filters", s);
     } else if (activeField === "locationFilter") {
       setLocationFilter(s);
     }
@@ -367,10 +367,10 @@ export default function SearchBar({
     setSuggestions([]);
   };
 
-  // Helpers
-  const toggleFilter = (key) =>
+  // toggle & update helpers
+  const toggle = (key) =>
     setFilters((f) => ({ ...f, [key]: { ...f[key], open: !f[key].open } }));
-  const updateFilter = (key, val) => {
+  const update = (key, val) => {
     setFilters((f) => ({ ...f, [key]: { ...f[key], value: val } }));
     if (key === "location_filters" && val) {
       clearTimeout(timeoutRef.current);
@@ -379,7 +379,7 @@ export default function SearchBar({
   };
   const fmtDate = (iso) => (iso ? new Date(iso).toLocaleDateString() : "");
 
-  // Pre-fill SearchPage inputs from query string
+  // Pre-fill SearchPage inputs from ?string
   useEffect(() => {
     if (!isSearchPage) return;
     const qs = search.startsWith("?") ? search.slice(1) : search;
@@ -490,7 +490,6 @@ export default function SearchBar({
             value={checkin}
             onChange={(e) => {
               setCheckin(e.target.value);
-              // auto-set checkout to next day
               if (!checkout || new Date(e.target.value) >= new Date(checkout)) {
                 const d = new Date(e.target.value);
                 d.setDate(d.getDate() + 1);
@@ -546,22 +545,8 @@ export default function SearchBar({
                           : undefined
                       }
                       value={obj.value}
-                      onChange={(e) => {
-                        updateFilter(key, e.target.value);
-                        // auto-set checkout_filters
-                        if (key === "checkin_filters") {
-                          const cv = filters.checkout_filters.value;
-                          if (!cv || new Date(e.target.value) >= new Date(cv)) {
-                            const d = new Date(e.target.value);
-                            d.setDate(d.getDate() + 1);
-                            updateFilter(
-                              "checkout_filters",
-                              d.toISOString().split("T")[0]
-                            );
-                          }
-                        }
-                      }}
-                      onBlur={() => toggleFilter(key)}
+                      onChange={(e) => update(key, e.target.value)}
+                      onBlur={() => toggle(key)}
                     />
                     {showSuggestions &&
                       activeField === "location_filters" &&
@@ -583,10 +568,7 @@ export default function SearchBar({
                       )}
                   </div>
                 ) : (
-                  <button
-                    className="filter-btn"
-                    onClick={() => toggleFilter(key)}
-                  >
+                  <button className="filter-btn" onClick={() => toggle(key)}>
                     <span>
                       {obj.value
                         ? key.includes("guests")
