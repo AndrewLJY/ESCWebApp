@@ -1,5 +1,6 @@
-import React from "react";
-// import "../styles/FilterBar.css";
+import React, {useState, useEffect} from "react";
+import "../styles/FilterBar.css";
+import { useNavigate } from "react-router-dom";
 
 export default function FilterBar({
   search,

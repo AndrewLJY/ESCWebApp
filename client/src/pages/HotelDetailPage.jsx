@@ -94,7 +94,6 @@ import { searchRoomsAPI } from "../middleware/searchroomApi";
 import Header from "../components/header";
 import FilterBar from "../components/FilterBar";
 import "../styles/HotelDetailPage.css";
-import FilterBar from "../components/FilterBar.jsx"; // Import FilterBar component
 
 // import PaymentPage from "./pages/PaymentPage"; # Payment Page to be implemented later
 
@@ -151,57 +150,50 @@ export default function HotelDetailPage() {
     alert(`Booking room: ${room.name}\nPrice: SGD ${room.price}`);
 
   return (
-    <div className="hotel-detail-page">
-      <Header /> {/* Render the header component */}
-      
-      <FilterBar
-        filters={filters}
-        toggle={toggle}
-        update={update}
-        onSearch={onSearch}
-        showModify={true}
-      />
+    <div className="hotel-detail-page"> 
+      <header>
+        {/* your filter bar stays exactly the same */}
+        <FilterBar
+          search={search}
+          fetchData={() => {}}
+          isSearchPage={true}
+          className="hotel-filter"
+        />
+      </header>
+      <main>
+        {/* —————————————————————————————— */}
+        {/* HOTEL HEADER (unchanged) */}
+        {!loading && hotel && (
+          <div className="detail-header">
+            <h1>{hotel.keyDetails.name}</h1>
+            <div className="address">{hotel.keyDetails.address}</div>
+            <div className="stars">{"★".repeat(hotel.keyDetails.rating)}</div>
+          </div>
+        )}
 
-      {/* your filter bar stays exactly the same */}
-      <FilterBar
-        search={search}
-        fetchData={() => {}}
-        isSearchPage={true}
-        className="hotel-filter"
-      />
-
-      {/* —————————————————————————————— */}
-      {/* HOTEL HEADER (unchanged) */}
-      {!loading && hotel && (
-        <div className="detail-header">
-          <h1>{hotel.keyDetails.name}</h1>
-          <div className="address">{hotel.keyDetails.address}</div>
-          <div className="stars">{"★".repeat(hotel.keyDetails.rating)}</div>
-        </div>
-      )}
-
-      {/* —————————————————————————————— */}
-      {/* NOW: ALWAYS SHOW MOCK ROOMS BELOW */}
-      {loading ? (
-        <div className="loading">Loading…</div>
-      ) : (
-        <div className="room-list">
-          {rooms.map((room) => (
-            <div key={room.id} className="room-card">
-              <img src={room.imageUrl} alt={room.name} />
-              <h3>{room.name}</h3>
-              <p>{room.description}</p>
-              <div className="room-price">SGD {room.price}</div>
-              <button
-                className="btn book-room"
-                onClick={() => handleBookRoom(room)}
-              >
-                Book
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+        {/* —————————————————————————————— */}
+        {/* NOW: ALWAYS SHOW MOCK ROOMS BELOW */}
+        {loading ? (
+          <div className="loading">Loading…</div>
+        ) : (
+          <div className="room-list">
+            {rooms.map((room) => (
+              <div key={room.id} className="room-card">
+                <img src={room.imageUrl} alt={room.name} />
+                <h3>{room.name}</h3>
+                <p>{room.description}</p>
+                <div className="room-price">SGD {room.price}</div>
+                <button
+                  className="btn book-room"
+                  onClick={() => handleBookRoom(room)}
+                >
+                  Book
+                </button>
+              </div>
+            ))}
+          </div>
+          )}
+      </main>
     </div>
   );
 }
