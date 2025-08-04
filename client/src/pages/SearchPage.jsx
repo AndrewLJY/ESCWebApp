@@ -3,7 +3,7 @@
 // import { useNavigate, useLocation } from "react-router-dom";
 // import { searchHotelsAPI } from "../middleware/searchApi";
 // import Header from "../components/header";
-// import FilterBar from "../components/FilterBar";
+// import SearchBar from "../components/SearchBar";
 // import "../styles/SearchPage.css";
 
 // export default function SearchPage() {
@@ -11,13 +11,15 @@
 //   const { search } = useLocation();
 
 //   const [hotels, setHotels] = useState([]);
+//   const [destinationId, setDestinationId] = useState("");
 //   const [loading, setLoading] = useState(false);
 
-//   // Fetch the API (backend currently returns static data, so we apply client-side filter)
+//   // Fetch hotels (real API or fallback mock)
 //   const fetchData = useCallback(async (queryString) => {
 //     setLoading(true);
-//     const params = new URLSearchParams(queryString);
+
 //     const payload = { hotelType: "Hotel" };
+//     const params = new URLSearchParams(queryString);
 //     if (params.get("location")) payload.location = params.get("location");
 //     if (params.get("hotel")) payload.hotel = params.get("hotel");
 //     if (params.get("checkin")) payload.checkIn = params.get("checkin");
@@ -26,23 +28,17 @@
 
 //     try {
 //       const resp = await searchHotelsAPI(payload);
+//       console.log(resp);
 //       let data = resp.data.hotels || [];
-//       // client-side filter if backend doesn't filter
-//       if (payload.location) {
-//         const loc = payload.location.toLowerCase();
-//         data = data.filter(
-//           (h) =>
-//             h.keyDetails.address.toLowerCase().includes(loc) ||
-//             h.keyDetails.name.toLowerCase().includes(loc)
-//         );
-//       }
 //       if (payload.hotel) {
 //         const name = payload.hotel.toLowerCase();
 //         data = data.filter((h) =>
 //           h.keyDetails.name.toLowerCase().includes(name)
 //         );
 //       }
+
 //       setHotels(data);
+//       setDestinationId(resp.data.destination_id);
 //     } catch (err) {
 //       console.error("Search error:", err);
 //       setHotels([]);
@@ -51,51 +47,25 @@
 //     }
 //   }, []);
 
-//   // Sync URL → inputs + fetch on change
+//   // Run fetch on mount and whenever the query string changes
 //   useEffect(() => {
-//     const qs = search.startsWith("?") ? search.substring(1) : search;
+//     const qs = search.startsWith("?") ? search.slice(1) : search;
 //     fetchData(qs);
 //   }, [search, fetchData]);
-
-//   // Build query and navigate
-//   const onSearch = () => {
-//     if (!locationFilter.trim() && !hotelFilter.trim()) {
-//       alert("Please enter a location or hotel name.");
-//       return;
-//     }
-//     if (!checkin) {
-//       alert("Please select a check‑in date.");
-//       return;
-//     }
-//     if (!checkout) {
-//       alert("Please select a check‑out date.");
-//       return;
-//     }
-//     if (!guests) {
-//       alert("Please specify number of guests.");
-//       return;
-//     }
-//     const q = new URLSearchParams();
-//     if (locationFilter.trim()) q.set("location", locationFilter.trim());
-//     if (hotelFilter.trim()) q.set("hotel", hotelFilter.trim());
-//     q.set("checkin", checkin);
-//     q.set("checkout", checkout);
-//     q.set("guests", guests);
-
-//     navigate(`/search?${q.toString()}`);
-//   };
 
 //   return (
 //     <div className="search-page">
 //       <Header />
+
 //       <main className="sp-main">
 //         <div className="filter-bar-wrapper">
-//           <FilterBar
+//           <SearchBar
 //             search={search}
 //             fetchData={fetchData}
 //             isSearchPage={true}
 //           />
 //         </div>
+
 //         <section className="sp-results">
 //           {loading ? (
 //             <div className="loading">Loading hotels...</div>
@@ -113,6 +83,7 @@
 //                   }
 //                   alt={h.keyDetails.name}
 //                 />
+
 //                 <div className="hotel-info">
 //                   <h3>{h.keyDetails.name}</h3>
 //                   <div className="stars">{"★".repeat(h.keyDetails.rating)}</div>
@@ -125,17 +96,26 @@
 //                     {h.keyDetails.rating ? `${h.keyDetails.rating}/5` : "NA"}
 //                   </p>
 //                 </div>
+
 //                 <div className="hotel-book">
-//                   <span className="price">
+//                   {/* <span className="price">
 //                     {h.keyDetails.price
 //                       ? `SGD ${h.keyDetails.price}`
 //                       : "SGD 140"}
-//                   </span>
+//                   </span> */}
 //                   <button
 //                     className="btn book-small"
-//                     onClick={() => navigate(`/hotel/${h.keyDetails.id}`)}
+//                     // include the original search query so detail page has the same filters
+//                     onClick={() =>
+//                       navigate(`/hotel/${h.keyDetails.id}${search}`, {
+//                         state: {
+//                           hotelDetails: h,
+//                           destinationId: destinationId,
+//                         },
+//                       })
+//                     }
 //                   >
-//                     Book
+//                     View More Details
 //                   </button>
 //                 </div>
 //               </div>
@@ -146,13 +126,12 @@
 //     </div>
 //   );
 // }
-
 // src/pages/SearchPage.jsx
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { searchHotelsAPI } from "../middleware/searchApi";
 import Header from "../components/header";
-import FilterBar from "../components/FilterBar";
+import SearchBar from "../components/SearchBar";
 import "../styles/SearchPage.css";
 
 export default function SearchPage() {
@@ -187,7 +166,7 @@ export default function SearchPage() {
       }
 
       setHotels(data);
-      setDestinationId(resp.data.destination_id)
+      setDestinationId(resp.data.destination_id);
     } catch (err) {
       console.error("Search error:", err);
       setHotels([]);
@@ -208,7 +187,7 @@ export default function SearchPage() {
 
       <main className="sp-main">
         <div className="filter-bar-wrapper">
-          <FilterBar
+          <SearchBar
             search={search}
             fetchData={fetchData}
             isSearchPage={true}
@@ -225,11 +204,21 @@ export default function SearchPage() {
               <div key={h.keyDetails.id} className="hotel-card">
                 <img
                   className="hotel-img"
-                  src={
-                    h.imageDetails.imageCounts > 0
-                      ? h.imageDetails.stitchedImageUrls[0]
-                      : "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"
-                  }
+                  src={(() => {
+                    // Prefer stitchedImageUrls if available
+                    if (
+                      Array.isArray(h.imageDetails.stitchedImageUrls) &&
+                      h.imageDetails.stitchedImageUrls.length > 0
+                    ) {
+                      return h.imageDetails.stitchedImageUrls[0];
+                    }
+                    // Otherwise try a thumbnailUrl if your API provides it
+                    if (h.imageDetails.thumbnailUrl) {
+                      return h.imageDetails.thumbnailUrl;
+                    }
+                    // Fallback to default placeholder
+                    return "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg";
+                  })()}
                   alt={h.keyDetails.name}
                 />
 
@@ -247,17 +236,14 @@ export default function SearchPage() {
                 </div>
 
                 <div className="hotel-book">
-                  {/* <span className="price">
-                    {h.keyDetails.price
-                      ? `SGD ${h.keyDetails.price}`
-                      : "SGD 140"}
-                  </span> */}
                   <button
                     className="btn book-small"
-                    // include the original search query so detail page has the same filters
                     onClick={() =>
                       navigate(`/hotel/${h.keyDetails.id}${search}`, {
-                        state: { hotelDetails: h, destinationId: destinationId },
+                        state: {
+                          hotelDetails: h,
+                          destinationId: destinationId,
+                        },
                       })
                     }
                   >

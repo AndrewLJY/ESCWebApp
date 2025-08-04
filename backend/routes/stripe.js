@@ -1,19 +1,19 @@
-const express = require('express');
+const express = require("express");
 
 var router = express.Router();
 
-const YOUR_DOMAIN = 'http://localhost:5173';
-const stripe = require('stripe')(`${process.env.VITE_STRIPE_SK}`);
+const YOUR_DOMAIN = "http://localhost:5173";
+const stripe = require("stripe")(`${process.env.VITE_STRIPE_SK}`);
 
-router.post('/create-checkout-session', async (req, res) => {
+router.post("/create-checkout-session", async (req, res) => {
   const roomName = req.body.roomName;
   const roomPrice = req.body.roomPrice * 100;
   const session = await stripe.checkout.sessions.create({
-    ui_mode: 'embedded',
+    ui_mode: "embedded",
     line_items: [
       {
         price_data: {
-          currency: 'sgd',
+          currency: "sgd",
           product_data: {
             name: roomName,
           },
@@ -22,19 +22,19 @@ router.post('/create-checkout-session', async (req, res) => {
         quantity: 1,
       },
     ],
-    mode: 'payment',
+    mode: "payment",
     return_url: `${YOUR_DOMAIN}/return?session_id={CHECKOUT_SESSION_ID}`,
   });
 
-  res.send({clientSecret: session.client_secret});
+  res.send({ clientSecret: session.client_secret });
 });
 
-router.get('/session-status', async (req, res) => {
+router.get("/session-status", async (req, res) => {
   const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
 
   res.send({
     status: session.status,
-    customer_email: session.customer_details.email
+    customer_email: session.customer_details.email,
   });
 });
 
