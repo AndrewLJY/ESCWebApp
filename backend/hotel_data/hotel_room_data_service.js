@@ -10,8 +10,10 @@ class HotelRoomDataTransferService {
   }
 
   transferKeyRoomDetails() {
-    console.log("-------------------------------------------------------------------------------------------------")
-    console.log(this.jsonData)
+    console.log(
+      "-------------------------------------------------------------------------------------------------"
+    );
+    console.log(this.jsonData);
     this.keyRoomDetails = new hotelRoomDTO.KeyRoomDetails.Builder()
       .setKeyId(this.jsonData.key)
       .setRoomDescription(this.jsonData.roomDescription)
@@ -19,7 +21,6 @@ class HotelRoomDataTransferService {
       .setRoomTypeIndex(this.jsonData.type)
       .setFreeCancellation(this.jsonData.free_cancellation)
       .setLongDescription(this.jsonData.long_description)
-      .setRoomImages(this.jsonData.images)
       .build();
 
     return this;
@@ -182,7 +183,7 @@ async function getSingleHotelPriceDetails(
     count += 1;
   }
 
-  console.log(result)
+  console.log(result);
 
   if (result.rooms.length === 0) {
     //No room data available

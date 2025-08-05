@@ -103,7 +103,7 @@ export default function Header() {
     <>
  <div className="header__bg d-flex flex-row align-items-center p-5">
       {/* <div className="header__logo">Ascenda</div> */}
-      <img className="header__logo" width={250} src={ascendaLogo}/>
+      <img className="header__logo" width={250} src={ascendaLogo} onClick={()=>{ navigate('/') }}/>
       <div className="header__actions ms-auto">
         {isAuthenticated() ? (
           <div className="header__user">

@@ -72,7 +72,7 @@ router.post("/login/", async function (req, res, next) {
 /*
 original function header is router.post("/bookmarks/", verifyFunction,async function(req, res, next)
 */
-router.post("/bookmarks/", async function(req, res, next) {
+router.post("/bookmarks/", async function (req, res, next) {
   console.log("Hello!!!! I am accessing bookmarks now.");
   //retrieve infos for bookmark
   const id = req.body.id;
@@ -81,28 +81,55 @@ router.post("/bookmarks/", async function(req, res, next) {
   const hotel_address = req.body.hotel_address;
   const image_url = req.body.image_url;
   const hotel_ratings = req.body.hotel_ratings;
-  const userID = req.body.userID; 
+  const userID = req.body.userID;
 
-  const bookmark = new bookmarkModel.Bookmark(id,
-    hotel_id,hotel_name,
-    hotel_address,image_url,
-    hotel_ratings,userID
-  )
+  const bookmark = new bookmarkModel.Bookmark(
+    id,
+    hotel_id,
+    hotel_name,
+    hotel_address,
+    image_url,
+    hotel_ratings,
+    userID
+  );
 
-  try{
+  try {
     //try to insert into bookmark table
     result = await bookmarkModel.insertOne(bookmark);
-    if (result == 1 ){
+    if (result == 1) {
       return res.send("Successfully bookmarked");
-    }
-    else if(result == -1){
+    } else if (result == -1) {
       return res.send("Already bookmarked");
     }
-
-  }catch(error){
-    console.error("database error "+ error)
+  } catch (error) {
+    console.error("database error " + error);
   }
-  
+});
+
+router.get("/allBookmarks/:user_email", async function (req, res, next) {
+  userEmail = req.params.user_email;
+  try {
+    let bookmarks = await bookmarkModel.getAllBookmarksPerUser(userEmail);
+    console.log(bookmarks);
+    res.json(bookmarks);
+  } catch (error) {
+    console.error("database error" + error);
+  }
+});
+
+router.post("/deleteBookmark", async function (req, res, next) {
+  hotelId = req.body.hotel_id;
+  try {
+    result = await bookmarkModel.removeHotelBookmark(hotelId);
+    if (result === -1) {
+      res.status(500).send("Error, hotel does not exist in database");
+      return;
+    }
+    res.status(200).send("Deleted");
+    return;
+  } catch (error) {
+    console.error("database error" + error);
+  }
 });
 
 module.exports = router;

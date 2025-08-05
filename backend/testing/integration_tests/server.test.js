@@ -204,9 +204,9 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       )
       .expect(200); //Expect a 200 Status OK
 
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(Array.isArray(response.body.hotelList)).toBe(true);
 
-    response.body.forEach((jsonHotelBody) => {
+    response.body.hotelList.forEach((jsonHotelBody) => {
       expect(jsonHotelBody).toHaveProperty("keyDetails");
       expect(jsonHotelBody).toHaveProperty("originalMetaData");
       expect(jsonHotelBody).toHaveProperty("trustYouBenchmark");
@@ -325,7 +325,7 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       },
     };
 
-    expect(response.body)[0] = expectedFirstResource;
+    expect(response.body.hotelList)[0] = expectedFirstResource;
   });
 
   test("Should return a 500 server error if the retrieved data is null, and exceeding maximum of 4 fetch attempts.", async () => {
@@ -522,9 +522,9 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       )
       .expect(200); //Expect a 200 Status OK
 
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(Array.isArray(response.body.hotelList)).toBe(true);
 
-    response.body.forEach((jsonHotelBody) => {
+    response.body.hotelList.forEach((jsonHotelBody) => {
       expect(jsonHotelBody).toHaveProperty("keyDetails");
       expect(jsonHotelBody).toHaveProperty("originalMetaData");
       expect(jsonHotelBody).toHaveProperty("trustYouBenchmark");
@@ -661,7 +661,7 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       },
     };
 
-    expect(response.body)[0] = expectedFirstResource;
+    expect(response.body.hotelList)[0] = expectedFirstResource;
   });
 });
 

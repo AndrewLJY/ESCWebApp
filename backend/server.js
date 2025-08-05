@@ -4,7 +4,8 @@ var process = require("process");
 var db = require("./models/db.js");
 const express = require("express");
 const cors = require("cors");
-require('dotenv').config()
+require("dotenv").config();
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
@@ -18,9 +19,11 @@ var usersRouter = require("./routes/user");
 var indexRouter = require("./routes/index");
 var searchRouter = require("./routes/search");
 var stripeRouter = require("./routes/stripe");
+
 var userModel = require("./models/user.js");
 var bookmarkModel = require("./models/bookmark.js");
 var destinationNamesModel = require("./models/destinations.js");
+var bookingModel = require("./models/booking.js");
 
 //Check if the environment is not set to testing!
 if (process.env.NODE_ENV !== "test") {
@@ -29,6 +32,7 @@ if (process.env.NODE_ENV !== "test") {
   destinationNamesModel
     .sync()
     .then(() => destinationNamesModel.insertFromJSON());
+  bookingModel.sync();
 }
 
 // view engine setup

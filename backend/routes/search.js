@@ -58,7 +58,7 @@ router.get(
         console.log("sending!!!");
         res.status(200).send({
           hotelList: filledHotelDTOClassList.getListHotels(),
-          destination_id: filledHotelDTOClassList.getCurrentDestinationId()
+          destination_id: filledHotelDTOClassList.getCurrentDestinationId(),
         }); //JSON output seen in POSTMAN
       }
     } catch (error) {
@@ -94,7 +94,6 @@ router.get(
     const checkOutDate = req.params.check_out_date;
     const guestCount = req.params.guest_count;
     const roomCount = req.params.room_count;
-    
 
     try {
       await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
@@ -254,8 +253,10 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
   const hotelId = req.params.hotel_id;
 
   const result =
-    await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(hotelId);
-    
+    await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(
+      hotelId
+    );
+
   res.json(result);
 });
 

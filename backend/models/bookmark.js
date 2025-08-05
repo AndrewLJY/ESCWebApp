@@ -1,8 +1,17 @@
 const db = require("./db.js");
+const userModel = require("./user.js");
 const tableName = "bookmark";
 
 class Bookmark {
-  constructor(id, hotel_id,hotel_name,hotel_address,image_url,hotel_ratings,userID) {
+  constructor(
+    id,
+    hotel_id,
+    hotel_name,
+    hotel_address,
+    image_url,
+    hotel_ratings,
+    userID
+  ) {
     this.id = id;
     this.hotel_id = hotel_id;
     this.hotel_name = hotel_name;
@@ -34,9 +43,9 @@ async function sync() {
   }
 }
 
-async function findbyHotelId(hotel_id){
-  try{
-    const [rows,fieldDefs] = await db.pool.query(
+async function findbyHotelId(hotel_id) {
+  try {
+    const [rows, fieldDefs] = await db.pool.query(
       `SELECT ${tableName}.id,
       ${tableName}.hotel_id,
       ${tableName}.hotel_name,
@@ -46,40 +55,96 @@ async function findbyHotelId(hotel_id){
       FROM ${tableName}
       WHERE ${tableName}.hotel_id =?`,
       [hotel_id]
-    ); 
+    );
     let list = [];
-    for (let row of rows){
-      let bookmarkHotel = new Bookmark(row.id,row.hotel_id);
+    for (let row of rows) {
+      let bookmarkHotel = new Bookmark(row.id, row.hotel_id);
       list.push(bookmarkHotel);
     }
     return list;
-  } catch (error){
+  } catch (error) {
     console.log("database connection failed." + error);
     throw error;
   }
 }
-async function insertOne(bookmark){
-  //check if the hotel is already bookmarked(already inside table)
-  
-  try{
+async function insertOne(bookmark) {
+  try {
+    //check if the hotel is already bookmarked(already inside table)
     const exists = await findbyHotelId(bookmark.hotel_id);
     //check if length of exists array is 0,hotel not bookmarked
-    if (exists.length == 0 ){
-      
-      const [rows,fieldDefs] = await db.pool.query(
+    if (exists.length == 0) {
+      const [rows, fieldDefs] = await db.pool.query(
         `INSERT INTO ${tableName}(id,hotel_id,hotel_name,hotel_address,image_url,hotel_ratings,userID) VALUES(?,?,?,?,?,?,?)`,
-        
-        [bookmark.id,bookmark.hotel_id,bookmark.hotel_name,bookmark.hotel_address,bookmark.image_url,bookmark.hotel_ratings,bookmark.userID]
+
+        [
+          bookmark.id,
+          bookmark.hotel_id,
+          bookmark.hotel_name,
+          bookmark.hotel_address,
+          bookmark.image_url,
+          bookmark.hotel_ratings,
+          bookmark.userID,
+        ]
       );
-      return 1
-    }else{
+      return 1;
+    } else {
       console.log("hotel is already bookmarked");
-      return -1
+      return -1;
     }
-  }catch(error){
-    console.error("database connection failed "+ error);
+    //to prevent foreign key constraint error, need to create a user with that specific id in the User table,before referencing userID in Bookmark table
+  } catch (error) {
+    console.error("database connection failed " + error);
     throw error;
   }
 }
 
-module.exports = { Bookmark,sync,insertOne,findbyHotelId};
+async function getAllBookmarksPerUser(email) {
+  try {
+    let userID = await userModel.findIDByEmail(email);
+    const [rows, fieldDefs] = await db.pool.query(`
+      SELECT * FROM ${tableName} WHERE ${tableName}.userID = ${userID}
+      `);
+    let bookmarks = [];
+    for (let row of rows) {
+      singleBookmarkDetails = new Bookmark(
+        row.id,
+        row.hotel_id,
+        row.hotel_name,
+        row.hotel_address,
+        row.image_url,
+        row.hotel_ratings,
+        row.userID
+      );
+      bookmarks.push(singleBookmarkDetails);
+    }
+    return bookmarks;
+  } catch (error) {
+    console.error("Database connection failed" + error);
+    return -1;
+  }
+}
+
+async function removeHotelBookmark(hotelId) {
+  if ((await findbyHotelId(hotelId)).length === 0) {
+    console.error("hotel does not exist in database.");
+    return -1;
+  }
+  try {
+    await db.pool.query(`
+      DELETE FROM ${tableName} WHERE ${tableName}.hotel_id = ${hotelId}
+      `);
+    return 0;
+  } catch (error) {
+    console.error("Database connection failed" + error);
+    return -1;
+  }
+}
+
+module.exports = {
+  Bookmark,
+  sync,
+  insertOne,
+  findbyHotelId,
+  getAllBookmarksPerUser,
+  removeHotelBookmark,
+};
