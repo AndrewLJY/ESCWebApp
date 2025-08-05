@@ -1,92 +1,3 @@
-// // src/pages/HotelDetailPage.jsx
-// import React, { useEffect, useState } from "react";
-// import { useParams, useLocation } from "react-router-dom";
-// import { searchHotelsAPI } from "../middleware/searchApi";
-// import Header from "../components/header";
-// import FilterBar from "../components/FilterBar.jsx";
-// import "../styles/HotelDetailPage.css";
-
-// export default function HotelDetailPage() {
-//   const { id } = useParams();
-//   const { search } = useLocation();
-//   const [hotel, setHotel] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   const onSearch = async () => {
-//     setLoading(true);
-//     const params = new URLSearchParams(search);
-//     try {
-//       const resp = await searchHotelsAPI({
-//         location: params.get("location") || "",
-//         hotel: "",
-//         checkIn: params.get("checkin") || "",
-//         checkOut: params.get("checkout") || "",
-//         guests: Number(params.get("guests") || 1),
-//       });
-//       const found = resp.data.hotels.find(
-//         (h) => String(h.keyDetails.id) === id
-//       );
-//       setHotel(found || null);
-//     } catch (e) {
-//       console.error("Detail load error:", e);
-//       setHotel(null);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     onSearch();
-//   }, [id, search]);
-
-//   const handleBookRoom = (room) => {
-//     alert(`Booking room: ${room.name}\nPrice: SGD ${room.price}`);
-//   };
-
-//   return (
-//     <div className="hotel-detail-page">
-//       <Header />
-//       <FilterBar
-//         search={search}
-//         fetchData={onSearch}
-//         isSearchPage={true}
-//         className="hotel-filter"
-//       />
-
-//       {!loading && hotel && (
-//         <div className="detail-header">
-//           <h1>{hotel.keyDetails.name}</h1>
-//           <div className="address">{hotel.keyDetails.address}</div>
-//           <div className="stars">{"★".repeat(hotel.keyDetails.rating)}</div>
-//         </div>
-//       )}
-
-//       {loading ? (
-//         <div className="loading">Loading…</div>
-//       ) : !hotel ? (
-//         <div className="loading">Hotel not found</div>
-//       ) : (
-//         <div className="room-list">
-//           {hotel.rooms?.map((room) => (
-//             <div key={room.id} className="room-card">
-//               <img src={room.imageUrl} alt={room.name} />
-//               <h3>{room.name}</h3>
-//               <p>{room.description}</p>
-//               <div className="room-price">SGD {room.price}</div>
-//               <button
-//                 className="btn book-room"
-//                 onClick={() => handleBookRoom(room)}
-//               >
-//                 Book this room
-//               </button>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -102,6 +13,7 @@ import {
   getRoomPricingAPI,
 } from "../middleware/hotelDetailsApi";
 import Header from "../components/header";
+import BookmarkButton from "../components/BookmarkButton";
 import "../styles/HotelDetailPage.css";
 
 const env = await import.meta.env;
@@ -112,6 +24,10 @@ export default function HotelDetailPage() {
   const { search, state } = useLocation();
   const navigate = useNavigate();
 
+  // stubbed hotel from SearchPage
+  const stub = state?.hotelDetails;
+  const destinationId = state?.destinationId;
+
   const [hotel, setHotel] = useState(null);
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -120,6 +36,9 @@ export default function HotelDetailPage() {
   const [backgroundImageUrl, setBackgroundImageUrl] = useState(
     "/images/default-bg.jpg"
   );
+
+  const isAuthenticated = () =>
+    Boolean(localStorage.getItem("token") && localStorage.getItem("user"));
 
   useEffect(() => {
     async function fetchDetail() {
@@ -165,7 +84,21 @@ export default function HotelDetailPage() {
       // 2) load the hotel header exactly as before
       try {
         const resp = await getHotelDetailsAPI(hotelDetails.keyDetails.id);
-        setHotel(resp || null);
+
+        let detail;
+
+        // depending on API shape:
+        if (Array.isArray(resp.data.hotels)) {
+          detail = resp.data.hotels.find(
+            (h) => String(h.keyDetails.id) === String(id)
+          );
+        } else if (resp.data.hotel) {
+          detail = resp.data.hotel;
+        } else {
+          detail = resp.data;
+        }
+
+        setHotel(detail || null);
       } catch (err) {
         console.error("Error loading hotel:", err);
         setHotel(null);
@@ -222,36 +155,8 @@ export default function HotelDetailPage() {
   }
 
   return (
-    <div
-      className="hotel-detail-page"
-      // To Be Done - image background
-      // style={{
-      //   backgroundImage: `url(${!loading && hotel && hotel.data.imgix_url})`
-      // }}
-    >
+    <div className="hotel-detail-page">
       <Header />
-
-      {/* your filter bar stays exactly the same */}
-      {/* <FilterBar
-        search={search}
-        fetchData={() => {}}
-        isSearchPage={true}
-        className="hotel-filter"
-      /> */}
-
-      {/* —————————————————————————————— */}
-      {/* HOTEL HEADER (unchanged) */}
-      {!loading && hotel && (
-        <div className="detail-header">
-          <h1>{hotel.data.name}</h1>
-          <div className="address">{hotel.data.address}</div>
-          <div className="stars">{"★".repeat(hotel.data.rating)}</div>
-          <div
-            className="desription"
-            dangerouslySetInnerHTML={{ __html: hotel.data.description }}
-          />
-        </div>
-      )}
 
       {/* —————————————————————————————— */}
       {/* NOW: ALWAYS SHOW MOCK ROOMS BELOW */}
@@ -259,6 +164,35 @@ export default function HotelDetailPage() {
         <div className="loading">Loading…</div>
       ) : (
         <div>
+          <div className="detail-header">
+            <h1>{hotel.keyDetails?.name || hotel.name}</h1>
+            <div className="address">
+              {hotel.keyDetails?.address || hotel.address}
+            </div>
+            <div className="stars">
+              {"★".repeat(hotel.keyDetails?.rating || hotel.rating || 0)}
+            </div>
+            {hotel.description && (
+              <div
+                className="description"
+                dangerouslySetInnerHTML={{ __html: hotel.description }}
+              />
+            )}
+            {isAuthenticated() && (
+              <BookmarkButton
+                hotel={{
+                  id: stub.keyDetails.id,
+                  name: stub.keyDetails.name,
+                  address: stub.keyDetails.address,
+                  rating: stub.keyDetails.rating,
+                  price: stub.keyDetails.price,
+                  imageUrl:
+                    stub.imageDetails?.stitchedImageUrls?.[0] ||
+                    "https://via.placeholder.com/300x200?text=No+Image",
+                }}
+              />
+            )}
+          </div>
           <div className="room-list">
             {rooms.map((room) => {
               const roomKeyDetails = room.keyRoomDetails;
@@ -290,8 +224,8 @@ export default function HotelDetailPage() {
               mapId={"8f7e87511ff4f8d15dce6f63"}
               style={{ width: "50vw", height: "50vh" }}
               defaultCenter={{
-                lat: hotel.data.latitude,
-                lng: hotel.data.longitude,
+                lat: hotel.latitude,
+                lng: hotel.longitude,
               }}
               defaultZoom={18}
               gestureHandling={"greedy"}
@@ -299,8 +233,8 @@ export default function HotelDetailPage() {
             >
               <AdvancedMarker
                 position={{
-                  lat: hotel.data.latitude,
-                  lng: hotel.data.longitude,
+                  lat: hotel.latitude,
+                  lng: hotel.longitude,
                 }}
               />
               <MapControl position={ControlPosition.BOTTOM_LEFT} />

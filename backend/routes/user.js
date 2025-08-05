@@ -1,5 +1,6 @@
 const express = require("express");
 const userModel = require("../models/user.js");
+var bookmarkModel = require("../models/bookmark");
 var router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -68,10 +69,67 @@ router.post("/login/", async function (req, res, next) {
     res.status(401).send("Login unsuccessful.");
   }
 });
+/*
+original function header is router.post("/bookmarks/", verifyFunction,async function(req, res, next)
+*/
+router.post("/bookmarks/", async function (req, res, next) {
+  console.log("Hello!!!! I am accessing bookmarks now.");
+  //retrieve infos for bookmark
+  const id = req.body.id;
+  const hotel_id = req.body.hotel_id;
+  const hotel_name = req.body.hotel_name;
+  const hotel_address = req.body.hotel_address;
+  const image_url = req.body.image_url;
+  const hotel_ratings = req.body.hotel_ratings;
+  const userID = req.body.userID;
 
-router.get("/bookmarks/", verifyFunction, (req, res, next) => {
-  console.log("Hello");
-  res.send("Hello!!!! I am accessing bookmarks now.");
+  const bookmark = new bookmarkModel.Bookmark(
+    id,
+    hotel_id,
+    hotel_name,
+    hotel_address,
+    image_url,
+    hotel_ratings,
+    userID
+  );
+
+  try {
+    //try to insert into bookmark table
+    result = await bookmarkModel.insertOne(bookmark);
+    if (result == 1) {
+      return res.send("Successfully bookmarked");
+    } else if (result == -1) {
+      return res.send("Already bookmarked");
+    }
+  } catch (error) {
+    console.error("database error " + error);
+  }
+});
+
+router.get("/allBookmarks/:user_email", async function (req, res, next) {
+  userEmail = req.params.user_email;
+  try {
+    let bookmarks = await bookmarkModel.getAllBookmarksPerUser(userEmail);
+    console.log(bookmarks);
+    res.json(bookmarks);
+  } catch (error) {
+    console.error("database error" + error);
+  }
+});
+
+router.post("/deleteBookmark", async function (req, res, next) {
+  hotelId = req.body.hotel_id;
+  try {
+    result = await bookmarkModel.removeHotelBookmark(hotelId);
+    if (result === -1) {
+      res.status(500).send("Error, hotel does not exist in database");
+      return;
+    }
+    res.status(200).send("Deleted");
+    return;
+  } catch (error) {
+    console.error("database error" + error);
+  }
 });
 
 module.exports = router;

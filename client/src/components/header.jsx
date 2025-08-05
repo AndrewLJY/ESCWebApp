@@ -98,7 +98,7 @@ export default function Header() {
       <div className="header__logo">Ascenda</div>
       <div className="header__actions">
         {isAuthenticated() ? (
-          <>
+          <div className="header__user">
             <span className="user-email">{user?.email}</span>
             <button
               className="btn logout"
@@ -109,14 +109,14 @@ export default function Header() {
             >
               Logout
             </button>
-          </>
+            <button className="btn book" onClick={() => navigate("/bookmark")}>
+              Your Bookmarks
+            </button>
+          </div>
         ) : (
           <>
             <button className="btn login" onClick={handleLoginClick}>
               Login
-            </button>
-            <button className="btn book" onClick={() => navigate("/bookmark")}>
-              Bookmark
             </button>
           </>
         )}
