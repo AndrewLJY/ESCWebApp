@@ -151,7 +151,9 @@ export default function HotelDetailPage() {
 
   return (
     <div className="hotel-detail-page"> 
-      <header>
+      <Header />
+
+      <div className="FilterBar-Wrapper">
         {/* your filter bar stays exactly the same */}
         <FilterBar
           search={search}
@@ -159,7 +161,8 @@ export default function HotelDetailPage() {
           isSearchPage={true}
           className="hotel-filter"
         />
-      </header>
+      </div>
+
       <main>
         {/* —————————————————————————————— */}
         {/* HOTEL HEADER (unchanged) */}
