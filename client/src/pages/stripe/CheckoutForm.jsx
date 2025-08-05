@@ -15,13 +15,15 @@ export default function CheckoutForm() {
   const location = useLocation();
 
   const fetchClientSecret = useCallback(async () => {
-
     // Create a Checkout Session
     try {
       return await axios
         .post("http://localhost:8080/stripe/create-checkout-session", {
           roomName: location.state.roomName,
           roomPrice: location.state.roomPrice,
+          roomDesc: location.state.roomDesc,
+          roomImages: location.state.roomImages,
+          bookingDetails: location.state.bookingDetails,
         })
         .then((response) => response.data.clientSecret);
     } catch (error) {

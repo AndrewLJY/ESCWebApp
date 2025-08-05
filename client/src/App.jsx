@@ -1,6 +1,7 @@
 // src/App.jsx
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import emailjs from '@emailjs/browser';
 
 import LandingPage from "./pages/LandingPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
@@ -11,7 +12,15 @@ import Bookmark from "./pages/Bookmark";
 
 import "./App.css"; // keep this if you have shared/global styles
 
+const env = await import.meta.env;
+const EMAILJS_PUBLIC_KEY = `${env.VITE_EMAILJS_PUBLIC_KEY}`;
+
 export default function App() {
+  
+  emailjs.init({
+    publicKey: EMAILJS_PUBLIC_KEY,
+  });
+
   return (
     <BrowserRouter>
       <Routes>
