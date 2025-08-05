@@ -1,8 +1,9 @@
 // src/App.jsx
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import LandingPage from "./pages/LandingPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import CheckoutForm from "./pages/stripe/CheckoutForm.jsx";
@@ -16,7 +17,6 @@ const env = await import.meta.env;
 const EMAILJS_PUBLIC_KEY = `${env.VITE_EMAILJS_PUBLIC_KEY}`;
 
 export default function App() {
-  
   emailjs.init({
     publicKey: EMAILJS_PUBLIC_KEY,
   });

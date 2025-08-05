@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { loginUserAPI, signupUserAPI } from "../middleware/authApi";
 import "../styles/Header.css";
+import Toast from "react-bootstrap/Toast";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-bootstrap";
+import ascendaLogo from "../assets/ascenda_logo.png";
 
 export default function Header() {
   const [user, setUser] = useState(null);
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   // Check if user is logged in
   useEffect(() => {
@@ -50,6 +55,7 @@ export default function Header() {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
+    setShowToast(true);
 
     console.log("[Auth] User logged in and saved to localStorage.");
   };
@@ -95,13 +101,15 @@ export default function Header() {
 
   return (
     <>
-      <div className="header__logo">Ascenda</div>
-      <div className="header__actions">
+ <div className="header__bg d-flex flex-row align-items-center p-5">
+      {/* <div className="header__logo">Ascenda</div> */}
+      <img className="header__logo" width={250} src={ascendaLogo} onClick={()=>{ navigate('/') }}/>
+      <div className="header__actions ms-auto">
         {isAuthenticated() ? (
           <div className="header__user">
             <span className="user-email">{user?.email}</span>
             <button
-              className="btn logout"
+              className="btn logout fs-5"
               onClick={() => {
                 logout();
                 window.location.reload();
@@ -109,13 +117,13 @@ export default function Header() {
             >
               Logout
             </button>
-            <button className="btn book" onClick={() => navigate("/bookmark")}>
+            <button className="btn book fs-5" onClick={() => navigate("/bookmark")}>
               Your Bookmarks
             </button>
           </div>
         ) : (
           <>
-            <button className="btn login" onClick={handleLoginClick}>
+            <button className="btn login fs-5" onClick={handleLoginClick}>
               Login
             </button>
           </>
@@ -137,9 +145,12 @@ export default function Header() {
                   password: data.get("password"),
                 });
                 login(result, result.token);
-                alert("Login successful!");
                 closeAll();
-                window.location.reload();
+                setToastMessage("Login Successful!");
+                // window.location.reload();
+                setShowToast(true);
+                // alert("Login successful!");
+                console.log(showToast);
               } catch (err) {
                 alert(err.message);
               } finally {
@@ -206,9 +217,12 @@ export default function Header() {
                   confirmPassword,
                 });
                 login(result.user, result.token);
-                alert("Account created!");
-                closeAll();
-                window.location.reload();
+                                closeAll();
+                // alert("Account created!");
+                setToastMessage("Sign Up Successful!");
+                setShowToast(true);
+
+                // window.location.reload();
               } catch (err) {
                 alert(err.message);
               } finally {
@@ -247,6 +261,21 @@ export default function Header() {
           </form>
         </div>
       )}
+
+      <ToastContainer className="header__toasts m-4 position-fixed bottom-0 end-0">
+        <Toast
+          bg={"success"}
+          onClose={() => setShowToast(false)}
+          show={showToast}
+          delay={1000}
+          autohide
+        >
+          <Toast.Body className="text-light">
+            {toastMessage}
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+</div>
     </>
   );
 }

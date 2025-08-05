@@ -492,7 +492,7 @@ export default function SearchBar({
               setCheckin(e.target.value);
               if (!checkout || new Date(e.target.value) >= new Date(checkout)) {
                 const d = new Date(e.target.value);
-                d.setDate(d.getDate() + 1);
+                d.setDate(d.getDate() + 3);
                 setCheckout(d.toISOString().split("T")[0]);
               }
             }}

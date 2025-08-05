@@ -155,93 +155,96 @@ export default function HotelDetailPage() {
   }
 
   return (
-    <div className="hotel-detail-page">
+    <>
       <Header />
-
-      {/* —————————————————————————————— */}
-      {/* NOW: ALWAYS SHOW MOCK ROOMS BELOW */}
-      {loading ? (
-        <div className="loading">Loading…</div>
-      ) : (
-        <div>
-          <div className="detail-header">
-            <h1>{hotel.keyDetails?.name || hotel.name}</h1>
-            <div className="address">
-              {hotel.keyDetails?.address || hotel.address}
+      <div className="hotel-detail-page">
+        {/* —————————————————————————————— */}
+        {/* NOW: ALWAYS SHOW MOCK ROOMS BELOW */}
+        {loading ? (
+          <div className="loading">Loading…</div>
+        ) : (
+          <div>
+            <div className="detail-header">
+              <h1>{hotel.keyDetails?.name || hotel.name}</h1>
+              <div className="address">
+                {hotel.keyDetails?.address || hotel.address}
+              </div>
+              <div className="stars">
+                {"★".repeat(hotel.keyDetails?.rating || hotel.rating || 0)}
+              </div>
+              {hotel.description && (
+                <div
+                  className="description"
+                  dangerouslySetInnerHTML={{ __html: hotel.description }}
+                />
+              )}
+              {isAuthenticated() && (
+                <BookmarkButton
+                  hotel={{
+                    id: stub.keyDetails.id,
+                    name: stub.keyDetails.name,
+                    address: stub.keyDetails.address,
+                    rating: stub.keyDetails.rating,
+                    price: stub.keyDetails.price,
+                    imageUrl:
+                      stub.imageDetails?.stitchedImageUrls?.[0] ||
+                      "https://via.placeholder.com/300x200?text=No+Image",
+                  }}
+                />
+              )}
             </div>
-            <div className="stars">
-              {"★".repeat(hotel.keyDetails?.rating || hotel.rating || 0)}
-            </div>
-            {hotel.description && (
-              <div
-                className="description"
-                dangerouslySetInnerHTML={{ __html: hotel.description }}
-              />
-            )}
-            {isAuthenticated() && (
-              <BookmarkButton
-                hotel={{
-                  id: stub.keyDetails.id,
-                  name: stub.keyDetails.name,
-                  address: stub.keyDetails.address,
-                  rating: stub.keyDetails.rating,
-                  price: stub.keyDetails.price,
-                  imageUrl:
-                    stub.imageDetails?.stitchedImageUrls?.[0] ||
-                    "https://via.placeholder.com/300x200?text=No+Image",
-                }}
-              />
-            )}
-          </div>
-          <div className="room-list">
-            {rooms.map((room) => {
-              const roomKeyDetails = room.keyRoomDetails;
-              const roomPriceDetails = room.priceDetails;
+            <div className="room-list">
+              {rooms.map((room) => {
+                const roomKeyDetails = room.keyRoomDetails;
+                const roomPriceDetails = room.priceDetails;
 
-              return (
-                <div key={roomKeyDetails.keyId} className="room-card">
-                  <img
-                    src={roomKeyDetails.roomImages[0].url || ""}
-                    alt={roomKeyDetails.name}
-                  />
-                  <h3>{roomKeyDetails.name}</h3>
-                  <p>{roomKeyDetails.roomDescription}</p>
-                  <div className="room-price">SGD {roomPriceDetails.price}</div>
-                  <button
-                    className="btn book-room"
-                    onClick={() => handleBookRoom(room)}
-                  >
-                    Book
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-          {/* —————————————————————————————— */}
-          {/* GOOGLE MAP VIEW */}
-          <APIProvider apiKey={MAP_API_KEY}>
-            <Map
-              mapId={"8f7e87511ff4f8d15dce6f63"}
-              style={{ width: "50vw", height: "50vh" }}
-              defaultCenter={{
-                lat: hotel.latitude,
-                lng: hotel.longitude,
-              }}
-              defaultZoom={18}
-              gestureHandling={"greedy"}
-              disableDefaultUI={true}
-            >
-              <AdvancedMarker
-                position={{
+                return (
+                  <div key={roomKeyDetails.keyId} className="room-card">
+                    <img
+                      src={roomKeyDetails.roomImages[0].url || ""}
+                      alt={roomKeyDetails.name}
+                    />
+                    <h3>{roomKeyDetails.name}</h3>
+                    <p>{roomKeyDetails.roomDescription}</p>
+                    <div className="room-price">
+                      SGD {roomPriceDetails.price}
+                    </div>
+                    <button
+                      className="btn book-room"
+                      onClick={() => handleBookRoom(room)}
+                    >
+                      Book
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+            {/* —————————————————————————————— */}
+            {/* GOOGLE MAP VIEW */}
+            <APIProvider apiKey={MAP_API_KEY}>
+              <Map
+                mapId={"8f7e87511ff4f8d15dce6f63"}
+                style={{ width: "50vw", height: "50vh" }}
+                defaultCenter={{
                   lat: hotel.latitude,
                   lng: hotel.longitude,
                 }}
-              />
-              <MapControl position={ControlPosition.BOTTOM_LEFT} />
-            </Map>
-          </APIProvider>
-        </div>
-      )}
-    </div>
+                defaultZoom={18}
+                gestureHandling={"greedy"}
+                disableDefaultUI={true}
+              >
+                <AdvancedMarker
+                  position={{
+                    lat: hotel.latitude,
+                    lng: hotel.longitude,
+                  }}
+                />
+                <MapControl position={ControlPosition.BOTTOM_LEFT} />
+              </Map>
+            </APIProvider>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
