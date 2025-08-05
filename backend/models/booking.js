@@ -34,5 +34,33 @@ async function sync() {
     throw error;
   }
 }
-
+async function findbyBookingId(booking_id){
+  try{
+    const [rows,fieldDefs] = await db.pool.query(`
+      SELECT 
+      ${tableName}.id,
+      ${tableName}.hotel_id,
+      ${tableName}.destination_id,
+      ${tableName}.no_of_nights,
+      ${tableName}.start_date,
+      ${tableName}.end_date,
+      ${tableName}.guest_count,
+      ${tableName}.message_to_hotel,
+      ${tableName}.room_type,
+      ${tableName}.total_price,
+      ${tableName}.user_id,
+      ${tableName}.full_name,
+      ${tableName}.payment_id
+      FROM ${tableName}
+      WHERE ${tableName}.id =?`);
+let list = [];
+for (let row of rows){
+  let bookingHotel = new Booking(row.id,row.hotel_id);
+  list.push(bookingHotel);
+}
+  }catch (error){
+    console.log("database connection failed." + error);
+    throw error;
+  }
+}
 module.exports = { Booking, sync };
