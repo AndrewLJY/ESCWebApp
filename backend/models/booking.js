@@ -23,7 +23,6 @@ async function sync() {
             room_type VARCHAR(255),
             total_price INTEGER,
             user_id INTEGER,
-            booking_date DATETIME,
             full_name VARCHAR(255),
             payment_id VARCHAR(255),
             PRIMARY KEY (id, hotel_id),
