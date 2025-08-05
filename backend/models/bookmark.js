@@ -59,9 +59,8 @@ async function findbyHotelId(hotel_id){
   }
 }
 async function insertOne(bookmark){
-  //check if the hotel is already bookmarked(already inside table)
-  
   try{
+    //check if the hotel is already bookmarked(already inside table)
     const exists = await findbyHotelId(bookmark.hotel_id);
     //check if length of exists array is 0,hotel not bookmarked
     if (exists.length == 0 ){
@@ -76,6 +75,7 @@ async function insertOne(bookmark){
       console.log("hotel is already bookmarked");
       return -1
     }
+  //to prevent foreign key constraint error, need to create a user with that specific id in the User table,before referencing userID in Bookmark table
   }catch(error){
     console.error("database connection failed "+ error);
     throw error;
