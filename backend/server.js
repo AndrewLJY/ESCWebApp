@@ -21,6 +21,8 @@ var stripeRouter = require("./routes/stripe");
 var userModel = require("./models/user.js");
 var bookmarkModel = require("./models/bookmark.js");
 var destinationNamesModel = require("./models/destinations.js");
+var bookingModel = require("./models/booking.js");
+
 
 //Check if the environment is not set to testing!
 if (process.env.NODE_ENV !== "test") {
@@ -29,6 +31,7 @@ if (process.env.NODE_ENV !== "test") {
   destinationNamesModel
     .sync()
     .then(() => destinationNamesModel.insertFromJSON());
+  bookingModel.sync();
 }
 
 // view engine setup
