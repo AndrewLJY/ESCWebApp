@@ -15,8 +15,17 @@ async function sync() {
             id INTEGER,
             hotel_id VARCHAR(255),
             destination_id VARCHAR(255),
+            no_of_nights INTEGER,
+            start_date DATE,
+            end_date DATE,
+            guest_count INTEGER,
+            message_to_hotel TEXT,
+            room_type VARCHAR(255),
+            total_price INTEGER,
             user_id INTEGER,
             booking_date DATETIME,
+            full_name VARCHAR(255),
+            payment_id VARCHAR(255),
             PRIMARY KEY (id, hotel_id),
             FOREIGN KEY (user_id) REFERENCES user (id)
         )
