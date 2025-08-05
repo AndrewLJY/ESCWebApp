@@ -170,7 +170,7 @@ class HotelDataDTOClassList {
   getCurrentDestinationId() {
     return this.currentSearchDestinationId;
   }
-  
+
   getCurrentGuestCount() {
     return this.currentGuestCount;
   }
@@ -388,7 +388,7 @@ async function getSingleHotelPriceDetails(
     }
 
     const response = await fetch(
-      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1`,
+      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1089&landing_page=wl-acme-earn&product_type=earn`,
       {
         method: "GET",
       }
