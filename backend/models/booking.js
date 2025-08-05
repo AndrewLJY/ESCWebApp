@@ -47,8 +47,8 @@ async function sync() {
 }
 async function findbyBookingId(booking_id){
   try{
-    const [rows,fieldDefs] = await db.pool.query(`
-      SELECT 
+    const [rows,fieldDefs] = await db.pool.query(
+      `SELECT 
       ${tableName}.id,
       ${tableName}.hotel_id,
       ${tableName}.destination_id,
@@ -63,15 +63,45 @@ async function findbyBookingId(booking_id){
       ${tableName}.full_name,
       ${tableName}.payment_id
       FROM ${tableName}
-      WHERE ${tableName}.id =?`);
+      WHERE ${tableName}.id =?`,
+      [booking_id]
+    );
 let list = [];
 for (let row of rows){
-  let bookingHotel = new Booking(row.id,row.hotel_id);
+  let bookingHotel = new Booking(row.booking_id,row.hotel_id);
   list.push(bookingHotel);
-}
+  }
+return list;
   }catch (error){
     console.log("database connection failed." + error);
     throw error;
   }
 }
-module.exports = { Booking, sync };
+async function insertOne(booking){
+  try {
+
+    //check if the booking id is already in the booking table
+    const exists = await findbyBookingId(booking.id);
+    console.log("exists is ",exists);
+    //check if length of exists array is 0, booking is not made 
+
+    if (exists.length == 0 ){
+      const [rows,fieldDefs] = await db.pool.query(
+        `INSERT INTO ${tableName} (id, hotel_id, destination_id, no_of_nights, start_date, end_date, guest_count, message_to_hotel, room_type, total_price, user_id, full_name, payment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+        booking.id, booking.hotel_id, booking.destination_id, booking.no_of_nights,
+        booking.start_date, booking.end_date, booking.guest_count, booking.message_to_hotel,
+        booking.room_type, booking.total_price, booking.user_id, booking.full_name, booking.payment_id
+        ]
+      );
+      return 1;
+    } else {
+      console.log("booking is already made");
+      return -1;
+    }
+  }catch (error){
+    console.error("database connection failed " + error);
+    throw error;
+  }
+}
+module.exports = { Booking, sync,insertOne,findbyBookingId };
