@@ -61,7 +61,8 @@ router.post("/login/", async function (req, res, next) {
     output = {
       user: JSON.stringify(user),
       token: token,
-      email: username,
+      username: username,
+      email: email
     };
     res.send(output);
   } else {
@@ -75,7 +76,6 @@ original function header is router.post("/bookmarks/", verifyFunction,async func
 router.post("/bookmarks/", async function (req, res, next) {
   console.log("Hello!!!! I am accessing bookmarks now.");
   //retrieve infos for bookmark
-  const id = req.body.id;
   const hotel_id = req.body.hotel_id;
   const hotel_name = req.body.hotel_name;
   const hotel_address = req.body.hotel_address;
@@ -84,7 +84,6 @@ router.post("/bookmarks/", async function (req, res, next) {
   const userID = req.body.userID;
 
   const bookmark = new bookmarkModel.Bookmark(
-    id,
     hotel_id,
     hotel_name,
     hotel_address,
@@ -111,7 +110,7 @@ router.get("/allBookmarks/:user_email", async function (req, res, next) {
   try {
     let bookmarks = await bookmarkModel.getAllBookmarksPerUser(userEmail);
     console.log(bookmarks);
-    res.json(bookmarks);
+    res.send(bookmarks);
   } catch (error) {
     console.error("database error" + error);
   }

@@ -4,7 +4,6 @@ const tableName = "bookmark";
 
 class Bookmark {
   constructor(
-    id,
     hotel_id,
     hotel_name,
     hotel_address,
@@ -12,7 +11,6 @@ class Bookmark {
     hotel_ratings,
     userID
   ) {
-    this.id = id;
     this.hotel_id = hotel_id;
     this.hotel_name = hotel_name;
     this.hotel_address = hotel_address;
@@ -26,7 +24,7 @@ async function sync() {
   try {
     db.pool.query(`
         CREATE TABLE IF NOT EXISTS ${tableName} (
-            id INTEGER,
+            id INTEGER AUTO_INCREMENT,
             hotel_id VARCHAR(255),
             hotel_name VARCHAR(255),
             hotel_address VARCHAR(255),
@@ -45,8 +43,8 @@ async function sync() {
 
 async function findbyHotelId(hotel_id) {
   try {
-    const [rows, fieldDefs] = await db.pool.query(
-      `SELECT ${tableName}.id,
+    const [rows, fieldDefs] = await db.pool.query(`
+      SELECT
       ${tableName}.hotel_id,
       ${tableName}.hotel_name,
       ${tableName}.hotel_address,
@@ -58,7 +56,7 @@ async function findbyHotelId(hotel_id) {
     );
     let list = [];
     for (let row of rows) {
-      let bookmarkHotel = new Bookmark(row.id, row.hotel_id);
+      let bookmarkHotel = new Bookmark(row.hotel_id, row.hotel_name, row.hotel_address, row.image_url, row.hotel_ratings, row.userID);
       list.push(bookmarkHotel);
     }
     return list;
@@ -73,17 +71,15 @@ async function insertOne(bookmark) {
     const exists = await findbyHotelId(bookmark.hotel_id);
     //check if length of exists array is 0,hotel not bookmarked
     if (exists.length == 0) {
-      const [rows, fieldDefs] = await db.pool.query(
-        `INSERT INTO ${tableName}(id,hotel_id,hotel_name,hotel_address,image_url,hotel_ratings,userID) VALUES(?,?,?,?,?,?,?)`,
-
+      await db.pool.query(
+        `INSERT INTO ${tableName}(hotel_id,hotel_name,hotel_address,image_url,hotel_ratings,userID) VALUES(?,?,?,?,?,?)`,
         [
-          bookmark.id,
           bookmark.hotel_id,
           bookmark.hotel_name,
           bookmark.hotel_address,
           bookmark.image_url,
           bookmark.hotel_ratings,
-          bookmark.userID,
+          bookmark.userID
         ]
       );
       return 1;
@@ -107,7 +103,6 @@ async function getAllBookmarksPerUser(email) {
     let bookmarks = [];
     for (let row of rows) {
       singleBookmarkDetails = new Bookmark(
-        row.id,
         row.hotel_id,
         row.hotel_name,
         row.hotel_address,

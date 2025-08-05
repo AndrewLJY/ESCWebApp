@@ -72,14 +72,9 @@ export async function getBookmarkedHotels() {
   }
 
   try {
-    // Since backend doesn't have GET endpoint, fallback to localStorage for now
-    const key = `bookmarks_${currentUser.user.email}`;
-    const bookmarks = JSON.parse(localStorage.getItem(key) || "[]");
-    console.log(`Loaded bookmarks for ${currentUser.user.email}:`, bookmarks);
-
-    return bookmarks.filter(
-      (hotel) => hotel && hotel.id && hotel.name && hotel.address
-    );
+    const response = await axios.get(`http://localhost:8080/auth/allBookmarks/${currentUser.user.email}`);
+    console.log(`Loaded bookmarks for ${currentUser.user.email}:`, response);
+    return response || [];
   } catch (error) {
     console.error("Error fetching bookmarks:", error);
     return [];
@@ -101,9 +96,8 @@ export async function addBookmark(hotel) {
 
   try {
     // Call backend API
-    const response = await axios.post('http://localhost:8080/user/bookmarks/', {
-      id: Date.now(), // Generate unique ID
-      hotel_id: hotel.icd,
+    const response = await axios.post('http://localhost:8080/auth/bookmarks/', {
+      hotel_id: hotel.id,
       hotel_name: hotel.name,
       hotel_address: hotel.address,
       image_url: hotel.imageUrl || '',
@@ -146,18 +140,15 @@ export async function removeBookmark(hotelId) {
   }
 
   try {
-    // Since backend doesn't have DELETE endpoint, use localStorage for now
-    const response = await axios.post('http://localhost:8080/user/deleteBookmark/', {
+    const response = await axios.post('http://localhost:8080/auth/deleteBookmark', {
       hotel_id: hotelId
     }, {
       headers: getAuthHeaders()
     });
-    const key = `bookmarks_${currentUser.user.email}`;
-    let bookmarks = JSON.parse(localStorage.getItem(key) || "[]");
-    bookmarks = bookmarks.filter((h) => h.id !== hotelId);
-    localStorage.setItem(key, JSON.stringify(bookmarks));
-    console.log(`Removed hotel ID ${hotelId} from ${currentUser.user.email}`);
+    console.log(`Removed hotel ID ${hotelId}:`, response.data);
+    return response.status === 200;
   } catch (error) {
     console.error("Error removing bookmark:", error);
+    return false;
   }
 }
