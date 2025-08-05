@@ -135,7 +135,7 @@
   color: white;
   font-weight: 500;
   margin-right: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
 }
 
@@ -151,6 +151,12 @@
 
 .btn.logout:hover {
   opacity: 0.7;
+}
+/* User actions container */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 /* =============================================================================
