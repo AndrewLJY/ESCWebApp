@@ -78,9 +78,9 @@ export default function HotelDetailPage() {
   }
 
   return (
+    <>
+    <Header/>
     <div className="hotel-detail-page">
-      <Header />
-
       <div className="detail-header">
         <h1>{hotel.keyDetails?.name || hotel.name}</h1>
         <div className="address">
@@ -143,5 +143,6 @@ export default function HotelDetailPage() {
         })}
       </div>
     </div>
+    </>
   );
 }

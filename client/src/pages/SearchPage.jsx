@@ -133,14 +133,17 @@ import { searchHotelsAPI } from "../middleware/searchApi";
 import Header from "../components/header";
 import SearchBar from "../components/SearchBar";
 import "../styles/SearchPage.css";
+import { Pagination } from "react-bootstrap";
 
 export default function SearchPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
-
+  const pageSize = 4;
   const [hotels, setHotels] = useState([]);
+  const [pagedHotels, setPagedHotels] = useState([]);
   const [destinationId, setDestinationId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [startPage, setStartPage] = useState(0);
 
   // Fetch hotels (real API or fallback mock)
   const fetchData = useCallback(async (queryString) => {
@@ -166,6 +169,13 @@ export default function SearchPage() {
       }
 
       setHotels(data);
+
+      if (data.length > pageSize) {
+        data = data.slice(0, pageSize);
+      }
+
+      setPagedHotels(data);
+
       setDestinationId(resp.data.destination_id);
     } catch (err) {
       console.error("Search error:", err);
@@ -182,9 +192,9 @@ export default function SearchPage() {
   }, [search, fetchData]);
 
   return (
+    <>
+    <Header/>
     <div className="search-page">
-      <Header />
-
       <main className="sp-main">
         <div className="filter-bar-wrapper">
           <SearchBar
@@ -200,10 +210,10 @@ export default function SearchPage() {
           ) : hotels.length === 0 ? (
             <div>No hotels found.</div>
           ) : (
-            hotels.map((h) => (
+            pagedHotels.map((h) => (
               <div key={h.keyDetails.id} className="hotel-card">
                 <img
-                  className="hotel-img"
+                  className="hotel-img "
                   src={(() => {
                     // Prefer stitchedImageUrls if available
                     if (
@@ -222,20 +232,30 @@ export default function SearchPage() {
                   alt={h.keyDetails.name}
                 />
 
-                <div className="hotel-info">
-                  <h3>{h.keyDetails.name}</h3>
-                  <div className="stars">{"★".repeat(h.keyDetails.rating)}</div>
-                  <p className="address">{h.keyDetails.address}</p>
-                  <p className="distance">
-                    {Math.floor(h.keyDetails.distance)} km
+                <div className="hotel-info text-start m-3">
+                  <p className="fs-5 fw-medium m-0 lh-sm text-gray">
+                    {h.keyDetails.name}
                   </p>
+                  <div className="stars">
+                    {"★".repeat(
+                      Math.floor(
+                        (h.trustYouBenchmark.score.score.overall / 100) * 5
+                      )
+                    )}
+                  </div>
+                  <p className="address m-0">{h.keyDetails.address}</p>
                   <p className="rating">
                     Rating:{" "}
                     {h.keyDetails.rating ? `${h.keyDetails.rating}/5` : "NA"}
                   </p>
                 </div>
 
-                <div className="hotel-book">
+                <div className="hotel-book m-3">
+                  <p className="fs-5 fw-medium text-start p-0 m-0">From</p>
+                  <p className="fs-4 fw-bold text-start mt-0">
+                    {" "}
+                    {Math.floor(h.pricingRankingData.lowestPrice)} SGD
+                  </p>
                   <button
                     className="btn book-small"
                     onClick={() =>
@@ -253,8 +273,34 @@ export default function SearchPage() {
               </div>
             ))
           )}
+
+          <Pagination>
+            <Pagination.Prev
+              onClick={() => {
+                setStartPage((prevState) => {
+                  var newState = prevState - pageSize;
+                  setPagedHotels(hotels.slice(newState, newState + pageSize));
+                  return newState
+                });
+                
+                
+              }}
+              disabled={startPage - pageSize < 0}
+            />
+            <Pagination.Next
+              onClick={() => {
+                setStartPage((prevState) => {
+                  var newState = prevState + pageSize;
+                  setPagedHotels(hotels.slice(newState, newState + pageSize));
+                  return newState
+                });
+              }}
+              disabled={startPage + pageSize > hotels.length}
+            />
+          </Pagination>
         </section>
       </main>
     </div>
+    </>
   );
 }

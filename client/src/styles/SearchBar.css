@@ -1,15 +1,18 @@
 .filter-bar {
-  position: absolute;
+  /* position: absolute;
   bottom: 45%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 50%; */
+  /* transform: translateX(-50%); */
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(6px);
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  z-index: 1;
+}
+
+.search-bar-wrapper.search{
+  margin: 0 auto;
 }
 
 .filter {
@@ -57,7 +60,7 @@
 
 .filter-input[type="date"] {
   min-width: 9rem;
-  color-scheme: dark;
+  color-scheme: light;
 }
 .filter-input:focus {
   border-color: #888;
@@ -91,7 +94,8 @@
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   position: relative;
-  top: -8px;
+  top: -2%;
+  border: 3px solid #162a96;
 }
 .sp-filter-bar .sp-filter-search-btn {
   margin-left: 0.5rem;

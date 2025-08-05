@@ -1,7 +1,7 @@
 // src/App.jsx
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import LandingPage from "./pages/LandingPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import CheckoutForm from "./pages/stripe/CheckoutForm.jsx";
