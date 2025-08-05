@@ -48,12 +48,11 @@ export default function HotelDetailPage() {
       // 2) fetch room pricing
       const params = new URLSearchParams(search);
       const payload = {
-        location: params.get("location") || "",
-        hotel: stub.keyDetails.name,
-        checkIn: params.get("checkin") || "",
-        checkOut: params.get("checkout") || "",
-        guests: Number(params.get("guests") || 1),
-        destinationId,
+        destination_id: params.get("location") || "",
+        hotel_id: stub.keyDetails.id,
+        check_in_date: params.get("checkin") || "",
+        check_out_date: params.get("checkout") || "",
+        guest_count: Number(params.get("guests") || 1)
       };
       const roomResp = await getRoomPricingAPI(stub.keyDetails.id, payload);
       setRooms(roomResp.data || []);
