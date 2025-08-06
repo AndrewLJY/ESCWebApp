@@ -56,19 +56,6 @@ async function findByEmail(email) {
   }
 }
 
-async function findIDByEmail(email) {
-  try {
-    const [row, fieldDefs] = await db.pool.query(
-      `
-      SELECT * FROM ${tableName} WHERE ${tableName}.email = ?`,
-      [email]
-    );
-    return row[0].id;
-  } catch (error) {
-    console.error("database connection failed" + error);
-  }
-}
-
 async function insertOne(user) {
   try {
     const exists = await findByEmail(user.email);
@@ -136,5 +123,4 @@ module.exports = {
   login,
   tableName,
   findByEmail,
-  findIDByEmail,
 };

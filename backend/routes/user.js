@@ -62,7 +62,7 @@ router.post("/login/", async function (req, res, next) {
       user: JSON.stringify(user),
       token: token,
       username: username,
-      email: email
+      email: email,
     };
     res.send(output);
   } else {
@@ -81,7 +81,12 @@ router.post("/bookmarks/", async function (req, res, next) {
   const hotel_address = req.body.hotel_address;
   const image_url = req.body.image_url;
   const hotel_ratings = req.body.hotel_ratings;
-  const userID = req.body.userID;
+  const user_email = req.body.user_email;
+  const search_string = req.body.search_string;
+  const destination_id = req.body.destination_id;
+
+  console.log(search_string);
+  console.log(destination_id);
 
   const bookmark = new bookmarkModel.Bookmark(
     hotel_id,
@@ -89,7 +94,9 @@ router.post("/bookmarks/", async function (req, res, next) {
     hotel_address,
     image_url,
     hotel_ratings,
-    userID
+    user_email,
+    destination_id,
+    search_string
   );
 
   try {
@@ -118,8 +125,9 @@ router.get("/allBookmarks/:user_email", async function (req, res, next) {
 
 router.post("/deleteBookmark", async function (req, res, next) {
   hotelId = req.body.hotel_id;
+  user_email = req.body.user_email;
   try {
-    result = await bookmarkModel.removeHotelBookmark(hotelId);
+    result = await bookmarkModel.removeHotelBookmark(hotelId, user_email);
     if (result === -1) {
       res.status(500).send("Error, hotel does not exist in database");
       return;

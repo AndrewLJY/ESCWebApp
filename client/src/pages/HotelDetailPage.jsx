@@ -99,12 +99,11 @@ export default function HotelDetailPage() {
         {isAuthenticated() && (
           <BookmarkButton
             hotel={{
-              id: stub.keyDetails.id,
-              name: stub.keyDetails.name,
-              address: stub.keyDetails.address,
-              rating: stub.keyDetails.rating,
-              price: stub.keyDetails.price,
-              imageUrl:
+              hotel_id: stub.keyDetails.id,
+              hotel_name: stub.keyDetails.name,
+              hotel_address: stub.keyDetails.address,
+              hotel_ratings: stub.keyDetails.rating,
+              image_url:
                 stub.imageDetails?.stitchedImageUrls?.[0] ||
                 "https://via.placeholder.com/300x200?text=No+Image",
             }}

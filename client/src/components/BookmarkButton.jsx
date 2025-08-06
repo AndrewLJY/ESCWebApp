@@ -15,8 +15,8 @@ export default function BookmarkButton({ hotel }) {
     // Merge in the search string and destinationId
     const toSave = {
       ...hotel,
-      searchString: search,
-      destinationId,
+      search_string: search,
+      destination_id: destinationId,
     };
 
     await addBookmark(toSave);
