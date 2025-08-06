@@ -24,10 +24,6 @@ export default function HotelDetailPage() {
   const { search, state } = useLocation();
   const navigate = useNavigate();
 
-  // stubbed hotel from SearchPage
-  const stub = state?.hotelDetails;
-  const destinationId = state?.destinationId;
-
   const [hotel, setHotel] = useState(null);
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -78,6 +74,7 @@ export default function HotelDetailPage() {
         checkIn: params.get("checkin") || "",
         checkOut: params.get("checkout") || "",
         guests: Number(params.get("guests") || 1),
+        roomNum: Number(params.get("roomNum") || 1),
         destinationId: state.destinationId,
       });
 
@@ -133,6 +130,7 @@ export default function HotelDetailPage() {
           bookingDateFrom: payload.checkIn,
           bookingDateTo: payload.checkOut,
           guestNum: payload.guests,
+          roomNum: payload.roomNum,
           numOfDays: numOfDays,
         },
       },
@@ -181,13 +179,13 @@ export default function HotelDetailPage() {
               {isAuthenticated() && (
                 <BookmarkButton
                   hotel={{
-                    id: stub.keyDetails.id,
-                    name: stub.keyDetails.name,
-                    address: stub.keyDetails.address,
-                    rating: stub.keyDetails.rating,
-                    price: stub.keyDetails.price,
+                    id: hotelDetails.keyDetails.id,
+                    name: hotelDetails.keyDetails.name,
+                    address: hotelDetails.keyDetails.address,
+                    rating: hotelDetails.keyDetails.rating,
+                    price: hotelDetails.keyDetails.price,
                     imageUrl:
-                      stub.imageDetails?.stitchedImageUrls?.[0] ||
+                      hotelDetails.imageDetails?.stitchedImageUrls?.[0] ||
                       "https://via.placeholder.com/300x200?text=No+Image",
                   }}
                 />

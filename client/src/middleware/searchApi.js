@@ -66,7 +66,7 @@ const searchHotelsAPI = async (searchParams) => {
 
     const response = await axios
       .get(
-        `http://localhost:8080/search/${searchParams.location}/${searchParams.checkIn}/${searchParams.checkOut}/${searchParams.guests}/1`
+        `http://localhost:8080/search/${searchParams.location}/${searchParams.checkIn}/${searchParams.checkOut}/${searchParams.guests}/${searchParams.roomNum}`
       )
       .catch((error) => {
         console.log(error.toJSON());

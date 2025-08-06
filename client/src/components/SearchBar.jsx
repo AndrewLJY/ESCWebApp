@@ -331,6 +331,7 @@ export default function SearchBar({
     checkin_filters: { open: false, value: "" },
     checkout_filters: { open: false, value: "" },
     guests_filters: { open: false, value: "" },
+    rooms_filters: { open: false, value: "" },
   });
 
   // Standalone state for SearchPage inputs
@@ -339,6 +340,7 @@ export default function SearchBar({
   const [checkin, setCheckin] = useState("");
   const [checkout, setCheckout] = useState("");
   const [guests, setGuests] = useState("1");
+  const [roomNum, setRoomNum] = useState("1");
 
   // Fetch suggestions
   const fetchSuggestions = async (term, field) => {
@@ -389,6 +391,7 @@ export default function SearchBar({
     setCheckin(p.get("checkin") || "");
     setCheckout(p.get("checkout") || "");
     setGuests(p.get("guests") || "1");
+    setRoomNum(p.get("roomNum") || "1");
   }, [search, isSearchPage]);
 
   // Perform search / navigate
@@ -408,6 +411,7 @@ export default function SearchBar({
       params.set("checkin", checkin);
       params.set("checkout", checkout);
       params.set("guests", guests);
+      params.set("roomNum", roomNum);
 
       navigate("?" + params.toString(), {
         replace: true,
@@ -422,6 +426,7 @@ export default function SearchBar({
         checkin_filters,
         checkout_filters,
         guests_filters,
+        rooms_filters,
       } = filters;
       if (!location_filters.value.trim() && !hotel_filters.value.trim()) {
         alert("Enter a location or hotel name.");
@@ -436,6 +441,7 @@ export default function SearchBar({
       params.set("checkin", checkin_filters.value);
       params.set("checkout", checkout_filters.value);
       params.set("guests", guests_filters.value);
+      params.set("roomNum", rooms_filters.value);
       navigate(`/search?${params.toString()}`);
     }
   };
@@ -518,6 +524,13 @@ export default function SearchBar({
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
           />
+          <input
+            type="number"
+            className="filter-input"
+            min="1"
+            value={roomNum}
+            onChange={(e) => setRoomNum(e.target.value)}
+          />
           <button className="sp-filter-search-btn" onClick={onSearch}>
             Search
           </button>
@@ -535,13 +548,17 @@ export default function SearchBar({
                       type={
                         key.includes("date") || key.includes("check")
                           ? "date"
-                          : key.includes("guests")
+                          : key.includes("guests") || key.includes("roomNum")
                           ? "number"
                           : "text"
                       }
-                      placeholder={key.includes("guests") ? "1" : ""}
+                      placeholder={
+                        key.includes("guests") || key.includes("roomNum")
+                          ? "1"
+                          : ""
+                      }
                       min={
-                        key.includes("guests")
+                        key.includes("guests") || key.includes("roomNum")
                           ? "1"
                           : key === "checkin_filters"
                           ? new Date().toISOString().split("T")[0]
@@ -579,6 +596,8 @@ export default function SearchBar({
                       {obj.value
                         ? key.includes("guests")
                           ? `Guests: ${obj.value}`
+                          : key.includes("rooms")
+                          ? `Rooms: ${obj.value}`
                           : key.includes("check")
                           ? fmtDate(obj.value)
                           : obj.value

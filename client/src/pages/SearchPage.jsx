@@ -157,6 +157,7 @@ export default function SearchPage() {
     if (params.get("checkin")) payload.checkIn = params.get("checkin");
     if (params.get("checkout")) payload.checkOut = params.get("checkout");
     if (params.get("guests")) payload.guests = Number(params.get("guests"));
+    if (params.get("roomNum")) payload.roomNum = Number(params.get("roomNum"));
 
     try {
       const resp = await searchHotelsAPI(payload);
