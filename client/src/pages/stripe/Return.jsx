@@ -26,9 +26,13 @@ export default function Return() {
   useEffect(() => {
     if (status == "complete" && customerEmail != null) {
       var templateParams = {
-        name: "James",
-        notes: "Check this out!",
         email: customerEmail,
+        hotelName: "",
+        roomType: "",
+        checkInDate: "",
+        checkOutDate: "",
+        numOfGuests: "",
+        specialRequest: "",
       };
 
       emailjs.send("service_1v9a236", "template_ibcni3p", templateParams).then(

@@ -128,7 +128,7 @@
 // }
 // src/pages/SearchPage.jsx
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { searchHotelsAPI } from "../middleware/searchApi";
 import Header from "../components/header";
 import SearchBar from "../components/SearchBar";
@@ -139,6 +139,7 @@ export default function SearchPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const pageSize = 4;
+
   const [hotels, setHotels] = useState([]);
   const [pagedHotels, setPagedHotels] = useState([]);
   const [destinationId, setDestinationId] = useState("");
@@ -193,114 +194,112 @@ export default function SearchPage() {
 
   return (
     <>
-    <Header/>
-    <div className="search-page">
-      <main className="sp-main">
-        <div className="filter-bar-wrapper">
-          <SearchBar
-            search={search}
-            fetchData={fetchData}
-            isSearchPage={true}
-          />
-        </div>
+      <Header />
+      <div className="search-page">
+        <main className="sp-main">
+          <div className="filter-bar-wrapper">
+            <SearchBar
+              search={search}
+              fetchData={fetchData}
+              isSearchPage={true}
+            />
+          </div>
 
-        <section className="sp-results">
-          {loading ? (
-            <div className="loading">Loading hotels...</div>
-          ) : hotels.length === 0 ? (
-            <div>No hotels found.</div>
-          ) : (
-            pagedHotels.map((h) => (
-              <div key={h.keyDetails.id} className="hotel-card">
-                <img
-                  className="hotel-img "
-                  src={(() => {
-                    // Prefer stitchedImageUrls if available
-                    if (
-                      Array.isArray(h.imageDetails.stitchedImageUrls) &&
-                      h.imageDetails.stitchedImageUrls.length > 0
-                    ) {
-                      return h.imageDetails.stitchedImageUrls[0];
-                    }
-                    // Otherwise try a thumbnailUrl if your API provides it
-                    if (h.imageDetails.thumbnailUrl) {
-                      return h.imageDetails.thumbnailUrl;
-                    }
-                    // Fallback to default placeholder
-                    return "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg";
-                  })()}
-                  alt={h.keyDetails.name}
-                />
+          <section className="sp-results">
+            {loading ? (
+              <div className="loading">Loading hotels...</div>
+            ) : hotels.length === 0 ? (
+              <div>No hotels found.</div>
+            ) : (
+              pagedHotels.map((h) => (
+                <div key={h.keyDetails.id} className="hotel-card">
+                  <img
+                    className="hotel-img "
+                    src={(() => {
+                      // Prefer stitchedImageUrls if available
+                      if (
+                        Array.isArray(h.imageDetails.stitchedImageUrls) &&
+                        h.imageDetails.stitchedImageUrls.length > 0
+                      ) {
+                        return h.imageDetails.stitchedImageUrls[0];
+                      }
+                      // Otherwise try a thumbnailUrl if your API provides it
+                      if (h.imageDetails.thumbnailUrl) {
+                        return h.imageDetails.thumbnailUrl;
+                      }
+                      // Fallback to default placeholder
+                      return "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg";
+                    })()}
+                    alt={h.keyDetails.name}
+                  />
 
-                <div className="hotel-info text-start m-3">
-                  <p className="fs-5 fw-medium m-0 lh-sm text-gray">
-                    {h.keyDetails.name}
-                  </p>
-                  <div className="stars">
-                    {"★".repeat(
-                      Math.floor(
-                        (h.trustYouBenchmark.score.score.overall / 100) * 5
-                      )
-                    )}
+                  <div className="hotel-info text-start m-3">
+                    <p className="fs-5 fw-medium m-0 lh-sm text-gray">
+                      {h.keyDetails.name}
+                    </p>
+                    <div className="stars">
+                      {"★".repeat(
+                        Math.floor(
+                          (h.trustYouBenchmark.score.score.overall / 100) * 5
+                        )
+                      )}
+                    </div>
+                    <p className="address m-0">{h.keyDetails.address}</p>
+                    <p className="rating">
+                      Rating:{" "}
+                      {h.keyDetails.rating ? `${h.keyDetails.rating}/5` : "NA"}
+                    </p>
                   </div>
-                  <p className="address m-0">{h.keyDetails.address}</p>
-                  <p className="rating">
-                    Rating:{" "}
-                    {h.keyDetails.rating ? `${h.keyDetails.rating}/5` : "NA"}
-                  </p>
-                </div>
 
-                <div className="hotel-book m-3">
-                  <p className="fs-5 fw-medium text-start p-0 m-0">From</p>
-                  <p className="fs-4 fw-bold text-start mt-0">
-                    {" "}
-                    {Math.floor(h.pricingRankingData.lowestPrice)} SGD
-                  </p>
-                  <button
-                    className="btn book-small"
-                    onClick={() =>
-                      navigate(`/hotel/${h.keyDetails.id}${search}`, {
-                        state: {
-                          hotelDetails: h,
-                          destinationId: destinationId,
-                        },
-                      })
-                    }
-                  >
-                    View More Details
-                  </button>
+                  <div className="hotel-book m-3">
+                    <p className="fs-5 fw-medium text-start p-0 m-0">From</p>
+                    <p className="fs-4 fw-bold text-start mt-0">
+                      {" "}
+                      {Math.floor(h.pricingRankingData.lowestPrice)} SGD
+                    </p>
+                    <button
+                      className="btn book-small"
+                      onClick={() => {
+                        navigate(`/hotel/${h.keyDetails.id}${search}`, {
+                          state: {
+                            hotelDetails: h,
+                            destinationId: destinationId,
+                          },
+                        });
+                      }}
+                    >
+                      View More Details
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
 
-          <Pagination>
-            <Pagination.Prev
-              onClick={() => {
-                setStartPage((prevState) => {
-                  var newState = prevState - pageSize;
-                  setPagedHotels(hotels.slice(newState, newState + pageSize));
-                  return newState
-                });
-                
-                
-              }}
-              disabled={startPage - pageSize < 0}
-            />
-            <Pagination.Next
-              onClick={() => {
-                setStartPage((prevState) => {
-                  var newState = prevState + pageSize;
-                  setPagedHotels(hotels.slice(newState, newState + pageSize));
-                  return newState
-                });
-              }}
-              disabled={startPage + pageSize > hotels.length}
-            />
-          </Pagination>
-        </section>
-      </main>
-    </div>
+            <Pagination>
+              <Pagination.Prev
+                onClick={() => {
+                  setStartPage((prevState) => {
+                    var newState = prevState - pageSize;
+                    setPagedHotels(hotels.slice(newState, newState + pageSize));
+                    return newState;
+                  });
+                }}
+                disabled={startPage - pageSize < 0}
+              />
+              <Pagination.Next
+                onClick={() => {
+                  setStartPage((prevState) => {
+                    var newState = prevState + pageSize;
+                    setPagedHotels(hotels.slice(newState, newState + pageSize));
+                    return newState;
+                  });
+                }}
+                disabled={startPage + pageSize > hotels.length}
+              />
+            </Pagination>
+          </section>
+        </main>
+      </div>
     </>
   );
 }

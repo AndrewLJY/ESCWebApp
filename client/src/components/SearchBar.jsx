@@ -408,6 +408,12 @@ export default function SearchBar({
       params.set("checkin", checkin);
       params.set("checkout", checkout);
       params.set("guests", guests);
+
+      navigate("?" + params.toString(), {
+        replace: true,
+        state: { shallow: true },
+      });
+
       fetchData(params.toString());
     } else {
       const {
