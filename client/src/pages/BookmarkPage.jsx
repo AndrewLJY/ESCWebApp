@@ -11,14 +11,15 @@ export default function Bookmark() {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  async function fetchBookmarks() {
+    const data = await getBookmarkedHotels();
+    setBookmarks(data.data);
+
+    setLoading(false);
+  }
+
   // fetch bookmarked hotels once on mount
   useEffect(() => {
-    async function fetchBookmarks() {
-      const data = await getBookmarkedHotels();
-      setBookmarks(data.data);
-
-      setLoading(false);
-    }
     fetchBookmarks();
   }, []);
 
@@ -70,40 +71,42 @@ export default function Bookmark() {
           </p>
         ) : (
           <div className="bookmark-grid">
-            {bookmarks.map((hotel) => (
-              <div key={hotel.hotel_id} className="bookmark-card">
-                <img
-                  className="bookmark-image"
-                  src={
-                    hotel.stitchedImageUrls?.[0] ||
-                    hotel.image_url ||
-                    "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"
-                  }
-                  alt={hotel.hotel_name}
-                />
-                <div className="bookmark-info">
-                  <h3>{hotel.hotel_name}</h3>
-                  <p className="address">{hotel.hotel_address}</p>
-                  <p className="stars">{"★".repeat(hotel.hotel_ratings)}</p>
+            {Array.isArray(bookmarks) && bookmarks.length > 0
+              ? bookmarks.map((hotel) => (
+                  <div key={hotel.hotel_id} className="bookmark-card">
+                    <img
+                      className="bookmark-image"
+                      src={
+                        hotel.stitchedImageUrls?.[0] ||
+                        hotel.image_url ||
+                        "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"
+                      }
+                      alt={hotel.hotel_name}
+                    />
+                    <div className="bookmark-info">
+                      <h3>{hotel.hotel_name}</h3>
+                      <p className="address">{hotel.hotel_address}</p>
+                      <p className="stars">{"★".repeat(hotel.hotel_ratings)}</p>
 
-                  <button
-                    type="button"
-                    className="btn book"
-                    onClick={() => handleView(hotel)}
-                  >
-                    View Hotel
-                  </button>
+                      <button
+                        type="button"
+                        className="btn book"
+                        onClick={() => handleView(hotel)}
+                      >
+                        View Hotel
+                      </button>
 
-                  <button
-                    type="button"
-                    className="btn remove"
-                    onClick={() => handleRemove(hotel.id)}
-                  >
-                    ❌ Remove
-                  </button>
-                </div>
-              </div>
-            ))}
+                      <button
+                        type="button"
+                        className="btn remove"
+                        onClick={() => handleRemove(hotel.hotel_id)}
+                      >
+                        ❌ Remove
+                      </button>
+                    </div>
+                  </div>
+                ))
+              : fetchBookmarks()}
           </div>
         )}
       </main>

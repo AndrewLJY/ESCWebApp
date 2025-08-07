@@ -1,6 +1,11 @@
 const db = require("./db.js");
-const userModel = require("./user.js");
-const tableName = "bookmark";
+var tableName;
+
+if (process.env.NODE_ENV !== "test") {
+  tableName = "bookmark";
+} else {
+  tableName = "bookmark_test_table";
+}
 
 class Bookmark {
   constructor(
@@ -152,9 +157,12 @@ async function removeHotelBookmark(hotelId, email) {
     return -1;
   }
   try {
-    await db.pool.query(`
-      DELETE FROM ${tableName} WHERE ${tableName}.hotel_id = ${hotelId}
-      `);
+    await db.pool.query(
+      `
+      DELETE FROM ${tableName} WHERE ${tableName}.hotel_id = ? AND ${tableName}.user_email = ?
+      `,
+      [hotelId, email]
+    );
     return 0;
   } catch (error) {
     console.error("Database connection failed" + error);
