@@ -3,6 +3,7 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { searchHotelsAPI } from "../middleware/searchApi";
 import Header from "../components/header";
 import SearchBar from "../components/SearchBar";
+import SortingBar from "../components/SortingBar";
 import "../styles/SearchPage.css";
 import { Pagination } from "react-bootstrap";
 
@@ -12,6 +13,7 @@ export default function SearchPage() {
   const pageSize = 4;
 
   const [hotels, setHotels] = useState([]);
+  const [filteredHotels, setFilteredHotels] = useState([]);
   const [pagedHotels, setPagedHotels] = useState([]);
   const [destinationId, setDestinationId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,6 +46,8 @@ export default function SearchPage() {
       }
 
       setHotels(data);
+      setFilteredHotels(data);
+      setStartPage(0);
 
       if (data.length > pageSize) {
         data = data.slice(0, pageSize);
@@ -55,10 +59,18 @@ export default function SearchPage() {
     } catch (err) {
       console.error("Search error:", err);
       setHotels([]);
+      setFilteredHotels([]);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const handleFilteredHotels = useCallback((filtered) => {
+    setFilteredHotels(filtered);
+    setStartPage(0);
+    const paged = filtered.slice(0, pageSize);
+    setPagedHotels(paged);
+  }, [pageSize]);
 
   // Run fetch on mount and whenever the query string changes
   useEffect(() => {
@@ -71,18 +83,26 @@ export default function SearchPage() {
       <Header />
       <div className="search-page">
         <main className="sp-main">
+          <section className="search-and-filter">
           <div className="filter-bar-wrapper">
             <SearchBar
               search={search}
               fetchData={fetchData}
               isSearchPage={true}
             />
+            {hotels.length > 0 && (
+              <SortingBar 
+                hotels={hotels} 
+                onFilteredHotels={handleFilteredHotels}
+              />
+            )}
           </div>
+          </section>
 
           <section className="sp-results">
             {loading ? (
               <div className="loading">Loading hotels...</div>
-            ) : hotels.length === 0 ? (
+            ) : filteredHotels.length === 0 ? (
               <div>No hotels found.</div>
             ) : (
               pagedHotels.map((h) => (
@@ -129,7 +149,9 @@ export default function SearchPage() {
                     <p className="fs-5 fw-medium text-start p-0 m-0">From</p>
                     <p className="fs-4 fw-bold text-start mt-0">
                       {" "}
-                      {Math.floor(h.pricingRankingData.lowestPrice)} SGD
+                      {h.pricingRankingData?.lowestPrice != null
+    ? Math.floor(h.pricingRankingData.lowestPrice) + " SGD"
+    : "Price unavailable"}
                     </p>
                     <button
                       className="btn book-small"
@@ -154,7 +176,7 @@ export default function SearchPage() {
                 onClick={() => {
                   setStartPage((prevState) => {
                     var newState = prevState - pageSize;
-                    setPagedHotels(hotels.slice(newState, newState + pageSize));
+                    setPagedHotels(filteredHotels.slice(newState, newState + pageSize));
                     return newState;
                   });
                 }}
@@ -164,11 +186,11 @@ export default function SearchPage() {
                 onClick={() => {
                   setStartPage((prevState) => {
                     var newState = prevState + pageSize;
-                    setPagedHotels(hotels.slice(newState, newState + pageSize));
+                    setPagedHotels(filteredHotels.slice(newState, newState + pageSize));
                     return newState;
                   });
                 }}
-                disabled={startPage + pageSize > hotels.length}
+                disabled={startPage + pageSize > filteredHotels.length}
               />
             </Pagination>
           </section>

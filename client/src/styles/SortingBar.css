@@ -1,0 +1,50 @@
+.sorting-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 3px solid #162a96;
+  margin: 0 auto;
+  max-width: fit-content;
+}
+
+.sorting-bar .form-group {
+  margin-bottom: 0;
+}
+
+.sorting-bar .form-label {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  color: #374151;
+}
+
+.sorting-bar .form-select,
+.sorting-bar .form-range {
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+}
+
+.sorting-bar .form-select:focus,
+.sorting-bar .form-range:focus {
+  border-color: #162a96;
+  box-shadow: 0 0 0 0.2rem rgba(22, 42, 150, 0.25);
+}
+
+.sorting-bar .dropdown-toggle {
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+}
+
+.sorting-bar .dropdown-toggle:focus {
+  border-color: #162a96;
+  box-shadow: 0 0 0 0.2rem rgba(22, 42, 150, 0.25);
+}
+
+.sorting-bar .btn-outline-danger {
+  font-size: 0.9rem;
+  padding: 0.375rem 0.75rem;
+}
