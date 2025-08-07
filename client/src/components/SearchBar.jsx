@@ -31,6 +31,20 @@ export default function SearchBar({
   // Standalone state for SearchPage inputs
   const [locationFilter, setLocationFilter] = useState("");
   const [hotelFilter, setHotelFilter] = useState("");
+  // Calculate minimum dates
+  const getMinCheckinDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 3);
+    return date.toISOString().split("T")[0];
+  };
+
+  const getMinCheckoutDate = (checkinDate) => {
+    if (!checkinDate) return getMinCheckinDate();
+    const date = new Date(checkinDate);
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split("T")[0];
+  };
+
   const [checkin, setCheckin] = useState("");
   const [checkout, setCheckout] = useState("");
   const [guests, setGuests] = useState("1");
@@ -198,19 +212,17 @@ export default function SearchBar({
             onChange={(e) => {
               setCheckin(e.target.value);
               if (!checkout || new Date(e.target.value) >= new Date(checkout)) {
-                const d = new Date(e.target.value);
-                d.setDate(d.getDate() + 3);
-                setCheckout(d.toISOString().split("T")[0]);
+                setCheckout(getMinCheckoutDate(e.target.value));
               }
             }}
-            min={new Date().toISOString().split("T")[0]}
+            min={getMinCheckinDate()}
           />
           <input
             type="date"
             className="filter-input"
             value={checkout}
             onChange={(e) => setCheckout(e.target.value)}
-            min={checkin || new Date().toISOString().split("T")[0]}
+            min={getMinCheckoutDate(checkin)}
           />
           <input
             type="number"
@@ -256,14 +268,18 @@ export default function SearchBar({
                         key.includes("guests") || key.includes("roomNum")
                           ? "1"
                           : key === "checkin_filters"
-                          ? new Date().toISOString().split("T")[0]
+                          ? getMinCheckinDate()
                           : key === "checkout_filters"
-                          ? filters.checkin_filters.value ||
-                            new Date().toISOString().split("T")[0]
+                          ? getMinCheckoutDate(filters.checkin_filters.value)
                           : undefined
                       }
                       value={obj.value}
-                      onChange={(e) => update(key, e.target.value)}
+                      onChange={(e) => {
+                        update(key, e.target.value);
+                        if (key === "checkin_filters" && (!filters.checkout_filters.value || new Date(e.target.value) >= new Date(filters.checkout_filters.value))) {
+                          update("checkout_filters", getMinCheckoutDate(e.target.value));
+                        }
+                      }}
                       onBlur={() => toggle(key)}
                     />
                     {showSuggestions &&
