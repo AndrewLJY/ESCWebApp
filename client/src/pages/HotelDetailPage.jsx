@@ -7,6 +7,7 @@ import {
   MapControl,
   ControlPosition,
 } from "@vis.gl/react-google-maps";
+import { Accordion, Badge, Carousel } from "react-bootstrap";
 
 import {
   getHotelDetailsAPI,
@@ -33,10 +34,10 @@ export default function HotelDetailPage() {
   const [loading, setLoading] = useState(true);
   const [payload, setPayload] = useState(null);
   const [hotelDetails, setHotelDetails] = useState(null);
+  const [carIndex, setCarIndex] = useState(0);
   const [backgroundImageUrl, setBackgroundImageUrl] = useState(
     "/images/default-bg.jpg"
   );
-
   const isAuthenticated = () =>
     Boolean(localStorage.getItem("token") && localStorage.getItem("user"));
 
@@ -127,7 +128,7 @@ export default function HotelDetailPage() {
         roomName:
           room.keyRoomDetails.name || room.keyRoomDetails.roomDescription,
         roomPrice: room.priceDetails.price,
-        roomImages: [room.keyRoomDetails.roomImages[0].url],
+        roomImages: room.keyRoomDetails.roomImages,
         bookingDetails: {
           roomDesc: room.keyRoomDetails.roomDescription,
           bookingDateFrom: payload.checkIn,
@@ -163,36 +164,160 @@ export default function HotelDetailPage() {
         {loading ? (
           <div className="loading">Loading…</div>
         ) : (
-          <div>
-            <div className="detail-header">
-              <h1>{hotel.keyDetails?.name || hotel.name}</h1>
-              <div className="address">
-                {hotel.keyDetails?.address || hotel.address}
-              </div>
-              <div className="stars">
-                {"★".repeat(hotel.keyDetails?.rating || hotel.rating || 0)}
-              </div>
-              {hotel.description && (
-                <div
-                  className="description"
-                  dangerouslySetInnerHTML={{ __html: hotel.description }}
-                />
-              )}
-              {isAuthenticated() && (
-                <BookmarkButton
-                  hotel={{
-                    id: stub.keyDetails.id,
-                    name: stub.keyDetails.name,
-                    address: stub.keyDetails.address,
-                    rating: stub.keyDetails.rating,
-                    price: stub.keyDetails.price,
-                    imageUrl:
-                      stub.imageDetails?.stitchedImageUrls?.[0] ||
-                      "https://via.placeholder.com/300x200?text=No+Image",
-                  }}
-                />
-              )}
+          <div className="w-100 m-0">
+            <div className="carousel-div d-flex flex-row">
+              <Carousel
+                indicators={false}
+                className="w-100"
+                interval={2000}
+                activeIndex={carIndex}
+                onSelect={(ind, e) => setCarIndex(ind)}
+                id="hotel_carousel"
+              >
+                {Array.from({ length: hotel.image_details.count }, (_, i) => i)
+                  .filter((j) => j % 2 == 0)
+                  .map((num) => {
+                    return (
+                      <Carousel.Item key={num} id={"caritem-" + num}>
+                        <img
+                          id="hotel_image"
+                          src={
+                            hotel.image_details.prefix +
+                            num +
+                            hotel.image_details.suffix
+                          }
+      
+                        />
+
+                        {num + 1 < hotel.image_details.count ? (
+                          <img
+                            id="hotel_image"
+                            src={
+                              hotel.image_details.prefix +
+                              (num + 1) +
+                              hotel.image_details.suffix
+                            }
+                     
+                          />
+                        ) : (
+                          <img
+                            id="hotel_image"
+                            src={
+                              hotel.image_details.prefix +
+                              "0" +
+                              hotel.image_details.suffix
+                            }
+             
+                          />
+                        )}
+                      </Carousel.Item>
+                    );
+                  })}
+              </Carousel>
             </div>
+            <div className="detail-header w-100 ps-5 pe-5 d-flex flex-row">
+              <div className="col me-3">
+                <div className="d-flex flex-row">
+                  <h1 className="pt-2">
+                    {hotel.keyDetails?.name || hotel.name}
+                  </h1>
+
+                  {isAuthenticated() && (
+                    <BookmarkButton
+                      hotel={{
+                        id: stub.keyDetails.id,
+                        name: stub.keyDetails.name,
+                        address: stub.keyDetails.address,
+                        rating: stub.keyDetails.rating,
+                        price: stub.keyDetails.price,
+                        imageUrl:
+                          stub.imageDetails?.stitchedImageUrls?.[0] ||
+                          "https://via.placeholder.com/300x200?text=No+Image",
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="d-flex flex-row">
+                  <div className="stars me-2">
+                    {"★".repeat(hotel.keyDetails?.rating || hotel.rating || 0)}
+                  </div>
+                  <div className="address">
+                    {hotel.keyDetails?.address || hotel.address}
+                  </div>
+                </div>
+
+                {hotel.description && (
+                  <Accordion flush className="accordion mt-2">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header className="border-bottom p-0">
+                        <div
+                          className="description"
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              hotel.description.slice(
+                                0,
+                                hotel.description.length / 5
+                              ) + "...",
+                          }}
+                        />
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <div
+                          className="description"
+                          dangerouslySetInnerHTML={{
+                            __html: hotel.description.slice(
+                              hotel.description.length / 5
+                            ),
+                          }}
+                        />
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                )}
+              </div>
+              <div className="col-5">
+                <p className="mb-1">Amenities Available: </p>
+                {Object.keys(hotel.amenities).map((amenity) => {
+                  return (
+                    <>
+                      {hotel.amenities[amenity] ? (
+                        <Badge pill bg="primary" className="me-2">
+                          {" "}
+                          {amenity}{" "}
+                        </Badge>
+                      ) : (
+                        <> </>
+                      )}
+                    </>
+                  );
+                })}
+
+                {/* —————————————————————————————— */}
+                {/* GOOGLE MAP VIEW */}
+                <APIProvider apiKey={MAP_API_KEY}>
+                  <Map
+                    mapId={"8f7e87511ff4f8d15dce6f63"}
+                    style={{ marginTop: "10px", width: "35vw", height: "30vh" }}
+                    defaultCenter={{
+                      lat: hotel.latitude,
+                      lng: hotel.longitude,
+                    }}
+                    defaultZoom={18}
+                    gestureHandling={"greedy"}
+                    disableDefaultUI={true}
+                  >
+                    <AdvancedMarker
+                      position={{
+                        lat: hotel.latitude,
+                        lng: hotel.longitude,
+                      }}
+                    />
+                    <MapControl position={ControlPosition.BOTTOM_LEFT} />
+                  </Map>
+                </APIProvider>
+              </div>
+            </div>
+            <p>Rooms Available: </p>
             <div className="room-list">
               {rooms.map((room) => {
                 const roomKeyDetails = room.keyRoomDetails;
@@ -200,10 +325,18 @@ export default function HotelDetailPage() {
 
                 return (
                   <div key={roomKeyDetails.keyId} className="room-card">
-                    <img
-                      src={roomKeyDetails.roomImages[0].url || ""}
-                      alt={roomKeyDetails.name}
-                    />
+                    {roomKeyDetails.roomImages.length > 0 ? (
+                      <img
+                        src={
+                          roomKeyDetails.roomImages.length > 0
+                            ? roomKeyDetails.roomImages[0].url
+                            : ""
+                        }
+                        alt={roomKeyDetails.name}
+                      />
+                    ) : (
+                      <p></p>
+                    )}
                     <h3>{roomKeyDetails.name}</h3>
                     <p>{roomKeyDetails.roomDescription}</p>
                     <div className="room-price">
@@ -219,29 +352,6 @@ export default function HotelDetailPage() {
                 );
               })}
             </div>
-            {/* —————————————————————————————— */}
-            {/* GOOGLE MAP VIEW */}
-            <APIProvider apiKey={MAP_API_KEY}>
-              <Map
-                mapId={"8f7e87511ff4f8d15dce6f63"}
-                style={{ width: "50vw", height: "50vh" }}
-                defaultCenter={{
-                  lat: hotel.latitude,
-                  lng: hotel.longitude,
-                }}
-                defaultZoom={18}
-                gestureHandling={"greedy"}
-                disableDefaultUI={true}
-              >
-                <AdvancedMarker
-                  position={{
-                    lat: hotel.latitude,
-                    lng: hotel.longitude,
-                  }}
-                />
-                <MapControl position={ControlPosition.BOTTOM_LEFT} />
-              </Map>
-            </APIProvider>
           </div>
         )}
       </div>
