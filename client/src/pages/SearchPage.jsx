@@ -74,13 +74,22 @@ export default function SearchPage() {
     try {
       const resp = await searchHotelsAPI(payload);
       console.log(resp);
+      
+      if (!resp || !resp.data) {
+        setHotels([]);
+        setFilteredHotels([]);
+        setPagedHotels([]);
+        setDestinationId("");
+        return;
+      }
+      
       let data = resp.data.hotels || [];
-      if (payload.hotel) {
+      if (payload.hotel && data.length > 0) {
         const name = payload.hotel.toLowerCase();
         data = data.filter(
           (h) =>
-            h.keyDetails.name.toLowerCase().includes(name) &&
-            h.pricingRankingData.lowestPrice
+            h?.keyDetails?.name?.toLowerCase().includes(name) &&
+            h?.pricingRankingData?.lowestPrice
         );
       }
 
@@ -94,12 +103,12 @@ export default function SearchPage() {
 
       setPagedHotels(data);
 
-      setDestinationId(resp.data.destination_id);
+      setDestinationId(resp.data.destination_id || "");
     } catch (err) {
       console.error("Search error:", err);
-      setError("Search failed. Please try again.");
       setHotels([]);
       setFilteredHotels([]);
+      setPagedHotels([]);
     } finally {
       setLoading(false);
     }
@@ -152,42 +161,43 @@ export default function SearchPage() {
               <div>No hotels found.</div>
             ) : (
               pagedHotels.map((h) => (
-                <div key={h.keyDetails.id} className="hotel-card">
+                <div key={h?.keyDetails?.id || Math.random()} className="hotel-card">
                   <img
                     className="hotel-img "
                     src={(() => {
                       // Prefer stitchedImageUrls if available
                       if (
+                        h?.imageDetails?.stitchedImageUrls &&
                         Array.isArray(h.imageDetails.stitchedImageUrls) &&
                         h.imageDetails.stitchedImageUrls.length > 0
                       ) {
                         return h.imageDetails.stitchedImageUrls[0];
                       }
                       // Otherwise try a thumbnailUrl if your API provides it
-                      if (h.imageDetails.thumbnailUrl) {
+                      if (h?.imageDetails?.thumbnailUrl) {
                         return h.imageDetails.thumbnailUrl;
                       }
                       // Fallback to default placeholder
                       return "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg";
                     })()}
-                    alt={h.keyDetails.name}
+                    alt={h?.keyDetails?.name || "Hotel"}
                   />
 
                   <div className="hotel-info text-start m-3">
                     <p className="fs-5 fw-medium m-0 lh-sm text-gray">
-                      {h.keyDetails.name}
+                      {h?.keyDetails?.name || "Unknown Hotel"}
                     </p>
                     <div className="stars">
                       {"★".repeat(
                         Math.floor(
-                          h.keyDetails.rating
+                          h?.keyDetails?.rating || 0
                         )
                       )}
                     </div>
-                    <p className="address m-0">{h.keyDetails.address}</p>
+                    <p className="address m-0">{h?.keyDetails?.address || "Address not available"}</p>
                     <p className="rating">
                       Rating:{" "}
-                      {h.keyDetails.rating ? `${h.keyDetails.rating}/5` : "NA"}
+                      {h?.keyDetails?.rating ? `${h.keyDetails.rating}/5` : "NA"}
                     </p>
                   </div>
 
@@ -202,7 +212,7 @@ export default function SearchPage() {
                     <button
                       className="btn book-small"
                       onClick={() => {
-                        navigate(`/hotel/${h.keyDetails.id}${search}`, {
+                        navigate(`/hotel/${h?.keyDetails?.id}${search}`, {
                           state: {
                             hotelDetails: h,
                             destinationId: destinationId,
