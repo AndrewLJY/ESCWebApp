@@ -37,7 +37,10 @@ const getRoomPricingAPI = async (hotelId, payload) => {
         console.log(error.toJSON());
       });
 
-    console.log(response);
+    if (response.status == 404) {
+      return "No Room Available";
+    }
+
     return response;
   } catch (error) {
     console.error("Room Details API error:", error);

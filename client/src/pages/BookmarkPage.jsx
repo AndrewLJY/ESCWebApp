@@ -106,7 +106,7 @@ export default function Bookmark() {
                     </div>
                   </div>
                 ))
-              : fetchBookmarks()}
+              : null}
           </div>
         )}
       </main>

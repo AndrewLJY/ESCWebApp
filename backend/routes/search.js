@@ -471,7 +471,7 @@ router.get(
 
       if (result === -1) {
         //No rooms were avaialable, hence return an error 400.
-        res.status(400).send("Server Error, unable to retrieve rooms");
+        res.status(404).send("No available rooms");
         return;
       }
 

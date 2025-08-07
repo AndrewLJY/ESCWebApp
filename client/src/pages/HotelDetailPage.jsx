@@ -27,8 +27,10 @@ export default function HotelDetailPage() {
   const [hotel, setHotel] = useState(null);
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [roomsLoading, setRoomsLoading] = useState(true);
   const [payload, setPayload] = useState(null);
   const [hotelDetails, setHotelDetails] = useState(null);
+  const [modifyParams, setModifyParams] = useState(false);
   const [backgroundImageUrl, setBackgroundImageUrl] = useState(
     "/images/default-bg.jpg"
   );
@@ -36,51 +38,26 @@ export default function HotelDetailPage() {
   const isAuthenticated = () =>
     Boolean(localStorage.getItem("token") && localStorage.getItem("user"));
 
+  // Set Hotel Details
   useEffect(() => {
-    async function fetchDetail() {
-      setHotelDetails(state.hotelDetails);
-    }
-
-    fetchDetail();
+    setHotelDetails(state?.hotelDetails);
   }, [id, search]);
 
+  // Get Rooms
   useEffect(() => {
-    async function getRooms() {
-      // 3) *always* load mock rooms (never show empty)
-      try {
-        const roomResp = await getRoomPricingAPI(
-          hotelDetails.keyDetails.id,
-          payload
-        );
-        setRooms(roomResp.data);
-      } catch (err) {
-        console.error("Error loading rooms:", err);
-        setRooms([]);
-      }
-    }
-
-    if (payload != null && hotelDetails != null) {
+    if (payload != null && hotelDetails != null && !modifyParams) {
       getRooms();
     }
   }, [payload, hotelDetails]);
 
+  // Get Hotel Details
   useEffect(() => {
     async function getHotelDetails() {
-      // 1) grab your URL params
-      const params = new URLSearchParams(search);
-      setPayload({
-        location: params.get("location") || "",
-        hotel: hotelDetails.keyDetails.name || "",
-        checkIn: params.get("checkin") || "",
-        checkOut: params.get("checkout") || "",
-        guests: Number(params.get("guests") || 1),
-        roomNum: Number(params.get("roomNum") || 1),
-        destinationId: state.destinationId,
-      });
+      retrieveParams();
 
       // 2) load the hotel header exactly as before
       try {
-        const resp = await getHotelDetailsAPI(hotelDetails.keyDetails.id);
+        const resp = await getHotelDetailsAPI(hotelDetails?.keyDetails.id);
 
         let detail;
 
@@ -101,19 +78,39 @@ export default function HotelDetailPage() {
         setHotel(null);
       }
     }
-
     if (hotelDetails != null) {
       getHotelDetails();
     }
   }, [hotelDetails]);
 
+  // Set Loading to false
   useEffect(() => {
-    if (hotel != null && rooms.length > 0) {
+    if (hotel != null) {
       setLoading(false);
     }
   }, [hotel, rooms]);
 
-  const handleBookRoom = (room) => {
+  async function getRooms() {
+    // 3) *always* load mock rooms (never show empty)
+    try {
+      setRoomsLoading(true);
+      const roomResp = await getRoomPricingAPI(
+        hotelDetails?.keyDetails.id,
+        payload
+      );
+      if (roomResp === "No Room Available") {
+        setRooms([]);
+      } else {
+        setRooms(roomResp.data);
+      }
+    } catch (err) {
+      console.error("Error loading rooms:", err);
+      setRooms([]);
+    }
+    setRoomsLoading(false);
+  }
+
+  function handleBookRoom(room) {
     var numOfDays = calculateDaysBetweenDates(
       payload.checkIn,
       payload.checkOut
@@ -135,7 +132,7 @@ export default function HotelDetailPage() {
         },
       },
     });
-  };
+  }
 
   function calculateDaysBetweenDates(startDateString, endDateString) {
     const startDate = new Date(startDateString);
@@ -152,6 +149,44 @@ export default function HotelDetailPage() {
     return Math.round(daysDifference);
   }
 
+  function retrieveParams() {
+    const params = new URLSearchParams(search);
+
+    setPayload({
+      location: params.get("location") || "",
+      hotel: hotelDetails?.keyDetails.name || "",
+      checkIn: params.get("checkin") || "",
+      checkOut: params.get("checkout") || "",
+      guests: Number(params.get("guests") || 1),
+      roomNum: Number(params.get("roomNum") || 1),
+      destinationId: state.destinationId,
+    });
+  }
+
+  function modifyParam() {
+    if (payload != null && hotelDetails != null && modifyParams) {
+      console.log("fowesfhiuwhfiuwh");
+      getRooms();
+
+      const params = new URLSearchParams(search);
+
+      params.set("checkin", payload.checkIn);
+      params.set("checkout", payload.checkOut);
+      params.set("guests", payload.guests);
+      params.set("roomNum", payload.roomNum);
+
+      navigate("?" + params.toString(), {
+        replace: true,
+        state: {
+          hotelDetails: hotelDetails,
+          destinationId: payload.destinationId,
+          shallow: true,
+        },
+      });
+    }
+    setModifyParams(false);
+  }
+
   return (
     <>
       <Header />
@@ -162,6 +197,86 @@ export default function HotelDetailPage() {
           <div className="loading">Loading…</div>
         ) : (
           <div>
+            <div className={`search-bar-wrapper`}>
+              <div className="sp-filter-bar">
+                <input
+                  type="date"
+                  className="filter-input"
+                  id="filter-checkin"
+                  value={payload.checkIn}
+                  disabled={roomsLoading}
+                  onChange={(e) => {
+                    setModifyParams(true);
+                    setPayload((prevState) => ({
+                      ...prevState,
+                      checkIn: e.target.value,
+                    }));
+                    if (
+                      !payload.checkOut ||
+                      new Date(e.target.value) >= new Date(payload.checkOut)
+                    ) {
+                      const d = new Date(e.target.value);
+                      d.setDate(d.getDate() + 3);
+                      setPayload((prevState) => ({
+                        ...prevState,
+                        checkOut: d.toISOString().split("T")[0],
+                      }));
+                    }
+                  }}
+                  min={new Date().toISOString().split("T")[0]}
+                />
+                <input
+                  type="date"
+                  className="filter-input"
+                  id="filter-checkout"
+                  value={payload.checkOut}
+                  disabled={roomsLoading}
+                  onChange={(e) => {
+                    setModifyParams(true);
+                    setPayload((prevState) => ({
+                      ...prevState,
+                      checkOut: e.target.value,
+                    }));
+                  }}
+                  min={
+                    payload.checkIn || new Date().toISOString().split("T")[0]
+                  }
+                />
+                <input
+                  type="number"
+                  className="filter-input"
+                  id="filter-guests"
+                  min="1"
+                  value={payload.guests}
+                  disabled={roomsLoading}
+                  onChange={(e) => {
+                    setModifyParams(true);
+                    setPayload((prevState) => ({
+                      ...prevState,
+                      guests: e.target.value,
+                    }));
+                  }}
+                />
+                <input
+                  type="number"
+                  className="filter-input"
+                  id="filter-roomNum"
+                  min="1"
+                  value={payload.roomNum}
+                  disabled={roomsLoading}
+                  onChange={(e) => {
+                    setModifyParams(true);
+                    setPayload((prevState) => ({
+                      ...prevState,
+                      roomNum: e.target.value,
+                    }));
+                  }}
+                />
+                <button className="sp-filter-search-btn" onClick={modifyParam}>
+                  Modify
+                </button>
+              </div>
+            </div>
             <div className="detail-header">
               <h1>{hotel.keyDetails?.name || hotel.name}</h1>
               <div className="address">
@@ -192,30 +307,36 @@ export default function HotelDetailPage() {
               )}
             </div>
             <div className="room-list">
-              {rooms.map((room) => {
-                const roomKeyDetails = room.keyRoomDetails;
-                const roomPriceDetails = room.priceDetails;
+              {roomsLoading ? (
+                <div>Loading Rooms ...</div>
+              ) : rooms.length > 0 ? (
+                rooms.map((room) => {
+                  const roomKeyDetails = room.keyRoomDetails;
+                  const roomPriceDetails = room.priceDetails;
 
-                return (
-                  <div key={roomKeyDetails.keyId} className="room-card">
-                    <img
-                      src={roomKeyDetails.roomImages[0].url || ""}
-                      alt={roomKeyDetails.name}
-                    />
-                    <h3>{roomKeyDetails.name}</h3>
-                    <p>{roomKeyDetails.roomDescription}</p>
-                    <div className="room-price">
-                      SGD {roomPriceDetails.price}
+                  return (
+                    <div key={roomKeyDetails.keyId} className="room-card">
+                      <img
+                        src={roomKeyDetails.roomImages[0].url || ""}
+                        alt={roomKeyDetails.name}
+                      />
+                      <h3>{roomKeyDetails.name}</h3>
+                      <p>{roomKeyDetails.roomDescription}</p>
+                      <div className="room-price">
+                        SGD {roomPriceDetails.price}
+                      </div>
+                      <button
+                        className="btn book-room"
+                        onClick={() => handleBookRoom(room)}
+                      >
+                        Book
+                      </button>
                     </div>
-                    <button
-                      className="btn book-room"
-                      onClick={() => handleBookRoom(room)}
-                    >
-                      Book
-                    </button>
-                  </div>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <div>No Rooms Available</div>
+              )}
             </div>
             {/* —————————————————————————————— */}
             {/* GOOGLE MAP VIEW */}
