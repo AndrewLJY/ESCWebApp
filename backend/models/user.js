@@ -115,4 +115,12 @@ async function login(email, password) {
   }
 }
 
-module.exports = { User, sync, insertOne, all, login, tableName };
+module.exports = {
+  User,
+  sync,
+  insertOne,
+  all,
+  login,
+  tableName,
+  findByEmail,
+};

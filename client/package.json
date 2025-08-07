@@ -11,10 +11,15 @@
     "test": "jest --verbose"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@stripe/react-stripe-js": "^3.8.0",
     "@stripe/stripe-js": "^7.6.1",
+    "@vis.gl/react-google-maps": "^1.5.4",
     "axios": "^1.10.0",
+    "bootstrap": "^5.3.7",
+    "emailjs": "^4.0.3",
     "react": "^19.1.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3"
   },

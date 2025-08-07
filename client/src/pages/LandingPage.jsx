@@ -2,21 +2,22 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LandingPage.css";
 import Header from "../components/header";
-import FilterBar from "../components/FilterBar";
+import SearchBar from "../components/SearchBar";
 
 export default function LandingPage() {
   return (
-    <div className="landing">
-      <Header />
-
+    <>
+    <Header/>
+    <div className="landing d-flex justify-content-center align-items-center">
       <h1 className="landing__headline">
-        Start your dream vacation with&nbsp;us
+        Start your dream vacation with us
       </h1>
       <h2 className="landing__subheadline">
         Discover the world with Ascenda. You deserve the best.
       </h2>
 
-      <FilterBar />
+      <SearchBar className="search"/>
     </div>
+    </>
   );
 }

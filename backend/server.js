@@ -4,7 +4,8 @@ var process = require("process");
 var db = require("./models/db.js");
 const express = require("express");
 const cors = require("cors");
-require('dotenv').config()
+require("dotenv").config();
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
@@ -17,18 +18,22 @@ process.on("SIGTERM", db.cleanup);
 var usersRouter = require("./routes/user");
 var indexRouter = require("./routes/index");
 var searchRouter = require("./routes/search");
+var stripeRouter = require("./routes/stripe");
+var bookingRouter = require("./routes/booking");
 
 var userModel = require("./models/user.js");
-var bookingModel = require("./models/booking.js");
+var bookmarkModel = require("./models/bookmark.js");
 var destinationNamesModel = require("./models/destinations.js");
+var bookingModel = require("./models/booking.js");
 
 //Check if the environment is not set to testing!
 if (process.env.NODE_ENV !== "test") {
   userModel.sync();
-  bookingModel.sync();
+  bookmarkModel.sync();
   destinationNamesModel
     .sync()
     .then(() => destinationNamesModel.insertFromJSON());
+  bookingModel.sync();
 }
 
 // view engine setup
@@ -38,6 +43,8 @@ app.set("view engine", "ejs");
 app.use("/", indexRouter);
 app.use("/auth", usersRouter);
 app.use("/search", searchRouter);
+app.use("/stripe", stripeRouter);
+app.use("/booking", bookingRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -286,9 +286,10 @@
 // }
 
 // src/components/FilterBar.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/FilterBar.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 export default function FilterBar({
@@ -311,11 +312,53 @@ export default function FilterBar({
   const [checkin, setCheckin] = useState("");
   const [checkout, setCheckout] = useState("");
   const [guests, setGuests] = useState("1");
+  
+  // Autocomplete state
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [activeField, setActiveField] = useState(null);
+  const timeoutRef = useRef(null);
+  
+  // Fetch suggestions from backend
+  const fetchSuggestions = async (searchTerm, field) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/search/string/${searchTerm}`);
+      const top10 = response.data.slice(0, 10).map(item => item.item || item);
+      setSuggestions(top10);
+      setShowSuggestions(true);
+      setActiveField(field);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+  
+  // Handle suggestion selection
+  const selectSuggestion = (suggestion) => {
+    if (activeField === "location_filters") {
+      update("location_filters", suggestion);
+    } else if (activeField === "locationFilter") {
+      setLocationFilter(suggestion);
+    }
+    setShowSuggestions(false);
+    setSuggestions([]);
+  };
 
   const toggle = (key) =>
     setFilters((f) => ({ ...f, [key]: { ...f[key], open: !f[key].open } }));
-  const update = (key, val) =>
+  const update = (key, val) => {
     setFilters((f) => ({ ...f, [key]: { ...f[key], value: val } }));
+    
+    // Trigger autocomplete for location fields
+    if (key === "location_filters" && val.length > 0) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => fetchSuggestions(val, key), 500);
+      setActiveField(key);
+    } else if (key === "location_filters") {
+      setShowSuggestions(false);
+    }
+  };
   const fmtDate = (iso) => (iso ? new Date(iso).toLocaleDateString() : "");
 
   const onSearch = () => {
@@ -394,13 +437,37 @@ export default function FilterBar({
     <div className={`filter-bar-wrapper ${className}`}>
       {isSearchPage ? (
         <div className="sp-filter-bar">
-          <input
-            type="text"
-            placeholder="Location"
-            className="filter-input"
-            value={locationFilter}
-            onChange={(e) => setLocationFilter(e.target.value)}
-          />
+          <div style={{position: 'relative'}}>
+            <input
+              type="text"
+              placeholder="Location"  
+              className="filter-input"
+              value={locationFilter}
+              onChange={(e) => {
+                setLocationFilter(e.target.value);
+                if (e.target.value.length > 0) {
+                  clearTimeout(timeoutRef.current);
+                  timeoutRef.current = setTimeout(() => fetchSuggestions(e.target.value, "locationFilter"), 500);
+                  setActiveField("locationFilter");
+                } else {
+                  setShowSuggestions(false);
+                }
+              }}
+            />
+            {showSuggestions && activeField === "locationFilter" && suggestions.length > 0 && (
+              <div className="suggestions-dropdown">
+                {suggestions.map((suggestion, index) => (
+                  <div 
+                    key={index} 
+                    className="suggestion-item"
+                    onClick={() => selectSuggestion(suggestion)}
+                  >
+                    {suggestion}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <input
             type="text"
             placeholder="Hotel name"
