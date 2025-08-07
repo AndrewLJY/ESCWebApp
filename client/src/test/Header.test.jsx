@@ -4,6 +4,7 @@ jest.mock("../assets/ascenda_logo.png", () => "mock-logo.png");
 
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import Header from "../components/header";
 import { loginUserAPI, signupUserAPI } from "../middleware/authApi";
 
@@ -31,19 +32,31 @@ describe("Header Component", () => {
   });
 
   test("Shows 'Login' when not authenticated", () => {
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     expect(screen.getByText("Login")).toBeInTheDocument();
     expect(screen.queryByText("Your Bookmarks")).toBeNull();
   });
 
   test("Login dropdown opens on button click", () => {
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     fireEvent.click(screen.getByText("Login"));
     expect(screen.getByText("Sign In Now")).toBeInTheDocument();
   });
 
   test("Signup dropdown appears when clicking 'Create one'", () => {
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     fireEvent.click(screen.getByText("Login"));
     fireEvent.click(screen.getByText(/Create one/i));
     expect(screen.getByText(/Create Account/i)).toBeInTheDocument();
@@ -54,14 +67,22 @@ describe("Header Component", () => {
     localStorage.setItem("token", "tok123");
     localStorage.setItem("user", JSON.stringify({ username: "joe" }));
 
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     expect(screen.getByText("Your Bookmarks")).toBeInTheDocument();
     expect(screen.getByText("Logout")).toBeInTheDocument();
     expect(screen.queryByText("Login")).toBeNull();
   });
 
   test("Shows alert when passwords do not match during signup", () => {
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     fireEvent.click(screen.getByText("Login"));
     fireEvent.click(screen.getByText(/Create one/i));
 
@@ -82,7 +103,11 @@ describe("Header Component", () => {
   test("Invalid credentials shows alert when login fails", async () => {
     loginUserAPI.mockRejectedValueOnce(new Error("Invalid credentials"));
 
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     fireEvent.click(screen.getByText("Login"));
 
     fireEvent.change(screen.getByLabelText("Email Address"), {
@@ -101,7 +126,11 @@ describe("Header Component", () => {
   test("Shows toast on successful login", async () => {
     loginUserAPI.mockResolvedValueOnce({ username: "joe", token: "tok123" });
 
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     fireEvent.click(screen.getByText("Login"));
 
     fireEvent.change(screen.getByLabelText("Email Address"), {
@@ -112,7 +141,6 @@ describe("Header Component", () => {
     });
     fireEvent.click(screen.getByText("Sign In Now"));
 
-    // Wait for API call
     await waitFor(() =>
       expect(loginUserAPI).toHaveBeenCalledWith({
         email: "joe@example.com",
@@ -120,7 +148,6 @@ describe("Header Component", () => {
       })
     );
 
-    // Toast should appear
     expect(await screen.findByText("Login Successful!")).toBeInTheDocument();
   });
 
@@ -130,7 +157,11 @@ describe("Header Component", () => {
       token: "tok456",
     });
 
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     fireEvent.click(screen.getByText("Login"));
     fireEvent.click(screen.getByText(/Create one/i));
 
@@ -145,7 +176,6 @@ describe("Header Component", () => {
     });
     fireEvent.click(screen.getByText("Sign Up Now"));
 
-    // Wait for signup API
     await waitFor(() =>
       expect(signupUserAPI).toHaveBeenCalledWith({
         email: "new@example.com",
@@ -154,7 +184,6 @@ describe("Header Component", () => {
       })
     );
 
-    // Toast should appear
     expect(await screen.findByText("Sign Up Successful!")).toBeInTheDocument();
   });
 });
