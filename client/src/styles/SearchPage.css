@@ -54,7 +54,7 @@ body {
 }
 
 .search-and-filter {
-  margin-bottom: 5rem;
+  margin-bottom: 0rem;
 }
 
 /* Filter bar */
@@ -74,9 +74,25 @@ body {
 .sp-results {
   margin: 2% auto;
   padding: 1rem 2rem;
-  width: 70%;
+  width: 90%;
 }
-.hotel-card {
+
+.results-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.sorting-sidebar {
+  flex: 0 0 300px;
+  position: sticky;
+  top: 2rem;
+}
+
+.hotel-results {
+  flex: 1;
+}
+.hotel-results .hotel-card {
   display: flex;
   align-items: center;
   background: #fff;

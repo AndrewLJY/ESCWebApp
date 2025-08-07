@@ -84,22 +84,26 @@ export default function SearchPage() {
       <div className="search-page">
         <main className="sp-main">
           <section className="search-and-filter">
-          <div className="filter-bar-wrapper">
-            <SearchBar
-              search={search}
-              fetchData={fetchData}
-              isSearchPage={true}
-            />
-            {hotels.length > 0 && (
-              <SortingBar 
-                hotels={hotels} 
-                onFilteredHotels={handleFilteredHotels}
+            <div className="filter-bar-wrapper">
+              <SearchBar
+                search={search}
+                fetchData={fetchData}
+                isSearchPage={true}
               />
-            )}
-          </div>
+            </div>
           </section>
 
           <section className="sp-results">
+            <div className="results-container">
+              {hotels.length > 0 && (
+                <aside className="sorting-sidebar">
+                  <SortingBar 
+                    hotels={hotels} 
+                    onFilteredHotels={handleFilteredHotels}
+                  />
+                </aside>
+              )}
+              <div className="hotel-results">
             {loading ? (
               <div className="loading">Loading hotels...</div>
             ) : filteredHotels.length === 0 ? (
@@ -171,28 +175,30 @@ export default function SearchPage() {
               ))
             )}
 
-            <Pagination>
-              <Pagination.Prev
-                onClick={() => {
-                  setStartPage((prevState) => {
-                    var newState = prevState - pageSize;
-                    setPagedHotels(filteredHotels.slice(newState, newState + pageSize));
-                    return newState;
-                  });
-                }}
-                disabled={startPage - pageSize < 0}
-              />
-              <Pagination.Next
-                onClick={() => {
-                  setStartPage((prevState) => {
-                    var newState = prevState + pageSize;
-                    setPagedHotels(filteredHotels.slice(newState, newState + pageSize));
-                    return newState;
-                  });
-                }}
-                disabled={startPage + pageSize > filteredHotels.length}
-              />
-            </Pagination>
+                <Pagination>
+                  <Pagination.Prev
+                    onClick={() => {
+                      setStartPage((prevState) => {
+                        var newState = prevState - pageSize;
+                        setPagedHotels(filteredHotels.slice(newState, newState + pageSize));
+                        return newState;
+                      });
+                    }}
+                    disabled={startPage - pageSize < 0}
+                  />
+                  <Pagination.Next
+                    onClick={() => {
+                      setStartPage((prevState) => {
+                        var newState = prevState + pageSize;
+                        setPagedHotels(filteredHotels.slice(newState, newState + pageSize));
+                        return newState;
+                      });
+                    }}
+                    disabled={startPage + pageSize > filteredHotels.length}
+                  />
+                </Pagination>
+              </div>
+            </div>
           </section>
         </main>
       </div>
