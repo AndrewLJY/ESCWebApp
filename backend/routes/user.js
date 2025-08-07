@@ -99,21 +99,68 @@ router.post("/bookmarks/", async function (req, res, next) {
     search_string
   );
 
+  //Check for the proper types
+  if (typeof hotel_id !== "string") {
+    res.status(400).send("Invalid hotel id input");
+    return;
+  }
+
+  if (typeof hotel_name !== "string") {
+    res.status(400).send("Invalid hotel name input");
+    return;
+  }
+
+  if (typeof hotel_address !== "string") {
+    res.status(400).send("Invalid hotel address input");
+    return;
+  }
+
+  if (typeof image_url !== "string") {
+    res.status(400).send("Invalid image url input");
+    return;
+  }
+
+  if (typeof hotel_ratings !== "string") {
+    res.status(400).send("Invalid hotel_id input");
+    return;
+  }
+
+  if (typeof user_email !== "string") {
+    res.status(400).send("Invalid user email input");
+    return;
+  }
+  if (typeof destination_id !== "string") {
+    res.status(400).send("Invalid destination id input");
+    return;
+  }
+  if (typeof search_string !== "string") {
+    res.status(400).send("Invalid search string input");
+    return;
+  }
+
   try {
     //try to insert into bookmark table
     result = await bookmarkModel.insertOne(bookmark);
     if (result == 1) {
-      return res.send("Successfully bookmarked");
+      return res.status(200).send("Successfully bookmarked");
     } else if (result == -1) {
-      return res.send("Already bookmarked");
+      return res.status(401).send("Already bookmarked");
     }
   } catch (error) {
+    res.status(400).send("Database error");
     console.error("database error " + error);
   }
 });
 
 router.get("/allBookmarks/:user_email", async function (req, res, next) {
   userEmail = req.params.user_email;
+
+  // Email format validation (simple regex)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!userEmail || !emailRegex.test(userEmail)) {
+    return res.status(400).send("Invalid email format.");
+  }
+
   try {
     let bookmarks = await bookmarkModel.getAllBookmarksPerUser(userEmail);
     console.log(bookmarks);
@@ -126,10 +173,16 @@ router.get("/allBookmarks/:user_email", async function (req, res, next) {
 router.post("/deleteBookmark", async function (req, res, next) {
   hotelId = req.body.hotel_id;
   user_email = req.body.user_email;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!user_email || !emailRegex.test(user_email)) {
+    return res.status(400).send("Invalid email format.");
+  }
+
   try {
     result = await bookmarkModel.removeHotelBookmark(hotelId, user_email);
     if (result === -1) {
-      res.status(500).send("Error, hotel does not exist in database");
+      res.status(400).send("Error, hotel does not exist in database");
       return;
     }
     res.status(200).send("Deleted");

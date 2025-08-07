@@ -15,6 +15,8 @@ var hotelRoomDataTransferServiceModule = require("../hotel_data/hotel_room_data_
 var filledHotelRoomDataDTOClassList =
   hotelRoomDataTransferServiceModule.hotelRoomDataDTOClassList;
 
+var date_regex = /^\d{4}-\d{2}-\d{2}$/;
+
 // |Main route:                                                                                        |
 // |Displaying List of Hotels with Prices for given duration of stay, destination and number of guests.|
 
@@ -31,41 +33,87 @@ router.get(
       return;
     }
 
-    //Required Request Body Parameters:
-    const destination = req.params.destination_name.replace("_", " ");
-    const checkInDate = req.params.check_in_date;
-    const checkOutDate = req.params.check_out_date;
-    const guestCount = req.params.guest_count;
-    const roomCount = req.params.room_count;
-
-    //set the initialized variable to false everytime, because when we call this endpoint the goal is to initlialize all fields in the DTO, for every single time we search a new destination
-
-    //Await a response from all the API calls and rudimentarily the Ascenda Server. If no data retrieved then log as HTTP 500 Server error.
     try {
-      await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
-        destination,
-        checkInDate,
-        checkOutDate,
-        guestCount,
-        roomCount
-      );
+      //Required Request Body Parameters:
+      const destination = req.params.destination_name.replace("_", " ");
+      const checkInDate = req.params.check_in_date;
+      const checkOutDate = req.params.check_out_date;
+      const guestCount = req.params.guest_count;
+      const roomCount = req.params.room_count;
 
-      if (filledHotelDTOClassList.getIsEmpty() === true) {
-        console.log("here");
-        filledHotelDTOClassList.setIsEmpty(false);
-        res.status(500).send("Internal Server Error");
-      } else {
-        console.log("sending!!!");
-        res.status(200).send({
-          hotelList: filledHotelDTOClassList.getListHotels(),
-          destination_id: filledHotelDTOClassList.getCurrentDestinationId()
-        }); //JSON output seen in POSTMAN
+      console.log("checkin" + checkInDate);
+
+      //check the input fields
+      if (
+        !checkInDate ||
+        !date_regex.test(checkInDate) ||
+        !checkOutDate ||
+        !date_regex.test(checkOutDate)
+      ) {
+        console.log("invalid checkin");
+        return res.status(400).json("Invalid check-in/out date");
       }
-    } catch (error) {
-      res.status(500).json(error + "Internal Server Error");
-    }
 
-    return;
+      //Now, check if check in date is before checkout date
+      yearMonthDaysCheckIn = checkInDate.split("-");
+      yearMonthDaysCheckOut = checkOutDate.split("-");
+
+      let isLess = true;
+      for (let i = 0; i < 3; i++) {
+        if (
+          Number(yearMonthDaysCheckIn[i]) > Number(yearMonthDaysCheckOut[i])
+        ) {
+          isLess = false;
+        }
+      }
+
+      if (isLess === false) {
+        console.log("invalid checkin date too high");
+        return res.status(400).json("Check in date is greater than checkout");
+      }
+
+      if (
+        !guestCount ||
+        !isNaN(guestCount) === false ||
+        !roomCount ||
+        !isNaN(roomCount) === false
+      ) {
+        //unable to coerce to number
+        console.log("invalid guest room count");
+        return res.status(400).json("Invalid guest/room count data types.");
+      }
+
+      //set the initialized variable to false everytime, because when we call this endpoint the goal is to initlialize all fields in the DTO, for every single time we search a new destination
+
+      //Await a response from all the API calls and rudimentarily the Ascenda Server. If no data retrieved then log as HTTP 400 Server error.
+      try {
+        await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+          destination,
+          checkInDate,
+          checkOutDate,
+          guestCount,
+          roomCount
+        );
+
+        if (filledHotelDTOClassList.getIsEmpty() === true) {
+          console.log("here");
+          filledHotelDTOClassList.setIsEmpty(false);
+          res.status(400).send("Internal Server Error");
+        } else {
+          console.log("sending!!!");
+          res.status(200).send({
+            hotelList: filledHotelDTOClassList.getListHotels(),
+            destination_id: filledHotelDTOClassList.getCurrentDestinationId(),
+          }); //JSON output seen in POSTMAN
+        }
+      } catch (error) {
+        res.status(400).json(error + "Internal Server Error");
+      }
+
+      return;
+    } catch (error) {
+      res.status(400).json("Bad Request");
+    }
   }
 );
 
@@ -89,35 +137,77 @@ router.get(
       return;
     }
 
-    const destination = req.params.destination_name.replace("_", " ");
-    const checkInDate = req.params.check_in_date;
-    const checkOutDate = req.params.check_out_date;
-    const guestCount = req.params.guest_count;
-    const roomCount = req.params.room_count;
-    
-
     try {
-      await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
-        destination,
-        checkInDate,
-        checkOutDate,
-        guestCount,
-        roomCount
-      );
+      const destination = req.params.destination_name.replace("_", " ");
+      const checkInDate = req.params.check_in_date;
+      const checkOutDate = req.params.check_out_date;
+      const guestCount = req.params.guest_count;
+      const roomCount = req.params.room_count;
 
-      const hotelList = filledHotelDTOClassList.getListHotels();
+      //check the input fields
 
-      // Filter to only name, rating, address
-      const filteredHotelList = hotelList.map((hotel) => ({
-        name: hotel.keyDetails.name || "N/A",
-        rating: hotel.keyDetails.rating || "N/A",
-        address: hotel.keyDetails.address || hotel.keyDetails.address1 || "N/A",
-      }));
+      if (
+        !checkInDate ||
+        !date_regex.test(checkInDate) ||
+        !checkOutDate ||
+        !date_regex.test(checkOutDate)
+      ) {
+        return res.status(400).json("Invalid check-in/out date");
+      }
 
-      res.send(filteredHotelList);
-      return;
+      //Now, check if check in date is before checkout date
+      yearMonthDaysCheckIn = checkInDate.split("-");
+      yearMonthDaysCheckOut = checkOutDate.split("-");
+
+      let isLess = true;
+      for (let i = 0; i < 3; i++) {
+        if (
+          Number(yearMonthDaysCheckIn[i]) > Number(yearMonthDaysCheckOut[i])
+        ) {
+          isLess = false;
+        }
+      }
+
+      if (isLess === false) {
+        return res.status(400).json("Check in date is greater than checkout");
+      }
+
+      if (
+        !guestCount ||
+        !isNaN(guestCount) === false ||
+        !roomCount ||
+        !isNaN(roomCount) === false
+      ) {
+        //unable to coerce to number
+        return res.status(400).json("Invalid guest/room count data types.");
+      }
+
+      try {
+        await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+          destination,
+          checkInDate,
+          checkOutDate,
+          guestCount,
+          roomCount
+        );
+
+        const hotelList = filledHotelDTOClassList.getListHotels();
+
+        // Filter to only name, rating, address
+        const filteredHotelList = hotelList.map((hotel) => ({
+          name: hotel.keyDetails.name || "N/A",
+          rating: hotel.keyDetails.rating || "N/A",
+          address:
+            hotel.keyDetails.address || hotel.keyDetails.address1 || "N/A",
+        }));
+
+        res.send(filteredHotelList);
+        return;
+      } catch (error) {
+        res.status(400).json(error + "Internal Server Error");
+      }
     } catch (error) {
-      res.status(500).json(error + "Internal Server Error");
+      res.status(400).json("Bad Request");
     }
   }
 );
@@ -138,65 +228,109 @@ router.get(
       return;
     }
 
-    const destination = req.params.destination_name.replace("_", " ");
-    const checkInDate = req.params.check_in_date;
-    const checkOutDate = req.params.check_out_date;
-    const guestCount = req.params.guest_count;
-    const roomCount = req.params.room_count;
-
     try {
-      await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
-        destination,
-        checkInDate,
-        checkOutDate,
-        guestCount,
-        roomCount
-      );
+      const destination = req.params.destination_name.replace("_", " ");
+      const checkInDate = req.params.check_in_date;
+      const checkOutDate = req.params.check_out_date;
+      const guestCount = req.params.guest_count;
+      const roomCount = req.params.room_count;
 
-      const hotelList = filledHotelDTOClassList.getListHotels();
+      //check the input fields
 
-      const filteredHotelList = hotelList.map((hotel) => {
-        const keyDetails = hotel.keyDetails || hotel.getKeyDetails?.() || {};
-        const amenities =
-          hotel.amenities && hotel.amenities.amenities
-            ? hotel.amenities.amenities
-            : {};
-        const trustYouScores =
-          hotel.trustYouBenchmark &&
-          hotel.trustYouBenchmark.score &&
-          hotel.trustYouBenchmark.score.score
-            ? hotel.trustYouBenchmark.score.score
-            : {};
-        const price =
-          hotel.pricingRankingData && hotel.pricingRankingData.price
-            ? hotel.pricingRankingData.price
-            : "N/A";
+      if (
+        !checkInDate ||
+        !date_regex.test(checkInDate) ||
+        !checkOutDate ||
+        !date_regex.test(checkOutDate)
+      ) {
+        console.log("invalid checkin");
+        return res.status(400).json("Invalid check-in/out date");
+      }
 
-        return {
-          name: keyDetails.name || "N/A",
-          address: keyDetails.address || keyDetails.address1 || "N/A",
-          rating: keyDetails.rating || "N/A",
-          description: keyDetails.description || "N/A",
-          check_in_time: keyDetails.checkinTime || "N/A",
-          amenities: amenities,
-          scores: {
-            overall: trustYouScores.overall ?? "N/A",
-            kaligo_overall: trustYouScores.kaligo_overall ?? "N/A",
-            solo: trustYouScores.solo ?? "N/A",
-            couple: trustYouScores.couple ?? "N/A",
-            family: trustYouScores.family ?? "N/A",
-            business: trustYouScores.business ?? "N/A",
-          },
-          price: price,
-        };
-      });
+      //Now, check if check in date is before checkout date
+      yearMonthDaysCheckIn = checkInDate.split("-");
+      yearMonthDaysCheckOut = checkOutDate.split("-");
 
-      res.json(filteredHotelList);
+      let isLess = true;
+      for (let i = 0; i < 3; i++) {
+        if (
+          Number(yearMonthDaysCheckIn[i]) > Number(yearMonthDaysCheckOut[i])
+        ) {
+          isLess = false;
+        }
+      }
+
+      if (isLess === false) {
+        return res.status(400).json("Check in date is greater than checkout");
+      }
+
+      if (
+        !guestCount ||
+        !isNaN(guestCount) === false ||
+        !roomCount ||
+        !isNaN(roomCount) === false
+      ) {
+        //unable to coerce to number
+        console.log("invalid guest count");
+        return res.status(400).json("Invalid guest/room count data types.");
+      }
+
+      try {
+        await hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination(
+          destination,
+          checkInDate,
+          checkOutDate,
+          guestCount,
+          roomCount
+        );
+
+        const hotelList = filledHotelDTOClassList.getListHotels();
+
+        const filteredHotelList = hotelList.map((hotel) => {
+          const keyDetails = hotel.keyDetails || hotel.getKeyDetails?.() || {};
+          const amenities =
+            hotel.amenities && hotel.amenities.amenities
+              ? hotel.amenities.amenities
+              : {};
+          const trustYouScores =
+            hotel.trustYouBenchmark &&
+            hotel.trustYouBenchmark.score &&
+            hotel.trustYouBenchmark.score.score
+              ? hotel.trustYouBenchmark.score.score
+              : {};
+          const price =
+            hotel.pricingRankingData && hotel.pricingRankingData.price
+              ? hotel.pricingRankingData.price
+              : "N/A";
+
+          return {
+            name: keyDetails.name || "N/A",
+            address: keyDetails.address || keyDetails.address1 || "N/A",
+            rating: keyDetails.rating || "N/A",
+            description: keyDetails.description || "N/A",
+            check_in_time: keyDetails.checkinTime || "N/A",
+            amenities: amenities,
+            scores: {
+              overall: trustYouScores.overall ?? "N/A",
+              kaligo_overall: trustYouScores.kaligo_overall ?? "N/A",
+              solo: trustYouScores.solo ?? "N/A",
+              couple: trustYouScores.couple ?? "N/A",
+              family: trustYouScores.family ?? "N/A",
+              business: trustYouScores.business ?? "N/A",
+            },
+            price: price,
+          };
+        });
+
+        res.json(filteredHotelList);
+        return;
+      } catch (error) {
+        res.status(400).json(error + "Internal Server Error");
+      }
       return;
     } catch (error) {
-      res.status(500).json(error + "Internal Server Error");
+      res.status(400).json("Bad request");
     }
-    return;
   }
 );
 
@@ -250,13 +384,18 @@ router.get("/hotel/:hotel_id", async function (req, res, next) {
       );
     return;
   }
+  try {
+    const hotelId = req.params.hotel_id;
 
-  const hotelId = req.params.hotel_id;
+    const result =
+      await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(
+        hotelId
+      );
 
-  const result =
-    await hotelRoomDataTransferServiceModule.getSingleHotelDetailsWithoutPrice(hotelId);
-    
-  res.json(result);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json("Bad Request");
+  }
 });
 
 //Get the room pricings for a specific hotel, at a specific destination
@@ -275,31 +414,72 @@ router.get(
       return;
     }
 
-    const hotelId = req.params.hotel_id;
-    const destinationId = req.params.destination_id;
-    const checkInDate = req.params.check_in_date;
-    const checkOutDate = req.params.check_out_date;
-    const guestCount = req.params.guest_count;
-    const roomCount = req.params.room_count;
+    try {
+      const hotelId = req.params.hotel_id;
+      const destinationId = req.params.destination_id;
+      const checkInDate = req.params.check_in_date;
+      const checkOutDate = req.params.check_out_date;
+      const guestCount = req.params.guest_count;
+      const roomCount = req.params.room_count;
 
-    const result =
-      await hotelRoomDataTransferServiceModule.getSingleHotelPriceDetails(
-        hotelId,
-        destinationId,
-        checkInDate,
-        checkOutDate,
-        guestCount,
-        roomCount
-      );
+      //check the input fields
+      if (
+        !checkInDate ||
+        !date_regex.test(checkInDate) ||
+        !checkOutDate ||
+        !date_regex.test(checkOutDate)
+      ) {
+        return res.status(400).send("Invalid checkin checkout");
+      }
 
-    if (result === -1) {
-      //No rooms were avaialable, hence return an error 500.
-      res.status(500).send("Server Error, unable to retrieve rooms");
+      //Now, check if check in date is before checkout date
+      yearMonthDaysCheckIn = checkInDate.split("-");
+      yearMonthDaysCheckOut = checkOutDate.split("-");
+
+      let isLess = true;
+      for (let i = 0; i < 3; i++) {
+        if (
+          Number(yearMonthDaysCheckIn[i]) > Number(yearMonthDaysCheckOut[i])
+        ) {
+          isLess = false;
+        }
+      }
+
+      if (isLess === false) {
+        return res.status(400).json("Check in date is greater than checkout");
+      }
+
+      if (
+        !guestCount ||
+        !isNaN(guestCount) === false ||
+        !roomCount ||
+        !isNaN(roomCount) === false
+      ) {
+        //unable to coerce to number
+        return res.status(400).json("Invalid guest/room count data types.");
+      }
+
+      const result =
+        await hotelRoomDataTransferServiceModule.getSingleHotelPriceDetails(
+          hotelId,
+          destinationId,
+          checkInDate,
+          checkOutDate,
+          guestCount,
+          roomCount
+        );
+
+      if (result === -1) {
+        //No rooms were avaialable, hence return an error 400.
+        res.status(400).send("Server Error, unable to retrieve rooms");
+        return;
+      }
+
+      res.status(200).send(filledHotelRoomDataDTOClassList.getListHotelRooms());
       return;
+    } catch (error) {
+      res.status(400).json("Bad Request");
     }
-
-    res.status(200).send(filledHotelRoomDataDTOClassList.getListHotelRooms());
-    return;
   }
 );
 
@@ -322,11 +502,28 @@ router.get("/string/:searchLiteral", async function (req, res, next) {
   }
 
   const searchString = req.params.searchLiteral;
-  allDestinationNames = await destinationModel.findAllDestinations();
-  const fuse = new Fuse(allDestinationNames, options);
-  result = fuse.search(searchString, { limit: 10 });
 
-  res.send(result);
+  const regexFormat =
+    /^([A-Za-z]{2,}(?: [A-Za-z]{2,})*)(?: ?, ([A-Za-z]{2,}(?: [A-Za-z]{2,})*))*$/;
+
+  if (!searchString || !regexFormat.test(searchString)) {
+    return res.status(400).json("Invalid search format");
+  }
+
+  try {
+    const allDestinationNames = await destinationModel.findAllDestinations();
+    const fuse = new Fuse(allDestinationNames, options);
+    const result = await fuse.search(searchString, { limit: 10 });
+
+    if (!result) {
+      return res.status(400).json("Bad Search Request");
+    }
+
+    res.send(result);
+  } catch (err) {
+    console.error("Error during /search/string/:searchLiteral:", err);
+    res.status(400).json("Error processing search");
+  }
 });
 
 router.get("/hotels/images", async function (req, res, next) {

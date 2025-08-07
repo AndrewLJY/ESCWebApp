@@ -1,6 +1,11 @@
 const db = require("./db.js");
-const userModel = require("./user.js");
-const tableName = "bookmark";
+var tableName;
+
+if (process.env.NODE_ENV !== "test") {
+  tableName = "bookmark";
+} else {
+  tableName = "bookmark_test_table";
+}
 
 class Bookmark {
   constructor(

@@ -170,7 +170,7 @@ class HotelDataDTOClassList {
   getCurrentDestinationId() {
     return this.currentSearchDestinationId;
   }
-  
+
   getCurrentGuestCount() {
     return this.currentGuestCount;
   }
@@ -197,6 +197,19 @@ var hotelDataDTOClassList = new HotelDataDTOClassList(); //Declare with Global S
 // |Helper Functions Start--------------------------------------------------------------------------------|
 
 async function getHotelID(term, jsonData) {
+  if (term.length < 4) {
+    return -1;
+  }
+  for (let symbol of "! @ # % ^ & * ( ) _ + } | : ? > < ~ / ] [ ; : . - = \\".split()) {
+    if (term.includes(symbol)) {
+      return -1;
+    }
+  }
+
+  if (!/[a-zA-Z]/.test(term)) {
+    return -1;
+  }
+
   let destination = jsonData.find((item) => item.term == term);
   if (destination) {
     let uid = destination.uid;

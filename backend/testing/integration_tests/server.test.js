@@ -5,7 +5,7 @@ const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
 process.env.INTEGRATION_TEST = "true";
 process.env.NODE_ENV = "test";
 
-//Testing destination search
+//Integration tests for destination search
 describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all variables for HotelDTO)", () => {
   jest.setTimeout(60000);
 
@@ -24,8 +24,8 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
   test("Should return partial data without pricing details if price API is unavailable.", async () => {
     const requestBody = {
       destination_name: "Singapore,_Singapore",
-      check_in_date: "25-10-11",
-      check_out_date: "25-10-17",
+      check_in_date: "2025-10-11",
+      check_out_date: "2025-10-17",
       language: "en_US",
       currency: "SGD",
       guest_count: "2",
@@ -204,9 +204,9 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       )
       .expect(200); //Expect a 200 Status OK
 
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(Array.isArray(response.body.hotelList)).toBe(true);
 
-    response.body.forEach((jsonHotelBody) => {
+    response.body.hotelList.forEach((jsonHotelBody) => {
       expect(jsonHotelBody).toHaveProperty("keyDetails");
       expect(jsonHotelBody).toHaveProperty("originalMetaData");
       expect(jsonHotelBody).toHaveProperty("trustYouBenchmark");
@@ -325,14 +325,14 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       },
     };
 
-    expect(response.body)[0] = expectedFirstResource;
+    expect(response.body.hotelList)[0] = expectedFirstResource;
   });
 
-  test("Should return a 500 server error if the retrieved data is null, and exceeding maximum of 4 fetch attempts.", async () => {
+  test("Should return a 400 server error if the retrieved data is null, and exceeding maximum of 4 fetch attempts.", async () => {
     const requestBody = {
       destination_name: "Singapore,_Singapore",
-      check_in_date: "25-10-11",
-      check_out_date: "25-10-17",
+      check_in_date: "2025-10-11",
+      check_out_date: "2025-10-17",
       language: "en_US",
       currency: "SGD",
       guest_count: "2",
@@ -365,14 +365,14 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       .get(
         `/search/${requestBody.destination_name}/${requestBody.check_in_date}/${requestBody.check_out_date}/${requestBody.guest_count}/${requestBody.room_count}`
       )
-      .expect(500); //Expect a 200 Status OK
+      .expect(400); //Expect a 200 Status OK
   });
 
   test("Should return entire suite of data if both destination and prices API by Ascenda are working.", async () => {
     const requestBody = {
       destination_name: "Singapore,_Singapore",
-      check_in_date: "25-10-11",
-      check_out_date: "25-10-17",
+      check_in_date: "2025-10-11",
+      check_out_date: "2025-10-17",
       language: "en_US",
       currency: "SGD",
       guest_count: "2",
@@ -522,9 +522,9 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       )
       .expect(200); //Expect a 200 Status OK
 
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(Array.isArray(response.body.hotelList)).toBe(true);
 
-    response.body.forEach((jsonHotelBody) => {
+    response.body.hotelList.forEach((jsonHotelBody) => {
       expect(jsonHotelBody).toHaveProperty("keyDetails");
       expect(jsonHotelBody).toHaveProperty("originalMetaData");
       expect(jsonHotelBody).toHaveProperty("trustYouBenchmark");
@@ -661,7 +661,7 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       },
     };
 
-    expect(response.body)[0] = expectedFirstResource;
+    expect(response.body.hotelList)[0] = expectedFirstResource;
   });
 });
 
@@ -737,8 +737,8 @@ describe("(BLACK-BOX INTEGRATION) GET /search/images (API to return the images o
   });
 });
 
+//Integration tests for user login and register
 const db = require("../../models/db");
-
 //Testing user.js /login and /register routes
 //Steps:
 //1. Try to login with a user credentials which do not exist in the database (should return 401 unauthorized)
@@ -808,6 +808,7 @@ describe("(BLACK-BOX INTEGRATION) Testing user registration and login", () => {
   });
 });
 
+//Integration tests for hotel room data retrieval
 //Testing Hotel room details listing
 describe("(GREY-BOX INTEGRATION) GET /search/hotel/prices (API to return the room details for a specific hotel)", () => {
   test("Should return entire suite of data if the API is working, simulated after 3 tries of fetch failure.", async () => {
@@ -1010,7 +1011,7 @@ describe("(GREY-BOX INTEGRATION) GET /search/hotel/prices (API to return the roo
     expect(response)[0] = expectedOutput;
   });
 
-  test("Should return error 500 if the API is unavailable, after exceeding maximum fetch attempts of 4 tries.", async () => {
+  test("Should return error 400 if the API is unavailable, after exceeding maximum fetch attempts of 4 tries.", async () => {
     global.fetch
       .mockResolvedValueOnce({
         ok: true,
@@ -1061,6 +1062,302 @@ describe("(GREY-BOX INTEGRATION) GET /search/hotel/prices (API to return the roo
       .get(
         `/search/hotel/prices/${requestParameters.hotel_id}/${requestParameters.destination_id}/${requestParameters.check_in_date}/${requestParameters.check_out_date}/${requestParameters.guest_count}/${requestParameters.room_count}`
       )
-      .expect(500);
+      .expect(400);
+  });
+});
+
+//Integration Tests for Bookmark feature
+
+describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel bookmark", () => {
+  //Create a test db table for these tests
+  async function createTestDbTable() {
+    try {
+      // for simplicity, we assume staff names are uniqe (in the absence of NRIC or personal email)
+      await db.pool.query(`
+          CREATE TABLE IF NOT EXISTS BOOKMARK_TEST_TABLE (
+              id INTEGER AUTO_INCREMENT,
+              hotel_id VARCHAR(255),
+              hotel_name VARCHAR(255),
+              hotel_address VARCHAR(255),
+              image_url VARCHAR(255),
+              hotel_ratings VARCHAR(255),
+              user_email VARCHAR(255),
+              destination_id VARCHAR (255),
+              search_string VARCHAR (255),
+              PRIMARY KEY (id, hotel_id)
+          )
+          `);
+      console.log("Test database initialised for tests");
+    } catch (error) {
+      console.error("database connection failed. ", error);
+      throw error;
+    }
+  }
+
+  async function teardownDatabaseValues() {
+    try {
+      db.pool.query(`
+			DROP TABLE IF EXISTS BOOKMARK_TEST_TABLE
+			`);
+    } catch (error) {
+      console.error("database connection failed", error);
+      throw error;
+    }
+  }
+
+  //Make sure no stray values in database for testing purposes.
+
+  beforeAll(async () => {
+    while (!db.verifyConnection()) {
+      console.log("Verifying db connection...");
+    }
+  });
+
+  beforeAll(async () => {
+    return await createTestDbTable();
+  });
+
+  test("If the key value pair of (hotel, user email) is not present in the database, means that hotel is not yet included in user's bookmarks. Should add it to database.", async () => {
+    testrequestData = {
+      hotel_id: "190",
+      hotel_name: "The Fillerton Hutel",
+      hotel_address: "One Waffles Place",
+      image_url: "N/A",
+      hotel_ratings: "0.1",
+      user_email: "jhonnyboy@gmail.com",
+      search_string: "search/xyz/destination=abc",
+      destination_id: "RsBU",
+    };
+
+    await request(app)
+      .post("/auth/bookmarks/")
+      .send(testrequestData)
+      .expect(200);
+  });
+
+  test("Now hotel data is present in database. Should return error (401) if same current user tries to bookmark it again", async () => {
+    testrequestData = {
+      hotel_id: "190",
+      hotel_name: "The Fillerton Hutel",
+      hotel_address: "One Waffles Place",
+      image_url: "N/A",
+      hotel_ratings: "0.1",
+      user_email: "jhonnyboy@gmail.com",
+      search_string: "search/xyz/destination=abc",
+      destination_id: "RsBU",
+    };
+
+    await request(app)
+      .post("/auth/bookmarks")
+      .send(testrequestData)
+      .expect(401);
+  });
+
+  test("Now, logged in as a different user. Bookmarking the same hotel but since value pair of (hotel, user email) does not yet exist for this new user, this user should be able to bookmark the hotel", async () => {
+    testrequestData = {
+      hotel_id: "190",
+      hotel_name: "The Fillerton Hutel",
+      hotel_address: "One Waffles Place",
+      image_url: "N/A",
+      hotel_ratings: "0.1",
+      user_email: "jennygirl@gmail.com",
+      search_string: "search/xyz/destination=abc",
+      destination_id: "RsBU",
+    };
+
+    await request(app)
+      .post("/auth/bookmarks")
+      .send(testrequestData)
+      .expect(200);
+  });
+
+  afterAll(async () => {
+    await teardownDatabaseValues();
+  });
+});
+
+describe("(GREY BOX INTEGRATION) GET /auth/AllBookmarks (API to return all of the bookmarked hotels registered under one user's email", () => {
+  async function createTestDbTable() {
+    try {
+      // for simplicity, we assume staff names are uniqe (in the absence of NRIC or personal email)
+      await db.pool.query(`
+          CREATE TABLE IF NOT EXISTS BOOKMARK_TEST_TABLE (
+              id INTEGER AUTO_INCREMENT,
+              hotel_id VARCHAR(255),
+              hotel_name VARCHAR(255),
+              hotel_address VARCHAR(255),
+              image_url VARCHAR(255),
+              hotel_ratings VARCHAR(255),
+              user_email VARCHAR(255),
+              destination_id VARCHAR (255),
+              search_string VARCHAR (255),
+              PRIMARY KEY (id, hotel_id)
+          )
+          `);
+      console.log("Test database initialised for tests");
+    } catch (error) {
+      console.error("database connection failed. ", error);
+      throw error;
+    }
+  }
+
+  async function teardownDatabaseValues() {
+    try {
+      db.pool.query(`
+			DROP TABLE IF EXISTS BOOKMARK_TEST_TABLE
+			`);
+    } catch (error) {
+      console.error("database connection failed", error);
+      throw error;
+    }
+  }
+
+  //Make sure no stray values in database for testing purposes.
+
+  beforeAll(async () => {
+    while (!db.verifyConnection()) {
+      console.log("Verifying db connection...");
+    }
+  });
+
+  beforeAll(async () => {
+    return await createTestDbTable();
+  });
+
+  test("If a user has bookmarked a number of hotels, should return all of them registered under his/her email", async () => {
+    testrequestData = {
+      hotel_id: "190",
+      hotel_name: "The Fillerton Hutel",
+      hotel_address: "One Waffles Place",
+      image_url: "N/A",
+      hotel_ratings: "0.1",
+      user_email: "jennygirl@gmail.com",
+      search_string: "search/xyz/destination=abc",
+      destination_id: "RsBU",
+    };
+    testrequestData1 = {
+      hotel_id: "191",
+      hotel_name: "The Fillertoni Hutol",
+      hotel_address: "One Waffles Area",
+      image_url: "N/A",
+      hotel_ratings: "0.1",
+      user_email: "jennygirl@gmail.com",
+      search_string: "search/xyz/destination=abc",
+      destination_id: "RsBU",
+    };
+    testrequestData2 = {
+      hotel_id: "192",
+      hotel_name: "The Follerton Hitel",
+      hotel_address: "One Pancake Place",
+      image_url: "N/A",
+      hotel_ratings: "0.1",
+      user_email: "jennygirl@gmail.com",
+      search_string: "search/xyz/destination=abc",
+      destination_id: "RsBU",
+    };
+    testrequestData3 = {
+      hotel_id: "193",
+      hotel_name: "The Fillertini Hatel",
+      hotel_address: "One Fried Place",
+      image_url: "N/A",
+      hotel_ratings: "0.1",
+      user_email: "jennygirl@gmail.com",
+      search_string: "search/xyz/destination=abc",
+      destination_id: "RsBU",
+    };
+    testrequestData4 = {
+      hotel_id: "194",
+      hotel_name: "The Fallerten's Hetel",
+      hotel_address: "One Shit Place",
+      image_url: "N/A",
+      hotel_ratings: "0.1",
+      user_email: "jennygirl@gmail.com",
+      search_string: "search/xyz/destination=abc",
+      destination_id: "RsBU",
+    };
+
+    //Above integration test for adding unique hotel bookmarks for the same user should pass before this.
+    await request(app)
+      .post("/auth/bookmarks")
+      .send(testrequestData)
+      .expect(200);
+    await request(app)
+      .post("/auth/bookmarks")
+      .send(testrequestData1)
+      .expect(200);
+    await request(app)
+      .post("/auth/bookmarks")
+      .send(testrequestData2)
+      .expect(200);
+    await request(app)
+      .post("/auth/bookmarks")
+      .send(testrequestData3)
+      .expect(200);
+    await request(app)
+      .post("/auth/bookmarks")
+      .send(testrequestData4)
+      .expect(200);
+
+    expectedOutput = [
+      {
+        hotel_id: "190",
+        hotel_name: "The Fillerton Hutel",
+        hotel_address: "One Waffles Place",
+        image_url: "N/A",
+        hotel_ratings: "0.1",
+        user_email: "jennygirl@gmail.com",
+        search_string: "search/xyz/destination=abc",
+        destination_id: "RsBU",
+      },
+      {
+        hotel_id: "191",
+        hotel_name: "The Fillertoni Hutol",
+        hotel_address: "One Waffles Area",
+        image_url: "N/A",
+        hotel_ratings: "0.1",
+        user_email: "jennygirl@gmail.com",
+        search_string: "search/xyz/destination=abc",
+        destination_id: "RsBU",
+      },
+      {
+        hotel_id: "192",
+        hotel_name: "The Follerton Hitel",
+        hotel_address: "One Pancake Place",
+        image_url: "N/A",
+        hotel_ratings: "0.1",
+        user_email: "jennygirl@gmail.com",
+        search_string: "search/xyz/destination=abc",
+        destination_id: "RsBU",
+      },
+      {
+        hotel_id: "193",
+        hotel_name: "The Fillertini Hatel",
+        hotel_address: "One Fried Place",
+        image_url: "N/A",
+        hotel_ratings: "0.1",
+        user_email: "jennygirl@gmail.com",
+        search_string: "search/xyz/destination=abc",
+        destination_id: "RsBU",
+      },
+      {
+        hotel_id: "194",
+        hotel_name: "The Fallerten's Hetel",
+        hotel_address: "One Shit Place",
+        image_url: "N/A",
+        hotel_ratings: "0.1",
+        user_email: "jennygirl@gmail.com",
+        search_string: "search/xyz/destination=abc",
+        destination_id: "RsBU",
+      },
+    ];
+
+    const result = await request(app)
+      .get(`/auth/allBookmarks/${testrequestData.user_email}`)
+      .expect(200);
+    expect(result.body).toStrictEqual(expectedOutput);
+  });
+
+  afterAll(async () => {
+    await teardownDatabaseValues();
   });
 });
