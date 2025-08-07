@@ -410,14 +410,16 @@ export default function HotelDetailPage() {
                   {isAuthenticated() && (
                     <BookmarkButton
                       hotel={{
-                        id: hotelDetails.keyDetails.id,
-                        name: hotelDetails.keyDetails.name,
-                        address: hotelDetails.keyDetails.address,
-                        rating: hotelDetails.keyDetails.rating,
-                        price: hotelDetails.keyDetails.price,
-                        imageUrl:
+                        hotel_id: hotelDetails.keyDetails.id,
+                        hotel_name: hotelDetails.keyDetails.name,
+                        hotel_address: hotelDetails.keyDetails.address,
+                        hotel_ratings: hotelDetails.keyDetails.rating,
+                        price: hotelDetails.keyDetails.hotel_price,
+                        image_url:
                           hotelDetails.imageDetails?.stitchedImageUrls?.[0] ||
                           "https://via.placeholder.com/300x200?text=No+Image",
+                        user_email: JSON.parse(localStorage.getItem("user"))
+                          .email,
                       }}
                     />
                   )}
@@ -529,7 +531,12 @@ export default function HotelDetailPage() {
                           id="room_img"
                         />
                       ) : (
-                        <div className="w-100 h-40"></div>
+                        <div
+                          className="w-100 p-5 text-center align-middle"
+                          style={{ minHeight: "40%" }}
+                        >
+                          <p>No Image Available</p>
+                        </div>
                       )}
 
                       <div className="p-3 h-100 d-flex flex-column justify-content-between text-start">
