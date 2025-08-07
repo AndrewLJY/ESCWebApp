@@ -109,6 +109,9 @@
 .sp-filter-bar .sp-filter-search-btn:hover {
   background: #005a9e;
 }
+.sp-filter-bar .col{
+  margin: 0;
+}
 
 /* Autocomplete suggestions dropdown */
 .suggestions-dropdown {

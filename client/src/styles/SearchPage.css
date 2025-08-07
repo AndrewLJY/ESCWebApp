@@ -53,6 +53,10 @@ body {
   padding-top: 1rem;
 }
 
+.search-and-filter {
+  margin-bottom: 2rem;
+}
+
 /* Filter bar */
 .filter-bar-wrapper {
   position: absolute;
@@ -61,15 +65,34 @@ body {
   display: flex;
   justify-content: center;
   padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 /* Results */
 .sp-results {
   margin: 2% auto;
   padding: 1rem 2rem;
-  width: 70%;
+  width: 90%;
 }
-.hotel-card {
+
+.results-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.sorting-sidebar {
+  flex: 0 0 300px;
+  position: sticky;
+  top: 2rem;
+}
+
+.hotel-results {
+  flex: 1;
+}
+.hotel-results .hotel-card {
   display: flex;
   align-items: center;
   background: #fff;
@@ -120,6 +143,17 @@ body {
 }
 .btn.book-small:hover {
   background: #005a9e;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 2rem;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
 }
 
 /* Blur main when login/signup open */

@@ -109,3 +109,6 @@
 .overflow-hidden{
   max-height: 8vh;
 }
+.filter-label{
+  font-size: 13px;
+}
