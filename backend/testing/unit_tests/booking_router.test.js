@@ -25,7 +25,7 @@ describe("(WHITE-BOX UNIT) Testing the booking.js router endpoint, ensure that w
       total_price: 450,
       user_id: 1,
       full_name: "Alice Tan",
-      payment_id: "P202508051"
+      payment_id: "P202508051",
     };
 
     const response = await request(app)
@@ -53,7 +53,7 @@ describe("(WHITE-BOX UNIT) Testing the booking.js router endpoint, ensure that w
       total_price: 300,
       user_id: 5,
       full_name: "John Doe",
-      payment_id: "P123456"
+      payment_id: "P123456",
     };
 
     const response = await request(app)
@@ -66,7 +66,9 @@ describe("(WHITE-BOX UNIT) Testing the booking.js router endpoint, ensure that w
 
   test("Testing /booking endpoint with database error, should return 400 error", async () => {
     // Mock the insertOne function to throw an error
-    bookingModel.insertOne = jest.fn().mockRejectedValue(new Error("Database connection failed"));
+    bookingModel.insertOne = jest
+      .fn()
+      .mockRejectedValue(new Error("Database connection failed"));
 
     const bookingData = {
       id: 2,
@@ -81,7 +83,7 @@ describe("(WHITE-BOX UNIT) Testing the booking.js router endpoint, ensure that w
       total_price: 200,
       user_id: 3,
       full_name: "Jane Smith",
-      payment_id: "P789012"
+      payment_id: "P789012",
     };
 
     const response = await request(app)
@@ -102,22 +104,18 @@ describe("(BLACK-BOX UNIT) Testing /booking endpoint with various inputs", () =>
   test("Testing /booking with missing some fields, should return a response", async () => {
     const incompleteData = {
       id: 1,
-      hotel_id: "H001"
+      hotel_id: "H001",
       // Missing other fields
     };
 
-    const response = await request(app)
-      .post("/booking")
-      .send(incompleteData);
+    const response = await request(app).post("/booking").send(incompleteData);
 
     expect(response.status).toBeGreaterThanOrEqual(200);
     expect(response.status).toBeLessThanOrEqual(400);
   });
 
   test("Testing /booking with empty request body, should return a response", async () => {
-    const response = await request(app)
-      .post("/booking")
-      .send({});
+    const response = await request(app).post("/booking").send({});
 
     expect(response.status).toBeGreaterThanOrEqual(200);
     expect(response.status).toBeLessThanOrEqual(400);
@@ -137,7 +135,7 @@ describe("(BLACK-BOX UNIT) Testing /booking endpoint with various inputs", () =>
       total_price: "450",
       user_id: "5",
       full_name: "Test User",
-      payment_id: "P123456"
+      payment_id: "P123456",
     };
 
     const response = await request(app)
@@ -162,15 +160,12 @@ describe("(BLACK-BOX UNIT) Testing /booking endpoint with various inputs", () =>
       total_price: 450,
       user_id: 5,
       full_name: "Test User",
-      payment_id: "P123456"
+      payment_id: "P123456",
     };
 
-    const response = await request(app)
-      .post("/booking")
-      .send(bookingData);
+    const response = await request(app).post("/booking").send(bookingData);
 
     expect(response.status).toBeGreaterThanOrEqual(200);
     expect(response.status).toBeLessThanOrEqual(400);
   });
 });
-

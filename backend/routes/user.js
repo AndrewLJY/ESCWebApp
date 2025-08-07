@@ -7,6 +7,9 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = require("../../backend/auth_middleware/auth_middleware.js");
 
+var validEmail =
+  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 // router.post('/submit/', async function(req, res, next) {
 //     const name = req.body.email;
 //     const code = req.body.password;
@@ -57,7 +60,15 @@ router.post("/login/", async function (req, res, next) {
   const result = await userModel.login(email, password);
   console.log("RESULT IS :" + result);
   if (result.success) {
-    const token = jwt.sign(JSON.stringify(user), process.env.SECRET_TOKEN);
+    console.log("Success!");
+
+    let token;
+
+    if (process.env.NODE_ENV === "test") {
+      token = "test-token";
+    } else {
+      token = jwt.sign(JSON.stringify(user), process.env.SECRET_TOKEN);
+    }
 
     output = {
       user: JSON.stringify(user),
@@ -101,43 +112,51 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
   );
 
   //Check for the proper types
-  if (typeof hotel_id !== "string") {
-    res.status(400).send("Invalid hotel id input");
-    return;
+
+  if (!image_url.slice(0, 4).includes("http")) {
+    console.log("inmage url");
+    return res.status(400).json("Invalid image url input");
   }
 
-  if (typeof hotel_name !== "string") {
-    res.status(400).send("Invalid hotel name input");
-    return;
+  if (hotel_id.length !== 4) {
+    console.log("hotel id");
+    return res.status(400).json("Invalid hotel id");
   }
 
-  if (typeof hotel_address !== "string") {
-    res.status(400).send("Invalid hotel address input");
-    return;
+  let count = 0;
+  for (let i = 0; i < hotel_id.length; i++) {
+    if (!isNaN(hotel_id.charAt(i))) {
+      count += 1;
+    }
+    if (count > 2) {
+      console.log("hotelid");
+      return res.status(400).json("Invalid hotel id");
+    }
   }
 
-  if (typeof image_url !== "string") {
-    res.status(400).send("Invalid image url input");
-    return;
+  if (Number(hotel_ratings) < 0 || Number(hotel_ratings) > 5) {
+    console.log("ratings");
+    return res.status(400).json("Invalid ratings");
   }
 
-  if (typeof hotel_ratings !== "string") {
-    res.status(400).send("Invalid hotel_id input");
-    return;
+  console.log(image_url.slice(image_url.length - 3, image_url.length));
+  console.log("url", image_url);
+  if (
+    !image_url.slice(image_url.length - 5, image_url.length).includes(".jpg")
+  ) {
+    console.log("image url");
+    return res.status(400).json("Invalid Image url");
   }
 
-  if (typeof user_email !== "string") {
-    res.status(400).send("Invalid user email input");
-    return;
+  if (!validEmail.test(user_email)) {
+    console.log("email");
+    return res.status(400).json("Invalid email");
   }
-  if (typeof destination_id !== "string") {
-    res.status(400).send("Invalid destination id input");
-    return;
-  }
-  if (typeof search_string !== "string") {
-    res.status(400).send("Invalid search string input");
-    return;
-  }
+
+  // if (!search_string.slice(0, 10).includes("localhost:5173")) {
+  //   console.log("search string");
+  //   return res.status(400).json("Invalid search string");
+  // }
 
   try {
     //try to insert into bookmark table
