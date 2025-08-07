@@ -1,125 +1,163 @@
 // src/test/SearchPage.test.jsx
-//integration test
+jest.mock("../assets/ascenda_logo.png", () => "mock-logo.png");
+jest.mock("../middleware/searchApi", () => ({
+  searchHotelsAPI: jest.fn(),
+}));
+
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import SearchPage from "../pages/SearchPage";
-
-// Mock the search API
-jest.mock("../middleware/searchApi", () => ({
-  searchHotelsAPI: jest.fn(() =>
-    Promise.resolve({
-      data: {
-        hotels: [
-          {
-            keyDetails: {
-              id: 1,
-              name: "Hotel Ascenda",
-              address: "123 Beach Road, Singapore",
-              distance: 5,
-              rating: 4,
-              price: 200,
-            },
-            imageDetails: {
-              imageCounts: 1,
-              stitchedImageUrls: ["https://mockimg.com/hotel.jpg"],
-            },
-          },
-        ],
-      },
-    })
-  ),
-}));
-
-// Mock useNavigate
-const mockNavigate = jest.fn();
-jest.mock("react-router-dom", () => {
-  const actual = jest.requireActual("react-router-dom");
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  };
-});
+import { searchHotelsAPI } from "../middleware/searchApi";
 
 describe("SearchPage Integration Tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    global.alert = jest.fn();
   });
 
-  test("❌ Shows alert when both location and hotel are missing", async () => {
+  it("shows an error message when both location and hotel are missing", async () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={["/search"]}>
         <SearchPage />
       </MemoryRouter>
     );
 
-    fireEvent.change(screen.getByPlaceholderText("Location"), {
-      target: { value: "" },
-    });
+    // Should immediately show the error
+    expect(
+      await screen.findByText("Invalid search parameters, please re-enter")
+    ).toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText("Hotel name"), {
-      target: { value: "" },
-    });
-
-    fireEvent.change(screen.getByPlaceholderText("Check-in"), {
-      target: { value: "2025-08-01" },
-    });
-
-    fireEvent.change(screen.getByPlaceholderText("Check-out"), {
-      target: { value: "2025-08-05" },
-    });
-
-    fireEvent.change(screen.getByPlaceholderText("Guests"), {
-      target: { value: "2" },
-    });
-
-    fireEvent.click(screen.getByText("Search"));
-
-    await waitFor(() => {
-      expect(global.alert).toHaveBeenCalledWith(
-        "Please enter a location or a hotel name."
-      );
-    });
+    // API should never have been called
+    expect(searchHotelsAPI).not.toHaveBeenCalled();
   });
 
-  test("✅ Navigates and displays result when location is filled", async () => {
+  it("fetches and displays hotels when location + valid dates are provided", async () => {
+    const mockHotels = [
+      {
+        keyDetails: {
+          id: "h1",
+          name: "Hotel Alpha",
+          address: "Addr A",
+          rating: 4.1,
+        },
+        pricingRankingData: { lowestPrice: 123.45 },
+        imageDetails: { stitchedImageUrls: [], thumbnailUrl: "" },
+      },
+      {
+        keyDetails: {
+          id: "h2",
+          name: "Hotel Beta",
+          address: "Addr B",
+          rating: 3.9,
+        },
+        pricingRankingData: { lowestPrice: 200 },
+        imageDetails: { stitchedImageUrls: [], thumbnailUrl: "" },
+      },
+    ];
+
+    // Mock the API once for mount
+    searchHotelsAPI.mockResolvedValueOnce({
+      data: { hotels: mockHotels, destination_id: 999 },
+    });
+
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        initialEntries={[
+          "/search?location=Paris&checkin=2025-08-01&checkout=2025-08-05",
+        ]}
+      >
         <SearchPage />
       </MemoryRouter>
     );
 
+    // Both hotel names should eventually appear
+    for (const h of mockHotels) {
+      expect(await screen.findByText(h.keyDetails.name)).toBeInTheDocument();
+    }
+
+    // Error should not be shown
+    expect(
+      screen.queryByText("Invalid search parameters, please re-enter")
+    ).toBeNull();
+
+    // API called with correct payload
+    expect(searchHotelsAPI).toHaveBeenCalledWith({
+      hotelType: "Hotel",
+      location: "Paris",
+      checkIn: "2025-08-01",
+      checkOut: "2025-08-05",
+      guests: 1,
+      roomNum: 1,
+    });
+  });
+
+  it("lets the user fill filters, click Search, and then displays results", async () => {
+    const mockHotels = [
+      {
+        keyDetails: {
+          id: "h3",
+          name: "Hotel Gamma",
+          address: "Addr G",
+          rating: 4.0,
+        },
+        pricingRankingData: { lowestPrice: 150 },
+        imageDetails: { stitchedImageUrls: [], thumbnailUrl: "" },
+      },
+    ];
+
+    // 1st call (on mount): no hotels → error
+    // 2nd call (after clicking Search): return mockHotels
+    searchHotelsAPI
+      .mockResolvedValueOnce({ data: { hotels: [], destination_id: 0 } })
+      .mockResolvedValueOnce({
+        data: { hotels: mockHotels, destination_id: 42 },
+      });
+
+    const { container } = render(
+      <MemoryRouter initialEntries={["/search"]}>
+        <SearchPage />
+      </MemoryRouter>
+    );
+
+    // 1) Initial error on mount
+    expect(
+      await screen.findByText("Invalid search parameters, please re-enter")
+    ).toBeInTheDocument();
+
+    // 2) Fill Location
     fireEvent.change(screen.getByPlaceholderText("Location"), {
-      target: { value: "Singapore" },
+      target: { value: "Tokyo" },
     });
 
-    fireEvent.change(screen.getByPlaceholderText("Hotel name"), {
-      target: { value: "" },
-    });
+    // Fill dates
+    const dateInputs = container.querySelectorAll('input[type="date"]');
+    const [checkinInput, checkoutInput] = dateInputs;
+    fireEvent.change(checkinInput, { target: { value: "2025-09-01" } });
+    fireEvent.change(checkoutInput, { target: { value: "2025-09-05" } });
 
-    fireEvent.change(screen.getByPlaceholderText("Check-in"), {
-      target: { value: "2025-08-01" },
-    });
+    // Click Search
+    fireEvent.click(screen.getByRole("button", { name: /^Search$/i }));
 
-    fireEvent.change(screen.getByPlaceholderText("Check-out"), {
-      target: { value: "2025-08-05" },
-    });
+    // 3) Wait for API to be called with correct payload
+    await waitFor(() =>
+      expect(searchHotelsAPI).toHaveBeenCalledWith({
+        hotelType: "Hotel",
+        location: "Tokyo",
+        checkIn: "2025-09-01",
+        checkOut: "2025-09-05",
+        guests: 1,
+        roomNum: 1,
+      })
+    );
 
-    fireEvent.change(screen.getByPlaceholderText("Guests"), {
-      target: { value: "2" },
-    });
+    // 4) Error message should clear
+    await waitFor(() =>
+      expect(
+        screen.queryByText("Invalid search parameters, please re-enter")
+      ).toBeNull()
+    );
 
-    fireEvent.click(screen.getByText("Search"));
-
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith(
-        expect.stringContaining("/search?location=Singapore")
-      );
-    });
-
-    expect(await screen.findByText("Hotel Ascenda")).toBeInTheDocument();
-    expect(screen.getByText("123 Beach Road, Singapore")).toBeInTheDocument();
-    expect(screen.getByText("SGD 200")).toBeInTheDocument();
+    // 5) Finally, the new hotel appears
+    expect(await screen.findByText("Hotel Gamma")).toBeInTheDocument();
   });
 });
