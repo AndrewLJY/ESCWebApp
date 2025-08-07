@@ -8,7 +8,12 @@ import {
   ControlPosition,
 } from "@vis.gl/react-google-maps";
 import { Accordion, Badge, Carousel } from "react-bootstrap";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+/* import all the icons in Free Solid, Free Regular, and Brands styles */
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
 import {
   getHotelDetailsAPI,
   getRoomPricingAPI,
@@ -38,6 +43,9 @@ export default function HotelDetailPage() {
   const [backgroundImageUrl, setBackgroundImageUrl] = useState(
     "/images/default-bg.jpg"
   );
+
+  library.add(fas, far, fab);
+
   const isAuthenticated = () =>
     Boolean(localStorage.getItem("token") && localStorage.getItem("user"));
 
@@ -186,7 +194,6 @@ export default function HotelDetailPage() {
                             num +
                             hotel.image_details.suffix
                           }
-      
                         />
 
                         {num + 1 < hotel.image_details.count ? (
@@ -197,7 +204,6 @@ export default function HotelDetailPage() {
                               (num + 1) +
                               hotel.image_details.suffix
                             }
-                     
                           />
                         ) : (
                           <img
@@ -207,7 +213,6 @@ export default function HotelDetailPage() {
                               "0" +
                               hotel.image_details.suffix
                             }
-             
                           />
                         )}
                       </Carousel.Item>
@@ -281,9 +286,13 @@ export default function HotelDetailPage() {
                   return (
                     <>
                       {hotel.amenities[amenity] ? (
-                        <Badge pill bg="primary" className="me-2">
-                          {" "}
-                          {amenity}{" "}
+                        <Badge
+                          pill
+                          bg="success"
+                          className="fw-medium fs-6 mb-1 me-1  text-capitalize"
+                        >
+                          {amenity.replace(/([A-Z])/g, " $1")}
+                          <FontAwesomeIcon icon="fa-solid fa-check" />
                         </Badge>
                       ) : (
                         <> </>
@@ -317,8 +326,8 @@ export default function HotelDetailPage() {
                 </APIProvider>
               </div>
             </div>
-            <p>Rooms Available: </p>
-            <div className="room-list">
+            <h2 className="mb-3">Rooms Available: </h2>
+            <div className="room-list mb-5">
               {rooms.map((room) => {
                 const roomKeyDetails = room.keyRoomDetails;
                 const roomPriceDetails = room.priceDetails;
@@ -333,21 +342,44 @@ export default function HotelDetailPage() {
                             : ""
                         }
                         alt={roomKeyDetails.name}
+                        height={"40%"}
+                        id="room_img"
                       />
                     ) : (
-                      <p></p>
+                      <div className="w-100 h-40"></div>
                     )}
-                    <h3>{roomKeyDetails.name}</h3>
-                    <p>{roomKeyDetails.roomDescription}</p>
-                    <div className="room-price">
-                      SGD {roomPriceDetails.price}
+
+                    <div className="p-3 h-100 d-flex flex-column justify-content-between text-start">
+                      <div className="room-detail-box d-flex flex-column justify-content-between">
+                        <div className="overflow-hidden mw-100">
+                          <p className="fs-5 m-0 text-truncate text-wrap text-break">
+                            {roomKeyDetails.roomDescription}
+                          </p>
+                        </div>
+
+                        {roomKeyDetails.freeCancellation && (
+                          <p className="fs-7 m-0 text-success-emphasis">
+                            Free Cancellation{" "}
+                            <FontAwesomeIcon icon="fa-solid fa-check" />{" "}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <div className="room-price fw-bold fs-4">
+                          SGD {roomPriceDetails.price}
+                        </div>
+                        <button
+                          className="btn book-room w-100"
+                          onClick={() => handleBookRoom(room)}
+                        >
+                          <p className="m-0 fw-bold text-light ms-2 me-2">
+                            {" "}
+                            Book{" "}
+                          </p>
+                        </button>
+                      </div>
                     </div>
-                    <button
-                      className="btn book-room"
-                      onClick={() => handleBookRoom(room)}
-                    >
-                      Book
-                    </button>
                   </div>
                 );
               })}
