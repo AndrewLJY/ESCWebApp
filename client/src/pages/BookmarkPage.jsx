@@ -51,7 +51,7 @@ export default function Bookmark() {
     const destinationId = hotel.destination_id || "";
     const searchString = hotel.search_string || "";
 
-    navigate(`/hotel/${hotel.hotel_id}${searchString}`, {
+    navigate(`/hotel/${hotel.hotel_id}`, {
       state: { hotelDetails, destinationId },
     });
   };
@@ -106,7 +106,7 @@ export default function Bookmark() {
                     </div>
                   </div>
                 ))
-              : fetchBookmarks()}
+              : null}
           </div>
         )}
       </main>
