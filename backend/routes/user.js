@@ -97,11 +97,6 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
   const search_string = req.body.search_string;
   const destination_id = req.body.destination_id;
 
-  console.log(search_string);
-  console.log(destination_id);
-  console.log(hotel_ratings);
-  console.log(typeof hotel_ratings);
-
   const bookmark = new bookmarkModel.Bookmark(
     hotel_id,
     hotel_name,
@@ -116,7 +111,6 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
   //Check for the proper types
 
   if (!image_url.slice(0, 4).includes("http")) {
-    console.log("inmage url");
     return res.status(400).json("Invalid image url input");
   }
 
@@ -141,9 +135,6 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
     console.log("ratings");
     return res.status(400).json("Invalid ratings");
   }
-
-  console.log(image_url.slice(image_url.length - 3, image_url.length));
-  console.log("url", image_url);
 
   if (!validEmail.test(user_email)) {
     console.log("email");
