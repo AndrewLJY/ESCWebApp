@@ -33,9 +33,16 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
   // Calculate max price from hotels
   useEffect(() => {
     if (hotels.length > 0) {
-      const max = Math.max(...hotels.map(h => Math.floor(h.pricingRankingData.lowestPrice)));
-      setMaxPrice(max);
-      setPriceRange([0, max]);
+      const prices = hotels
+        .map(h => h?.pricingRankingData?.lowestPrice)
+        .filter(price => price != null)
+        .map(price => Math.floor(price));
+      
+      if (prices.length > 0) {
+        const max = Math.max(...prices);
+        setMaxPrice(max);
+        setPriceRange([0, max]);
+      }
     }
   }, [hotels]);
 
@@ -45,8 +52,10 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
 
     // Filter by price range
     filtered = filtered.filter(h => {
-      const price = Math.floor(h.pricingRankingData.lowestPrice);
-      return price >= priceRange[0] && price <= priceRange[1];
+      const price = h?.pricingRankingData?.lowestPrice;
+      if (price == null) return false;
+      const floorPrice = Math.floor(price);
+      return floorPrice >= priceRange[0] && floorPrice <= priceRange[1];
     });
 
     // Filter by amenities
@@ -65,14 +74,16 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "price":
-          return Math.floor(a.pricingRankingData.lowestPrice) - Math.floor(b.pricingRankingData.lowestPrice);
+          const priceA = a?.pricingRankingData?.lowestPrice || 0;
+          const priceB = b?.pricingRankingData?.lowestPrice || 0;
+          return Math.floor(priceA) - Math.floor(priceB);
         case "rating":
-          const ratingA = a.keyDetails.rating || 0;
-          const ratingB = b.keyDetails.rating || 0;
+          const ratingA = a?.keyDetails?.rating || 0;
+          const ratingB = b?.keyDetails?.rating || 0;
           return ratingB - ratingA;
         case "distance":
-          const distA = a.keyDetails.distance || 999;
-          const distB = b.keyDetails.distance || 999;
+          const distA = a?.keyDetails?.distance || 999;
+          const distB = b?.keyDetails?.distance || 999;
           return distA - distB;
         default:
           return 0;
