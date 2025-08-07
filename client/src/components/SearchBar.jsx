@@ -108,7 +108,7 @@ export default function SearchBar({
     const params = new URLSearchParams();
     if (isSearchPage) {
       if (!locationFilter.trim() && !hotelFilter.trim()) {
-        alert("Enter a location or hotel name.");
+        alert("Enter a location, Hotel name is optional.");
         return;
       }
       if (!checkin || !checkout) {
@@ -138,7 +138,7 @@ export default function SearchBar({
         rooms_filters,
       } = filters;
       if (!location_filters.value.trim() && !hotel_filters.value.trim()) {
-        alert("Enter a location or hotel name.");
+        alert("Enter a location, Hotel name is optional.");
         return;
       }
       if (!checkin_filters.value || !checkout_filters.value) {
@@ -276,8 +276,16 @@ export default function SearchBar({
                       value={obj.value}
                       onChange={(e) => {
                         update(key, e.target.value);
-                        if (key === "checkin_filters" && (!filters.checkout_filters.value || new Date(e.target.value) >= new Date(filters.checkout_filters.value))) {
-                          update("checkout_filters", getMinCheckoutDate(e.target.value));
+                        if (
+                          key === "checkin_filters" &&
+                          (!filters.checkout_filters.value ||
+                            new Date(e.target.value) >=
+                              new Date(filters.checkout_filters.value))
+                        ) {
+                          update(
+                            "checkout_filters",
+                            getMinCheckoutDate(e.target.value)
+                          );
                         }
                       }}
                       onBlur={() => toggle(key)}

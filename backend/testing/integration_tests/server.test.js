@@ -1068,6 +1068,28 @@ describe("(GREY-BOX INTEGRATION) GET /search/hotel/prices (API to return the roo
 
 //Integration Tests for Bookmark feature
 
+const jwt = require("jsonwebtoken");
+const verifyToken = require("../../auth_middleware/auth_middleware");
+
+// Mock JWT verify function
+jest.mock("jsonwebtoken", () => ({
+  verify: jest.fn(),
+}));
+
+// Mock auth middleware
+jest.mock("../../auth_middleware/auth_middleware", () => {
+  return jest.fn((req, res, next) => {
+    req.userId = "test-user-id";
+    next();
+  });
+});
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  // Setup JWT verification to succeed
+  jwt.verify.mockImplementation(() => ({ userId: "test-user-id" }));
+});
+
 describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel bookmark", () => {
   //Create a test db table for these tests
   async function createTestDbTable() {
@@ -1117,6 +1139,21 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
     return await createTestDbTable();
   });
 
+  // Setup before each test
+  beforeEach(() => {
+    // Reset all mocks
+    jest.clearAllMocks();
+
+    // Setup JWT mock
+    jwt.verify.mockReturnValue({ userId: "test-user-id" });
+
+    // Setup auth middleware mock
+    verifyToken.mockImplementation((req, res, next) => {
+      req.userId = "test-user-id";
+      next();
+    });
+  });
+
   test("If the key value pair of (hotel, user email) is not present in the database, means that hotel is not yet included in user's bookmarks. Should add it to database.", async () => {
     testrequestData = {
       hotel_id: "190",
@@ -1131,6 +1168,7 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
 
     await request(app)
       .post("/auth/bookmarks/")
+      .set("Authorization", "Bearer fake-token")
       .send(testrequestData)
       .expect(200);
   });
@@ -1149,6 +1187,7 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
 
     await request(app)
       .post("/auth/bookmarks")
+      .set("Authorization", "Bearer fake-token")
       .send(testrequestData)
       .expect(401);
   });
@@ -1167,6 +1206,7 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
 
     await request(app)
       .post("/auth/bookmarks")
+      .set("Authorization", "Bearer fake-token")
       .send(testrequestData)
       .expect(200);
   });
@@ -1279,22 +1319,31 @@ describe("(GREY BOX INTEGRATION) GET /auth/AllBookmarks (API to return all of th
     //Above integration test for adding unique hotel bookmarks for the same user should pass before this.
     await request(app)
       .post("/auth/bookmarks")
+      .set("Authorization", "Bearer fake-token")
       .send(testrequestData)
       .expect(200);
+
     await request(app)
       .post("/auth/bookmarks")
+      .set("Authorization", "Bearer fake-token")
       .send(testrequestData1)
       .expect(200);
+
     await request(app)
       .post("/auth/bookmarks")
+      .set("Authorization", "Bearer fake-token")
       .send(testrequestData2)
       .expect(200);
+
     await request(app)
       .post("/auth/bookmarks")
+      .set("Authorization", "Bearer fake-token")
       .send(testrequestData3)
       .expect(200);
+
     await request(app)
       .post("/auth/bookmarks")
+      .set("Authorization", "Bearer fake-token")
       .send(testrequestData4)
       .expect(200);
 
@@ -1353,6 +1402,7 @@ describe("(GREY BOX INTEGRATION) GET /auth/AllBookmarks (API to return all of th
 
     const result = await request(app)
       .get(`/auth/allBookmarks/${testrequestData.user_email}`)
+      .set("Authorization", "Bearer fake-token")
       .expect(200);
     expect(result.body).toStrictEqual(expectedOutput);
   });
