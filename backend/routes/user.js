@@ -73,7 +73,7 @@ router.post("/login/", async function (req, res, next) {
 /*
 original function header is router.post("/bookmarks/", verifyFunction,async function(req, res, next)
 */
-router.post("/bookmarks/", async function (req, res, next) {
+router.post("/bookmarks/", verifyFunction, async function (req, res, next) {
   console.log("Hello!!!! I am accessing bookmarks now.");
   //retrieve infos for bookmark
   const hotel_id = req.body.hotel_id;
@@ -152,25 +152,29 @@ router.post("/bookmarks/", async function (req, res, next) {
   }
 });
 
-router.get("/allBookmarks/:user_email", async function (req, res, next) {
-  userEmail = req.params.user_email;
+router.get(
+  "/allBookmarks/:user_email",
+  verifyFunction,
+  async function (req, res, next) {
+    userEmail = req.params.user_email;
 
-  // Email format validation (simple regex)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!userEmail || !emailRegex.test(userEmail)) {
-    return res.status(400).send("Invalid email format.");
+    // Email format validation (simple regex)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!userEmail || !emailRegex.test(userEmail)) {
+      return res.status(400).send("Invalid email format.");
+    }
+
+    try {
+      let bookmarks = await bookmarkModel.getAllBookmarksPerUser(userEmail);
+      console.log(bookmarks);
+      res.send(bookmarks);
+    } catch (error) {
+      console.error("database error" + error);
+    }
   }
+);
 
-  try {
-    let bookmarks = await bookmarkModel.getAllBookmarksPerUser(userEmail);
-    console.log(bookmarks);
-    res.send(bookmarks);
-  } catch (error) {
-    console.error("database error" + error);
-  }
-});
-
-router.post("/deleteBookmark", async function (req, res, next) {
+router.post("/deleteBookmark", verifyFunction, async function (req, res, next) {
   hotelId = req.body.hotel_id;
   user_email = req.body.user_email;
 

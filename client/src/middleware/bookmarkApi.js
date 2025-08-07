@@ -60,13 +60,19 @@ function getCurrentUser() {
 
 // Get auth headers
 function getAuthHeaders() {
-  const currentUser = getCurrentUser();
-  return currentUser
-    ? {
-        Authorization: `Bearer ${currentUser.token}`, //get the token through token key
-        "Content-Type": "application/json",
-      }
-    : { "Content-Type": "application/json" };
+  let currentUser = getCurrentUser();
+  console.log("here", currentUser.token);
+
+  if (currentUser) {
+    return {
+      Authorization: `Bearer ${currentUser.token}`,
+      "Content-Type": "application/json",
+    };
+  } else {
+    return {
+      "Content-Type": "application/json",
+    };
+  }
 }
 
 // Get all bookmarked hotels from backend
@@ -79,7 +85,10 @@ export async function getBookmarkedHotels() {
 
   try {
     const response = await axios.get(
-      `http://localhost:8080/auth/allBookmarks/${currentUser.user.email}`
+      `http://localhost:8080/auth/allBookmarks/${currentUser.user.email}`,
+      {
+        headers: getAuthHeaders(),
+      }
     );
     console.log(`Loaded bookmarks for ${currentUser.user.email}:`, response);
     return response || [];
