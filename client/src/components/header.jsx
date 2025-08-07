@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { loginUserAPI, signupUserAPI } from "../middleware/authApi";
 import "../styles/Header.css";
 import Toast from "react-bootstrap/Toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-bootstrap";
 import ascendaLogo from "../assets/ascenda_logo.png";
 
@@ -13,6 +13,10 @@ export default function Header() {
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Check if user is logged in
   useEffect(() => {
@@ -68,6 +72,15 @@ export default function Header() {
     setUser(null);
 
     console.log("[Auth] User logged out and data cleared.");
+
+    // If on bookmark page, redirect to home
+    if (location.pathname === "/bookmark") {
+      navigate("/");
+    } else {
+      window.location.reload();
+    }
+
+    
   };
 
   // blur Landing, Search or HotelDetail page when dropdown is open
@@ -97,7 +110,7 @@ export default function Header() {
     setSignupOpen(false);
   };
 
-  const navigate = useNavigate();
+  
 
   return (
     <>

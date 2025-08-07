@@ -165,9 +165,9 @@ export default function SearchBar({
   };
 
   return (
-    <div className="sorting-bar">
+    <div className={`search-bar-wrapper ${className}`}>
       {isSearchPage ? (
-        <Row className="align-items-center g-3">
+        <Row className="align-items-center g-3 sp-filter-bar">
           <Col>
             <Form.Group style={{ position: "relative" }}>
               <Form.Label className="fw-bold">Location:</Form.Label>
