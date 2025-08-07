@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { Pagination } from "react-bootstrap";
+
 import { searchHotelsAPI } from "../middleware/searchApi";
+
 import Header from "../components/header";
 import SearchBar from "../components/SearchBar";
 import SortingBar from "../components/SortingBar";
+
 import "../styles/SearchPage.css";
-import { Pagination } from "react-bootstrap";
 
 export default function SearchPage() {
   const navigate = useNavigate();
@@ -65,12 +68,15 @@ export default function SearchPage() {
     }
   }, []);
 
-  const handleFilteredHotels = useCallback((filtered) => {
-    setFilteredHotels(filtered);
-    setStartPage(0);
-    const paged = filtered.slice(0, pageSize);
-    setPagedHotels(paged);
-  }, [pageSize]);
+  const handleFilteredHotels = useCallback(
+    (filtered) => {
+      setFilteredHotels(filtered);
+      setStartPage(0);
+      const paged = filtered.slice(0, pageSize);
+      setPagedHotels(paged);
+    },
+    [pageSize]
+  );
 
   // Run fetch on mount and whenever the query string changes
   useEffect(() => {
@@ -84,19 +90,19 @@ export default function SearchPage() {
       <div className="search-page">
         <main className="sp-main">
           <section className="search-and-filter">
-          <div className="filter-bar-wrapper">
-            <SearchBar
-              search={search}
-              fetchData={fetchData}
-              isSearchPage={true}
-            />
-            {hotels.length > 0 && (
-              <SortingBar 
-                hotels={hotels} 
-                onFilteredHotels={handleFilteredHotels}
+            <div className="filter-bar-wrapper">
+              <SearchBar
+                search={search}
+                fetchData={fetchData}
+                isSearchPage={true}
               />
-            )}
-          </div>
+              {hotels.length > 0 && (
+                <SortingBar
+                  hotels={hotels}
+                  onFilteredHotels={handleFilteredHotels}
+                />
+              )}
+            </div>
           </section>
 
           <section className="sp-results">
@@ -150,8 +156,8 @@ export default function SearchPage() {
                     <p className="fs-4 fw-bold text-start mt-0">
                       {" "}
                       {h.pricingRankingData?.lowestPrice != null
-    ? Math.floor(h.pricingRankingData.lowestPrice) + " SGD"
-    : "Price unavailable"}
+                        ? Math.floor(h.pricingRankingData.lowestPrice) + " SGD"
+                        : "Price unavailable"}
                     </p>
                     <button
                       className="btn book-small"
@@ -176,7 +182,9 @@ export default function SearchPage() {
                 onClick={() => {
                   setStartPage((prevState) => {
                     var newState = prevState - pageSize;
-                    setPagedHotels(filteredHotels.slice(newState, newState + pageSize));
+                    setPagedHotels(
+                      filteredHotels.slice(newState, newState + pageSize)
+                    );
                     return newState;
                   });
                 }}
@@ -186,7 +194,9 @@ export default function SearchPage() {
                 onClick={() => {
                   setStartPage((prevState) => {
                     var newState = prevState + pageSize;
-                    setPagedHotels(filteredHotels.slice(newState, newState + pageSize));
+                    setPagedHotels(
+                      filteredHotels.slice(newState, newState + pageSize)
+                    );
                     return newState;
                   });
                 }}

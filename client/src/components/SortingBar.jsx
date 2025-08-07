@@ -11,9 +11,9 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
   // Get all unique amenities from hotels
   const getAllAmenities = () => {
     const amenitiesSet = new Set();
-    hotels.forEach(hotel => {
+    hotels.forEach((hotel) => {
       if (hotel.amenities && Array.isArray(hotel.amenities)) {
-        hotel.amenities.forEach(amenity => amenitiesSet.add(amenity));
+        hotel.amenities.forEach((amenity) => amenitiesSet.add(amenity));
       }
     });
     console.log("All amenities:", Array.from(amenitiesSet));
@@ -23,7 +23,9 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
   // Calculate max price from hotels
   useEffect(() => {
     if (hotels.length > 0) {
-      const max = Math.max(...hotels.map(h => Math.floor(h.pricingRankingData.lowestPrice)));
+      const max = Math.max(
+        ...hotels.map((h) => Math.floor(h.pricingRankingData?.lowestPrice))
+      );
       setMaxPrice(max);
       setPriceRange([0, max]);
     }
@@ -34,16 +36,18 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
     let filtered = [...hotels];
 
     // Filter by price range
-    filtered = filtered.filter(h => {
-      const price = Math.floor(h.pricingRankingData.lowestPrice);
+    filtered = filtered.filter((h) => {
+      const price = Math.floor(h.pricingRankingData?.lowestPrice);
       return price >= priceRange[0] && price <= priceRange[1];
     });
 
     // Filter by amenities
     if (selectedAmenities.length > 0) {
-      filtered = filtered.filter(h => {
+      filtered = filtered.filter((h) => {
         if (!h.amenities || !Array.isArray(h.amenities)) return false;
-        return selectedAmenities.every(amenity => h.amenities.includes(amenity));
+        return selectedAmenities.every((amenity) =>
+          h.amenities.includes(amenity)
+        );
       });
     }
 
@@ -51,7 +55,10 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "price":
-          return Math.floor(a.pricingRankingData.lowestPrice) - Math.floor(b.pricingRankingData.lowestPrice);
+          return (
+            Math.floor(a.pricingRankingData?.lowestPrice) -
+            Math.floor(b.pricingRankingData?.lowestPrice)
+          );
         case "rating":
           const ratingA = a.keyDetails.rating || 0;
           const ratingB = b.keyDetails.rating || 0;
@@ -69,9 +76,9 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
   }, [hotels, sortBy, priceRange, selectedAmenities, onFilteredHotels]);
 
   const handleAmenityToggle = (amenity) => {
-    setSelectedAmenities(prev => 
-      prev.includes(amenity) 
-        ? prev.filter(a => a !== amenity)
+    setSelectedAmenities((prev) =>
+      prev.includes(amenity)
+        ? prev.filter((a) => a !== amenity)
         : [...prev, amenity]
     );
   };
@@ -82,7 +89,10 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
         <Col md={3}>
           <Form.Group>
             <Form.Label className="fw-bold">Sort by:</Form.Label>
-            <Form.Select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <Form.Select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
               <option value="price">Price (Low to High)</option>
               <option value="rating">Rating (High to Low)</option>
               <option value="distance">Distance</option>
@@ -92,19 +102,25 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
 
         <Col md={4}>
           <Form.Group>
-            <Form.Label className="fw-bold">Price Range: ${priceRange[0]} - ${priceRange[1]}</Form.Label>
+            <Form.Label className="fw-bold">
+              Price Range: ${priceRange[0]} - ${priceRange[1]}
+            </Form.Label>
             <div className="d-flex gap-2">
               <Form.Range
                 min={0}
                 max={maxPrice}
                 value={priceRange[0]}
-                onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
+                onChange={(e) =>
+                  setPriceRange([parseInt(e.target.value), priceRange[1]])
+                }
               />
               <Form.Range
                 min={0}
                 max={maxPrice}
                 value={priceRange[1]}
-                onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+                onChange={(e) =>
+                  setPriceRange([priceRange[0], parseInt(e.target.value)])
+                }
               />
             </div>
           </Form.Group>
@@ -115,10 +131,15 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
             <Form.Label className="fw-bold">Amenities:</Form.Label>
             <Dropdown>
               <Dropdown.Toggle variant="outline-secondary" className="w-100">
-                {selectedAmenities.length > 0 ? `${selectedAmenities.length} selected` : "Select amenities"}
+                {selectedAmenities.length > 0
+                  ? `${selectedAmenities.length} selected`
+                  : "Select amenities"}
               </Dropdown.Toggle>
-              <Dropdown.Menu className="w-100" style={{ maxHeight: "200px", overflowY: "auto" }}>
-                {getAllAmenities().map(amenity => (
+              <Dropdown.Menu
+                className="w-100"
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+              >
+                {getAllAmenities().map((amenity) => (
                   <Dropdown.Item
                     key={amenity}
                     as="div"
@@ -141,7 +162,7 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
         </Col>
 
         <Col md={2}>
-          <button 
+          <button
             className="btn btn-outline-danger btn-sm"
             onClick={() => {
               setSortBy("price");

@@ -1,8 +1,17 @@
 // src/components/SearchBar.jsx
 import React, { useState, useEffect, useRef } from "react";
-import "../styles/SearchBar.css";
 import { useNavigate } from "react-router-dom";
+import {
+  Form,
+  Row,
+  Col,
+  Button,
+  ListGroup,
+  ListGroupItem,
+} from "react-bootstrap";
 import axios from "axios";
+
+import "../styles/SearchBar.css";
 
 export default function SearchBar({
   search,
@@ -149,99 +158,137 @@ export default function SearchBar({
       params.set("hotel", hotel_filters.value.trim());
       params.set("checkin", checkin_filters.value);
       params.set("checkout", checkout_filters.value);
-      params.set("guests", guests_filters.value);
-      params.set("roomNum", rooms_filters.value);
+      params.set("guests", guests_filters.value || 1);
+      params.set("roomNum", rooms_filters.value || 1);
       navigate(`/search?${params.toString()}`);
     }
   };
 
   return (
-    <div className={`search-bar-wrapper ${className}`}>
+    <div className="sorting-bar">
       {isSearchPage ? (
-        <div className="sp-filter-bar">
-          {/* Location + autocomplete */}
-          <div style={{ position: "relative" }}>
-            <input
-              type="text"
-              placeholder="Location"
-              className="filter-input"
-              value={locationFilter}
-              onChange={(e) => {
-                setLocationFilter(e.target.value);
-                if (e.target.value) {
-                  clearTimeout(timeoutRef.current);
-                  timeoutRef.current = setTimeout(
-                    () => fetchSuggestions(e.target.value, "locationFilter"),
-                    300
-                  );
-                } else {
-                  setShowSuggestions(false);
-                }
-              }}
-            />
-            {showSuggestions && activeField === "locationFilter" && (
-              <div className="suggestions-dropdown">
-                {suggestions.map((s, i) => (
-                  <div
-                    key={i}
-                    className="suggestion-item"
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      selectSuggestion(s);
-                    }}
-                  >
-                    {s}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+        <Row className="align-items-center g-3">
+          <Col>
+            <Form.Group style={{ position: "relative" }}>
+              <Form.Label className="fw-bold">Location:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Location"
+                className="filter-input"
+                value={locationFilter}
+                onChange={(e) => {
+                  setLocationFilter(e.target.value);
+                  if (e.target.value) {
+                    clearTimeout(timeoutRef.current);
+                    timeoutRef.current = setTimeout(
+                      () => fetchSuggestions(e.target.value, "locationFilter"),
+                      300
+                    );
+                  } else {
+                    setShowSuggestions(false);
+                  }
+                }}
+              />
+              {showSuggestions && activeField === "locationFilter" && (
+                <ListGroup
+                  style={{ position: "absolute", width: "100%", zIndex: 1000 }}
+                >
+                  {suggestions.map((s, i) => (
+                    <ListGroupItem
+                      key={i}
+                      className="suggestion-item"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        selectSuggestion(s);
+                      }}
+                    >
+                      {s}
+                    </ListGroupItem>
+                  ))}
+                </ListGroup>
+              )}
+            </Form.Group>
+          </Col>
 
-          {/* Other search inputs */}
-          <input
-            type="text"
-            placeholder="Hotel name"
-            className="filter-input"
-            value={hotelFilter}
-            onChange={(e) => setHotelFilter(e.target.value)}
-          />
-          <input
-            type="date"
-            className="filter-input"
-            value={checkin}
-            onChange={(e) => {
-              setCheckin(e.target.value);
-              if (!checkout || new Date(e.target.value) >= new Date(checkout)) {
-                setCheckout(getMinCheckoutDate(e.target.value));
-              }
-            }}
-            min={getMinCheckinDate()}
-          />
-          <input
-            type="date"
-            className="filter-input"
-            value={checkout}
-            onChange={(e) => setCheckout(e.target.value)}
-            min={getMinCheckoutDate(checkin)}
-          />
-          <input
-            type="number"
-            className="filter-input"
-            min="1"
-            value={guests}
-            onChange={(e) => setGuests(e.target.value)}
-          />
-          <input
-            type="number"
-            className="filter-input"
-            min="1"
-            value={roomNum}
-            onChange={(e) => setRoomNum(e.target.value)}
-          />
-          <button className="sp-filter-search-btn" onClick={onSearch}>
-            Search
-          </button>
-        </div>
+          <Col>
+            <Form.Group>
+              <Form.Label className="fw-bold">Hotel:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Hotel Name"
+                className="filter-input"
+                value={hotelFilter}
+                onChange={(e) => setHotelFilter(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+
+          <Col>
+            <Form.Group>
+              <Form.Label className="fw-bold">Check In:</Form.Label>
+              <Form.Control
+                type="date"
+                className="filter-input"
+                value={checkin}
+                onChange={(e) => {
+                  setCheckin(e.target.value);
+                  if (
+                    !checkout ||
+                    new Date(e.target.value) >= new Date(checkout)
+                  ) {
+                    setCheckout(getMinCheckoutDate(e.target.value));
+                  }
+                }}
+                min={getMinCheckinDate()}
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+
+          <Col>
+            <Form.Group>
+              <Form.Label className="fw-bold">Check Out:</Form.Label>
+              <Form.Control
+                type="date"
+                className="filter-input"
+                value={checkout}
+                onChange={(e) => setCheckout(e.target.value)}
+                min={getMinCheckoutDate(checkin)}
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+
+          <Col>
+            <Form.Group>
+              <Form.Label className="fw-bold">Guests:</Form.Label>
+              <Form.Control
+                type="number"
+                className="filter-input"
+                min="1"
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+
+          <Col>
+            <Form.Group>
+              <Form.Label className="fw-bold">Rooms:</Form.Label>
+              <Form.Control
+                type="number"
+                className="filter-input"
+                min="1"
+                value={roomNum}
+                onChange={(e) => setRoomNum(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+
+          <Col>
+            <Button variant="primary" className="btn btn-sm" onClick={onSearch}>
+              Search
+            </Button>
+          </Col>
+        </Row>
       ) : (
         <div className="filter-bar">
           {Object.entries(filters).map(([key, obj]) => (
@@ -255,17 +302,17 @@ export default function SearchBar({
                       type={
                         key.includes("date") || key.includes("check")
                           ? "date"
-                          : key.includes("guests") || key.includes("roomNum")
+                          : key.includes("guests") || key.includes("rooms")
                           ? "number"
                           : "text"
                       }
                       placeholder={
-                        key.includes("guests") || key.includes("roomNum")
+                        key.includes("guests") || key.includes("rooms")
                           ? "1"
                           : ""
                       }
                       min={
-                        key.includes("guests") || key.includes("roomNum")
+                        key.includes("guests") || key.includes("rooms")
                           ? "1"
                           : key === "checkin_filters"
                           ? getMinCheckinDate()

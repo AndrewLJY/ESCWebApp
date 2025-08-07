@@ -7,13 +7,16 @@ import {
   MapControl,
   ControlPosition,
 } from "@vis.gl/react-google-maps";
+import { Form, Row, Col, Button } from "react-bootstrap";
 
 import {
   getHotelDetailsAPI,
   getRoomPricingAPI,
 } from "../middleware/hotelDetailsApi";
+
 import Header from "../components/header.jsx";
 import BookmarkButton from "../components/BookmarkButton";
+
 import "../styles/HotelDetailPage.css";
 
 const env = await import.meta.env;
@@ -53,7 +56,7 @@ export default function HotelDetailPage() {
   // Get Hotel Details
   useEffect(() => {
     async function getHotelDetails() {
-      retrieveParams();
+      initPage();
 
       // 2) load the hotel header exactly as before
       try {
@@ -149,14 +152,21 @@ export default function HotelDetailPage() {
     return Math.round(daysDifference);
   }
 
-  function retrieveParams() {
+  function initPage() {
     const params = new URLSearchParams(search);
+
+    const defCheckIn = new Date();
+    const defCheckOut = new Date();
+
+    defCheckIn.setDate(defCheckIn.getDate() + 3);
+    defCheckOut.setDate(defCheckOut.getDate() + 4);
 
     setPayload({
       location: params.get("location") || "",
       hotel: hotelDetails?.keyDetails.name || "",
-      checkIn: params.get("checkin") || "",
-      checkOut: params.get("checkout") || "",
+      checkIn: params.get("checkin") || defCheckIn.toISOString().split("T")[0],
+      checkOut:
+        params.get("checkout") || defCheckOut.toISOString().split("T")[0],
       guests: Number(params.get("guests") || 1),
       roomNum: Number(params.get("roomNum") || 1),
       destinationId: state.destinationId,
@@ -199,82 +209,131 @@ export default function HotelDetailPage() {
           <div>
             <div className={`search-bar-wrapper`}>
               <div className="sp-filter-bar">
-                <input
-                  type="date"
-                  className="filter-input"
-                  id="filter-checkin"
-                  value={payload.checkIn}
-                  disabled={roomsLoading}
-                  onChange={(e) => {
-                    setModifyParams(true);
-                    setPayload((prevState) => ({
-                      ...prevState,
-                      checkIn: e.target.value,
-                    }));
-                    if (
-                      !payload.checkOut ||
-                      new Date(e.target.value) >= new Date(payload.checkOut)
-                    ) {
-                      const d = new Date(e.target.value);
-                      d.setDate(d.getDate() + 3);
-                      setPayload((prevState) => ({
-                        ...prevState,
-                        checkOut: d.toISOString().split("T")[0],
-                      }));
-                    }
-                  }}
-                  min={new Date().toISOString().split("T")[0]}
-                />
-                <input
-                  type="date"
-                  className="filter-input"
-                  id="filter-checkout"
-                  value={payload.checkOut}
-                  disabled={roomsLoading}
-                  onChange={(e) => {
-                    setModifyParams(true);
-                    setPayload((prevState) => ({
-                      ...prevState,
-                      checkOut: e.target.value,
-                    }));
-                  }}
-                  min={
-                    payload.checkIn || new Date().toISOString().split("T")[0]
-                  }
-                />
-                <input
-                  type="number"
-                  className="filter-input"
-                  id="filter-guests"
-                  min="1"
-                  value={payload.guests}
-                  disabled={roomsLoading}
-                  onChange={(e) => {
-                    setModifyParams(true);
-                    setPayload((prevState) => ({
-                      ...prevState,
-                      guests: e.target.value,
-                    }));
-                  }}
-                />
-                <input
-                  type="number"
-                  className="filter-input"
-                  id="filter-roomNum"
-                  min="1"
-                  value={payload.roomNum}
-                  disabled={roomsLoading}
-                  onChange={(e) => {
-                    setModifyParams(true);
-                    setPayload((prevState) => ({
-                      ...prevState,
-                      roomNum: e.target.value,
-                    }));
-                  }}
-                />
-                <button className="sp-filter-search-btn" onClick={modifyParam}>
-                  Modify
-                </button>
+                <Row className="align-items-center g-3">
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="fw-bold filter-label">
+                        Check In:
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        className="filter-input"
+                        id="filter-checkin"
+                        value={payload.checkIn}
+                        disabled={roomsLoading}
+                        onChange={(e) => {
+                          setModifyParams(true);
+                          setPayload((prevState) => ({
+                            ...prevState,
+                            checkIn: e.target.value,
+                          }));
+                          if (
+                            !payload.checkOut ||
+                            new Date(e.target.value) >=
+                              new Date(payload.checkOut)
+                          ) {
+                            const d = new Date(e.target.value);
+                            d.setDate(d.getDate() + 3);
+                            setPayload((prevState) => ({
+                              ...prevState,
+                              checkOut: d.toISOString().split("T")[0],
+                            }));
+                          }
+                        }}
+                        min={new Date().toISOString().split("T")[0]}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="fw-bold filter-label">
+                        Check Out:
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        className="filter-input"
+                        id="filter-checkout"
+                        value={payload.checkOut}
+                        disabled={roomsLoading}
+                        onChange={(e) => {
+                          setModifyParams(true);
+                          setPayload((prevState) => ({
+                            ...prevState,
+                            checkOut: e.target.value,
+                          }));
+                        }}
+                        min={
+                          (
+                            new Date(
+                              new Date(payload.checkIn).setDate(
+                                new Date(payload.checkIn).getDate() + 1
+                              )
+                            ) || new Date()
+                          )
+                            .toISOString()
+                            .split("T")[0]
+                        }
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="fw-bold filter-label">
+                        Guests:
+                      </Form.Label>
+                      <Form.Control
+                        type="number"
+                        className="filter-input"
+                        id="filter-guests"
+                        min="1"
+                        value={payload.guests}
+                        disabled={roomsLoading}
+                        onChange={(e) => {
+                          setModifyParams(true);
+                          setPayload((prevState) => ({
+                            ...prevState,
+                            guests: e.target.value,
+                          }));
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="fw-bold filter-label">
+                        Rooms:
+                      </Form.Label>
+                      <Form.Control
+                        type="number"
+                        className="filter-input"
+                        id="filter-roomNum"
+                        min="1"
+                        value={payload.roomNum}
+                        disabled={roomsLoading}
+                        onChange={(e) => {
+                          setModifyParams(true);
+                          setPayload((prevState) => ({
+                            ...prevState,
+                            roomNum: e.target.value,
+                          }));
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Button
+                      variant="primary"
+                      className="btn btn-sm"
+                      onClick={modifyParam}
+                    >
+                      Modify
+                    </Button>
+                  </Col>
+                </Row>
               </div>
             </div>
             <div className="detail-header">
@@ -336,7 +395,13 @@ export default function HotelDetailPage() {
                   );
                 })
               ) : (
-                <div>No Rooms Available</div>
+                <div>
+                  <p>No Rooms Available with the following criteria:</p>
+                  <p>Check In Date: {payload.checkIn}</p>
+                  <p>Check Out Date: {payload.checkOut}</p>
+                  <p>Guests: {payload.guests}</p>
+                  <p>Rooms: {payload.roomNum}</p>
+                </div>
               )}
             </div>
             {/* —————————————————————————————— */}
