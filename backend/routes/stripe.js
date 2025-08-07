@@ -58,6 +58,7 @@ router.get("/session-status", async (req, res) => {
   res.send({
     status: session.status,
     customer_email: session.customer_details.email,
+    metadata: session.metadata,
   });
 });
 

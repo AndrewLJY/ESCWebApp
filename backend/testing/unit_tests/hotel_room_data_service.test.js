@@ -40,6 +40,7 @@ describe("(WHITE-BOX UNIT) Testing hotel_room_data service, its facilitation of 
     converted_price: 5450.23,
     lowest_converted_price: 5450.23,
     chargeableRate: 4173.84,
+    images: "https://d2ey9sqrvkqdfs.cloudfront.net/obxM/0.jpg",
     market_rates: [
       {
         supplier: "expedia",
@@ -77,6 +78,7 @@ describe("(WHITE-BOX UNIT) Testing hotel_room_data service, its facilitation of 
       .setRoomTypeIndex(testJSONData.type)
       .setFreeCancellation(testJSONData.free_cancellation)
       .setLongDescription(testJSONData.long_description)
+      .setRoomImages(testJSONData.images)
       .build();
 
   priceDetailsTestDTOObject = new hotelRoomDataDTOModule.PriceDetails.Builder()

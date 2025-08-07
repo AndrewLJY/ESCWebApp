@@ -19,6 +19,7 @@ var usersRouter = require("./routes/user");
 var indexRouter = require("./routes/index");
 var searchRouter = require("./routes/search");
 var stripeRouter = require("./routes/stripe");
+var bookingRouter = require("./routes/booking");
 
 var userModel = require("./models/user.js");
 var bookmarkModel = require("./models/bookmark.js");
@@ -43,6 +44,8 @@ app.use("/", indexRouter);
 app.use("/auth", usersRouter);
 app.use("/search", searchRouter);
 app.use("/stripe", stripeRouter);
+app.use("/booking", bookingRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

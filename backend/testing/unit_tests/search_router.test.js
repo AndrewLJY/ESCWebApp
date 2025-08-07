@@ -1,5 +1,6 @@
 const request = require("supertest");
 const app = require("../../server");
+const fc = require("fast-check");
 
 const hotelDataTransferServiceModule = require("../../hotel_data/hotel_data_service");
 
@@ -9,7 +10,7 @@ process.env.NODE_ENV = "test";
 describe("(WHITE-BOX UNIT) Testing the Indvidual Endpoints of the search.js router, ensure that we get a reponse.", () => {
   test("Testing /search endpoint, should return a 200 response OK", async () => {
     response = await request(app)
-      .get("/search/WD0M/2025-10-10/2025-10-17/2/1")
+      .get("/search/Singapore,_Singapore/2025-10-10/2025-10-17/2/1")
       .expect(200);
     expect(response.body).toStrictEqual(
       "Hello from the backend, running main search endpoint now"
@@ -18,7 +19,9 @@ describe("(WHITE-BOX UNIT) Testing the Indvidual Endpoints of the search.js rout
 
   test("Testing /search/AdvancedDisplay, should return a 200 response OK", async () => {
     response = await request(app)
-      .get("/search/AdvancedDisplay/WD0M/2025-10-10/2025-10-17/2/1")
+      .get(
+        "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-10/2025-10-17/2/1"
+      )
       .expect(200);
     expect(response.body).toStrictEqual(
       "Hello from the backend, running search/AdvancedDisplay endpoint now"
@@ -27,7 +30,7 @@ describe("(WHITE-BOX UNIT) Testing the Indvidual Endpoints of the search.js rout
 
   test("Testing /search/MainDisplay endpoint, should return a 200 response OK", async () => {
     response = await request(app)
-      .get("/search/MainDisplay/WD0M/2025-10-10/2025-10-17/2/1")
+      .get("/search/MainDisplay/Singapore,_Singapore/2025-10-10/2025-10-17/2/1")
       .expect(200);
     expect(response.body).toStrictEqual(
       "Hello from the backend, running search/MainDisplay endpoint now"
@@ -43,7 +46,9 @@ describe("(WHITE-BOX UNIT) Testing the Indvidual Endpoints of the search.js rout
 
   test("Testing /search/hotel/prices endpoint, should return a 200 response OK", async () => {
     response = await request(app)
-      .get("/search/hotel/prices/diH7/WD0M/2025-10-10/2025-10-17/2/1")
+      .get(
+        "/search/hotel/prices/diH7/Singapore,_Singapore/2025-10-10/2025-10-17/2/1"
+      )
       .expect(200);
     expect(response.body).toStrictEqual(
       "Hello from the backend, running search/hotel/prices endpoint now"
@@ -82,24 +87,7 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
     process.env.INTEGRATION_TEST = originalEnv; // Restore original
   });
 
-  test("Testing /search/, Should return error 500 if unable to receive a request from hotel data transfer service unit", async () => {
-    const error = new Error("Test error");
-
-    // Mock the service to reject with an error
-    hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination = jest
-      .fn()
-      .mockRejectedValue(error);
-
-    response = await request(app).get("/search/WD0M/2025-10-10/2025-10-17/2/1");
-    // Assert
-    expect(
-      hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination
-    ).toHaveBeenCalled();
-    expect(response.status).toBe(500);
-    expect(response.body.includes("Internal Server Error")).toBe(true);
-  });
-
-  test("Testing /search/MainDisplay, Should return error 500 if unable to receive a request from hotel data transfer service unit", async () => {
+  test("Testing /search/, Should return error 400 if unable to receive a request from hotel data transfer service unit", async () => {
     const error = new Error("Test error");
 
     // Mock the service to reject with an error
@@ -108,17 +96,17 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
       .mockRejectedValue(error);
 
     response = await request(app).get(
-      "/search/MainDisplay/WD0M/2025-10-10/2025-10-17/2/1"
+      "/search/Singapore,_Singapore/2025-10-10/2025-10-17/2/1"
     );
     // Assert
     expect(
       hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination
     ).toHaveBeenCalled();
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(400);
     expect(response.body.includes("Internal Server Error")).toBe(true);
   });
 
-  test("Testing /search/AdvancedDisplay, Should return error 500 if unable to receive a request from hotel data transfer service unit", async () => {
+  test("Testing /search/MainDisplay, Should return error 400 if unable to receive a request from hotel data transfer service unit", async () => {
     const error = new Error("Test error");
 
     // Mock the service to reject with an error
@@ -127,13 +115,32 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
       .mockRejectedValue(error);
 
     response = await request(app).get(
-      "/search/AdvancedDisplay/WD0M/2025-10-10/2025-10-17/2/1"
+      "/search/MainDisplay/Singapore,_Singapore/2025-10-10/2025-10-17/2/1"
     );
     // Assert
     expect(
       hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination
     ).toHaveBeenCalled();
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(400);
+    expect(response.body.includes("Internal Server Error")).toBe(true);
+  });
+
+  test("Testing /search/AdvancedDisplay, Should return error 400 if unable to receive a request from hotel data transfer service unit", async () => {
+    const error = new Error("Test error");
+
+    // Mock the service to reject with an error
+    hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination = jest
+      .fn()
+      .mockRejectedValue(error);
+
+    response = await request(app).get(
+      "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-10/2025-10-17/2/1"
+    );
+    // Assert
+    expect(
+      hotelDataTransferServiceModule.getAllHotelsAndPricesForDestination
+    ).toHaveBeenCalled();
+    expect(response.status).toBe(400);
     expect(response.body.includes("Internal Server Error")).toBe(true);
   });
 });
@@ -288,7 +295,9 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
       .mockReturnValue(mockHotelList);
 
     response = await request(app)
-      .get("/search/AdvancedDisplay/WD0M/2025-10-10/2025-10-17/2/1")
+      .get(
+        "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-10/2025-10-17/2/1"
+      )
       .expect(200);
 
     expectedResponse = [
@@ -466,7 +475,7 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
       .mockReturnValue(mockHotelList);
 
     response = await request(app)
-      .get("/search/MainDisplay/WD0M/2025-10-10/2025-10-17/2/1")
+      .get("/search/MainDisplay/Singapore,_Singapore/2025-10-10/2025-10-17/2/1")
       .expect(200);
 
     expectedResponse = [
@@ -585,7 +594,9 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
       .mockReturnValue(mockHotelList);
 
     response = await request(app)
-      .get("/search/AdvancedDisplay/WD0M/2025-10-10/2025-10-17/2/1")
+      .get(
+        "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-10/2025-10-17/2/1"
+      )
       .expect(200);
 
     expectedResponse = [
@@ -716,7 +727,7 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
       .mockReturnValue(mockHotelList);
 
     response = await request(app)
-      .get("/search/MainDisplay/WD0M/2025-10-10/2025-10-17/2/1")
+      .get("/search/MainDisplay/Singapore,_Singapore/2025-10-10/2025-10-17/2/1")
       .expect(200);
 
     expectedResponse = [
@@ -729,4 +740,355 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
 
     expect(response.body).toStrictEqual(expectedResponse);
   });
+});
+
+describe("(BLACK-BOX UNIT) Testing destination and hotel search endpoints, with valid and invalid request parameters.", () => {
+  beforeAll(() => {
+    originalEnv = process.env.INTEGRATION_TEST; // Save original value
+    process.env.INTEGRATION_TEST = "true"; // Override for this suite
+  });
+
+  afterAll(() => {
+    process.env.INTEGRATION_TEST = originalEnv; // Restore original
+  });
+
+  test("testing /search, Invalid parameters", async () => {
+    response = await request(app).get(
+      "/search/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
+    ); //invalid checkin
+    response2 = await request(app).get(
+      "/search/Singapore,_Singapore/2020-10-11/202ieifehfi/2/1"
+    ); //invalid checkout
+
+    expect(response.status).toBe(400);
+    expect(response.body).toStrictEqual("Invalid check-in/out date");
+
+    expect(response2.status).toBe(400);
+    expect(response2.body).toStrictEqual("Invalid check-in/out date");
+
+    response5 = await request(app).get(
+      "/search/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
+    );
+
+    response6 = await request(app).get(
+      "/search/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
+    );
+
+    response7 = await request(app).get(
+      "/search/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
+    );
+
+    expect(response5.status).toBe(400);
+    expect(response5.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    expect(response6.status).toBe(400);
+    expect(response6.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    expect(response7.status).toBe(400);
+    expect(response7.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    response3 = await request(app).get(
+      "/search/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
+    );
+    response4 = await request(app).get(
+      "/search/Singapore,_Singapore/2020-10-11/2020-10-17/2/bfjefjj4ogj4g4g"
+    );
+
+    expect(response3.status).toBe(400);
+    expect(response3.body).toStrictEqual(
+      "Invalid guest/room count data types."
+    );
+
+    expect(response4.status).toBe(400);
+    expect(response4.body).toStrictEqual(
+      "Invalid guest/room count data types."
+    );
+  });
+
+  test("testing /search/AdvancedDisplay, Invalid parameters", async () => {
+    response = await request(app).get(
+      "/search/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
+    ); //invalid checkin
+    response2 = await request(app).get(
+      "/search/AdvancedDisplay/Singapore,_Singapore/2020-10-11/202ieifehfi/2/1"
+    ); //invalid checkout
+
+    expect(response.status).toBe(400);
+    expect(response.body).toStrictEqual("Invalid check-in/out date");
+
+    expect(response2.status).toBe(400);
+    expect(response2.body).toStrictEqual("Invalid check-in/out date");
+
+    response5 = await request(app).get(
+      "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
+    );
+
+    response6 = await request(app).get(
+      "/search/AdvancedDisplay/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
+    );
+
+    response7 = await request(app).get(
+      "/search/AdvancedDisplay/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
+    );
+
+    expect(response5.status).toBe(400);
+    expect(response5.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    expect(response6.status).toBe(400);
+    expect(response6.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    expect(response7.status).toBe(400);
+    expect(response7.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    response3 = await request(app).get(
+      "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
+    );
+    response4 = await request(app).get(
+      "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/2/bfjefjj4ogj4g4g"
+    );
+
+    expect(response3.status).toBe(400);
+    expect(response3.body).toStrictEqual(
+      "Invalid guest/room count data types."
+    );
+
+    expect(response4.status).toBe(400);
+    expect(response4.body).toStrictEqual(
+      "Invalid guest/room count data types."
+    );
+  });
+
+  test("testing /search/MainDisplay, Invalid parameters", async () => {
+    response = await request(app).get(
+      "/search/MainDisplay/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
+    ); //invalid checkin
+    response2 = await request(app).get(
+      "/search/MainDisplay/Singapore,_Singapore/2025-10-11/202ieifehfi/2/1"
+    ); //invalid checkout
+
+    expect(response.status).toBe(400);
+    expect(response.body).toStrictEqual("Invalid check-in/out date");
+
+    expect(response2.status).toBe(400);
+    expect(response2.body).toStrictEqual("Invalid check-in/out date");
+
+    response5 = await request(app).get(
+      "/search/MainDisplay/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
+    );
+
+    response6 = await request(app).get(
+      "/search/MainDisplay/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
+    );
+
+    response7 = await request(app).get(
+      "/search/MainDisplay/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
+    );
+
+    expect(response5.status).toBe(400);
+    expect(response5.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    expect(response6.status).toBe(400);
+    expect(response6.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    expect(response7.status).toBe(400);
+    expect(response7.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    response3 = await request(app).get(
+      "/search/MainDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
+    );
+    response4 = await request(app).get(
+      "/search/MainDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/2/bfjefjj4ogj4g4g"
+    );
+
+    expect(response3.status).toBe(400);
+    expect(response3.body).toStrictEqual(
+      "Invalid guest/room count data types."
+    );
+
+    expect(response4.status).toBe(400);
+    expect(response4.body).toStrictEqual(
+      "Invalid guest/room count data types."
+    );
+  });
+
+  test("testing /search/hotel/prices, Invalid parameters", async () => {
+    response = await request(app).get(
+      "/search/hotel/prices/diH7/RsBU/20-10-11/2025-10-17/2/1"
+    ); //invalid checkin
+    response2 = await request(app).get(
+      "/search/hotel/prices/diH7/RsBU/2025-10-11/20fjie17/2/1"
+    ); //invalid checkout
+
+    expect(response.status).toBe(400);
+
+    expect(response2.status).toBe(400);
+
+    response5 = await request(app).get(
+      "/search/hotel/prices/diH7/RsBU/2026-10-11/2025-10-17/2/1"
+    );
+
+    response6 = await request(app).get(
+      "/search/hotel/prices/diH7/RsBU/2025-12-11/2025-10-17/2/1"
+    );
+
+    response7 = await request(app).get(
+      "/search/hotel/prices/diH7/RsBU/2025-10-20/2025-10-17/2/1"
+    );
+
+    expect(response5.status).toBe(400);
+    expect(response5.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    expect(response6.status).toBe(400);
+    expect(response6.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    expect(response7.status).toBe(400);
+    expect(response7.body).toStrictEqual(
+      "Check in date is greater than checkout"
+    );
+
+    response3 = await request(app).get(
+      "/search/hotel/prices/diH7/RsBU/2025-10-11/2025-10-17/eded/1"
+    );
+    response4 = await request(app).get(
+      "/search/hotel/prices/diH7/RsBU/2025-10-11/2025-10-17/2/uuui"
+    );
+
+    expect(response3.status).toBe(400);
+    expect(response3.body).toStrictEqual(
+      "Invalid guest/room count data types."
+    );
+
+    expect(response4.status).toBe(400);
+    expect(response4.body).toStrictEqual(
+      "Invalid guest/room count data types."
+    );
+  });
+});
+
+describe("(BLACK BOX UNIT) Testing the string fuzzy search /search/string/:searchLiteral endpoint, with invalid parameters", () => {
+  beforeAll(() => {
+    originalEnv = process.env.INTEGRATION_TEST; // Save original value
+    process.env.INTEGRATION_TEST = "true"; // Override for this suite
+  });
+
+  afterAll(() => {
+    process.env.INTEGRATION_TEST = originalEnv; // Restore original
+  });
+  test("testing with invalid search parameters, not of the format set (<search string>, <search string>)", async () => {
+    response = await request(app).get("/search/string/oirio34foi3");
+    expect(response.status).toBe(400);
+    expect(response.body).toStrictEqual("Invalid search format");
+  });
+});
+
+describe("General Fuzzing of all API prompt parameters", () => {
+  beforeAll(() => {
+    originalEnv = process.env.INTEGRATION_TEST; // Save original value
+    process.env.INTEGRATION_TEST = "true"; // Override for this suite
+  });
+
+  afterAll(() => {
+    process.env.INTEGRATION_TEST = originalEnv; // Restore original
+  });
+
+  const urlSafeChars =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
+
+  const urlSafeString = fc
+    .array(fc.constantFrom(...urlSafeChars), { minLength: 1, maxLength: 10 })
+    .map((arr) => arr.join(""));
+
+  numRuns = 20;
+
+  test("/search/ should return HTTP 200-400 for URL-safe inputs", async () => {
+    await fc.assert(
+      fc.asyncProperty(urlSafeString, async (data) => {
+        const response = await request(app).get(
+          `/search/Singapore,_Singapore/${data}/${data}/${data}/${data}`
+        );
+        expect(response.status).toBeGreaterThanOrEqual(200);
+        expect(response.status).toBeLessThanOrEqual(400);
+      }),
+      { numRuns: 10, verbose: true }
+    );
+  });
+
+  test("/search/MainDisplay should return HTTP 200-400 for URL-safe inputs", async () => {
+    await fc.assert(
+      fc.asyncProperty(urlSafeString, async (data) => {
+        const response = await request(app).get(
+          `/search/MainDisplay/Singapore,_Singapore/${data}/${data}/${data}/${data}`
+        );
+        expect(response.status).toBeGreaterThanOrEqual(200);
+        expect(response.status).toBeLessThanOrEqual(400);
+      }),
+      { numRuns: numRuns, verbose: true }
+    );
+  });
+
+  test("/search/AdvancedDisplay should return HTTP 200-400 for URL-safe inputs", async () => {
+    await fc.assert(
+      fc.asyncProperty(urlSafeString, async (data) => {
+        const response = await request(app).get(
+          `/search/AdvancedDisplay/Singapore,_Singapore/${data}/${data}/${data}/${data}`
+        );
+        expect(response.status).toBeGreaterThanOrEqual(200);
+        expect(response.status).toBeLessThanOrEqual(400);
+      }),
+      { numRuns: numRuns, verbose: true }
+    );
+  });
+
+  test("/search/hotel/prices should return HTTP 200-400 for URL-safe inputs", async () => {
+    await fc.assert(
+      fc.asyncProperty(urlSafeString, async (data) => {
+        const response = await request(app).get(
+          `/search/hotel/prices/diH7/RsBU/${data}/${data}/${data}/${data}`
+        );
+        expect(response.status).toBeGreaterThanOrEqual(200);
+        expect(response.status).toBeLessThanOrEqual(400);
+      }),
+      { numRuns: numRuns, verbose: true }
+    );
+  });
+
+  test("/search/string/:searchLiteral should return HTTP 200-400 for URL-safe inputs", async () => {
+    const urlSafeChars =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
+
+    const urlSafeString = fc
+      .array(fc.constantFrom(...urlSafeChars), { minLength: 1, maxLength: 20 })
+      .map((arr) => arr.join(""));
+
+    await fc.assert(
+      fc.asyncProperty(urlSafeString, async (data) => {
+        const response = await request(app).get(`/search/string/${data}`);
+        expect(response.status).toBeGreaterThanOrEqual(200);
+        expect(response.status).toBeLessThanOrEqual(400);
+      }),
+      { numRuns: numRuns, verbose: true }
+    );
+  }, 120000);
 });
