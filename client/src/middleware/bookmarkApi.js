@@ -100,6 +100,7 @@ export async function getBookmarkedHotels() {
 
 // Add a hotel to current user's bookmarks via backend
 export async function addBookmark(hotelToSave) {
+  console.log("hotel to save", hotelToSave);
   const currentUser = getCurrentUser();
   if (!currentUser) {
     console.warn("No user logged in. Cannot add bookmark.");

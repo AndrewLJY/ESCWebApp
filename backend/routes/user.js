@@ -5,7 +5,7 @@ var router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const verifyFunction = require("../../backend/auth_middleware/auth_middleware.js");
+const verifyToken = require("../../backend/auth_middleware/auth_middleware.js");
 
 // router.post('/submit/', async function(req, res, next) {
 //     const name = req.body.email;
@@ -71,9 +71,9 @@ router.post("/login/", async function (req, res, next) {
   }
 });
 /*
-original function header is router.post("/bookmarks/", verifyFunction,async function(req, res, next)
+original function header is router.post("/bookmarks/", verifyToken,async function(req, res, next)
 */
-router.post("/bookmarks/", verifyFunction, async function (req, res, next) {
+router.post("/bookmarks/", verifyToken, async function (req, res, next) {
   console.log("Hello!!!! I am accessing bookmarks now.");
   //retrieve infos for bookmark
   const hotel_id = req.body.hotel_id;
@@ -154,7 +154,7 @@ router.post("/bookmarks/", verifyFunction, async function (req, res, next) {
 
 router.get(
   "/allBookmarks/:user_email",
-  verifyFunction,
+  verifyToken,
   async function (req, res, next) {
     userEmail = req.params.user_email;
 
@@ -169,12 +169,13 @@ router.get(
       console.log(bookmarks);
       res.send(bookmarks);
     } catch (error) {
+      res.status(400).json("Bad Request");
       console.error("database error" + error);
     }
   }
 );
 
-router.post("/deleteBookmark", verifyFunction, async function (req, res, next) {
+router.post("/deleteBookmark", verifyToken, async function (req, res, next) {
   hotelId = req.body.hotel_id;
   user_email = req.body.user_email;
 
