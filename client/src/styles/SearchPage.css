@@ -53,6 +53,10 @@ body {
   padding-top: 1rem;
 }
 
+.search-and-filter {
+  margin-bottom: 5rem;
+}
+
 /* Filter bar */
 .filter-bar-wrapper {
   position: absolute;
@@ -61,6 +65,9 @@ body {
   display: flex;
   justify-content: center;
   padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 /* Results */

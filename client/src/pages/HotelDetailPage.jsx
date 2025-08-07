@@ -12,7 +12,7 @@ import {
   getHotelDetailsAPI,
   getRoomPricingAPI,
 } from "../middleware/hotelDetailsApi";
-import Header from "../components/header";
+import Header from "../components/header.jsx";
 import BookmarkButton from "../components/BookmarkButton";
 import "../styles/HotelDetailPage.css";
 
@@ -294,14 +294,15 @@ export default function HotelDetailPage() {
               {isAuthenticated() && (
                 <BookmarkButton
                   hotel={{
-                    id: hotelDetails.keyDetails.id,
-                    name: hotelDetails.keyDetails.name,
-                    address: hotelDetails.keyDetails.address,
-                    rating: hotelDetails.keyDetails.rating,
-                    price: hotelDetails.keyDetails.price,
-                    imageUrl:
+                    hotel_id: hotelDetails.keyDetails.id,
+                    hotel_name: hotelDetails.keyDetails.name,
+                    hotel_address: hotelDetails.keyDetails.address,
+                    hotel_ratings: hotelDetails.keyDetails.rating,
+                    hotel_price: hotelDetails.keyDetails.price,
+                    image_url:
                       hotelDetails.imageDetails?.stitchedImageUrls?.[0] ||
                       "https://via.placeholder.com/300x200?text=No+Image",
+                    user_email: JSON.parse(localStorage.getItem("user")).email,
                   }}
                 />
               )}
