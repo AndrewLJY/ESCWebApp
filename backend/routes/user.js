@@ -92,13 +92,15 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
   const hotel_name = req.body.hotel_name;
   const hotel_address = req.body.hotel_address;
   const image_url = req.body.image_url;
-  const hotel_ratings = req.body.hotel_ratings;
+  const hotel_ratings = req.body.hotel_ratings.toString();
   const user_email = req.body.user_email;
   const search_string = req.body.search_string;
   const destination_id = req.body.destination_id;
 
   console.log(search_string);
   console.log(destination_id);
+  console.log(hotel_ratings);
+  console.log(typeof hotel_ratings);
 
   const bookmark = new bookmarkModel.Bookmark(
     hotel_id,
@@ -134,29 +136,19 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
     }
   }
 
-  if (Number(hotel_ratings) < 0 || Number(hotel_ratings) > 5) {
+  let hotel_ratingsCopy = hotel_ratings;
+  if (Number(hotel_ratingsCopy) < 0 || Number(hotel_ratingsCopy) > 5) {
     console.log("ratings");
     return res.status(400).json("Invalid ratings");
   }
 
   console.log(image_url.slice(image_url.length - 3, image_url.length));
   console.log("url", image_url);
-  if (
-    !image_url.slice(image_url.length - 5, image_url.length).includes(".jpg")
-  ) {
-    console.log("image url");
-    return res.status(400).json("Invalid Image url");
-  }
 
   if (!validEmail.test(user_email)) {
     console.log("email");
     return res.status(400).json("Invalid email");
   }
-
-  // if (!search_string.slice(0, 10).includes("localhost:5173")) {
-  //   console.log("search string");
-  //   return res.status(400).json("Invalid search string");
-  // }
 
   try {
     //try to insert into bookmark table
