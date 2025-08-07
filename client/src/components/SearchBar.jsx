@@ -149,8 +149,8 @@ export default function SearchBar({
       params.set("hotel", hotel_filters.value.trim());
       params.set("checkin", checkin_filters.value);
       params.set("checkout", checkout_filters.value);
-      params.set("guests", guests_filters.value);
-      params.set("roomNum", rooms_filters.value);
+      params.set("guests", guests_filters.value || "1");
+      params.set("roomNum", rooms_filters.value || "1");
       navigate(`/search?${params.toString()}`);
     }
   };

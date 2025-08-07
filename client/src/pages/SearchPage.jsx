@@ -18,19 +18,58 @@ export default function SearchPage() {
   const [destinationId, setDestinationId] = useState("");
   const [loading, setLoading] = useState(false);
   const [startPage, setStartPage] = useState(0);
+  const [error, setError] = useState(null);
+
+  // Validate search parameters
+  const validateParams = (params) => {
+    const checkin = params.get("checkin");
+    const checkout = params.get("checkout");
+    const location = params.get("location");
+    const hotel = params.get("hotel");
+    
+    // Check if we have either location or hotel
+    if (!location && !hotel) {
+      return "Location or hotel name is required";
+    }
+    
+    // Validate dates if provided
+    if (checkin && isNaN(Date.parse(checkin))) {
+      return "Invalid check-in date";
+    }
+    if (checkout && isNaN(Date.parse(checkout))) {
+      return "Invalid check-out date";
+    }
+    if (checkin && checkout && new Date(checkin) >= new Date(checkout)) {
+      return "Check-out date must be after check-in date";
+    }
+    
+    return null;
+  };
 
   // Fetch hotels (real API or fallback mock)
   const fetchData = useCallback(async (queryString) => {
     setLoading(true);
+    setError(null);
+
+    const params = new URLSearchParams(queryString);
+    
+    // Validate parameters
+    const validationError = validateParams(params);
+    if (validationError) {
+      setError(validationError);
+      setHotels([]);
+      setFilteredHotels([]);
+      setLoading(false);
+      return;
+    }
 
     const payload = { hotelType: "Hotel" };
-    const params = new URLSearchParams(queryString);
     if (params.get("location")) payload.location = params.get("location");
     if (params.get("hotel")) payload.hotel = params.get("hotel");
     if (params.get("checkin")) payload.checkIn = params.get("checkin");
     if (params.get("checkout")) payload.checkOut = params.get("checkout");
-    if (params.get("guests")) payload.guests = Number(params.get("guests"));
-    if (params.get("roomNum")) payload.roomNum = Number(params.get("roomNum"));
+    payload.guests = Number(params.get("guests")) || 1;
+    payload.roomNum = Number(params.get("roomNum")) || 1;
 
     try {
       const resp = await searchHotelsAPI(payload);
@@ -58,6 +97,7 @@ export default function SearchPage() {
       setDestinationId(resp.data.destination_id);
     } catch (err) {
       console.error("Search error:", err);
+      setError("Search failed. Please try again.");
       setHotels([]);
       setFilteredHotels([]);
     } finally {
@@ -106,6 +146,8 @@ export default function SearchPage() {
               <div className="hotel-results">
             {loading ? (
               <div className="loading">Loading hotels...</div>
+            ) : error ? (
+              <div className="error-message">Invalid search parameters, please re-enter</div>
             ) : filteredHotels.length === 0 ? (
               <div>No hotels found.</div>
             ) : (
@@ -138,7 +180,7 @@ export default function SearchPage() {
                     <div className="stars">
                       {"★".repeat(
                         Math.floor(
-                          (h.trustYouBenchmark.score.score.overall / 100) * 5
+                          h.keyDetails.rating
                         )
                       )}
                     </div>

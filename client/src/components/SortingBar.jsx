@@ -11,13 +11,23 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
   // Get all unique amenities from hotels
   const getAllAmenities = () => {
     const amenitiesSet = new Set();
+
     hotels.forEach(hotel => {
-      if (hotel.amenities && Array.isArray(hotel.amenities)) {
-        hotel.amenities.forEach(amenity => amenitiesSet.add(amenity));
+      const amenityObj = hotel.amenities?.amenities;
+      //console.log("Hotel amenities object:", amenityObj);
+
+      if (amenityObj && typeof amenityObj === "object") {
+        Object.entries(amenityObj).forEach(([key, value]) => {
+          if (value === true) {
+            amenitiesSet.add(key);
+          }
+        });
       }
     });
-    console.log("All amenities:", Array.from(amenitiesSet));
-    return Array.from(amenitiesSet);
+
+    const amenitiesList = Array.from(amenitiesSet);
+    //console.log("All amenities:", amenitiesList);
+    return amenitiesList;
   };
 
   // Calculate max price from hotels
@@ -41,11 +51,15 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
 
     // Filter by amenities
     if (selectedAmenities.length > 0) {
-      filtered = filtered.filter(h => {
-        if (!h.amenities || !Array.isArray(h.amenities)) return false;
-        return selectedAmenities.every(amenity => h.amenities.includes(amenity));
+      filtered = filtered.filter(hotel => {
+        const amenityObj = hotel.amenities?.amenities;
+
+        if (!amenityObj || typeof amenityObj !== "object") return false;
+
+        return selectedAmenities.every(amenity => amenityObj[amenity] === true);
       });
     }
+
 
     // Sort hotels
     filtered.sort((a, b) => {
