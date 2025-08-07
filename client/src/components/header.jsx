@@ -107,7 +107,7 @@ export default function Header() {
       <div className="header__actions ms-auto">
         {isAuthenticated() ? (
           <div className="header__user">
-            <span className="user-email">{user?.email}</span>
+            <span className="user-email">{user?.username}</span>
             <button
               className="btn logout fs-5"
               onClick={() => {

@@ -4,21 +4,23 @@ const tableName = "bookmark";
 
 class Bookmark {
   constructor(
-    id,
     hotel_id,
     hotel_name,
     hotel_address,
     image_url,
     hotel_ratings,
-    userID
+    user_email,
+    destination_id,
+    search_string
   ) {
-    this.id = id;
     this.hotel_id = hotel_id;
     this.hotel_name = hotel_name;
     this.hotel_address = hotel_address;
     this.image_url = image_url;
     this.hotel_ratings = hotel_ratings;
-    this.userID = userID;
+    this.user_email = user_email;
+    this.destination_id = destination_id;
+    this.search_string = search_string;
   }
 }
 //the reason why i put varchar for hotel_ratings is that the api returns ratings as string eg. "NaN", "2"
@@ -26,15 +28,16 @@ async function sync() {
   try {
     db.pool.query(`
         CREATE TABLE IF NOT EXISTS ${tableName} (
-            id INTEGER,
+            id INTEGER AUTO_INCREMENT,
             hotel_id VARCHAR(255),
             hotel_name VARCHAR(255),
             hotel_address VARCHAR(255),
             image_url VARCHAR(255),
             hotel_ratings VARCHAR(255),
-            userID INTEGER,
-            PRIMARY KEY (id, hotel_id),
-            FOREIGN KEY (userID) REFERENCES user (id)
+            user_email VARCHAR(255),
+            destination_id VARCHAR (255),
+            search_string VARCHAR (255),
+            PRIMARY KEY (id, hotel_id)
         )
         `);
   } catch (error) {
@@ -43,22 +46,35 @@ async function sync() {
   }
 }
 
-async function findbyHotelId(hotel_id) {
+async function findbyHotelUserId(hotel_id, user_email) {
   try {
     const [rows, fieldDefs] = await db.pool.query(
-      `SELECT ${tableName}.id,
+      `
+      SELECT
       ${tableName}.hotel_id,
       ${tableName}.hotel_name,
       ${tableName}.hotel_address,
       ${tableName}.image_url,
-      ${tableName}.hotel_ratings 
+      ${tableName}.hotel_ratings,
+      ${tableName}.user_email,
+      ${tableName}.destination_id,
+      ${tableName}.search_string
       FROM ${tableName}
-      WHERE ${tableName}.hotel_id =?`,
-      [hotel_id]
+      WHERE ${tableName}.hotel_id = ? AND ${tableName}.user_email = ?`,
+      [hotel_id, user_email]
     );
     let list = [];
     for (let row of rows) {
-      let bookmarkHotel = new Bookmark(row.id, row.hotel_id);
+      let bookmarkHotel = new Bookmark(
+        row.hotel_id,
+        row.hotel_name,
+        row.hotel_address,
+        row.image_url,
+        row.hotel_ratings,
+        row.user_email,
+        row.destination_id,
+        row.search_string
+      );
       list.push(bookmarkHotel);
     }
     return list;
@@ -70,20 +86,23 @@ async function findbyHotelId(hotel_id) {
 async function insertOne(bookmark) {
   try {
     //check if the hotel is already bookmarked(already inside table)
-    const exists = await findbyHotelId(bookmark.hotel_id);
+    const exists = await findbyHotelUserId(
+      bookmark.hotel_id,
+      bookmark.user_email
+    );
     //check if length of exists array is 0,hotel not bookmarked
     if (exists.length == 0) {
-      const [rows, fieldDefs] = await db.pool.query(
-        `INSERT INTO ${tableName}(id,hotel_id,hotel_name,hotel_address,image_url,hotel_ratings,userID) VALUES(?,?,?,?,?,?,?)`,
-
+      await db.pool.query(
+        `INSERT INTO ${tableName}(hotel_id,hotel_name,hotel_address,image_url,hotel_ratings,user_email, destination_id, search_string) VALUES(?,?,?,?,?,?,?,?)`,
         [
-          bookmark.id,
           bookmark.hotel_id,
           bookmark.hotel_name,
           bookmark.hotel_address,
           bookmark.image_url,
           bookmark.hotel_ratings,
-          bookmark.userID,
+          bookmark.user_email,
+          bookmark.destination_id,
+          bookmark.search_string,
         ]
       );
       return 1;
@@ -100,20 +119,23 @@ async function insertOne(bookmark) {
 
 async function getAllBookmarksPerUser(email) {
   try {
-    let userID = await userModel.findIDByEmail(email);
-    const [rows, fieldDefs] = await db.pool.query(`
-      SELECT * FROM ${tableName} WHERE ${tableName}.userID = ${userID}
-      `);
+    const [rows, fieldDefs] = await db.pool.query(
+      `
+      SELECT * FROM ${tableName} WHERE ${tableName}.user_email = ?
+      `,
+      [email]
+    );
     let bookmarks = [];
     for (let row of rows) {
       singleBookmarkDetails = new Bookmark(
-        row.id,
         row.hotel_id,
         row.hotel_name,
         row.hotel_address,
         row.image_url,
         row.hotel_ratings,
-        row.userID
+        row.user_email,
+        row.destination_id,
+        row.search_string
       );
       bookmarks.push(singleBookmarkDetails);
     }
@@ -124,8 +146,8 @@ async function getAllBookmarksPerUser(email) {
   }
 }
 
-async function removeHotelBookmark(hotelId) {
-  if ((await findbyHotelId(hotelId)).length === 0) {
+async function removeHotelBookmark(hotelId, email) {
+  if ((await findbyHotelUserId(hotelId, email)).length === 0) {
     console.error("hotel does not exist in database.");
     return -1;
   }
@@ -144,7 +166,7 @@ module.exports = {
   Bookmark,
   sync,
   insertOne,
-  findbyHotelId,
+  findbyHotelUserId,
   getAllBookmarksPerUser,
   removeHotelBookmark,
 };

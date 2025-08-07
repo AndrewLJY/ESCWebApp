@@ -61,7 +61,8 @@ router.post("/login/", async function (req, res, next) {
     output = {
       user: JSON.stringify(user),
       token: token,
-      email: username,
+      username: username,
+      email: email,
     };
     res.send(output);
   } else {
@@ -75,22 +76,27 @@ original function header is router.post("/bookmarks/", verifyFunction,async func
 router.post("/bookmarks/", async function (req, res, next) {
   console.log("Hello!!!! I am accessing bookmarks now.");
   //retrieve infos for bookmark
-  const id = req.body.id;
   const hotel_id = req.body.hotel_id;
   const hotel_name = req.body.hotel_name;
   const hotel_address = req.body.hotel_address;
   const image_url = req.body.image_url;
   const hotel_ratings = req.body.hotel_ratings;
-  const userID = req.body.userID;
+  const user_email = req.body.user_email;
+  const search_string = req.body.search_string;
+  const destination_id = req.body.destination_id;
+
+  console.log(search_string);
+  console.log(destination_id);
 
   const bookmark = new bookmarkModel.Bookmark(
-    id,
     hotel_id,
     hotel_name,
     hotel_address,
     image_url,
     hotel_ratings,
-    userID
+    user_email,
+    destination_id,
+    search_string
   );
 
   try {
@@ -111,7 +117,7 @@ router.get("/allBookmarks/:user_email", async function (req, res, next) {
   try {
     let bookmarks = await bookmarkModel.getAllBookmarksPerUser(userEmail);
     console.log(bookmarks);
-    res.json(bookmarks);
+    res.send(bookmarks);
   } catch (error) {
     console.error("database error" + error);
   }
@@ -119,8 +125,9 @@ router.get("/allBookmarks/:user_email", async function (req, res, next) {
 
 router.post("/deleteBookmark", async function (req, res, next) {
   hotelId = req.body.hotel_id;
+  user_email = req.body.user_email;
   try {
-    result = await bookmarkModel.removeHotelBookmark(hotelId);
+    result = await bookmarkModel.removeHotelBookmark(hotelId, user_email);
     if (result === -1) {
       res.status(500).send("Error, hotel does not exist in database");
       return;

@@ -15,7 +15,8 @@ export default function Bookmark() {
   useEffect(() => {
     async function fetchBookmarks() {
       const data = await getBookmarkedHotels();
-      setBookmarks(data);
+      setBookmarks(data.data);
+
       setLoading(false);
     }
     fetchBookmarks();
@@ -32,25 +33,24 @@ export default function Bookmark() {
   const handleView = (hotel) => {
     const hotelDetails = {
       keyDetails: {
-        id: hotel.id,
-        name: hotel.name,
-        address: hotel.address,
-        rating: hotel.rating,
-        price: hotel.price,
+        id: hotel.hotel_id,
+        name: hotel.hotel_name,
+        address: hotel.hotel_address,
+        rating: hotel.hotel_ratings,
         distance: hotel.distance || 0,
       },
       imageDetails: {
         imageCounts:
-          hotel.stitchedImageUrls?.length || (hotel.imageUrl ? 1 : 0),
+          hotel.stitchedImageUrls?.length || (hotel.image_url ? 1 : 0),
         stitchedImageUrls:
-          hotel.stitchedImageUrls || (hotel.imageUrl ? [hotel.imageUrl] : []),
+          hotel.stitchedImageUrls || (hotel.image_url ? [hotel.image_url] : []),
       },
     };
 
-    const destinationId = hotel.destinationId || "";
-    const searchString = hotel.searchString || "";
+    const destinationId = hotel.destination_id || "";
+    const searchString = hotel.search_string || "";
 
-    navigate(`/hotel/${hotel.id}${searchString}`, {
+    navigate(`/hotel/${hotel.hotel_id}${searchString}`, {
       state: { hotelDetails, destinationId },
     });
   };
@@ -71,21 +71,20 @@ export default function Bookmark() {
         ) : (
           <div className="bookmark-grid">
             {bookmarks.map((hotel) => (
-              <div key={hotel.id} className="bookmark-card">
+              <div key={hotel.hotel_id} className="bookmark-card">
                 <img
                   className="bookmark-image"
                   src={
                     hotel.stitchedImageUrls?.[0] ||
-                    hotel.imageUrl ||
+                    hotel.image_url ||
                     "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg"
                   }
-                  alt={hotel.name}
+                  alt={hotel.hotel_name}
                 />
                 <div className="bookmark-info">
-                  <h3>{hotel.name}</h3>
-                  <p className="address">{hotel.address}</p>
-                  <p className="stars">{"★".repeat(hotel.rating)}</p>
-                  <p className="price">SGD {hotel.price}</p>
+                  <h3>{hotel.hotel_name}</h3>
+                  <p className="address">{hotel.hotel_address}</p>
+                  <p className="stars">{"★".repeat(hotel.hotel_ratings)}</p>
 
                   <button
                     type="button"
