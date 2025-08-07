@@ -255,7 +255,10 @@
 import React, { useState, useEffect } from "react";
 import { loginUserAPI, signupUserAPI } from "../middleware/authApi";
 import "../styles/Header.css";
+import Toast from "react-bootstrap/Toast";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-bootstrap";
+import ascendaLogo from "../assets/ascenda_logo.png";
 
 export default function Header() {
   const [user, setUser] = useState(null);
@@ -263,6 +266,8 @@ export default function Header() {
   const [signupOpen, setSignupOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   // On mount, restore any saved session
   useEffect(() => {
@@ -283,6 +288,9 @@ export default function Header() {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
+    setShowToast(true);
+
+    console.log("[Auth] User logged in and saved to localStorage.");
   };
   const logout = () => {
     localStorage.removeItem("token");
@@ -305,182 +313,221 @@ export default function Header() {
 
   return (
     <>
-      <div className="header__logo">Ascenda</div>
-      <div className="header__actions">
-        {isAuthenticated() ? (
-          <div className="header__user">
-            <span className="user-email">{user.username}</span>
-            <button className="btn logout" onClick={logout}>
-              Logout
-            </button>
-            <button className="btn book" onClick={() => navigate("/bookmark")}>
-              Your Bookmarks
-            </button>
-          </div>
-        ) : (
-          <button
-            className="btn login"
-            onClick={() => {
-              setLoginOpen((o) => !o);
-              setSignupOpen(false);
-            }}
-          >
-            Login
-          </button>
-        )}
-      </div>
-
-      {/* LOGIN DROPDOWN */}
-      {loginOpen && !signupOpen && (
-        <div className="login-dropdown">
-          <h2 className="dropdown__title">Sign In</h2>
-          <form
-            className="login-form"
-            noValidate
-            onSubmit={async (e) => {
-              e.preventDefault();
-
-              // 1) Empty-field guard
-              const form = new FormData(e.target);
-              const email = (form.get("email") || "").toString().trim();
-              const password = (form.get("password") || "").toString().trim();
-              if (!email || !password) {
-                alert("Please enter email and password.");
-                return;
-              }
-
-              // 2) Invalid-email format guard
-              //    Simple check for '@'
-              if (!email.includes("@")) {
-                alert("Please enter a valid email address.");
-                return;
-              }
-
-              // 3) Only now run your API call
-              setLoading(true);
-              try {
-                const result = await loginUserAPI({ email, password });
-                login(result, result.token);
-                alert("Login successful!");
-                setLoginOpen(false);
-                window.location.reload();
-              } catch (err) {
-                alert(err.message);
-              } finally {
-                setLoading(false);
-              }
-            }}
-          >
-            <div className="form-group">
-              <label htmlFor="login-email">Email Address</label>
-              <input id="login-email" name="email" type="email" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="login-password">Password</label>
-              <input
-                id="login-password"
-                name="password"
-                type="password"
-                required
-              />
-            </div>
-            <button type="submit" className="btn submit" disabled={loading}>
-              {loading ? "Signing In..." : "Sign In Now"}
-            </button>
-            <p className="dropdown__signup">
-              Don’t have an account?{" "}
+      <div className="header__bg d-flex flex-row align-items-center p-5">
+        {/* <div className="header__logo">Ascenda</div> */}
+        <img
+          className="header__logo"
+          width={250}
+          src={ascendaLogo}
+          onClick={() => {
+            navigate("/");
+          }}
+        />
+        <div className="header__actions ms-auto">
+          {isAuthenticated() ? (
+            <div className="header__user">
+              <span className="user-email">{user?.username}</span>
               <button
-                className="btn signup"
-                type="button"
+                className="btn logout fs-5"
                 onClick={() => {
-                  setSignupOpen((o) => !o);
-                  setLoginOpen(false);
+                  logout();
+                  window.location.reload();
                 }}
               >
-                Create one
+                Logout
               </button>
-            </p>
+              <button
+                className="btn book fs-5"
+                onClick={() => navigate("/bookmark")}
+              >
+                Your Bookmarks
+              </button>
+            </div>
+          ) : (
             <button
-              className="btn close"
-              type="button"
-              onClick={() => setLoginOpen(false)}
+              className="btn login"
+              onClick={() => {
+                setLoginOpen((o) => !o);
+                setSignupOpen(false);
+              }}
             >
-              Close
+              Login
             </button>
-          </form>
+          )}
         </div>
-      )}
 
-      {/* SIGNUP DROPDOWN (unchanged) */}
-      {signupOpen && !loginOpen && (
-        <div className="signup-dropdown">
-          <h2 className="dropdown__title">Create Account</h2>
-          <form
-            className="login-form"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setLoading(true);
-              try {
+        {/* LOGIN DROPDOWN */}
+        {loginOpen && !signupOpen && (
+          <div className="login-dropdown">
+            <h2 className="dropdown__title">Sign In</h2>
+            <form
+              className="login-form"
+              noValidate
+              onSubmit={async (e) => {
+                e.preventDefault();
+
+                // 1) Empty-field guard
                 const form = new FormData(e.target);
-                const email = form.get("email");
-                const password = form.get("password");
-                const confirmPassword = form.get("confirmPassword");
-                if (password !== confirmPassword) {
-                  alert("Passwords do not match!");
-                  setLoading(false);
+                const email = (form.get("email") || "").toString().trim();
+                const password = (form.get("password") || "").toString().trim();
+                if (!email || !password) {
+                  alert("Please enter email and password.");
                   return;
                 }
-                const result = await signupUserAPI({
-                  email,
-                  password,
-                  confirmPassword,
-                });
-                login(result.user, result.token);
-                alert("Account created!");
-                setSignupOpen(false);
-                window.location.reload();
-              } catch (err) {
-                alert(err.message);
-              } finally {
-                setLoading(false);
-              }
-            }}
-          >
-            <div className="form-group">
-              <label htmlFor="signup-email">Email Address</label>
-              <input id="signup-email" name="email" type="email" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="signup-password">Password</label>
-              <input
-                id="signup-password"
-                name="password"
-                type="password"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="signup-confirm-password">Confirm Password</label>
-              <input
-                id="signup-confirm-password"
-                name="confirmPassword"
-                type="password"
-                required
-              />
-            </div>
-            <button type="submit" className="btn submit" disabled={loading}>
-              {loading ? "Signing Up..." : "Sign Up Now"}
-            </button>
-            <button
-              className="btn close"
-              type="button"
-              onClick={() => setSignupOpen(false)}
+
+                // 2) Invalid-email format guard
+                //    Simple check for '@'
+                if (!email.includes("@")) {
+                  alert("Please enter a valid email address.");
+                  return;
+                }
+
+                // 3) Only now run your API call
+                setLoading(true);
+                try {
+                  const result = await loginUserAPI({ email, password });
+                  login(result, result.token);
+                  closeAll();
+                  setToastMessage("Login Successful!");
+                  // window.location.reload();
+                  setShowToast(true);
+                  // alert("Login successful!");
+                  console.log(showToast);
+                } catch (err) {
+                  alert(err.message);
+                } finally {
+                  setLoading(false);
+                }
+              }}
             >
-              Close
-            </button>
-          </form>
-        </div>
-      )}
+              <div className="form-group">
+                <label htmlFor="login-email">Email Address</label>
+                <input id="login-email" name="email" type="email" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="login-password">Password</label>
+                <input
+                  id="login-password"
+                  name="password"
+                  type="password"
+                  required
+                />
+              </div>
+              <button type="submit" className="btn submit" disabled={loading}>
+                {loading ? "Signing In..." : "Sign In Now"}
+              </button>
+              <p className="dropdown__signup">
+                Don’t have an account?{" "}
+                <button
+                  className="btn signup"
+                  type="button"
+                  onClick={() => {
+                    setSignupOpen((o) => !o);
+                    setLoginOpen(false);
+                  }}
+                >
+                  Create one
+                </button>
+              </p>
+              <button
+                className="btn close"
+                type="button"
+                onClick={() => setLoginOpen(false)}
+              >
+                Close
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* SIGNUP DROPDOWN (unchanged) */}
+        {signupOpen && !loginOpen && (
+          <div className="signup-dropdown">
+            <h2 className="dropdown__title">Create Account</h2>
+            <form
+              className="login-form"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                try {
+                  const form = new FormData(e.target);
+                  const email = form.get("email");
+                  const password = form.get("password");
+                  const confirmPassword = form.get("confirmPassword");
+                  if (password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    setLoading(false);
+                    return;
+                  }
+                  const result = await signupUserAPI({
+                    email,
+                    password,
+                    confirmPassword,
+                  });
+                  login(result.user, result.token);
+                  closeAll();
+                  // alert("Account created!");
+                  setToastMessage("Sign Up Successful!");
+                  setShowToast(true);
+
+                  // window.location.reload();
+                } catch (err) {
+                  alert(err.message);
+                } finally {
+                  setLoading(false);
+                }
+              }}
+            >
+              <div className="form-group">
+                <label htmlFor="signup-email">Email Address</label>
+                <input id="signup-email" name="email" type="email" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="signup-password">Password</label>
+                <input
+                  id="signup-password"
+                  name="password"
+                  type="password"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="signup-confirm-password">
+                  Confirm Password
+                </label>
+                <input
+                  id="signup-confirm-password"
+                  name="confirmPassword"
+                  type="password"
+                  required
+                />
+              </div>
+              <button type="submit" className="btn submit" disabled={loading}>
+                {loading ? "Signing Up..." : "Sign Up Now"}
+              </button>
+              <button
+                className="btn close"
+                type="button"
+                onClick={() => setSignupOpen(false)}
+              >
+                Close
+              </button>
+            </form>
+          </div>
+        )}
+
+        <ToastContainer className="header__toasts m-4 position-fixed bottom-0 end-0">
+          <Toast
+            bg={"success"}
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={1000}
+            autohide
+          >
+            <Toast.Body className="text-light">{toastMessage}</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      </div>
     </>
   );
 }

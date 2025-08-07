@@ -21,6 +21,9 @@ export default function CheckoutForm() {
         .post("http://localhost:8080/stripe/create-checkout-session", {
           roomName: location.state.roomName,
           roomPrice: location.state.roomPrice,
+          roomDesc: location.state.roomDesc,
+          roomImages: location.state.roomImages,
+          bookingDetails: location.state.bookingDetails,
         })
         .then((response) => response.data.clientSecret);
     } catch (error) {

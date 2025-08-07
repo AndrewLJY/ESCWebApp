@@ -65,11 +65,15 @@ class KeyRoomDetails {
     this.roomTypeIndex = builder.roomTypeIndex;
     this.freeCancellation = builder.freeCancellation;
     this.longDescription = builder.longDescription;
-    this.roomImages = builder.roomImages
+    this.roomImages = builder.roomImages;
   }
 
   getKeyId() {
     return this.keyId;
+  }
+
+  getRoomImages(){
+    return this.roomImages;
   }
 
   getRoomDescription() {
@@ -90,10 +94,6 @@ class KeyRoomDetails {
 
   getLongDescription() {
     return this.longDescription;
-  }
-
-  getRoomImages() {
-    return this.roomImages;
   }
 
   static get Builder() {
@@ -128,6 +128,11 @@ class KeyRoomDetails {
         return this;
       }
 
+      setRoomImages(roomImages){
+        this.roomImages = roomImages;
+        return this;
+      }
+
       setFreeCancellation(freeCancellation) {
         this.freeCancellation = freeCancellation;
         return this;
@@ -135,11 +140,6 @@ class KeyRoomDetails {
 
       setLongDescription(longDescription) {
         this.longDescription = longDescription;
-        return this;
-      }
-
-      setRoomImages(roomImages){
-        this.roomImages = roomImages;
         return this;
       }
 

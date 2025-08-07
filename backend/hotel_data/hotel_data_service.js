@@ -327,7 +327,7 @@ async function getAllHotelsAndPricesForDestination(
     }
 
     const response2 = await fetch(
-      `https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destinationId}&checkin=${check_in}&checkout=${check_out}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1`,
+      `https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destinationId}&checkin=${check_in}&checkout=${check_out}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1089&landing_page=wl-acme-earn&product_type=earn`,
       {
         method: "GET",
       }
@@ -401,7 +401,7 @@ async function getSingleHotelPriceDetails(
     }
 
     const response = await fetch(
-      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1`,
+      `https://hotelapi.loyalty.dev/api/hotels/${hotelId}/price?destination_id=${destinationId}&checkin=${checkInDate}&checkout=${checkOutDate}&lang=en_US&currency=SGD&country_code=SG&guests=${guestInputField}&partner_id=1089&landing_page=wl-acme-earn&product_type=earn`,
       {
         method: "GET",
       }
