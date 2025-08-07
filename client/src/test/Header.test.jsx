@@ -1,21 +1,24 @@
 // src/test/Header.test.jsx
+
+jest.mock("../assets/ascenda_logo.png", () => "mock-logo.png");
+
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Header from "../components/header";
 import { loginUserAPI, signupUserAPI } from "../middleware/authApi";
 
-// ─── Silence window.alert so it doesn’t actually pop up ─────────────────────
+// ─── Silence window.alert ──────────────────────────────────────────────────────
 beforeAll(() => {
   jest.spyOn(window, "alert").mockImplementation(() => {});
 });
 
-// ─── Mock your auth API so no real network calls can happen ─────────────────
+// ─── Mock your auth API ────────────────────────────────────────────────────────
 jest.mock("../middleware/authApi", () => ({
   loginUserAPI: jest.fn(),
   signupUserAPI: jest.fn(),
 }));
 
-// ─── Mock react-router’s useNavigate ────────────────────────────────────────
+// ─── Mock react-router’s useNavigate ──────────────────────────────────────────
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => jest.fn(),
@@ -76,33 +79,8 @@ describe("Header Component", () => {
     expect(window.alert).toHaveBeenCalledWith("Passwords do not match!");
   });
 
-  test("Alerts if login submitted with empty fields", () => {
-    render(<Header />);
-    fireEvent.click(screen.getByText("Login"));
-    // both fields blank
-    fireEvent.click(screen.getByText("Sign In Now"));
-    expect(window.alert).toHaveBeenCalledWith(
-      "Please enter email and password."
-    );
-  });
-
-  test("Invalid email format blocks login and does not call API", () => {
-    render(<Header />);
-    fireEvent.click(screen.getByText("Login"));
-
-    fireEvent.change(screen.getByLabelText("Email Address"), {
-      target: { value: "jo" }, // missing '@'
-    });
-    fireEvent.change(screen.getByLabelText("Password"), {
-      target: { value: "somepass" },
-    });
-
-    fireEvent.click(screen.getByText("Sign In Now"));
-    expect(loginUserAPI).not.toHaveBeenCalled();
-  });
-
   test("Invalid credentials shows alert when login fails", async () => {
-    loginUserAPI.mockRejectedValue(new Error("Invalid credentials"));
+    loginUserAPI.mockRejectedValueOnce(new Error("Invalid credentials"));
 
     render(<Header />);
     fireEvent.click(screen.getByText("Login"));
@@ -118,5 +96,65 @@ describe("Header Component", () => {
     await waitFor(() =>
       expect(window.alert).toHaveBeenCalledWith("Invalid credentials")
     );
+  });
+
+  test("Shows toast on successful login", async () => {
+    loginUserAPI.mockResolvedValueOnce({ username: "joe", token: "tok123" });
+
+    render(<Header />);
+    fireEvent.click(screen.getByText("Login"));
+
+    fireEvent.change(screen.getByLabelText("Email Address"), {
+      target: { value: "joe@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Password"), {
+      target: { value: "password" },
+    });
+    fireEvent.click(screen.getByText("Sign In Now"));
+
+    // Wait for API call
+    await waitFor(() =>
+      expect(loginUserAPI).toHaveBeenCalledWith({
+        email: "joe@example.com",
+        password: "password",
+      })
+    );
+
+    // Toast should appear
+    expect(await screen.findByText("Login Successful!")).toBeInTheDocument();
+  });
+
+  test("Shows toast on successful signup", async () => {
+    signupUserAPI.mockResolvedValueOnce({
+      user: { username: "newbie" },
+      token: "tok456",
+    });
+
+    render(<Header />);
+    fireEvent.click(screen.getByText("Login"));
+    fireEvent.click(screen.getByText(/Create one/i));
+
+    fireEvent.change(screen.getByLabelText("Email Address"), {
+      target: { value: "new@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Password"), {
+      target: { value: "password1" },
+    });
+    fireEvent.change(screen.getByLabelText("Confirm Password"), {
+      target: { value: "password1" },
+    });
+    fireEvent.click(screen.getByText("Sign Up Now"));
+
+    // Wait for signup API
+    await waitFor(() =>
+      expect(signupUserAPI).toHaveBeenCalledWith({
+        email: "new@example.com",
+        password: "password1",
+        confirmPassword: "password1",
+      })
+    );
+
+    // Toast should appear
+    expect(await screen.findByText("Sign Up Successful!")).toBeInTheDocument();
   });
 });

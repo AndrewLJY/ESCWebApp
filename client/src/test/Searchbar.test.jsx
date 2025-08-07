@@ -1,299 +1,328 @@
 // src/test/Searchbar.test.jsx
+jest.mock("../assets/ascenda_logo.png", () => "mock-logo.png");
 
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import LandingPage from "../pages/LandingPage";
 import SearchBar from "../components/SearchBar";
+import LandingPage from "../pages/LandingPage";
 import axios from "axios";
 import { act } from "react-dom/test-utils";
 
-// ─── Mock react-router’s useNavigate ─────────────────────────────────────────
+// ─── Mock navigate ─────────────────────────────────────────────────────────────
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate,
 }));
 
-// ─── Mock axios for autocomplete ──────────────────────────────────────────────
 jest.mock("axios");
 
-//
-// 1) SearchBar Autocomplete (landing vs search-page modes)
-//
-describe("SearchBar Autocomplete", () => {
+describe("1) SearchBar Autocomplete", () => {
   beforeEach(() => {
-    axios.get.mockClear();
     jest.useFakeTimers();
+    axios.get.mockClear();
   });
   afterEach(() => {
     jest.useRealTimers();
   });
 
-  it("– in landing mode: types into Location, debounces, fetches & shows suggestions", async () => {
-    axios.get.mockResolvedValueOnce({ data: ["Paris", "Parma", "Paradise"] });
+  it("landing mode: opens Location, types → debounce → shows suggestions", async () => {
+    axios.get.mockResolvedValueOnce({
+      data: ["Paris", "Parma", "Paradise"],
+    });
     const fakeFetch = jest.fn();
-
     render(
       <MemoryRouter>
-        <SearchBar
-          isSearchPage={false}
-          search=""
-          fetchData={fakeFetch}
-          className=""
-        />
+        <SearchBar isSearchPage={false} fetchData={fakeFetch} />
       </MemoryRouter>
     );
 
-    // open landing‐mode location field
     fireEvent.click(screen.getByText("Location"));
-    const input = screen.getByRole("textbox", { name: "" });
-    fireEvent.change(input, { target: { value: "Par" } });
+    const locInput = screen.getByRole("textbox");
+    fireEvent.change(locInput, { target: { value: "Par" } });
 
-    // advance debounce
     act(() => jest.advanceTimersByTime(300));
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(
         "http://localhost:8080/search/string/Par"
       );
-      expect(screen.getByText("Paris")).toBeInTheDocument();
-      expect(screen.getByText("Parma")).toBeInTheDocument();
-      expect(screen.getByText("Paradise")).toBeInTheDocument();
+      ["Paris", "Parma", "Paradise"].forEach((s) =>
+        expect(screen.getByText(s)).toBeInTheDocument()
+      );
     });
   });
 
-  it("– in search-page mode: same debounce + suggestions", async () => {
-    axios.get.mockResolvedValueOnce({ data: ["Rome", "Roma", "Romulus"] });
-    const fakeFetch = jest.fn();
+  it("allows selecting a suggestion to fill the input", async () => {
+    axios.get.mockResolvedValueOnce({ data: ["Berlin", "Bern"] });
+    render(
+      <MemoryRouter>
+        <SearchBar isSearchPage={false} />
+      </MemoryRouter>
+    );
 
+    fireEvent.click(screen.getByText("Location"));
+    const locInput = screen.getByRole("textbox");
+    fireEvent.change(locInput, { target: { value: "Be" } });
+    act(() => jest.advanceTimersByTime(300));
+
+    await waitFor(() => {
+      expect(screen.getByText("Berlin")).toBeInTheDocument();
+    });
+
+    fireEvent.mouseDown(screen.getByText("Berlin"));
+    expect(locInput.value).toBe("Berlin");
+    expect(screen.queryByText("Bern")).toBeNull();
+  });
+
+  it("search-page mode: same debounce + suggestions", async () => {
+    axios.get.mockResolvedValueOnce({
+      data: ["Rome", "Roma", "Romulus"],
+    });
+    const fakeFetch = jest.fn();
     render(
       <MemoryRouter initialEntries={["/search"]}>
-        <SearchBar
-          isSearchPage={true}
-          search=""
-          fetchData={fakeFetch}
-          className=""
-        />
+        <SearchBar isSearchPage={true} search="" fetchData={fakeFetch} />
       </MemoryRouter>
     );
 
     const locInput = screen.getByPlaceholderText("Location");
     fireEvent.change(locInput, { target: { value: "Ro" } });
-
     act(() => jest.advanceTimersByTime(300));
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(
         "http://localhost:8080/search/string/Ro"
       );
-      expect(screen.getByText("Rome")).toBeInTheDocument();
-      expect(screen.getByText("Roma")).toBeInTheDocument();
-      expect(screen.getByText("Romulus")).toBeInTheDocument();
+      ["Rome", "Roma", "Romulus"].forEach((s) =>
+        expect(screen.getByText(s)).toBeInTheDocument()
+      );
     });
   });
 });
 
-//
-// 2) SearchBar “search” behavior (in search-page mode)
-//
-describe("SearchBar Search (search-page)", () => {
-  let fakeFetch;
-  let container;
-
+describe("2) SearchBar Search (search‐page)", () => {
+  let container, fakeFetch;
   beforeEach(() => {
     jest.clearAllMocks();
     global.alert = jest.fn();
     fakeFetch = jest.fn();
     ({ container } = render(
       <MemoryRouter initialEntries={["/search"]}>
-        <SearchBar
-          isSearchPage={true}
-          search=""
-          fetchData={fakeFetch}
-          className=""
-        />
+        <SearchBar isSearchPage={true} search="" fetchData={fakeFetch} />
       </MemoryRouter>
     ));
   });
 
-  test("alerts if both Location & Hotel are blank", () => {
+  test("alerts when both Location & Hotel are blank", () => {
     fireEvent.click(screen.getByText("Search"));
     expect(global.alert).toHaveBeenCalledWith(
-      "Enter a location or hotel name."
+      "Enter a location, Hotel name is optional."
     );
     expect(fakeFetch).not.toHaveBeenCalled();
   });
 
-  test("calls fetchData with correct params on valid filters", () => {
-    // fill Location
-    const loc = screen.getByPlaceholderText("Location");
-    fireEvent.change(loc, { target: { value: "Osaka" } });
+  test("hotel-only → still asks for dates", () => {
+    fireEvent.change(screen.getByPlaceholderText("Hotel name"), {
+      target: { value: "Hilton" },
+    });
+    fireEvent.click(screen.getByText("Search"));
+    expect(global.alert).toHaveBeenCalledWith("Pick check-in and check-out.");
+  });
 
-    // fill Hotel name
-    const hotel = screen.getByPlaceholderText("Hotel name");
-    fireEvent.change(hotel, { target: { value: "Hilton" } });
+  test("location-only → still asks for dates", () => {
+    fireEvent.change(screen.getByPlaceholderText("Location"), {
+      target: { value: "Osaka" },
+    });
+    fireEvent.click(screen.getByText("Search"));
+    expect(global.alert).toHaveBeenCalledWith("Pick check-in and check-out.");
+  });
 
-    // fill checkin & checkout
+  test("rooms field is optional", () => {
+    fireEvent.change(screen.getByPlaceholderText("Location"), {
+      target: { value: "Osaka" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Hotel name"), {
+      target: { value: "Hilton" },
+    });
     const dates = container.querySelectorAll('input[type="date"]');
     fireEvent.change(dates[0], { target: { value: "2025-12-01" } });
     fireEvent.change(dates[1], { target: { value: "2025-12-05" } });
-
-    // fill guests
-    const num = container.querySelector('input[type="number"]');
-    fireEvent.change(num, { target: { value: "3" } });
-
-    // click Search
+    const nums = container.querySelectorAll('input[type="number"]');
+    fireEvent.change(nums[0], { target: { value: "3" } });
     fireEvent.click(screen.getByText("Search"));
 
     expect(global.alert).not.toHaveBeenCalled();
-    expect(fakeFetch).toHaveBeenCalledWith(
-      expect.stringContaining("location=Osaka")
-    );
-    expect(fakeFetch).toHaveBeenCalledWith(
-      expect.stringContaining("hotel=Hilton")
-    );
-    expect(fakeFetch).toHaveBeenCalledWith(
-      expect.stringContaining("checkin=2025-12-01")
-    );
-    expect(fakeFetch).toHaveBeenCalledWith(
-      expect.stringContaining("checkout=2025-12-05")
-    );
+    expect(fakeFetch).toHaveBeenCalledWith(expect.stringContaining("roomNum="));
+  });
+
+  test("full valid → calls fetchData with guests & rooms", () => {
+    fireEvent.change(screen.getByPlaceholderText("Location"), {
+      target: { value: "Osaka" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Hotel name"), {
+      target: { value: "Hilton" },
+    });
+    const dates = container.querySelectorAll('input[type="date"]');
+    fireEvent.change(dates[0], { target: { value: "2025-12-01" } });
+    fireEvent.change(dates[1], { target: { value: "2025-12-05" } });
+    const nums = container.querySelectorAll('input[type="number"]');
+    fireEvent.change(nums[0], { target: { value: "3" } });
+    fireEvent.change(nums[1], { target: { value: "2" } });
+    fireEvent.click(screen.getByText("Search"));
+
+    expect(global.alert).not.toHaveBeenCalled();
     expect(fakeFetch).toHaveBeenCalledWith(expect.stringContaining("guests=3"));
+    expect(fakeFetch).toHaveBeenCalledWith(
+      expect.stringContaining("roomNum=2")
+    );
   });
 });
 
-//
-// 3) LandingPage Search end-to-end
-//
-describe("LandingPage Search", () => {
+describe("3) SearchBar Search (landing‐page)", () => {
+  let container;
   beforeEach(() => {
     jest.clearAllMocks();
     global.alert = jest.fn();
-  });
-
-  test("fails when both location & hotel missing", () => {
-    render(
+    ({ container } = render(
       <MemoryRouter>
         <LandingPage />
       </MemoryRouter>
-    );
+    ));
+  });
+
+  test("alerts when both location & hotel missing", () => {
     fireEvent.click(screen.getByText("Search"));
     expect(global.alert).toHaveBeenCalledWith(
-      "Enter a location or hotel name."
+      "Enter a location, Hotel name is optional."
     );
   });
 
-  test("proceeds with valid filters", () => {
-    const { container } = render(
-      <MemoryRouter>
-        <LandingPage />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByText("Location"));
+  test("hotel-only → still asks for dates", () => {
+    fireEvent.click(screen.getByText("Hotel"));
     fireEvent.change(container.querySelector('input[type="text"]'), {
-      target: { value: "Singapore" },
+      target: { value: "Marriott" },
     });
-
-    fireEvent.click(screen.getByText("Checkin"));
-    fireEvent.change(container.querySelector('input[type="date"]'), {
-      target: { value: "2025-08-01" },
-    });
-
-    fireEvent.click(screen.getByText("Checkout"));
-    fireEvent.change(container.querySelector('input[type="date"]'), {
-      target: { value: "2025-08-05" },
-    });
-
-    fireEvent.click(screen.getByText("Guests"));
-    fireEvent.change(container.querySelector('input[type="number"]'), {
-      target: { value: "2" },
-    });
-
-    fireEvent.click(screen.getByText("Search"));
-
-    expect(mockNavigate).toHaveBeenCalledWith(
-      expect.stringContaining("location=Singapore")
-    );
-    expect(mockNavigate).toHaveBeenCalledWith(
-      expect.stringContaining("checkin=2025-08-01")
-    );
-    expect(mockNavigate).toHaveBeenCalledWith(
-      expect.stringContaining("checkout=2025-08-05")
-    );
-    expect(mockNavigate).toHaveBeenCalledWith(
-      expect.stringContaining("guests=2")
-    );
-    expect(global.alert).not.toHaveBeenCalled();
-  });
-
-  test("alerts if no dates are selected", () => {
-    const { container } = render(
-      <MemoryRouter>
-        <LandingPage />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByText("Location"));
-    fireEvent.change(container.querySelector('input[type="text"]'), {
-      target: { value: "Paris" },
-    });
-
     fireEvent.click(screen.getByText("Search"));
     expect(global.alert).toHaveBeenCalledWith("Pick check-in and check-out.");
   });
 
-  test("alerts if only check-in is selected", () => {
-    const { container } = render(
-      <MemoryRouter>
-        <LandingPage />
-      </MemoryRouter>
-    );
-
+  test("location-only → still asks for dates", () => {
     fireEvent.click(screen.getByText("Location"));
     fireEvent.change(container.querySelector('input[type="text"]'), {
       target: { value: "Paris" },
     });
-    fireEvent.click(screen.getByText("Checkin"));
-    fireEvent.change(container.querySelector('input[type="date"]'), {
-      target: { value: "2025-09-01" },
-    });
-
     fireEvent.click(screen.getByText("Search"));
     expect(global.alert).toHaveBeenCalledWith("Pick check-in and check-out.");
   });
 
-  test("still navigates when guest count is blank", () => {
-    const { container } = render(
-      <MemoryRouter>
-        <LandingPage />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByText("Location"));
+  test("rooms field is optional", () => {
+    const btns = container.querySelectorAll(".filter-btn");
+    fireEvent.click(btns[0]);
     fireEvent.change(container.querySelector('input[type="text"]'), {
       target: { value: "Tokyo" },
     });
-    fireEvent.click(screen.getByText("Checkin"));
-    fireEvent.change(container.querySelector('input[type="date"]'), {
-      target: { value: "2025-10-01" },
-    });
-    fireEvent.click(screen.getByText("Checkout"));
-    fireEvent.change(container.querySelector('input[type="date"]'), {
-      target: { value: "2025-10-05" },
-    });
-
-    fireEvent.click(screen.getByText("Guests"));
+    fireEvent.click(btns[2]);
+    let dateInput = container.querySelector('input[type="date"]');
+    fireEvent.change(dateInput, { target: { value: "2025-09-01" } });
+    fireEvent.click(btns[3]);
+    dateInput = container.querySelector('input[type="date"]');
+    fireEvent.change(dateInput, { target: { value: "2025-09-05" } });
+    fireEvent.click(btns[4]);
     fireEvent.change(container.querySelector('input[type="number"]'), {
-      target: { value: "" },
+      target: { value: "2" },
     });
-
     fireEvent.click(screen.getByText("Search"));
 
     expect(global.alert).not.toHaveBeenCalled();
     expect(mockNavigate).toHaveBeenCalledWith(
-      expect.stringContaining("guests=")
+      expect.stringContaining("roomNum=")
     );
+  });
+
+  test("full valid → navigates with guests & default rooms", () => {
+    const btns = container.querySelectorAll(".filter-btn");
+    fireEvent.click(btns[0]);
+    fireEvent.change(container.querySelector('input[type="text"]'), {
+      target: { value: "Singapore" },
+    });
+    fireEvent.click(btns[2]);
+    let dateInput = container.querySelector('input[type="date"]');
+    fireEvent.change(dateInput, { target: { value: "2025-08-01" } });
+    fireEvent.click(btns[3]);
+    dateInput = container.querySelector('input[type="date"]');
+    fireEvent.change(dateInput, { target: { value: "2025-08-05" } });
+    fireEvent.click(btns[4]);
+    fireEvent.change(container.querySelector('input[type="number"]'), {
+      target: { value: "4" },
+    });
+    fireEvent.click(screen.getByText("Search"));
+
+    expect(global.alert).not.toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith(
+      expect.stringContaining("guests=4")
+    );
+    expect(mockNavigate).toHaveBeenCalledWith(
+      expect.stringContaining("roomNum=")
+    );
+  });
+});
+
+describe("4) Date-picker rules", () => {
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  test("search-page: checkin min is today+3 and checkout auto-min is checkin+1", () => {
+    // Freeze today at 2025-01-01
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(new Date("2025-01-01T00:00:00Z"));
+
+    const fakeFetch = jest.fn();
+    const { container } = render(
+      <MemoryRouter initialEntries={["/search"]}>
+        <SearchBar isSearchPage={true} search="" fetchData={fakeFetch} />
+      </MemoryRouter>
+    );
+
+    const [checkinInput, checkoutInput] =
+      container.querySelectorAll('input[type="date"]');
+
+    // checkin.min should be 2025-01-04
+    expect(checkinInput).toHaveAttribute("min", "2025-01-04");
+    // initial checkout.min = same as checkin.min
+    expect(checkoutInput).toHaveAttribute("min", "2025-01-04");
+
+    // choose checkin
+    fireEvent.change(checkinInput, { target: { value: "2025-02-10" } });
+    expect(checkoutInput).toHaveAttribute("min", "2025-02-11");
+  });
+
+  test("landing-page: checkin min is today+3 and checkout auto-min is checkin+1", () => {
+    // Freeze today at 2025-06-15
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(new Date("2025-06-15T00:00:00Z"));
+
+    const { container } = render(
+      <MemoryRouter>
+        <LandingPage />
+      </MemoryRouter>
+    );
+
+    const btns = container.querySelectorAll(".filter-btn");
+
+    // open checkin
+    fireEvent.click(btns[2]);
+    let dateInput = container.querySelector('input[type="date"]');
+    expect(dateInput).toHaveAttribute("min", "2025-06-18");
+
+    // pick checkin
+    fireEvent.change(dateInput, { target: { value: "2025-07-20" } });
+
+    // open checkout
+    fireEvent.click(btns[3]);
+    dateInput = container.querySelector('input[type="date"]');
+    expect(dateInput).toHaveAttribute("min", "2025-07-21");
   });
 });

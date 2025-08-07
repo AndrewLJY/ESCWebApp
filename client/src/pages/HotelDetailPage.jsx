@@ -12,7 +12,7 @@ import {
   getHotelDetailsAPI,
   getRoomPricingAPI,
 } from "../middleware/hotelDetailsApi";
-import Header from "../components/header";
+import Header from "../components/header.jsx";
 import BookmarkButton from "../components/BookmarkButton";
 import "../styles/HotelDetailPage.css";
 
