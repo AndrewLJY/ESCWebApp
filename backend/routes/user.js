@@ -55,6 +55,7 @@ router.post("/login/", async function (req, res, next) {
   const user = await userModel.findByEmail(email);
   console.log(user);
   const result = await userModel.login(email, password);
+  console.log("RESULT IS " + result);
   if (result.success) {
     const token = jwt.sign(JSON.stringify(user), process.env.SECRET_TOKEN);
 

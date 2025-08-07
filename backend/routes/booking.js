@@ -1,9 +1,9 @@
 const express = require("express");
 const bookingModel = require("../models/booking");
 var router = express.Router();
+const bookingSchema = require("../validation/bookingSchema");
 
 router.post("/",async function(req,res,next){
-    console.log("HELLO !! ACCESSING BOOKING ENDPOINT ");
     //retrieve infos from booking
     const id = req.body.id;
     const hotel_id = req.body.hotel_id;
@@ -18,7 +18,12 @@ router.post("/",async function(req,res,next){
     const user_id = req.body.user_id;
     const full_name = req.body.full_name;
     const payment_id = req.body.payment_id;
-
+    //body paramters validation
+    const {error,value} = bookingSchema.validate(req.body);
+    if (error){
+        return res.status(400).send(`Invalid booking data: ${error}`);
+    }
+    
     const booking = new bookingModel.Booking(
         id,
         hotel_id,
@@ -45,6 +50,7 @@ router.post("/",async function(req,res,next){
         }
     } catch(error){
         console.error("database error " + error);
+        return res.status(400).send("Database error");
     }
 
 })
