@@ -224,135 +224,7 @@ export default function HotelDetailPage() {
           <div className="loading">Loading…</div>
         ) : (
           <div className="w-100 m-0">
-            <div className={`search-bar-wrapper`}>
-              <div className="sp-filter-bar my-3 p-3">
-                <Row className="align-items-center g-3">
-                  <Col>
-                    <Form.Group>
-                      <Form.Label className="fw-bold filter-label">
-                        Check In:
-                      </Form.Label>
-                      <Form.Control
-                        type="date"
-                        className="filter-input"
-                        id="filter-checkin"
-                        value={payload.checkIn}
-                        disabled={roomsLoading}
-                        onChange={(e) => {
-                          setModifyParams(true);
-                          setPayload((prevState) => ({
-                            ...prevState,
-                            checkIn: e.target.value,
-                          }));
-                          if (
-                            !payload.checkOut ||
-                            new Date(e.target.value) >=
-                              new Date(payload.checkOut)
-                          ) {
-                            const d = new Date(e.target.value);
-                            d.setDate(d.getDate() + 3);
-                            setPayload((prevState) => ({
-                              ...prevState,
-                              checkOut: d.toISOString().split("T")[0],
-                            }));
-                          }
-                        }}
-                        min={new Date().toISOString().split("T")[0]}
-                      ></Form.Control>
-                    </Form.Group>
-                  </Col>
-
-                  <Col>
-                    <Form.Group>
-                      <Form.Label className="fw-bold filter-label">
-                        Check Out:
-                      </Form.Label>
-                      <Form.Control
-                        type="date"
-                        className="filter-input"
-                        id="filter-checkout"
-                        value={payload.checkOut}
-                        disabled={roomsLoading}
-                        onChange={(e) => {
-                          setModifyParams(true);
-                          setPayload((prevState) => ({
-                            ...prevState,
-                            checkOut: e.target.value,
-                          }));
-                        }}
-                        min={
-                          (
-                            new Date(
-                              new Date(payload.checkIn).setDate(
-                                new Date(payload.checkIn).getDate() + 1
-                              )
-                            ) || new Date()
-                          )
-                            .toISOString()
-                            .split("T")[0]
-                        }
-                      ></Form.Control>
-                    </Form.Group>
-                  </Col>
-
-                  <Col>
-                    <Form.Group>
-                      <Form.Label className="fw-bold filter-label">
-                        Guests:
-                      </Form.Label>
-                      <Form.Control
-                        type="number"
-                        className="filter-input"
-                        id="filter-guests"
-                        min="1"
-                        value={payload.guests}
-                        disabled={roomsLoading}
-                        onChange={(e) => {
-                          setModifyParams(true);
-                          setPayload((prevState) => ({
-                            ...prevState,
-                            guests: e.target.value,
-                          }));
-                        }}
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col>
-                    <Form.Group>
-                      <Form.Label className="fw-bold filter-label">
-                        Rooms:
-                      </Form.Label>
-                      <Form.Control
-                        type="number"
-                        className="filter-input"
-                        id="filter-roomNum"
-                        min="1"
-                        value={payload.roomNum}
-                        disabled={roomsLoading}
-                        onChange={(e) => {
-                          setModifyParams(true);
-                          setPayload((prevState) => ({
-                            ...prevState,
-                            roomNum: e.target.value,
-                          }));
-                        }}
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col>
-                    <Button
-                      variant="primary"
-                      className="btn btn-sm"
-                      onClick={modifyParam}
-                    >
-                      Modify
-                    </Button>
-                  </Col>
-                </Row>
-              </div>
-            </div>
+   
             <div className="carousel-div d-flex flex-row">
               <Carousel
                 indicators={false}
@@ -506,6 +378,135 @@ export default function HotelDetailPage() {
                     <MapControl position={ControlPosition.BOTTOM_LEFT} />
                   </Map>
                 </APIProvider>
+              </div>
+            </div>
+                     <div className={`search-bar-wrapper`}>
+              <div className="sp-filter-bar my-3 p-3">
+                <Row className="align-items-center g-3">
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="fw-bold filter-label">
+                        Check In:
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        className="filter-input"
+                        id="filter-checkin"
+                        value={payload.checkIn}
+                        disabled={roomsLoading}
+                        onChange={(e) => {
+                          setModifyParams(true);
+                          setPayload((prevState) => ({
+                            ...prevState,
+                            checkIn: e.target.value,
+                          }));
+                          if (
+                            !payload.checkOut ||
+                            new Date(e.target.value) >=
+                              new Date(payload.checkOut)
+                          ) {
+                            const d = new Date(e.target.value);
+                            d.setDate(d.getDate() + 3);
+                            setPayload((prevState) => ({
+                              ...prevState,
+                              checkOut: d.toISOString().split("T")[0],
+                            }));
+                          }
+                        }}
+                        min={new Date().toISOString().split("T")[0]}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="fw-bold filter-label">
+                        Check Out:
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        className="filter-input"
+                        id="filter-checkout"
+                        value={payload.checkOut}
+                        disabled={roomsLoading}
+                        onChange={(e) => {
+                          setModifyParams(true);
+                          setPayload((prevState) => ({
+                            ...prevState,
+                            checkOut: e.target.value,
+                          }));
+                        }}
+                        min={
+                          (
+                            new Date(
+                              new Date(payload.checkIn).setDate(
+                                new Date(payload.checkIn).getDate() + 1
+                              )
+                            ) || new Date()
+                          )
+                            .toISOString()
+                            .split("T")[0]
+                        }
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="fw-bold filter-label">
+                        Guests:
+                      </Form.Label>
+                      <Form.Control
+                        type="number"
+                        className="filter-input"
+                        id="filter-guests"
+                        min="1"
+                        value={payload.guests}
+                        disabled={roomsLoading}
+                        onChange={(e) => {
+                          setModifyParams(true);
+                          setPayload((prevState) => ({
+                            ...prevState,
+                            guests: e.target.value,
+                          }));
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Form.Group>
+                      <Form.Label className="fw-bold filter-label">
+                        Rooms:
+                      </Form.Label>
+                      <Form.Control
+                        type="number"
+                        className="filter-input"
+                        id="filter-roomNum"
+                        min="1"
+                        value={payload.roomNum}
+                        disabled={roomsLoading}
+                        onChange={(e) => {
+                          setModifyParams(true);
+                          setPayload((prevState) => ({
+                            ...prevState,
+                            roomNum: e.target.value,
+                          }));
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+
+                  <Col>
+                    <Button
+                      variant="primary"
+                      className="btn btn-sm"
+                      onClick={modifyParam}
+                    >
+                      Modify
+                    </Button>
+                  </Col>
+                </Row>
               </div>
             </div>
             <h2 className="mb-3">Rooms Available: </h2>
