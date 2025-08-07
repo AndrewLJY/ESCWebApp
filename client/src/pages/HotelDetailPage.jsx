@@ -140,9 +140,9 @@ export default function HotelDetailPage() {
       state: {
         roomName:
           room.keyRoomDetails.name || room.keyRoomDetails.roomDescription,
-        roomPrice: room.priceDetails.price,
-        roomImages: room.keyRoomDetails.roomImages,
-        bookingDetails: {
+          roomPrice: room.priceDetails.price,
+          roomImages: room.keyRoomDetails.roomImages,
+          bookingDetails: {
           roomDesc: room.keyRoomDetails.roomDescription,
           bookingDateFrom: payload.checkIn,
           bookingDateTo: payload.checkOut,

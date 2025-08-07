@@ -107,7 +107,7 @@ export async function addBookmark(hotelToSave) {
     return;
   }
 
-  if (!hotelToSave || !hotelToSave.hotel_id || !hotelToSave.hotel_name) {
+  if (!hotelToSave || !hotelToSave.id || !hotelToSave.name) {
     console.warn("Invalid hotel object. Skipping addBookmark.");
     return;
   }
