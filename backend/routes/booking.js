@@ -45,6 +45,7 @@ router.post("/",async function(req,res,next){
         }
     } catch(error){
         console.error("database error " + error);
+        return res.status(400).send("Database error");
     }
 
 })
