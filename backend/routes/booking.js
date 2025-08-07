@@ -47,20 +47,8 @@ router.post("/", async function (req, res, next) {
     }
   } catch (error) {
     console.error("database error " + error);
+    return res.status(400).send("Database error");
   }
 });
 
 module.exports = router;
-
-// test("/search/hotel/prices should return HTTP 200-400 for URL-safe inputs", async () => {
-//     await fc.assert(
-//       fc.asyncProperty(urlSafeString, async (data) => {
-//         const response = await request(app).get(
-//           `/search/hotel/prices/diH7/RsBU/${data}/${data}/${data}/${data}`
-//         );
-//         expect(response.status).toBeGreaterThanOrEqual(200);
-//         expect(response.status).toBeLessThanOrEqual(400);
-//       }),
-//       { numRuns: numRuns, verbose: true }
-//     );
-//   });
