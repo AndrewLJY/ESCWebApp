@@ -128,15 +128,20 @@ class HotelRoomDataDTOClassList {
 var hotelRoomDataDTOClassList = new HotelRoomDataDTOClassList();
 
 function transferSingleRoomDetails(jsonData) {
-  let hotelRoomDataTransferService = new HotelRoomDataTransferService(jsonData);
-  let hotelRoomDTOObject = hotelRoomDataTransferService
-    .transferKeyRoomDetails()
-    .transferPriceDetails()
-    .transferRoomAdditionalInfo()
-    .transferTaxDetails()
-    .getNewHotelRoomDataDTOClass();
-
-  return hotelRoomDTOObject;
+  try {
+    let hotelRoomDataTransferService = new HotelRoomDataTransferService(
+      jsonData
+    );
+    let hotelRoomDTOObject = hotelRoomDataTransferService
+      .transferKeyRoomDetails()
+      .transferPriceDetails()
+      .transferRoomAdditionalInfo()
+      .transferTaxDetails()
+      .getNewHotelRoomDataDTOClass();
+    return hotelRoomDTOObject;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function getSingleHotelPriceDetails(
@@ -200,8 +205,12 @@ async function getSingleHotelPriceDetails(
   console.log(rooms);
 
   for (let i = 0; i < rooms.length; i++) {
-    let hotelRoomDTOObject = transferSingleRoomDetails(rooms[i]);
-    hotelRoomDataDTOClassList.addHotelRoomDataDTO(hotelRoomDTOObject);
+    try {
+      let hotelRoomDTOObject = transferSingleRoomDetails(rooms[i]);
+      hotelRoomDataDTOClassList.addHotelRoomDataDTO(hotelRoomDTOObject);
+    } catch (error) {
+      console.log("Room data has invalid information", error);
+    }
   }
   console.log("Finished initialising room data");
   return 0;

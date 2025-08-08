@@ -1,3 +1,46 @@
+// Validation helper functions
+function isValidUUID(uuid) {
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return typeof uuid === "string" && uuidRegex.test(uuid);
+}
+
+function isValidPrice(value) {
+  // Price should be a non-negative number
+  return isValidNumber(value) && Number(value) >= 0;
+}
+
+function isNonEmptyString(str) {
+  return typeof str === "string" && str.trim().length > 0;
+}
+
+function isValidNumber(value) {
+  valueCopy = value;
+  // Check if string can be converted to a number and doesn't contain alphabets
+  if (typeof valueCopy === "number") return true;
+  return !isNaN(Number(valueCopy)) && !/[a-zA-Z]/.test(String(valueCopy));
+}
+
+function isValidBoolean(val) {
+  if (typeof val === "boolean") return true;
+  if (val === "true" || val === "false" || val === true || val == false) {
+    return true;
+  }
+  return false;
+}
+
+function isValidArray(arr, allowEmpty = true) {
+  return Array.isArray(arr) && (allowEmpty || arr.length > 0);
+}
+
+function isValidBreakfastInfo(info) {
+  const validTypes = [
+    "hotel_detail_room_only",
+    "hotel_detail_breakfast_included",
+  ];
+  return typeof info === "string" && validTypes.includes(info);
+}
+
 class HotelRoomData {
   constructor(builder) {
     this.keyRoomDetails = builder.keyRoomDetails;
@@ -72,7 +115,7 @@ class KeyRoomDetails {
     return this.keyId;
   }
 
-  getRoomImages(){
+  getRoomImages() {
     return this.roomImages;
   }
 
@@ -109,36 +152,68 @@ class KeyRoomDetails {
       }
 
       setKeyId(keyId) {
+        if (!isValidUUID(keyId)) {
+          throw new Error("Key ID must be a valid UUID string");
+        }
         this.keyId = keyId;
         return this;
       }
 
       setRoomDescription(roomDescription) {
+        if (!isNonEmptyString(roomDescription)) {
+          throw new Error("Room description must be a non-empty string");
+        }
         this.roomDescription = roomDescription;
         return this;
       }
 
       setRoomNormalisedDescription(roomNormalisedDescription) {
+        if (!isNonEmptyString(roomNormalisedDescription)) {
+          throw new Error(
+            "Normalised room description must be a non-empty string"
+          );
+        }
         this.roomNormalisedDescription = roomNormalisedDescription;
         return this;
       }
 
       setRoomTypeIndex(roomTypeIndex) {
+        if (
+          !isNonEmptyString(roomTypeIndex) ||
+          isNaN(parseInt(roomTypeIndex))
+        ) {
+          throw new Error("Room type index must be a numeric string");
+        }
         this.roomTypeIndex = roomTypeIndex;
         return this;
       }
 
-      setRoomImages(roomImages){
+      setRoomImages(roomImages) {
+        // if (roomImages !== null && !isValidArray(roomImages)) {
+        //   throw new Error("Room images must be an array or null");
+        // }
         this.roomImages = roomImages;
         return this;
       }
 
       setFreeCancellation(freeCancellation) {
-        this.freeCancellation = freeCancellation;
+        if (!isValidBoolean(freeCancellation)) {
+          throw new Error("Free cancellation must be a boolean value");
+        }
+        this.freeCancellation =
+          typeof freeCancellation === "string"
+            ? freeCancellation.toLowerCase() === "true"
+            : freeCancellation;
         return this;
       }
 
       setLongDescription(longDescription) {
+        // Optional field, can be string or null
+        if (longDescription !== null && !isNonEmptyString(longDescription)) {
+          throw new Error(
+            "Long description must be a non-empty string or null"
+          );
+        }
         this.longDescription = longDescription;
         return this;
       }
@@ -208,41 +283,89 @@ class RoomAdditionalInfo {
       }
 
       setBreakfastInfo(breakfastInfo) {
+        if (breakfastInfo === null) {
+          return this;
+        }
+        if (!isValidBreakfastInfo(breakfastInfo)) {
+          throw new Error("Invalid breakfast info");
+        }
         this.breakfastInfo = breakfastInfo;
         return this;
       }
 
       setSpecialCheckInInstructions(specialCheckInInstructions) {
+        if (specialCheckInInstructions === null) {
+          return this;
+        }
         this.specialCheckInInstructions = specialCheckInInstructions;
         return this;
       }
 
       setKnowBeforeYouGo(knowBeforeYouGo) {
+        if (knowBeforeYouGo === null) {
+          return this;
+        }
         this.knowBeforeYouGo = knowBeforeYouGo;
         return this;
       }
 
       setOptionalFees(optionalFees) {
-        this.optionalFees = optionalFees;
+        if (optionalFees === null) {
+          return this;
+        }
+        this.optionalFees = String(optionalFees);
         return this;
       }
 
       setMandatoryFees(mandatoryFees) {
-        this.mandatoryFees = mandatoryFees;
+        if (mandatoryFees === null) {
+          return this;
+        }
+        this.mandatoryFees = String(mandatoryFees);
         return this;
       }
 
       setKaligoServiceFee(kaligoServiceFee) {
+        // kaligoServiceFeeCopy = kaligoServiceFee;
+        // if (
+        //   !isValidNumber(kaligoServiceFeeCopy) ||
+        //   Number(kaligoServiceFeeCopy) < 0
+        // ) {
+        //   throw new Error("Invalid Kaligo service fee");
+        // }
         this.kaligoServiceFee = kaligoServiceFee;
         return this;
       }
 
       setHotelFees(hotelFees) {
+        if (!isValidArray(hotelFees)) {
+          throw new Error("Hotel fees must be an array");
+        }
         this.hotelFees = hotelFees;
         return this;
       }
 
       setSurcharges(surcharges) {
+        if (surcharges == null) {
+          return this;
+        }
+
+        if (surcharges.length === 0) {
+          return this;
+        }
+
+        if (!isValidArray(surcharges)) {
+          throw new Error("Surcharges must be an array");
+        }
+        let surchargeObject = null;
+
+        for (let i = 0; i < surcharges.length; i++) {
+          surchargeObject = surcharges[i];
+          if (Number(surchargeObject.amount) < 0) {
+            throw Error("Surcharge amount must be positive");
+          }
+        }
+
         this.surcharges = surcharges;
         return this;
       }
@@ -348,70 +471,183 @@ class PriceDetails {
       }
 
       setPriceType(priceType) {
+        if (!isNonEmptyString(priceType) || priceType !== "single") {
+          throw new Error("Price type must be one of the valid types");
+        }
         this.priceType = priceType;
         return this;
       }
 
       setDescription(description) {
+        if (!isNonEmptyString(description)) {
+          throw new Error("Description must be a non-empty string");
+        }
         this.description = description;
         return this;
       }
 
       setMaxCashPayment(maxCashPayment) {
-        this.maxCashPayment = maxCashPayment;
+        if (!isValidNumber(maxCashPayment)) {
+          throw new Error("Max cash payment must be a positive number");
+        }
+        if (Number(maxCashPayment) <= 0) {
+          throw new Error("must be a positive number");
+        }
+        this.maxCashPayment = String(maxCashPayment);
         return this;
       }
 
       setCovertedMaxCashPayment(covertedMaxCashPayment) {
+        if (!isValidNumber(covertedMaxCashPayment)) {
+          throw new Error(
+            "Converted max cash payment must be a positive number"
+          );
+        }
         this.covertedMaxCashPayment = covertedMaxCashPayment;
         return this;
       }
+
       setPoints(points) {
-        this.points = points;
+        if (points == null) {
+          return this;
+        }
+        if (!isValidNumber(points)) {
+          throw new Error("Points must be a positive integer");
+        }
+
+        if (Number(points) < 0) {
+          throw new Error("Points must be a positive integer");
+        }
+        this.points = String(points);
         return this;
       }
 
       setBonuses(bonuses) {
+        if (bonuses == null) {
+          return this;
+        }
+        if (!isValidNumber(bonuses, true)) {
+          throw new Error("Bonuses must be a non-negative number");
+        }
         this.bonuses = bonuses;
         return this;
       }
 
       setBonusTiers(bonusTiers) {
+        if (bonusTiers == null) {
+          return this;
+        }
+        if (!isValidArray(bonusTiers)) {
+          throw new Error("Bonus tiers must be an array");
+        }
         this.bonusTiers = bonusTiers;
         return this;
       }
 
       setBonusPrograms(bonusPrograms) {
+        if (bonusPrograms == null) {
+          return this;
+        }
+        if (!isValidArray(bonusPrograms)) {
+          throw new Error("Bonus programs must be an array");
+        }
         this.bonusPrograms = bonusPrograms;
         return this;
       }
 
       setLowestPrice(lowestPrice) {
-        this.lowestPrice = lowestPrice;
+        if (!isValidNumber(lowestPrice)) {
+          throw new Error("Lowest price must be a positive number");
+        }
+        if (Number(lowestPrice) <= 0) {
+          throw new Error("must be a positive number");
+        }
+        this.lowestPrice = String(lowestPrice);
         return this;
       }
 
       setPrice(price) {
-        this.price = price;
+        if (!isValidNumber(price)) {
+          throw new Error("Price must be a positive number");
+        }
+        if (Number(price) <= 0) {
+          throw new Error("must be a positive number");
+        }
+        this.price = String(price);
         return this;
       }
 
       setConvertedPrice(convertedPrice) {
-        this.convertedPrice = convertedPrice;
+        if (!isValidNumber(convertedPrice)) {
+          throw new Error("Converted price must be a positive number");
+        }
+        if (Number(convertedPrice) <= 0) {
+          throw new Error("must be a positive number");
+        }
+        this.convertedPrice = String(convertedPrice);
         return this;
       }
 
       setLowestConvertedPrice(lowestConvertedPrice) {
-        this.lowestConvertedPrice = lowestConvertedPrice;
+        if (!isValidNumber(lowestConvertedPrice)) {
+          throw new Error("Base rate must be a positive number");
+        }
+        if (Number(lowestConvertedPrice) <= 0) {
+          throw new Error("must be a positive number");
+        }
+        this.lowestConvertedPrice = String(lowestConvertedPrice);
         return this;
       }
 
       setChargeableRate(chargeableRate) {
-        this.chargeableRate = chargeableRate;
+        if (!isValidNumber(chargeableRate)) {
+          throw new Error("Base rate must be a positive number");
+        }
+        if (Number(chargeableRate) <= 0) {
+          throw new Error("must be a positive number");
+        }
+        this.chargeableRate = String(chargeableRate);
         return this;
       }
 
       setMarketRates(marketRates) {
+        if (
+          marketRates === null ||
+          marketRates === undefined ||
+          marketRates === "" ||
+          marketRates == []
+        ) {
+          return this;
+        }
+
+        if (!isValidArray(marketRates)) {
+          throw Error("Market rates must be an array");
+        }
+
+        for (let i = 0; i < marketRates.length; i++) {
+          marketRatesObj = marketRates[i];
+          if (
+            !Object.keys(marketRatesObj).includes("supplier") ||
+            !Object.keys(marketRatesObj).includes("rate")
+          ) {
+            throw new Error(
+              "Market rates must be an array of valid rate objects"
+            );
+          }
+          if (Number(marketRatesObj.rate) < 0) {
+            throw new Error("must be a non-negative number");
+          }
+        }
+
+        // Validate that all rate values are non-negative numbers
+        const hasValidRates = marketRates.map((object) =>
+          Object.values(object).every((rate) => isValidPrice(rate))
+        );
+        if (!hasValidRates) {
+          throw new Error(
+            "Market rates must be an array of valid rate objects"
+          );
+        }
         this.marketRates = marketRates;
         return this;
       }
@@ -488,38 +724,116 @@ class TaxDetails {
       }
 
       setBaseRate(baseRate) {
-        this.baseRate = baseRate;
+        if (!isValidNumber(baseRate)) {
+          throw new Error("Base rate must be a positive number");
+        }
+        if (Number(baseRate) <= 0) {
+          throw new Error("must be a positive number");
+        }
+        this.baseRate = String(baseRate);
         return this;
       }
+
       setBaseRateInCurrency(baseRateInCurrency) {
-        this.baseRateInCurrency = baseRateInCurrency;
+        if (!isValidNumber(baseRateInCurrency)) {
+          throw new Error("Base rate in currency must be a positive number");
+        }
+        if (Number(baseRateInCurrency) <= 0) {
+          throw new Error("must be a positive number");
+        }
+        this.baseRateInCurrency = String(baseRateInCurrency);
         return this;
       }
+
       setIncludedTaxesFeesTotal(includedTaxesFeesTotal) {
-        this.includedTaxesFeesTotal = includedTaxesFeesTotal;
+        if (!isValidNumber(includedTaxesFeesTotal)) {
+          throw new Error(
+            "Included taxes fees total must be a non-negative number"
+          );
+        }
+        if (Number(includedTaxesFeesTotal) < 0) {
+          throw new Error(
+            "Included taxes fees total must be a non-negative number"
+          );
+        }
+        this.includedTaxesFeesTotal = String(includedTaxesFeesTotal);
         return this;
       }
+
       setIncludedTaxesFeesTotalInCurrency(includedTaxesFeesTotalInCurrency) {
-        this.includedTaxesFeesTotalInCurrency =
-          includedTaxesFeesTotalInCurrency;
+        if (!isValidNumber(includedTaxesFeesTotalInCurrency)) {
+          throw new Error(
+            "Included taxes fees total in currency must be a non-negative number"
+          );
+        }
+
+        if (Number(includedTaxesFeesTotalInCurrency) < 0) {
+          throw new Error(
+            "Included taxes fees total in currency must be a non-negative number"
+          );
+        }
+        this.includedTaxesFeesTotalInCurrency = String(
+          includedTaxesFeesTotalInCurrency
+        );
         return this;
       }
       setExcludedTaxesFeesTotal(excludedTaxesFeesTotal) {
-        this.excludedTaxesFeesTotal = excludedTaxesFeesTotal;
+        if (!isValidNumber(excludedTaxesFeesTotal, true)) {
+          throw new Error(
+            "Excluded taxes fees total must be a non-negative number"
+          );
+        }
+        this.excludedTaxesFeesTotal = String(excludedTaxesFeesTotal);
         return this;
       }
       setExcludedTaxesFeesTotalInCurrency(excludedTaxesFeesTotalInCurrency) {
+        if (!isValidNumber(excludedTaxesFeesTotalInCurrency, true)) {
+          throw new Error(
+            "Excluded taxes fees total in currency must be a non-negative number"
+          );
+        }
         this.excludedTaxesFeesTotalInCurrency =
           excludedTaxesFeesTotalInCurrency;
         return this;
       }
       setIncludedTaxesFeesDetails(includedTaxesFeesDetails) {
+        if (
+          includedTaxesFeesDetails &&
+          !isValidArray(includedTaxesFeesDetails)
+        ) {
+          throw new Error("Included taxes fees details must be an array");
+        }
+        let taxObject = null;
+
+        for (let i = 0; i < includedTaxesFeesDetails.length; i++) {
+          taxObject = includedTaxesFeesDetails[i];
+          if (
+            !Object.keys(taxObject).includes("id") ||
+            !Object.keys(taxObject).includes("currency") ||
+            !Object.keys(taxObject).includes("amount")
+          ) {
+            throw new Error("Tax fee details must have valid structure");
+          }
+          if (Number(taxObject.amount) < 0) {
+            throw new Error("must be a non-negative number");
+          }
+        }
+
+        // "Tax fee details must have valid structure");
         this.includedTaxesFeesDetails = includedTaxesFeesDetails;
         return this;
       }
       setIncludedTaxesFeesInCurrencyDetails(
         includedTaxesFeesInCurrencyDetails
       ) {
+        if (
+          includedTaxesFeesInCurrencyDetails &&
+          !isValidArray(includedTaxesFeesInCurrencyDetails)
+        ) {
+          throw new Error(
+            "Included taxes fees in currency details must be an array"
+          );
+        }
         this.includedTaxesFeesInCurrencyDetails =
           includedTaxesFeesInCurrencyDetails;
         return this;
@@ -527,11 +841,25 @@ class TaxDetails {
       setExcludedTaxesFeesInCurrencyDetails(
         excludedTaxesFeesInCurrencyDetails
       ) {
+        if (
+          excludedTaxesFeesInCurrencyDetails &&
+          !isValidArray(excludedTaxesFeesInCurrencyDetails)
+        ) {
+          throw new Error(
+            "Excluded taxes fees in currency details must be an array"
+          );
+        }
         this.excludedTaxesFeesInCurrencyDetails =
           excludedTaxesFeesInCurrencyDetails;
         return this;
       }
       setExcludedTaxesFeesDetails(excludedTaxesFeesDetails) {
+        if (
+          excludedTaxesFeesDetails &&
+          !isValidArray(excludedTaxesFeesDetails)
+        ) {
+          throw new Error("Excluded taxes fees details must be an array");
+        }
         this.excludedTaxesFeesDetails = excludedTaxesFeesDetails;
         return this;
       }

@@ -64,21 +64,21 @@ describe("(WHITE-BOX UNIT) Testing hotel_data_service, its facilitation of data 
     searchRank: 0.93,
     price_type: "multi",
     free_cancellation: true,
-    rooms_available: 19992,
-    max_cash_payment: 2313.59,
-    coverted_max_cash_payment: 3014.63,
-    points: 75350,
+    rooms_available: "19992",
+    max_cash_payment: "2313.59",
+    coverted_max_cash_payment: "3014.63",
+    points: "75350",
     bonuses: 0,
     bonus_programs: [],
     bonus_tiers: [],
-    lowest_price: 2313.59,
-    price: 3014.63,
-    converted_price: 3014.63,
-    lowest_converted_price: 3014.63,
+    lowest_price: "2313.59",
+    price: "3014.63",
+    converted_price: "3014.63",
+    lowest_converted_price: "3014.63",
     market_rates: [
       {
         supplier: "expedia",
-        rate: 2668.849503624,
+        rate: "2668.849503624",
       },
     ],
   };
@@ -134,10 +134,10 @@ describe("(WHITE-BOX UNIT) Testing hotel_data_service, its facilitation of data 
 
   testDTOObjectOriginalMetaData =
     new hotelDataDTOModule.OriginalMetaData.Builder()
-      .setName(testJSONData.name)
-      .setCity(testJSONData.city)
-      .setState(testJSONData.state)
-      .setCountry(testJSONData.country)
+      .setName(testJSONData.original_metadata.name)
+      .setCity(testJSONData.original_metadata.city)
+      .setState(testJSONData.original_metadata.state)
+      .setCountry(testJSONData.original_metadata.country)
       .build();
 
   test("Test if the Transfer Service works for a given set of particular hotel data. Should initialise all attributes as provided.", () => {

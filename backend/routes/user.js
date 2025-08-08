@@ -86,7 +86,6 @@ router.post("/login/", async function (req, res, next) {
 original function header is router.post("/bookmarks/", verifyToken,async function(req, res, next)
 */
 router.post("/bookmarks/", verifyToken, async function (req, res, next) {
-  console.log("Hello!!!! I am accessing bookmarks now.");
   //retrieve infos for bookmark
   const hotel_id = req.body.hotel_id;
   const hotel_name = req.body.hotel_name;
