@@ -1,5 +1,10 @@
 // src/test/SearchPage.test.jsx
+
+// Mock react-loading-skeleton BEFORE any imports
+jest.mock("react-loading-skeleton", () => () => "Skeleton Mock");
+
 jest.mock("../assets/ascenda_logo.png", () => "mock-logo.png");
+
 jest.mock("../middleware/searchApi", () => ({
   searchHotelsAPI: jest.fn(),
 }));
@@ -22,12 +27,10 @@ describe("SearchPage Integration Tests", () => {
       </MemoryRouter>
     );
 
-    // Should immediately show the error
     expect(
       await screen.findByText("Invalid search parameters, please re-enter")
     ).toBeInTheDocument();
 
-    // API should never have been called
     expect(searchHotelsAPI).not.toHaveBeenCalled();
   });
 
@@ -55,7 +58,6 @@ describe("SearchPage Integration Tests", () => {
       },
     ];
 
-    // Mock the API once for mount
     searchHotelsAPI.mockResolvedValueOnce({
       data: { hotels: mockHotels, destination_id: 999 },
     });
@@ -70,17 +72,14 @@ describe("SearchPage Integration Tests", () => {
       </MemoryRouter>
     );
 
-    // Both hotel names should eventually appear
     for (const h of mockHotels) {
       expect(await screen.findByText(h.keyDetails.name)).toBeInTheDocument();
     }
 
-    // Error should not be shown
     expect(
       screen.queryByText("Invalid search parameters, please re-enter")
     ).toBeNull();
 
-    // API called with correct payload
     expect(searchHotelsAPI).toHaveBeenCalledWith({
       hotelType: "Hotel",
       location: "Paris",
@@ -105,8 +104,6 @@ describe("SearchPage Integration Tests", () => {
       },
     ];
 
-    // 1st call (on mount): no hotels → error
-    // 2nd call (after clicking Search): return mockHotels
     searchHotelsAPI
       .mockResolvedValueOnce({ data: { hotels: [], destination_id: 0 } })
       .mockResolvedValueOnce({
@@ -119,26 +116,21 @@ describe("SearchPage Integration Tests", () => {
       </MemoryRouter>
     );
 
-    // 1) Initial error on mount
     expect(
       await screen.findByText("Invalid search parameters, please re-enter")
     ).toBeInTheDocument();
 
-    // 2) Fill Location
     fireEvent.change(screen.getByPlaceholderText("Location"), {
       target: { value: "Tokyo" },
     });
 
-    // Fill dates
     const dateInputs = container.querySelectorAll('input[type="date"]');
     const [checkinInput, checkoutInput] = dateInputs;
     fireEvent.change(checkinInput, { target: { value: "2025-09-01" } });
     fireEvent.change(checkoutInput, { target: { value: "2025-09-05" } });
 
-    // Click Search
     fireEvent.click(screen.getByRole("button", { name: /^Search$/i }));
 
-    // 3) Wait for API to be called with correct payload
     await waitFor(() =>
       expect(searchHotelsAPI).toHaveBeenCalledWith({
         hotelType: "Hotel",
@@ -150,14 +142,12 @@ describe("SearchPage Integration Tests", () => {
       })
     );
 
-    // 4) Error message should clear
     await waitFor(() =>
       expect(
         screen.queryByText("Invalid search parameters, please re-enter")
       ).toBeNull()
     );
 
-    // 5) Finally, the new hotel appears
     expect(await screen.findByText("Hotel Gamma")).toBeInTheDocument();
   });
 });
