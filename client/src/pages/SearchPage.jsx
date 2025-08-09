@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
-import { Pagination } from "react-bootstrap";
 
 import { searchHotelsAPI } from "../middleware/searchApi";
 
@@ -9,6 +8,9 @@ import SearchBar from "../components/SearchBar";
 import SortingBar from "../components/SortingBar";
 
 import "../styles/SearchPage.css";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { Pagination, Spinner } from "react-bootstrap";
 
 export default function SearchPage() {
   const navigate = useNavigate();
@@ -241,7 +243,7 @@ export default function SearchPage() {
                   ))
                 )}
 
-                <Pagination>
+                {!loading && <Pagination>
                   <Pagination.Prev
                     onClick={() => {
                       setStartPage((prevState) => {
@@ -266,7 +268,7 @@ export default function SearchPage() {
                     }}
                     disabled={startPage + pageSize > filteredHotels.length}
                   />
-                </Pagination>
+                </Pagination>}
               </div>
             </div>
           </section>
