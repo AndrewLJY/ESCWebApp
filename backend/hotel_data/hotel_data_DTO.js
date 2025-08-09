@@ -1,3 +1,74 @@
+// Validation helper functions
+function isValidNumber(value) {
+  valueCopy = value;
+  // Check if string can be converted to a number and doesn't contain alphabets
+  if (typeof valueCopy === "number") return true;
+  return !isNaN(Number(valueCopy)) && !/[a-zA-Z]/.test(String(valueCopy));
+}
+
+function isValidString(value) {
+  if (typeof value === "string" && /[a-zA-Z]/.test(String(value))) {
+    return true;
+  }
+  return false;
+}
+
+function isValidBoolean(bool) {
+  if (bool === true || bool === false) {
+    return true;
+  }
+  return false;
+}
+
+function isValidLatitude(value) {
+  // Latitude should be between -90 and 90
+  return isValidNumber(value) && Math.abs(Number(value)) <= 90;
+}
+
+function isValidLongitude(value) {
+  // Longitude should be between -180 and 180
+  return isValidNumber(value) && Math.abs(Number(value)) <= 180;
+}
+
+function isValidPrice(value) {
+  // Price should be a non-negative number
+  return isValidNumber(value) && Number(value) >= 0;
+}
+
+function isNonEmptyString(value) {
+  if (typeof value === "string" && value.length > 0) {
+    return true;
+  }
+
+  return false;
+}
+
+function isValidArray(value) {
+  if (!Array.isArray(value)) {
+    return false;
+  }
+  for (let element in value) {
+    if (!isNonEmptyString(element)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isValidObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value);
+}
+
+function isValidJSON(value) {
+  if (isValidObject(value)) return true;
+  try {
+    const parsed = JSON.parse(value);
+    return isValidObject(parsed);
+  } catch {
+    return false;
+  }
+}
+
 class HotelData {
   constructor(
     keyDetails,
@@ -115,58 +186,132 @@ class KeyDetails {
         this.distance = null;
       }
 
+      setId(value) {
+        if (!isNonEmptyString(value)) {
+          throw new Error("Hotel ID must be a non-empty string");
+        }
+        this.id = value;
+        return this;
+      }
+
+      setImageCount(value) {
+        this.imageCount = Number(value);
+        return this;
+      }
+
+      setLatitude(value) {
+        if (value === null || value === undefined) {
+          return this;
+        }
+
+        if (!isValidLatitude(value)) {
+          throw new Error("Latitude must be a valid number between -90 and 90");
+        }
+        this.latitude = value;
+        return this;
+      }
+
+      setLongitude(value) {
+        if (value === null || value === undefined) {
+          return this;
+        }
+
+        if (!isValidLongitude(value)) {
+          throw new Error(
+            "Longitude must be a valid number between -180 and 180"
+          );
+        }
+        this.longitude = value;
+        return this;
+      }
+
+      setName(value) {
+        if (!isNonEmptyString(value) || value == null) {
+          throw new Error("Name must be a non-empty string");
+        }
+        this.name = value;
+        return this;
+      }
+
+      setAddress(value) {
+        if (value === null || value === undefined) {
+          return this;
+        }
+        if (!isNonEmptyString(value)) {
+          throw new Error("Address must be a non-empty string");
+        }
+        this.address = value;
+        return this;
+      }
+
+      setAddress1(value) {
+        if (value === null || value === undefined) {
+          return this;
+        }
+        if (!isNonEmptyString(value)) {
+          throw new Error("Address1 must be a non-empty string");
+        }
+        this.address1 = value;
+        return this;
+      }
+
+      setDescription(value) {
+        if (value === null || value === undefined) {
+          return this;
+        }
+        if (!isNonEmptyString(value)) {
+          throw new Error("Description must be a non-empty string");
+        }
+        this.description = value;
+        return this;
+      }
+
+      setDistance(value) {
+        if (value === null || value === undefined) {
+          return this;
+        }
+        if (!isValidNumber(value) || Number(value) < 0) {
+          throw new Error("Distance must be a valid non-negative number");
+        }
+        this.distance = value;
+        return this;
+      }
+
       setId(id) {
+        if (!isNonEmptyString(id)) {
+          throw new Error("Hotel ID must be a non-empty string");
+        }
         this.id = id;
         return this;
       }
 
-      setImageCount(imageCount) {
-        this.imageCount = imageCount;
-        return this;
-      }
-
-      setLatitude(latitude) {
-        this.latitude = latitude;
-        return this;
-      }
-
-      setLongitude(longitude) {
-        this.longitude = longitude;
-        return this;
-      }
-
-      setName(name) {
-        this.name = name;
-        return this;
-      }
-
-      setAddress(address) {
-        this.address = address;
-        return this;
-      }
-
-      setAddress1(address1) {
-        this.address1 = address1;
-        return this;
-      }
-
       setRating(rating) {
+        if (rating === null || rating === undefined) {
+          return this;
+        }
+
+        if (!isValidNumber(rating)) {
+          throw new Error("Rating is not a number");
+        }
+
+        // ratingCopy = rating;
+        // if (Number(ratingCopy) >= 0 || Number(ratingCopy) <= 5) {
+        //   throw new Error("Rating must be an integer between 0 and 5");
+        // }
         this.rating = rating;
         return this;
       }
-
-      setDistance(distance) {
-        this.distance = distance;
-        return this;
-      }
-
       setCheckinTime(checkin) {
+        if (checkin === null || checkin === undefined) {
+          return this;
+        }
+        // if (
+        //   typeof checkin !== "string" ||
+        //   !checkin.match(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]\s*(?:AM|PM)$/i)
+        // ) {
+        //   throw new Error('Check-in time must be in format "HH:MM AM/PM"');
+        // }
         this.checkinTime = checkin;
-        return this;
-      }
-
-      setDescription(description) {
-        this.description = description;
         return this;
       }
 
@@ -195,6 +340,22 @@ class Amenities {
       }
 
       setAmenities(amenities) {
+        if (amenities === null || amenities === undefined) {
+          return this;
+        }
+        //Else if it is not null but intentionally fuzzed values...
+        if (!isValidObject(amenities)) {
+          throw new Error("Invalid Amenities Parameters");
+        }
+
+        //If Amenities is a valid object but inside it doesnt follow the right format:
+        if (!Object.keys(amenities).every((key) => isValidString(key))) {
+          throw new Error("Invalid Amenities Parameters");
+        }
+        if (!Object.values(amenities).every((bool) => isValidBoolean(bool))) {
+          throw new Error("Invalid Amenities Parameters");
+        }
+
         this.amenities = amenities;
         return this;
       }
@@ -238,23 +399,48 @@ class OriginalMetaData {
         this.country = null;
       }
 
-      setName(name) {
-        this.name = name;
+      setName(value) {
+        if (value === null || value === undefined || value === "") {
+          return this;
+        }
+        console.log("name", value);
+        if (!isNonEmptyString(value)) {
+          throw new Error("Name must be a non-empty string");
+        }
+        this.name = value;
         return this;
       }
 
-      setCity(city) {
-        this.city = city;
+      setCity(value) {
+        if (value === null || value === undefined || value === "") {
+          return this;
+        }
+        if (!isNonEmptyString(value)) {
+          throw new Error("City must be a non-empty string");
+        }
+        this.city = value;
         return this;
       }
 
-      setState(state) {
-        this.state = state;
+      setState(value) {
+        if (value === null || value === undefined || value === "") {
+          return this;
+        }
+        if (!isNonEmptyString(value)) {
+          throw new Error("State must be a non-empty string");
+        }
+        this.state = value;
         return this;
       }
 
-      setCountry(country) {
-        this.country = country;
+      setCountry(value) {
+        if (value === null || value === undefined || value === "") {
+          return this;
+        }
+        if (!isNonEmptyString(value)) {
+          throw new Error("Country must be a non-empty string");
+        }
+        this.country = value;
         return this;
       }
 
@@ -304,34 +490,34 @@ class ImageDetails {
         this.bNoAvailableImages = false;
       }
 
-      setImageCounts(hiresImageIndexString) {
+      setImageCounts(hiresImageIndex) {
         if (
-          hiresImageIndexString === "" ||
-          hiresImageIndexString === null ||
-          hiresImageIndexString === undefined
+          hiresImageIndex === null ||
+          hiresImageIndex === undefined ||
+          hiresImageIndex === ""
         ) {
           this.bNoAvailableImages = true;
           return this;
         }
-        this.imageCounts = hiresImageIndexString.split(",");
+        this.imageCounts = hiresImageIndex.split(",");
         return this;
       }
 
-      setImageUrlPrefix(imageUrlPrefix) {
-        if (imageUrlPrefix === null || imageUrlPrefix === "") {
+      setImageUrlPrefix(value) {
+        if (!value) {
           this.bNoAvailableImages = true;
           return this;
         }
-        this.imageUrlPrefix = imageUrlPrefix;
+        this.imageUrlPrefix = value;
         return this;
       }
 
-      setImageUrlSuffix(imageUrlSuffix) {
-        if (imageUrlSuffix === null || imageUrlSuffix === "") {
+      setImageUrlSuffix(value) {
+        if (!value) {
           this.bNoAvailableImages = true;
           return this;
         }
-        this.imageUrlSuffix = imageUrlSuffix;
+        this.imageUrlSuffix = value;
         return this;
       }
 
@@ -461,77 +647,192 @@ class PricingRankingData {
         this.marketRates = null;
       }
 
-      setRank(rank) {
-        this.rank = rank;
+      setRank(value) {
+        if (value === null || value === undefined || value === "") {
+          return this;
+        }
+        if (!isValidNumber(value) || Number(value) < 0) {
+          throw new Error("Rank must be a non-negative integer");
+        }
+        this.rank = value;
         return this;
       }
 
-      setSearchRank(searchRank) {
-        this.searchRank = searchRank;
+      setSearchRank(value) {
+        if (value === null || value === undefined || value === "") {
+          return this;
+        }
+        // if (!isValidInteger(value) || Number(value) < 0) {
+        //   throw new Error("Search rank must be a non-negative integer");
+        // }
+        this.searchRank = value;
         return this;
       }
 
-      setPriceType(priceType) {
-        this.priceType = priceType;
+      setPriceType(value) {
+        // if (
+        //   value !== "Single" &&
+        //   value !== "Double" &&
+        //   value !== "Multi" &&
+        //   value !== "single" &&
+        //   value !== "double" &&
+        //   value !== "multi"
+        // ) {
+        //   throw new Error("Price Type Parameters is invalid");
+        // }
+        this.priceType = value;
         return this;
       }
 
-      setFreeCancellation(freeCancellation) {
-        this.freeCancellation = freeCancellation;
+      setFreeCancellation(value) {
+        console.log(value);
+        if (
+          value !== "true" &&
+          value !== "false" &&
+          value !== true &&
+          value !== false
+        ) {
+          throw Error("Invalid Free Cancellation Parameter");
+        }
+        // Convert string 'true'/'false' to boolean if needed
+
+        this.freeCancellation = value;
         return this;
       }
 
-      setRoomsAvailable(roomsAvailable) {
-        this.roomsAvailable = roomsAvailable;
+      setRoomsAvailable(value) {
+        if (!isValidNumber(value) || Number(value) < 0) {
+          throw new Error("Rooms available must be a non-negative integer");
+        }
+        this.roomsAvailable = value;
         return this;
       }
 
-      setMaxCashPayment(maxCashPayment) {
-        this.maxCashPayment = maxCashPayment;
+      setMaxCashPayment(value) {
+        if (!isValidPrice(value)) {
+          throw new Error("Max cash payment must be a non-negative number");
+        }
+        this.maxCashPayment = value;
         return this;
       }
 
-      setConvertedMaxCashPayment(convertedMaxCashPayment) {
-        this.convertedMaxCashPayment = convertedMaxCashPayment;
+      setConvertedMaxCashPayment(value) {
+        if (!isValidPrice(value)) {
+          throw new Error(
+            "Converted max cash payment must be a non-negative number"
+          );
+        }
+        this.convertedMaxCashPayment = value;
         return this;
       }
-      setPoints(points) {
-        this.points = points;
+
+      setPoints(value) {
+        if (value === null || value === undefined || value === "") {
+          return this;
+        }
+        if (!isValidPrice(value)) {
+          throw new Error("Points must be a non-negative number");
+        }
+        this.points = value;
         return this;
       }
 
       setBonuses(bonuses) {
+        if (
+          bonuses === null ||
+          bonuses === undefined ||
+          bonuses === "" ||
+          bonuses == []
+        ) {
+          return this;
+        }
+        if (!isValidArray(bonuses)) {
+          throw new Error("Bonuses must be an array of non-empty strings");
+        }
         this.bonuses = bonuses;
         return this;
       }
 
-      setBonusTiers(bonusTiers) {
-        this.bonusTiers = bonusTiers;
+      setBonusPrograms(value) {
+        if (value === null || value === undefined || value === "") {
+          return this;
+        }
+        if (!isValidArray(value, isNonEmptyString)) {
+          throw new Error(
+            "Bonus programs must be an array of non-empty strings"
+          );
+        }
+        this.bonusPrograms = value;
         return this;
       }
 
-      setLowestPrice(lowestPrice) {
-        this.lowestPrice = lowestPrice;
+      setBonusTiers(value) {
+        if (
+          value === null ||
+          value === undefined ||
+          value === "" ||
+          value == []
+        ) {
+          return this;
+        }
+        if (!isValidArray(value, isNonEmptyString)) {
+          throw new Error("Bonus tiers must be an array of non-empty strings");
+        }
+        this.bonusTiers = value;
         return this;
       }
 
-      setPrice(price) {
-        this.price = price;
+      setLowestPrice(value) {
+        if (!isValidPrice(value)) {
+          throw new Error("Lowest price must be a non-negative number");
+        }
+        this.lowestPrice = value;
         return this;
       }
 
-      setConvertedPrice(convertedPrice) {
-        this.convertedPrice = convertedPrice;
+      setPrice(value) {
+        if (!isValidPrice(value)) {
+          throw new Error("Price must be a non-negative number");
+        }
+        this.price = value;
         return this;
       }
 
-      setLowestConvertedPrice(lowestConvertedPrice) {
-        this.lowestConvertedPrice = lowestConvertedPrice;
+      setConvertedPrice(value) {
+        if (!isValidPrice(value)) {
+          throw new Error("Converted price must be a non-negative number");
+        }
+        this.convertedPrice = value;
         return this;
       }
 
-      setMarketRates(marketRates) {
-        this.marketRates = marketRates;
+      setLowestConvertedPrice(value) {
+        if (!isValidPrice(value)) {
+          throw new Error(
+            "Lowest converted price must be a non-negative number"
+          );
+        }
+        this.lowestConvertedPrice = value;
+        return this;
+      }
+
+      setMarketRates(value) {
+        if (
+          value === null ||
+          value === undefined ||
+          value === "" ||
+          value == []
+        ) {
+          return this;
+        }
+        // Validate that all rate values are non-negative numbers
+        const hasValidRates = value.map((object) =>
+          Object.values(object).every((rate) => isValidPrice(rate))
+        );
+        if (!hasValidRates) {
+          throw new Error("All market rates must be non-negative numbers");
+        }
+        this.marketRates = value;
         return this;
       }
 
@@ -563,13 +864,32 @@ class TrustYouBenchmark {
         this.score = null;
       }
 
-      setTrustYouId(trustYouId) {
-        this.trustYouId = trustYouId;
+      setTrustYouId(value) {
+        if (value == null) {
+          return this;
+        }
+        if (!isNonEmptyString(value)) {
+          throw new Error("TrustYou ID must be a non-empty string");
+        }
+        this.trustYouId = value;
         return this;
       }
 
-      setTrustYouScoreParameters(trustYouJSONString) {
-        this.score = trustYouJSONString;
+      setTrustYouScoreParameters(value) {
+        if (
+          value === null ||
+          value === undefined ||
+          value === "" ||
+          value == {}
+        ) {
+          return this;
+        }
+        if (!isValidJSON(value)) {
+          throw new Error(
+            "TrustYou score parameters must be a valid JSON object"
+          );
+        }
+        this.score = typeof value === "string" ? JSON.parse(value) : value;
         return this;
       }
 

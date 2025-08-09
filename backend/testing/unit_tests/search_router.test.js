@@ -1076,7 +1076,7 @@ describe("General Fuzzing of all API prompt parameters", () => {
 
   test("/search/string/:searchLiteral should return HTTP 200-400 for URL-safe inputs", async () => {
     const urlSafeChars =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_={}][><.,?`|_.~";
 
     const urlSafeString = fc
       .array(fc.constantFrom(...urlSafeChars), { minLength: 1, maxLength: 20 })

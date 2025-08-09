@@ -2,6 +2,8 @@ const request = require("supertest");
 const app = require("../../server");
 const hotelDataDTOService = require("../../hotel_data/hotel_data_service");
 
+const jwt = require("jsonwebtoken");
+
 process.env.INTEGRATION_TEST = "true";
 process.env.NODE_ENV = "test";
 
@@ -739,6 +741,7 @@ describe("(BLACK-BOX INTEGRATION) GET /search/images (API to return the images o
 
 //Integration tests for user login and register
 const db = require("../../models/db");
+
 //Testing user.js /login and /register routes
 //Steps:
 //1. Try to login with a user credentials which do not exist in the database (should return 401 unauthorized)
@@ -787,7 +790,7 @@ describe("(BLACK-BOX INTEGRATION) Testing user registration and login", () => {
   });
 
   requestBody = {
-    email: "testingUser@gmail.com",
+    email: "testinguser@gmail.com",
     password: "testingPassword",
   };
 
@@ -804,7 +807,8 @@ describe("(BLACK-BOX INTEGRATION) Testing user registration and login", () => {
   });
 
   afterAll(async () => {
-    return await teardownDatabaseValues();
+    await teardownDatabaseValues();
+    console.log("Test database cleared.");
   });
 });
 
@@ -1067,8 +1071,6 @@ describe("(GREY-BOX INTEGRATION) GET /search/hotel/prices (API to return the roo
 });
 
 //Integration Tests for Bookmark feature
-
-const jwt = require("jsonwebtoken");
 const verifyToken = require("../../auth_middleware/auth_middleware");
 
 // Mock JWT verify function
@@ -1156,11 +1158,11 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
 
   test("If the key value pair of (hotel, user email) is not present in the database, means that hotel is not yet included in user's bookmarks. Should add it to database.", async () => {
     testrequestData = {
-      hotel_id: "190",
+      hotel_id: "DIH7",
       hotel_name: "The Fillerton Hutel",
       hotel_address: "One Waffles Place",
-      image_url: "N/A",
-      hotel_ratings: "0.1",
+      image_url: "http://abc.jpg",
+      hotel_ratings: "1",
       user_email: "jhonnyboy@gmail.com",
       search_string: "search/xyz/destination=abc",
       destination_id: "RsBU",
@@ -1175,11 +1177,11 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
 
   test("Now hotel data is present in database. Should return error (401) if same current user tries to bookmark it again", async () => {
     testrequestData = {
-      hotel_id: "190",
+      hotel_id: "DIH7",
       hotel_name: "The Fillerton Hutel",
       hotel_address: "One Waffles Place",
-      image_url: "N/A",
-      hotel_ratings: "0.1",
+      image_url: "http://abc.jpg",
+      hotel_ratings: "1",
       user_email: "jhonnyboy@gmail.com",
       search_string: "search/xyz/destination=abc",
       destination_id: "RsBU",
@@ -1194,11 +1196,11 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
 
   test("Now, logged in as a different user. Bookmarking the same hotel but since value pair of (hotel, user email) does not yet exist for this new user, this user should be able to bookmark the hotel", async () => {
     testrequestData = {
-      hotel_id: "190",
+      hotel_id: "DIH7",
       hotel_name: "The Fillerton Hutel",
       hotel_address: "One Waffles Place",
-      image_url: "N/A",
-      hotel_ratings: "0.1",
+      image_url: "http://abc.jpg",
+      hotel_ratings: "1",
       user_email: "jennygirl@gmail.com",
       search_string: "search/xyz/destination=abc",
       destination_id: "RsBU",
@@ -1266,51 +1268,51 @@ describe("(GREY BOX INTEGRATION) GET /auth/AllBookmarks (API to return all of th
 
   test("If a user has bookmarked a number of hotels, should return all of them registered under his/her email", async () => {
     testrequestData = {
-      hotel_id: "190",
+      hotel_id: "DIH7",
       hotel_name: "The Fillerton Hutel",
       hotel_address: "One Waffles Place",
-      image_url: "N/A",
-      hotel_ratings: "0.1",
+      image_url: "http://abc.jpg",
+      hotel_ratings: "1",
       user_email: "jennygirl@gmail.com",
       search_string: "search/xyz/destination=abc",
       destination_id: "RsBU",
     };
     testrequestData1 = {
-      hotel_id: "191",
+      hotel_id: "WD0M",
       hotel_name: "The Fillertoni Hutol",
       hotel_address: "One Waffles Area",
-      image_url: "N/A",
-      hotel_ratings: "0.1",
+      image_url: "http://abc.jpg",
+      hotel_ratings: "1",
       user_email: "jennygirl@gmail.com",
       search_string: "search/xyz/destination=abc",
       destination_id: "RsBU",
     };
     testrequestData2 = {
-      hotel_id: "192",
+      hotel_id: "RXBI",
       hotel_name: "The Follerton Hitel",
       hotel_address: "One Pancake Place",
-      image_url: "N/A",
-      hotel_ratings: "0.1",
+      image_url: "http://abc.jpg",
+      hotel_ratings: "1",
       user_email: "jennygirl@gmail.com",
       search_string: "search/xyz/destination=abc",
       destination_id: "RsBU",
     };
     testrequestData3 = {
-      hotel_id: "193",
+      hotel_id: "RFI0",
       hotel_name: "The Fillertini Hatel",
       hotel_address: "One Fried Place",
-      image_url: "N/A",
-      hotel_ratings: "0.1",
+      image_url: "http://abc.jpg",
+      hotel_ratings: "1",
       user_email: "jennygirl@gmail.com",
       search_string: "search/xyz/destination=abc",
       destination_id: "RsBU",
     };
     testrequestData4 = {
-      hotel_id: "194",
+      hotel_id: "IP04",
       hotel_name: "The Fallerten's Hetel",
       hotel_address: "One Shit Place",
-      image_url: "N/A",
-      hotel_ratings: "0.1",
+      image_url: "http://abc.jpg",
+      hotel_ratings: "1",
       user_email: "jennygirl@gmail.com",
       search_string: "search/xyz/destination=abc",
       destination_id: "RsBU",
@@ -1349,51 +1351,51 @@ describe("(GREY BOX INTEGRATION) GET /auth/AllBookmarks (API to return all of th
 
     expectedOutput = [
       {
-        hotel_id: "190",
+        hotel_id: "DIH7",
         hotel_name: "The Fillerton Hutel",
         hotel_address: "One Waffles Place",
-        image_url: "N/A",
-        hotel_ratings: "0.1",
+        image_url: "http://abc.jpg",
+        hotel_ratings: "1",
         user_email: "jennygirl@gmail.com",
         search_string: "search/xyz/destination=abc",
         destination_id: "RsBU",
       },
       {
-        hotel_id: "191",
+        hotel_id: "WD0M",
         hotel_name: "The Fillertoni Hutol",
         hotel_address: "One Waffles Area",
-        image_url: "N/A",
-        hotel_ratings: "0.1",
+        image_url: "http://abc.jpg",
+        hotel_ratings: "1",
         user_email: "jennygirl@gmail.com",
         search_string: "search/xyz/destination=abc",
         destination_id: "RsBU",
       },
       {
-        hotel_id: "192",
+        hotel_id: "RXBI",
         hotel_name: "The Follerton Hitel",
         hotel_address: "One Pancake Place",
-        image_url: "N/A",
-        hotel_ratings: "0.1",
+        image_url: "http://abc.jpg",
+        hotel_ratings: "1",
         user_email: "jennygirl@gmail.com",
         search_string: "search/xyz/destination=abc",
         destination_id: "RsBU",
       },
       {
-        hotel_id: "193",
+        hotel_id: "RFI0",
         hotel_name: "The Fillertini Hatel",
         hotel_address: "One Fried Place",
-        image_url: "N/A",
-        hotel_ratings: "0.1",
+        image_url: "http://abc.jpg",
+        hotel_ratings: "1",
         user_email: "jennygirl@gmail.com",
         search_string: "search/xyz/destination=abc",
         destination_id: "RsBU",
       },
       {
-        hotel_id: "194",
+        hotel_id: "IP04",
         hotel_name: "The Fallerten's Hetel",
         hotel_address: "One Shit Place",
-        image_url: "N/A",
-        hotel_ratings: "0.1",
+        image_url: "http://abc.jpg",
+        hotel_ratings: "1",
         user_email: "jennygirl@gmail.com",
         search_string: "search/xyz/destination=abc",
         destination_id: "RsBU",

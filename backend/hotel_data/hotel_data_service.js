@@ -82,10 +82,10 @@ class HotelDataTransferService {
 
   transferOriginalMetaData() {
     this.originalMetaData = new hotelDataDTO.OriginalMetaData.Builder()
-      .setName(this.jsonData.name)
-      .setCity(this.jsonData.city)
-      .setState(this.jsonData.state)
-      .setCountry(this.jsonData.country)
+      .setName(this.jsonData.original_metadata.name)
+      .setCity(this.jsonData.original_metadata.city)
+      .setState(this.jsonData.original_metadata.state)
+      .setCountry(this.jsonData.original_metadata.country)
       .build();
 
     return this;
@@ -241,28 +241,31 @@ function stitchHotelJsonData(hotelPricingData, hotelDataFromDest) {
 }
 
 function transferSingleHotelJSONToClass(jsonData) {
-  hotelDataTransferService = new HotelDataTransferService(jsonData);
-  if (hotelDataDTOClassList.getIsPriceDataUnavailable() === true) {
-    singleHotelDataDTO = hotelDataTransferService
-      .transferKeyDetails()
-      .transferImageDetails()
-      .transferITrustYouScore()
-      .transferAmenitiesData()
-      .transferOriginalMetaData()
-      .getNewHotelDataDTOClass();
-    hotelDataDTOClassList.setPriceDataUnavailable(false);
-  } else {
-    singleHotelDataDTO = hotelDataTransferService
-      .transferKeyDetails()
-      .transferImageDetails()
-      .transferITrustYouScore()
-      .transferOriginalMetaData()
-      .transferPricingRankingData()
-      .transferAmenitiesData()
-      .getNewHotelDataDTOClass();
+  let hotelDataTransferService = new HotelDataTransferService(jsonData);
+  try {
+    if (hotelDataDTOClassList.getIsPriceDataUnavailable() === true) {
+      singleHotelDataDTO = hotelDataTransferService
+        .transferKeyDetails()
+        .transferImageDetails()
+        .transferITrustYouScore()
+        .transferAmenitiesData()
+        .transferOriginalMetaData()
+        .getNewHotelDataDTOClass();
+      hotelDataDTOClassList.setPriceDataUnavailable(false);
+    } else {
+      singleHotelDataDTO = hotelDataTransferService
+        .transferKeyDetails()
+        .transferImageDetails()
+        .transferITrustYouScore()
+        .transferOriginalMetaData()
+        .transferPricingRankingData()
+        .transferAmenitiesData()
+        .getNewHotelDataDTOClass();
+    }
+    return singleHotelDataDTO;
+  } catch (error) {
+    throw error;
   }
-
-  return singleHotelDataDTO;
 }
 
 // |Helper Functions End-------------------------------------------------------------------------------|
@@ -290,7 +293,7 @@ async function getAllHotelsAndPricesForDestination(
 
   if (!data) {
     console.log("unable to load json data");
-    return -1;
+    return -2;
   }
   let destinationId = await getHotelID(destination_name, jsonData);
   if (destinationId === "-1") {
@@ -309,7 +312,7 @@ async function getAllHotelsAndPricesForDestination(
   if (Array.isArray(destAPIData) && destAPIData.length === 0) {
     hotelDataDTOClassList.setIsEmpty(true);
     console.log("Unable to retrieve data from given destination.");
-    return -1;
+    return -2;
   }
 
   guestInputField = `${guest_count}`;
@@ -355,9 +358,13 @@ async function getAllHotelsAndPricesForDestination(
 
   hotelDataDTOClassList.resetHotelDTOList();
   //reset to clear pass data, cus this code block will only call for a novel destination not searched yet.
-
   for (let i = 0; i < compiledData.length; i++) {
-    dataForSingleHotel = transferSingleHotelJSONToClass(compiledData[i]);
+    try {
+      dataForSingleHotel = transferSingleHotelJSONToClass(compiledData[i]);
+    } catch (error) {
+      console.log("Invalid Data for this hotel,", error);
+      continue;
+    }
     hotelDataDTOClassList.addHotelDataDTO(dataForSingleHotel);
   }
 
