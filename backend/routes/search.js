@@ -462,6 +462,9 @@ router.get(
         );
 
       if (result === -1) {
+        res.status.json("Bad Request");
+      }
+      if (result === -2) {
         //No rooms were avaialable, hence return an error 400.
         res.status(404).send("No available rooms");
         return;

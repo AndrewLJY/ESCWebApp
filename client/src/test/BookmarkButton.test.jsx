@@ -55,7 +55,8 @@ describe("BookmarkButton", () => {
       });
 
       // Expect alert
-      expect(global.alert).toHaveBeenCalledWith("Hotel bookmarked!");
+      // expect(global.alert).toHaveBeenCalledWith("Hotel bookmarked!");
     });
+    expect(await screen.findByText('Hotel Bookmarked!')).toBeInTheDocument();
   });
 });

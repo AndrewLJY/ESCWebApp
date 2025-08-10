@@ -124,7 +124,7 @@ describe("2) SearchBar Search (search‐page)", () => {
   });
 
   test("hotel-only → still asks for dates", () => {
-    fireEvent.change(screen.getByPlaceholderText("Hotel name"), {
+    fireEvent.change(screen.getByPlaceholderText("Hotel Name"), {
       target: { value: "Hilton" },
     });
     fireEvent.click(screen.getByText("Search"));
@@ -143,7 +143,7 @@ describe("2) SearchBar Search (search‐page)", () => {
     fireEvent.change(screen.getByPlaceholderText("Location"), {
       target: { value: "Osaka" },
     });
-    fireEvent.change(screen.getByPlaceholderText("Hotel name"), {
+    fireEvent.change(screen.getByPlaceholderText("Hotel Name"), {
       target: { value: "Hilton" },
     });
     const dates = container.querySelectorAll('input[type="date"]');
@@ -161,7 +161,7 @@ describe("2) SearchBar Search (search‐page)", () => {
     fireEvent.change(screen.getByPlaceholderText("Location"), {
       target: { value: "Osaka" },
     });
-    fireEvent.change(screen.getByPlaceholderText("Hotel name"), {
+    fireEvent.change(screen.getByPlaceholderText("Hotel Name"), {
       target: { value: "Hilton" },
     });
     const dates = container.querySelectorAll('input[type="date"]');
@@ -275,7 +275,6 @@ describe("4) Date-picker rules", () => {
   });
 
   test("search-page: checkin min is today+3 and checkout auto-min is checkin+1", () => {
-    // Freeze today at 2025-01-01
     jest.useFakeTimers("modern");
     jest.setSystemTime(new Date("2025-01-01T00:00:00Z"));
 
@@ -289,18 +288,14 @@ describe("4) Date-picker rules", () => {
     const [checkinInput, checkoutInput] =
       container.querySelectorAll('input[type="date"]');
 
-    // checkin.min should be 2025-01-04
     expect(checkinInput).toHaveAttribute("min", "2025-01-04");
-    // initial checkout.min = same as checkin.min
     expect(checkoutInput).toHaveAttribute("min", "2025-01-04");
 
-    // choose checkin
     fireEvent.change(checkinInput, { target: { value: "2025-02-10" } });
     expect(checkoutInput).toHaveAttribute("min", "2025-02-11");
   });
 
   test("landing-page: checkin min is today+3 and checkout auto-min is checkin+1", () => {
-    // Freeze today at 2025-06-15
     jest.useFakeTimers("modern");
     jest.setSystemTime(new Date("2025-06-15T00:00:00Z"));
 
@@ -312,15 +307,12 @@ describe("4) Date-picker rules", () => {
 
     const btns = container.querySelectorAll(".filter-btn");
 
-    // open checkin
     fireEvent.click(btns[2]);
     let dateInput = container.querySelector('input[type="date"]');
     expect(dateInput).toHaveAttribute("min", "2025-06-18");
 
-    // pick checkin
     fireEvent.change(dateInput, { target: { value: "2025-07-20" } });
 
-    // open checkout
     fireEvent.click(btns[3]);
     dateInput = container.querySelector('input[type="date"]');
     expect(dateInput).toHaveAttribute("min", "2025-07-21");

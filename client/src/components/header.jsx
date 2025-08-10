@@ -13,7 +13,6 @@ export default function Header() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -78,8 +77,6 @@ export default function Header() {
     } else {
       window.location.reload();
     }
-
-    
   };
 
   // blur Landing, Search or HotelDetail page when dropdown is open
@@ -109,8 +106,6 @@ export default function Header() {
     setSignupOpen(false);
   };
 
-  
-
   return (
     <>
       <div className="header__bg d-flex flex-row align-items-center p-5">
@@ -119,6 +114,7 @@ export default function Header() {
           className="header__logo"
           width={250}
           src={ascendaLogo}
+          alt="Ascenda logo"
           onClick={() => {
             navigate("/");
           }}
@@ -145,7 +141,11 @@ export default function Header() {
             </div>
           ) : (
             <>
-              <button className="btn login fs-5" onClick={handleLoginClick} disabled={loginOpen || signupOpen}>
+              <button
+                className="btn login fs-5"
+                onClick={handleLoginClick}
+                disabled={loginOpen || signupOpen}
+              >
                 Login
               </button>
             </>
