@@ -1014,7 +1014,7 @@ describe("General Fuzzing of all API prompt parameters", () => {
   });
 
   const urlSafeChars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_={}][\\/><.,?`|_.~";
 
   const urlSafeString = fc
     .array(fc.constantFrom(...urlSafeChars), { minLength: 1, maxLength: 10 })
@@ -1022,61 +1022,61 @@ describe("General Fuzzing of all API prompt parameters", () => {
 
   numRuns = 20;
 
-  test("/search/ should return HTTP 200-400 for URL-safe inputs", async () => {
+  test("/search/ should return HTTP 200-404 for wide input range", async () => {
     await fc.assert(
       fc.asyncProperty(urlSafeString, async (data) => {
         const response = await request(app).get(
           `/search/Singapore,_Singapore/${data}/${data}/${data}/${data}`
         );
         expect(response.status).toBeGreaterThanOrEqual(200);
-        expect(response.status).toBeLessThanOrEqual(400);
+        expect(response.status).toBeLessThanOrEqual(404);
       }),
       { numRuns: 10, verbose: true }
     );
   });
 
-  test("/search/MainDisplay should return HTTP 200-400 for URL-safe inputs", async () => {
+  test("/search/MainDisplay should return HTTP 200-404 for wide input range", async () => {
     await fc.assert(
       fc.asyncProperty(urlSafeString, async (data) => {
         const response = await request(app).get(
           `/search/MainDisplay/Singapore,_Singapore/${data}/${data}/${data}/${data}`
         );
         expect(response.status).toBeGreaterThanOrEqual(200);
-        expect(response.status).toBeLessThanOrEqual(400);
+        expect(response.status).toBeLessThanOrEqual(404);
       }),
       { numRuns: numRuns, verbose: true }
     );
   });
 
-  test("/search/AdvancedDisplay should return HTTP 200-400 for URL-safe inputs", async () => {
+  test("/search/AdvancedDisplay should return HTTP 200-404 for wide input range", async () => {
     await fc.assert(
       fc.asyncProperty(urlSafeString, async (data) => {
         const response = await request(app).get(
           `/search/AdvancedDisplay/Singapore,_Singapore/${data}/${data}/${data}/${data}`
         );
         expect(response.status).toBeGreaterThanOrEqual(200);
-        expect(response.status).toBeLessThanOrEqual(400);
+        expect(response.status).toBeLessThanOrEqual(404);
       }),
       { numRuns: numRuns, verbose: true }
     );
   });
 
-  test("/search/hotel/prices should return HTTP 200-400 for URL-safe inputs", async () => {
+  test("/search/hotel/prices should return HTTP 200-404 for wide input range", async () => {
     await fc.assert(
       fc.asyncProperty(urlSafeString, async (data) => {
         const response = await request(app).get(
           `/search/hotel/prices/diH7/RsBU/${data}/${data}/${data}/${data}`
         );
         expect(response.status).toBeGreaterThanOrEqual(200);
-        expect(response.status).toBeLessThanOrEqual(400);
+        expect(response.status).toBeLessThanOrEqual(404);
       }),
       { numRuns: numRuns, verbose: true }
     );
   });
 
-  test("/search/string/:searchLiteral should return HTTP 200-400 for URL-safe inputs", async () => {
+  test("/search/string/:searchLiteral should return HTTP 200-404 for wide input range", async () => {
     const urlSafeChars =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_={}][><.,?`|_.~";
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_={}][\\/><.,?`|_.~";
 
     const urlSafeString = fc
       .array(fc.constantFrom(...urlSafeChars), { minLength: 1, maxLength: 20 })
@@ -1086,7 +1086,7 @@ describe("General Fuzzing of all API prompt parameters", () => {
       fc.asyncProperty(urlSafeString, async (data) => {
         const response = await request(app).get(`/search/string/${data}`);
         expect(response.status).toBeGreaterThanOrEqual(200);
-        expect(response.status).toBeLessThanOrEqual(400);
+        expect(response.status).toBeLessThanOrEqual(404);
       }),
       { numRuns: numRuns, verbose: true }
     );
