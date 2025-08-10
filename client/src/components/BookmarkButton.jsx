@@ -9,7 +9,8 @@ import "../styles/BookmarkButton.css";
 export default function BookmarkButton({ hotel }) {
   const { search, state } = useLocation();
   const destinationId = state?.destinationId;
-   const [showToast, setShowToast] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [bookmarkStatus, setBookmarkStatus] = useState(null);
 
   const handleClick = async () => {
     console.log("Trying to bookmark:", hotel);
@@ -21,7 +22,9 @@ export default function BookmarkButton({ hotel }) {
       destination_id: destinationId,
     };
 
-    await addBookmark(toSave);
+    let response = await addBookmark(toSave);
+    console.log(response);
+    setBookmarkStatus(response.data);
     // alert("Hotel bookmarked!");
     setShowToast(true);
     console.log("✅ Hotel bookmarked:", toSave);
@@ -40,7 +43,13 @@ export default function BookmarkButton({ hotel }) {
           delay={1000}
           autohide
         >
-          <Toast.Body className="text-light">Hotel Bookmarked!</Toast.Body>
+          {bookmarkStatus !== "Already bookmarked" ? (
+            <Toast.Body className="text-light">Hotel Bookmarked!</Toast.Body>
+          ) : (
+            <Toast.Body className="bg-danger text-light">
+              Hotel Already Bookmarked
+            </Toast.Body>
+          )}
         </Toast>
       </ToastContainer>
     </>
