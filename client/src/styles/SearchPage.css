@@ -46,12 +46,11 @@ body {
 /* Filter bar */
 .filter-bar-wrapper {
   position: absolute;
-  top: -5%;
+  top: -3%;
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 0.5rem 0;
-  margin-bottom: 1.5rem;
   flex-direction: column;
   gap: 0.5rem;
 }
@@ -75,6 +74,9 @@ body {
   top: 2rem;
 }
 
+.hotel-skeleton{
+  margin-bottom: 10px;
+}
 .hotel-results {
   flex: 1;
 }

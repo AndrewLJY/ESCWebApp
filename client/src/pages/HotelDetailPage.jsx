@@ -15,7 +15,12 @@ import {
   Row,
   Col,
   Button,
+  Spinner,
+  Toast,
+  ToastContainer,
 } from "react-bootstrap";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 /* import all the icons in Free Solid, Free Regular, and Brands styles */
@@ -49,6 +54,7 @@ export default function HotelDetailPage() {
   const [hotelDetails, setHotelDetails] = useState(null);
   const [carIndex, setCarIndex] = useState(0);
   const [modifyParams, setModifyParams] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [backgroundImageUrl, setBackgroundImageUrl] = useState(
     "/images/default-bg.jpg"
   );
@@ -131,6 +137,11 @@ export default function HotelDetailPage() {
   }
 
   function handleBookRoom(room) {
+    if (!isAuthenticated()) {
+      setShowToast(true);
+      return;
+    }
+
     var numOfDays = calculateDaysBetweenDates(
       payload.checkIn,
       payload.checkOut
@@ -143,8 +154,8 @@ export default function HotelDetailPage() {
         roomPrice: room.priceDetails.price,
         roomImages: [room.keyRoomDetails.roomImages[0].url],
         bookingDetails: {
-          userId: JSON.parse(localStorage.getItem("user")).id,
-          fullName: JSON.parse(localStorage.getItem("user")).full_name,
+          userId: JSON.parse(localStorage.getItem("id")),
+          fullName: JSON.parse(localStorage.getItem("username")),
           destinationId: payload.destinationId,
           hotelId: hotelDetails?.keyDetails.id,
           hotelName: hotelDetails?.keyDetails.name,
@@ -226,57 +237,64 @@ export default function HotelDetailPage() {
         {/* —————————————————————————————— */}
         {/* NOW: ALWAYS SHOW MOCK ROOMS BELOW */}
         {loading ? (
-          <div className="loading">Loading…</div>
+          // <div className="loading">Loading…</div>
+          <Spinner animation="border" role="status" className="spinner">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         ) : (
-          <div className="w-100 m-0">
-   
-            <div className="carousel-div d-flex flex-row">
-              <Carousel
-                indicators={false}
-                className="w-100"
-                interval={2000}
-                activeIndex={carIndex}
-                onSelect={(ind, e) => setCarIndex(ind)}
-                id="hotel_carousel"
-              >
-                {Array.from({ length: hotel.image_details.count }, (_, i) => i)
-                  .filter((j) => j % 2 == 0)
-                  .map((num) => {
-                    return (
-                      <Carousel.Item key={num} id={"caritem-" + num}>
-                        <img
-                          id="hotel_image"
-                          src={
-                            hotel.image_details.prefix +
-                            num +
-                            hotel.image_details.suffix
-                          }
-                        />
+          <div className="w-100 m-0 h-100">
+            {hotel.image_details.count > 0 && (
+              <div className="carousel-div d-flex flex-row">
+                <Carousel
+                  indicators={false}
+                  className="w-100"
+                  interval={2000}
+                  activeIndex={carIndex}
+                  onSelect={(ind, e) => setCarIndex(ind)}
+                  id="hotel_carousel"
+                >
+                  {Array.from(
+                    { length: hotel.image_details.count },
+                    (_, i) => i
+                  )
+                    .filter((j) => j % 2 == 0)
+                    .map((num) => {
+                      return (
+                        <Carousel.Item key={num} id={"caritem-" + num}>
+                          <img
+                            id="hotel_image"
+                            src={
+                              hotel.image_details.prefix +
+                              num +
+                              hotel.image_details.suffix
+                            }
+                          />
 
-                        {num + 1 < hotel.image_details.count ? (
-                          <img
-                            id="hotel_image"
-                            src={
-                              hotel.image_details.prefix +
-                              (num + 1) +
-                              hotel.image_details.suffix
-                            }
-                          />
-                        ) : (
-                          <img
-                            id="hotel_image"
-                            src={
-                              hotel.image_details.prefix +
-                              "0" +
-                              hotel.image_details.suffix
-                            }
-                          />
-                        )}
-                      </Carousel.Item>
-                    );
-                  })}
-              </Carousel>
-            </div>
+                          {num + 1 < hotel.image_details.count ? (
+                            <img
+                              id="hotel_image"
+                              src={
+                                hotel.image_details.prefix +
+                                (num + 1) +
+                                hotel.image_details.suffix
+                              }
+                            />
+                          ) : (
+                            <img
+                              id="hotel_image"
+                              src={
+                                hotel.image_details.prefix +
+                                "0" +
+                                hotel.image_details.suffix
+                              }
+                            />
+                          )}
+                        </Carousel.Item>
+                      );
+                    })}
+                </Carousel>
+              </div>
+            )}
             <div className="detail-header w-100 ps-5 pe-5 d-flex flex-row">
               <div className="col me-3">
                 <div className="d-flex flex-row">
@@ -385,7 +403,7 @@ export default function HotelDetailPage() {
                 </APIProvider>
               </div>
             </div>
-                     <div className={`search-bar-wrapper`}>
+            <div className={`search-bar-wrapper`}>
               <div className="sp-filter-bar my-3 p-3">
                 <Row className="align-items-center g-3">
                   <Col>
@@ -516,7 +534,13 @@ export default function HotelDetailPage() {
             </div>
             <h2 className="mb-3">Rooms Available: </h2>
             {roomsLoading ? (
-              <div>Loading Rooms ...</div>
+              <SkeletonTheme baseColor="#8e98daff" highlightColor="#cde1ffff">
+                <Skeleton
+                  count={1}
+                  className="hotel-skeleton h-50 w-75"
+                  containerClassName="h-100 mb-5"
+                />
+              </SkeletonTheme>
             ) : rooms.length > 0 ? (
               <div className="room-list mb-5">
                 {rooms.map((room) => {
@@ -591,6 +615,19 @@ export default function HotelDetailPage() {
             )}
           </div>
         )}
+        <ToastContainer className="header__toasts m-4 position-fixed bottom-0 end-0">
+          <Toast
+            bg={"primary"}
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Body className="text-light">
+              Please login to book a room...
+            </Toast.Body>
+          </Toast>
+        </ToastContainer>
       </div>
     </>
   );

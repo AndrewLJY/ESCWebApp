@@ -8,8 +8,8 @@ import SearchBar from "../components/SearchBar";
 import SortingBar from "../components/SortingBar";
 
 import "../styles/SearchPage.css";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { Pagination, Spinner } from "react-bootstrap";
 
 export default function SearchPage() {
@@ -162,7 +162,14 @@ export default function SearchPage() {
               )}
               <div className="hotel-results">
                 {loading ? (
-                  <div className="loading">Loading hotels...</div>
+                  // <div className="loading">Loading hotels...</div>
+                  <SkeletonTheme baseColor="#8e98daff" highlightColor="#cde1ffff">
+                    <Skeleton
+                      count={4}
+                      height={150}
+                      className="hotel-skeleton"
+                    />
+                  </SkeletonTheme>
                 ) : error ? (
                   <div className="error-message">
                     Invalid search parameters, please re-enter
@@ -243,32 +250,34 @@ export default function SearchPage() {
                   ))
                 )}
 
-                {!loading && <Pagination>
-                  <Pagination.Prev
-                    onClick={() => {
-                      setStartPage((prevState) => {
-                        var newState = prevState - pageSize;
-                        setPagedHotels(
-                          filteredHotels.slice(newState, newState + pageSize)
-                        );
-                        return newState;
-                      });
-                    }}
-                    disabled={startPage - pageSize < 0}
-                  />
-                  <Pagination.Next
-                    onClick={() => {
-                      setStartPage((prevState) => {
-                        var newState = prevState + pageSize;
-                        setPagedHotels(
-                          filteredHotels.slice(newState, newState + pageSize)
-                        );
-                        return newState;
-                      });
-                    }}
-                    disabled={startPage + pageSize > filteredHotels.length}
-                  />
-                </Pagination>}
+                {!loading && (
+                  <Pagination>
+                    <Pagination.Prev
+                      onClick={() => {
+                        setStartPage((prevState) => {
+                          var newState = prevState - pageSize;
+                          setPagedHotels(
+                            filteredHotels.slice(newState, newState + pageSize)
+                          );
+                          return newState;
+                        });
+                      }}
+                      disabled={startPage - pageSize < 0}
+                    />
+                    <Pagination.Next
+                      onClick={() => {
+                        setStartPage((prevState) => {
+                          var newState = prevState + pageSize;
+                          setPagedHotels(
+                            filteredHotels.slice(newState, newState + pageSize)
+                          );
+                          return newState;
+                        });
+                      }}
+                      disabled={startPage + pageSize > filteredHotels.length}
+                    />
+                  </Pagination>
+                )}
               </div>
             </div>
           </section>
