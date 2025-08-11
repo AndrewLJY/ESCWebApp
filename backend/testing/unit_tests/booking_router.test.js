@@ -13,7 +13,7 @@ describe("(WHITE-BOX UNIT) Testing the booking.js router endpoint, ensure that w
     bookingModel.insertOne = jest.fn().mockResolvedValue(1);
 
     const validBookingData = {
-      id: 1,
+      id: "1",
       hotel_id: "H001",
       destination_id: "D001",
       no_of_nights: 3,
@@ -41,7 +41,7 @@ describe("(WHITE-BOX UNIT) Testing the booking.js router endpoint, ensure that w
     bookingModel.insertOne = jest.fn().mockResolvedValue(-1);
 
     const duplicateBookingData = {
-      id: 1,
+      id: "1",
       hotel_id: "H001",
       destination_id: "D001",
       no_of_nights: 3,
@@ -71,7 +71,7 @@ describe("(WHITE-BOX UNIT) Testing the booking.js router endpoint, ensure that w
       .mockRejectedValue(new Error("Database connection failed"));
 
     const bookingData = {
-      id: 2,
+      id: "2",
       hotel_id: "H002",
       destination_id: "D002",
       no_of_nights: 2,
@@ -103,7 +103,7 @@ describe("(BLACK-BOX UNIT) Testing /booking endpoint with various inputs", () =>
 
   test("Testing /booking with missing some fields, should return a response", async () => {
     const incompleteData = {
-      id: 1,
+      id: "2",
       hotel_id: "H001",
       // Missing other fields
     };
@@ -148,7 +148,7 @@ describe("(BLACK-BOX UNIT) Testing /booking endpoint with various inputs", () =>
 
   test("Testing /booking with null values, should return a response", async () => {
     const bookingData = {
-      id: 1,
+      id: "1",
       hotel_id: "H001",
       destination_id: "D001",
       no_of_nights: 3,
@@ -209,7 +209,7 @@ describe("(BLACK BOX FUZZ) POST /booking with random inputs", () => {
           const res = await request(app).post("/booking").send(bookingPayload);
 
           // only expect either success (200) or validation/database errors
-          expect([200, 400, 500]).toContain(res.status);
+          expect([200, 400]).toContain(res.status);
           // response body should be a string message
           expect(typeof res.text).toBe("string"); //"Already booked" or "Successfully booked"
         }
