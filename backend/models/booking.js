@@ -23,7 +23,7 @@ async function sync() {
   try {
     db.pool.query(`
         CREATE TABLE IF NOT EXISTS ${tableName} (
-            id INTEGER,
+            id VARCHAR(255),
             hotel_id VARCHAR(255),
             destination_id VARCHAR(255),
             no_of_nights INTEGER,

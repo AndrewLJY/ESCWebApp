@@ -139,30 +139,6 @@ describe("Header Component", () => {
 
   // === End new granular login tests ===
 
-  test("Invalid credentials shows alert when login fails", async () => {
-    // This is similar to the last new test, but keeping for backward compatibility
-    loginUserAPI.mockRejectedValueOnce(new Error("Invalid credentials"));
-
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
-    fireEvent.click(screen.getByText("Login"));
-
-    fireEvent.change(screen.getByLabelText("Email Address"), {
-      target: { value: "wrong@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText("Password"), {
-      target: { value: "badpass" },
-    });
-    fireEvent.click(screen.getByText("Sign In Now"));
-
-    await waitFor(() =>
-      expect(window.alert).toHaveBeenCalledWith("Invalid credentials")
-    );
-  });
-
   test("Shows toast on successful login", async () => {
     loginUserAPI.mockResolvedValueOnce({ username: "joe", token: "tok123" });
 
