@@ -32,7 +32,7 @@ async function sync() {
             guest_count INTEGER,
             message_to_hotel TEXT,
             room_type VARCHAR(255),
-            total_price INTEGER,
+            total_price FLOAT,
             user_id INTEGER,
             full_name VARCHAR(255),
             payment_id VARCHAR(255),

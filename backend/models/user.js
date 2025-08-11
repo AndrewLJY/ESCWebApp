@@ -60,7 +60,9 @@ async function findByEmail(email) {
 
 async function findUserID(email) {
   let user = await findByEmail(email);
+
   if (user) {
+    console.log("User ID is this: " + user[0].id);
     return user[0].id;
   } else {
     return -1;

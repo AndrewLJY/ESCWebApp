@@ -5,7 +5,39 @@ import emailjs from "@emailjs/browser";
 
 export default function Return() {
   const [status, setStatus] = useState(null);
-  const [customerEmail, setCustomerEmail] = useState("");
+  const [metaData, setMetaData] = useState(null);
+  const [customerDetails, setCustomerDetails] = useState("");
+
+  function saveBookingDetails() {
+    if (!metaData || !customerDetails) {
+      return;
+    }
+
+    const bookingDetails = {
+      id: metaData.id,
+      hotel_id: metaData.hotelId,
+      destination_id: metaData.destinationId,
+      no_of_nights: metaData.numOfDays,
+      start_date: metaData.checkIn,
+      end_date: metaData.checkOut,
+      guest_count: metaData.guestNum,
+      message_to_hotel: metaData.specialReq,
+      room_type: metaData.roomDesc,
+      total_price: metaData.totalPrice,
+      user_id: metaData.userId,
+      full_name: customerDetails.name,
+      payment_id: metaData.paymentId,
+    };
+
+    axios
+      .post("http://localhost:8080/booking/", bookingDetails)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error saving booking details:", error);
+      });
+  }
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -19,20 +51,22 @@ export default function Return() {
       .then((response) => {
         console.log(response);
         setStatus(response.data.status);
-        setCustomerEmail(response.data.customer_email);
+        setCustomerDetails(response.data.customer_details);
+        setMetaData(response.data.metadata);
       });
   }, []);
 
   useEffect(() => {
-    if (status == "complete" && customerEmail != null) {
+    if (status == "complete" && customerDetails != null && metaData != null) {
       var templateParams = {
-        email: customerEmail,
-        hotelName: "",
-        roomType: "",
-        checkInDate: "",
-        checkOutDate: "",
-        numOfGuests: "",
-        specialRequest: "",
+        email: customerDetails.email,
+        hotelName: metaData.hotelName,
+        roomType: metaData.roomDesc,
+        checkInDate: metaData.checkIn,
+        checkOutDate: metaData.checkOut,
+        numOfGuests: metaData.guestNum,
+        numOfRooms: metaData.roomNum,
+        specialRequest: metaData.specialReq,
       };
 
       emailjs.send("service_1v9a236", "template_ibcni3p", templateParams).then(
@@ -43,8 +77,10 @@ export default function Return() {
           console.log("FAILED...", error);
         }
       );
+
+      saveBookingDetails();
     }
-  }, [customerEmail]);
+  }, [customerDetails, metaData]);
 
   if (status === "open") {
     return <Navigate to="/checkout" />;
@@ -58,12 +94,9 @@ export default function Return() {
 
   if (status === "complete") {
     return (
-      <section id="success">
-        <p>
-          We appreciate your business! A confirmation email will be sent to{" "}
-          {customerEmail}. If you have any questions, please email{" "}
-          <a href="mailto:orders@example.com">orders@example.com</a>.
-        </p>
+      <section id="success" className="text-center h-100 align-content-center">
+        <p>We appreciate your business!</p>
+        <p>A confirmation email will be sent to {customerDetails.email}.</p>
         <button onClick={routeChange}>Back to Home Page</button>
       </section>
     );

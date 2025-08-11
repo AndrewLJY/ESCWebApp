@@ -63,11 +63,17 @@ router.get("/session-status", async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(
       req.query.session_id
     );
+
+    var metadata = session.metadata;
+    metadata.specialReq = session.custom_fields[0].text.value;
+    metadata.totalPrice = session.amount_total / 100;
+    metadata.id = session.id;
+    metadata.paymentId = session.payment_intent;
     console.log(session);
 
     res.send({
       status: session.status,
-      customer_email: session.customer_details.email,
+      customer_details: session.customer_details,
       metadata: session.metadata,
     });
   } catch (error) {

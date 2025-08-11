@@ -71,11 +71,10 @@ router.post("/login/", async function (req, res, next) {
     }
 
     output = {
-      user: JSON.stringify(user),
       token: token,
       username: username,
       email: email,
-      id: userModel.findUserID(email),
+      id: await userModel.findUserID(email),
     };
     res.send(output);
   } else {
