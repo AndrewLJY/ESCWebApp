@@ -528,15 +528,14 @@ describe("PricingRankingData", () => {
       expect(() => builder.setSearchRank("0")).not.toThrow();
     });
 
-    // Invalid Classes
-    // test("should reject negative numbers", () => {
-    //   expect(() => builder.setRank("-1")).toThrow(
-    //     "Rank must be a non-negative integer"
-    //   );
-    //   expect(() => builder.setSearchRank("-1")).toThrow(
-    //     "Search rank must be a non-negative integer"
-    //   );
-    // });
+    test("should reject negative numbers", () => {
+      expect(() => builder.setRank("-1")).toThrow(
+        "Rank must be a non-negative integer"
+      );
+      expect(() => builder.setSearchRank("-1")).toThrow(
+        "Search rank must be a non-negative integer"
+      );
+    });
 
     test("should accept null, as both are optional", () => {
       expect(() => builder.setRank(null)).not.toThrow();
@@ -544,20 +543,20 @@ describe("PricingRankingData", () => {
     });
   });
 
-  // describe("setPriceType", () => {
-  //   test("should accept known enum values", () => {
-  //     expect(() => builder.setPriceType("single")).not.toThrow();
-  //     expect(() => builder.setPriceType("double")).not.toThrow();
-  //   });
+  describe("setPriceType", () => {
+    test("should accept known enum values", () => {
+      expect(() => builder.setPriceType("single")).not.toThrow();
+      expect(() => builder.setPriceType("double")).not.toThrow();
+    });
 
-  //   test("should reject unknown values", () => {
-  //     expect(() => builder.setPriceType("unknown")).toThrow();
-  //   });
+    test("should reject unknown values", () => {
+      expect(() => builder.setPriceType("unknown")).toThrow();
+    });
 
-  //   test("should reject null", () => {
-  //     expect(() => builder.setPriceType(null)).toThrow();
-  //   });
-  // });
+    test("should reject null", () => {
+      expect(() => builder.setPriceType(null)).toThrow();
+    });
+  });
 
   describe("setFreeCancellation", () => {
     test("should accept boolean values", () => {

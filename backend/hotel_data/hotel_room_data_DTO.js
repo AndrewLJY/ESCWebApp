@@ -37,6 +37,7 @@ function isValidBreakfastInfo(info) {
   const validTypes = [
     "hotel_detail_room_only",
     "hotel_detail_breakfast_included",
+    "hotel_detail_breakfast_for_2_included",
   ];
   return typeof info === "string" && validTypes.includes(info);
 }
@@ -326,13 +327,6 @@ class RoomAdditionalInfo {
       }
 
       setKaligoServiceFee(kaligoServiceFee) {
-        // kaligoServiceFeeCopy = kaligoServiceFee;
-        // if (
-        //   !isValidNumber(kaligoServiceFeeCopy) ||
-        //   Number(kaligoServiceFeeCopy) < 0
-        // ) {
-        //   throw new Error("Invalid Kaligo service fee");
-        // }
         this.kaligoServiceFee = kaligoServiceFee;
         return this;
       }
@@ -625,7 +619,7 @@ class PriceDetails {
         }
 
         for (let i = 0; i < marketRates.length; i++) {
-          marketRatesObj = marketRates[i];
+          let marketRatesObj = marketRates[i];
           if (
             !Object.keys(marketRatesObj).includes("supplier") ||
             !Object.keys(marketRatesObj).includes("rate")

@@ -654,7 +654,7 @@ class PricingRankingData {
         if (!isValidNumber(value) || Number(value) < 0) {
           throw new Error("Rank must be a non-negative integer");
         }
-        this.rank = value;
+        this.rank = value.toString();
         return this;
       }
 
@@ -662,24 +662,24 @@ class PricingRankingData {
         if (value === null || value === undefined || value === "") {
           return this;
         }
-        // if (!isValidInteger(value) || Number(value) < 0) {
-        //   throw new Error("Search rank must be a non-negative integer");
-        // }
-        this.searchRank = value;
+        if (!isValidNumber(value) || Number(value) < 0) {
+          throw new Error("Search rank must be a non-negative integer");
+        }
+        this.searchRank = value.toString();
         return this;
       }
 
       setPriceType(value) {
-        // if (
-        //   value !== "Single" &&
-        //   value !== "Double" &&
-        //   value !== "Multi" &&
-        //   value !== "single" &&
-        //   value !== "double" &&
-        //   value !== "multi"
-        // ) {
-        //   throw new Error("Price Type Parameters is invalid");
-        // }
+        if (
+          value !== "Single" &&
+          value !== "Double" &&
+          value !== "Multi" &&
+          value !== "single" &&
+          value !== "double" &&
+          value !== "multi"
+        ) {
+          throw new Error("Price Type Parameters is invalid");
+        }
         this.priceType = value;
         return this;
       }

@@ -24,8 +24,9 @@ export default function Bookmark() {
   // remove one bookmark
   const handleRemove = async (id) => {
     await removeBookmark(id);
-    const updated = await getBookmarkedHotels();
-    setBookmarks(updated.data);
+    // const updated = await getBookmarkedHotels();
+    // setBookmarks(updated);
+    fetchBookmarks();
   };
 
   // navigate exactly like SearchPage's button, using saved searchString & destinationId

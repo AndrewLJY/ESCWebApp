@@ -146,7 +146,7 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
     if (result == 1) {
       return res.status(200).send("Successfully bookmarked");
     } else if (result == -1) {
-      return res.status(401).send("Already bookmarked");
+      return res.status(200).send("Already bookmarked");
     }
   } catch (error) {
     res.status(400).send("Database error");
