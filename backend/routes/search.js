@@ -41,8 +41,6 @@ router.get(
       const guestCount = req.params.guest_count;
       const roomCount = req.params.room_count;
 
-      console.log("checkin" + checkInDate);
-
       //check the input fields
       if (
         !checkInDate ||
@@ -50,7 +48,6 @@ router.get(
         !checkOutDate ||
         !date_regex.test(checkOutDate)
       ) {
-        console.log("invalid checkin");
         return res.status(400).json("Invalid check-in/out date");
       }
 
@@ -68,7 +65,6 @@ router.get(
       }
 
       if (isLess === false) {
-        console.log("invalid checkin date too high");
         return res.status(400).json("Check in date is greater than checkout");
       }
 
@@ -79,7 +75,6 @@ router.get(
         !isNaN(roomCount) === false
       ) {
         //unable to coerce to number
-        console.log("invalid guest room count");
         return res.status(400).json("Invalid guest/room count data types.");
       }
 
@@ -96,7 +91,6 @@ router.get(
         );
 
         if (filledHotelDTOClassList.getIsEmpty() === true) {
-          console.log("here");
           filledHotelDTOClassList.setIsEmpty(false);
           res.status(400).send("Internal Server Error");
         } else {
@@ -243,7 +237,6 @@ router.get(
         !checkOutDate ||
         !date_regex.test(checkOutDate)
       ) {
-        console.log("invalid checkin");
         return res.status(400).json("Invalid check-in/out date");
       }
 
@@ -271,7 +264,6 @@ router.get(
         !isNaN(roomCount) === false
       ) {
         //unable to coerce to number
-        console.log("invalid guest count");
         return res.status(400).json("Invalid guest/room count data types.");
       }
 
@@ -470,6 +462,9 @@ router.get(
         );
 
       if (result === -1) {
+        res.status.json("Bad Request");
+      }
+      if (result === -2) {
         //No rooms were avaialable, hence return an error 400.
         res.status(404).send("No available rooms");
         return;

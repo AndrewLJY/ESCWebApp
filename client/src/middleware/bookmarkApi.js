@@ -121,7 +121,7 @@ export async function addBookmark(hotelToSave) {
         hotel_name: hotelToSave.hotel_name,
         hotel_address: hotelToSave.hotel_address,
         image_url: hotelToSave.image_url || "",
-        hotel_ratings: hotelToSave.rating?.toString() || "NaN",
+        hotel_ratings: hotelToSave.hotel_ratings.toString() || "NaN",
         user_email: currentUser.user.email,
         search_string: hotelToSave.search_string,
         destination_id: hotelToSave.destination_id,
@@ -143,6 +143,7 @@ export async function addBookmark(hotelToSave) {
       bookmarks.push(hotelToSave);
       localStorage.setItem(key, JSON.stringify(bookmarks));
     }
+    return response;
   } catch (error) {
     console.error("Error adding bookmark:", error);
     // Fallback to localStorage if backend fails

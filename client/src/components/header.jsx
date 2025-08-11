@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { loginUserAPI, signupUserAPI } from "../middleware/authApi";
 import "../styles/Header.css";
-import Toast from "react-bootstrap/Toast";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-bootstrap";
+import { Toast, ToastContainer } from "react-bootstrap";
 import ascendaLogo from "../assets/ascenda_logo.png";
 
 export default function Header() {
@@ -13,7 +12,6 @@ export default function Header() {
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,40 +30,40 @@ export default function Header() {
       try {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
-        console.log("[Auth] User successfully parsed and set:", parsedUser);
+        // console.log("[Auth] User successfully parsed and set:", parsedUser);
       } catch (error) {
-        console.error("[Auth] Failed to parse user data:", error);
+        // console.error("[Auth] Failed to parse user data:", error);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        console.log("[Auth] Cleared invalid token and user from localStorage.");
+        // console.log("[Auth] Cleared invalid token and user from localStorage.");
       }
     } else {
-      console.log("[Auth] No token or user found. User not logged in.");
+      // console.log("[Auth] No token or user found. User not logged in.");
     }
   }, []);
 
   const isAuthenticated = () => {
     const hasToken = !!localStorage.getItem("token");
     const authStatus = !!user && hasToken;
-    console.log(`[Auth] isAuthenticated? ${authStatus}`);
+    // console.log(`[Auth] isAuthenticated? ${authStatus}`);
     return authStatus;
   };
 
   const login = (userData, token) => {
-    console.log("[Auth] Logging in user...");
-    console.log("User data:", userData);
-    console.log("Token:", token);
+    // console.log("[Auth] Logging in user...");
+    // console.log("User data:", userData);
+    // console.log("Token:", token);
 
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
     setShowToast(true);
 
-    console.log("[Auth] User logged in and saved to localStorage.");
+    // console.log("[Auth] User logged in and saved to localStorage.");
   };
 
   const logout = () => {
-    console.log("[Auth] Logging out user...");
+    // console.log("[Auth] Logging out user...");
 
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -79,8 +77,6 @@ export default function Header() {
     } else {
       window.location.reload();
     }
-
-    
   };
 
   // blur Landing, Search or HotelDetail page when dropdown is open
@@ -110,8 +106,6 @@ export default function Header() {
     setSignupOpen(false);
   };
 
-  
-
   return (
     <>
       <div className="header__bg d-flex flex-row align-items-center p-5">
@@ -120,6 +114,7 @@ export default function Header() {
           className="header__logo"
           width={250}
           src={ascendaLogo}
+          alt="Ascenda logo"
           onClick={() => {
             navigate("/");
           }}
@@ -146,7 +141,11 @@ export default function Header() {
             </div>
           ) : (
             <>
-              <button className="btn login fs-5" onClick={handleLoginClick}>
+              <button
+                className="btn login fs-5"
+                onClick={handleLoginClick}
+                disabled={loginOpen || signupOpen}
+              >
                 Login
               </button>
             </>

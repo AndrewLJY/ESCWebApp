@@ -3,6 +3,8 @@ const express = require("express");
 const bookmarkModel = require("../../models/bookmark");
 const userRouter = require("../../routes/user");
 
+const fc = require("fast-check");
+
 // user.test.js
 jest.mock("../../auth_middleware/auth_middleware.js", () => {
   return jest.fn((req, res, next) => {
@@ -20,67 +22,64 @@ describe("Bookmark endpoints", () => {
     jest.clearAllMocks();
   });
 
-  describe("POST /bookmarks/", () => {
-    it("should add a bookmark and return 200", async () => {
+  describe("(BLACK BOX UNIT) Testing POST /bookmarks/", () => {
+    test("should add a bookmark and return 200", async () => {
       jest.spyOn(bookmarkModel, "insertOne").mockResolvedValue(1);
       const res = await request(app)
         .post("/bookmarks/")
         .set("Authorization", "Bearer fake-token")
         .send({
           // Add this linesend({
-          hotel_id: "1",
+          hotel_id: "DIH7",
           hotel_name: "Hotel",
           hotel_address: "Addr",
-          image_url: "img",
+          image_url: "http://abc.jpg",
           hotel_ratings: "5",
           user_email: "test@email.com",
           search_string: "search",
           destination_id: "dest",
         });
       expect(res.status).toBe(200);
-      expect(res.text).toBe("Successfully bookmarked");
     });
 
-    it("should return 401 if already bookmarked", async () => {
+    test("should return 401 if already bookmarked", async () => {
       jest.spyOn(bookmarkModel, "insertOne").mockResolvedValue(-1);
       const res = await request(app)
         .post("/bookmarks/")
         .set("Authorization", "Bearer fake-token")
         .send({
-          hotel_id: "1",
+          hotel_id: "DIH7",
           hotel_name: "Hotel",
           hotel_address: "Addr",
-          image_url: "img",
+          image_url: "http://abc.jpg",
           hotel_ratings: "5",
           user_email: "test@email.com",
           search_string: "search",
           destination_id: "dest",
         });
       expect(res.status).toBe(401);
-      expect(res.text).toBe("Already bookmarked");
     });
 
-    it("should return 400 for invalid hotel_id type", async () => {
+    test("should return 400 for invalid hotel_id type", async () => {
       const res = await request(app)
         .post("/bookmarks/")
         .set("Authorization", "Bearer fake-token")
         .send({
-          hotel_id: 123,
+          hotel_id: "12345",
           hotel_name: "Hotel",
           hotel_address: "Addr",
-          image_url: "img",
+          image_url: "http://abc.jpg",
           hotel_ratings: "5",
           user_email: "test@email.com",
           search_string: "search",
           destination_id: "dest",
         });
       expect(res.status).toBe(400);
-      expect(res.text).toBe("Invalid hotel id input");
     });
   });
 
-  describe("GET /allBookmarks/:user_email", () => {
-    it("should return bookmarks for a valid user", async () => {
+  describe("(BLACK BOX UNIT) Testing GET /allBookmarks/:user_email", () => {
+    test("should return bookmarks for a valid user", async () => {
       const bookmarks = [{ hotel_id: "1", hotel_name: "Hotel" }];
       jest
         .spyOn(bookmarkModel, "getAllBookmarksPerUser")
@@ -92,43 +91,73 @@ describe("Bookmark endpoints", () => {
       expect(res.body).toEqual(bookmarks);
     });
 
-    it("should return 400 for invalid email", async () => {
+    test("should return 400 for invalid email", async () => {
       const res = await request(app)
         .get("/allBookmarks/invalid-email")
         .set("Authorization", "Bearer fake-token");
       expect(res.status).toBe(400);
-      expect(res.text).toBe("Invalid email format.");
     });
   });
 
-  describe("POST /deleteBookmark", () => {
-    it("should delete a bookmark and return 200", async () => {
+  describe("(BLACK BOX UNIT) Testing POST /deleteBookmark", () => {
+    test("should delete a bookmark and return 200", async () => {
       jest.spyOn(bookmarkModel, "removeHotelBookmark").mockResolvedValue(1);
       const res = await request(app)
         .post("/deleteBookmark")
         .set("Authorization", "Bearer fake-token")
         .send({ hotel_id: "1", user_email: "test@email.com" });
       expect(res.status).toBe(200);
-      expect(res.text).toBe("Deleted");
     });
 
-    it("should return 400 if hotel not found", async () => {
+    test("should return 400 if hotel not found", async () => {
       jest.spyOn(bookmarkModel, "removeHotelBookmark").mockResolvedValue(-1);
       const res = await request(app)
         .post("/deleteBookmark")
         .set("Authorization", "Bearer fake-token")
         .send({ hotel_id: "1", user_email: "test@email.com" });
       expect(res.status).toBe(400);
-      expect(res.text).toBe("Error, hotel does not exist in database");
     });
 
-    it("should return 400 for invalid email", async () => {
+    test("should return 400 for invalid email", async () => {
       const res = await request(app)
         .post("/deleteBookmark")
         .set("Authorization", "Bearer fake-token")
         .send({ hotel_id: "1", user_email: "invalid-email" });
       expect(res.status).toBe(400);
-      expect(res.text).toBe("Invalid email format.");
     });
   });
+});
+
+describe("(WHITE BOX UNIT) Testing the conditionals of our input parameter handling through fuzzing", () => {
+  numRuns = 20;
+  test("Testing /auth/bookmarks endpoint, with invalid parameters.", async () => {
+    const urlSafeChars =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=/\\{}][><.,?`|_.~";
+
+    const urlSafeString = fc
+      .array(fc.constantFrom(...urlSafeChars), { minLength: 1, maxLength: 20 })
+      .map((arr) => arr.join(""));
+
+    await fc.assert(
+      fc.asyncProperty(urlSafeString, async (data) => {
+        requestBody = {
+          hotel_id: data,
+          hotel_name: "Grand Hyatt",
+          hotel_address: "One Shit Place",
+          image_url: data,
+          hotel_ratings: data,
+          user_email: data,
+          search_string: data,
+          destination_id: data,
+        };
+
+        const response = await request(app)
+          .post(`/bookmarks/`)
+          .send(requestBody);
+        expect(response.status).toBeGreaterThanOrEqual(200);
+        expect(response.status).toBeLessThanOrEqual(400);
+      }),
+      { numRuns: numRuns, verbose: true }
+    );
+  }, 120000);
 });

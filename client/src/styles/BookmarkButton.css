@@ -1,9 +1,19 @@
 .btn.bookmark {
-  background-color: #ffcc00;
-  color: black;
+  background-color: white;
+  border: 2px solid #ffcc00;
+  color: #141000;
   padding: 8px 12px;
-  border: none;
   border-radius: 6px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.btn.bookmark:hover {
+  background-color: #ffcc00;
+  border: 2px solid #ffcc00;
+  color: #141000;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
 }

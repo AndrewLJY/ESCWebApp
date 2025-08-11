@@ -100,8 +100,8 @@ async function insertOne(booking){
       return -1;
     }
   }catch (error){
-    console.error("database connection failed " + error);
-    throw error;
+    return("database connection failed " + error);
+    
   }
 }
 module.exports = { Booking, sync,insertOne,findbyBookingId };
