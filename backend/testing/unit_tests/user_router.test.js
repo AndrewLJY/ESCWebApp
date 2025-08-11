@@ -42,7 +42,7 @@ describe("Bookmark endpoints", () => {
       expect(res.status).toBe(200);
     });
 
-    test("should return 401 if already bookmarked", async () => {
+    test("should return 200 if already bookmarked, and send a message showing that hotel has already been bookmarked", async () => {
       jest.spyOn(bookmarkModel, "insertOne").mockResolvedValue(-1);
       const res = await request(app)
         .post("/bookmarks/")
@@ -57,7 +57,7 @@ describe("Bookmark endpoints", () => {
           search_string: "search",
           destination_id: "dest",
         });
-      expect(res.status).toBe(401);
+      expect(res.status).toBe(200);
     });
 
     test("should return 400 for invalid hotel_id type", async () => {
