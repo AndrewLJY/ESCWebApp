@@ -10,7 +10,6 @@ router.post("/create-checkout-session", async (req, res) => {
   const roomPrice = Math.round(req.body.roomPrice * 100);
   const roomImages = req.body.roomImages;
   const bookingDetails = req.body.bookingDetails;
-  console.log(bookingDetails);
 
   const session = await stripe.checkout.sessions.create({
     ui_mode: "embedded",
@@ -53,9 +52,14 @@ router.post("/create-checkout-session", async (req, res) => {
 router.get("/session-status", async (req, res) => {
   const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
 
-  console.log(session);
+  var metadata = session.metadata;
+  metadata.specialReq = session.custom_fields[0].text.value;
+
+  console.log("Session Metadata:", session);
 
   res.send({
+    payment_id: session.id,
+    totalPrice: session.amount_total / 100,
     status: session.status,
     customer_email: session.customer_details.email,
     metadata: session.metadata,
