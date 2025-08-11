@@ -140,9 +140,9 @@ export default function HotelDetailPage() {
       state: {
         roomName:
           room.keyRoomDetails.name || room.keyRoomDetails.roomDescription,
-          roomPrice: room.priceDetails.price,
-          roomImages: room.keyRoomDetails.roomImages,
-          bookingDetails: {
+        roomPrice: room.priceDetails.price,
+        roomImages: room.keyRoomDetails.roomImages,
+        bookingDetails: {
           roomDesc: room.keyRoomDetails.roomDescription,
           bookingDateFrom: payload.checkIn,
           bookingDateTo: payload.checkOut,
@@ -224,7 +224,6 @@ export default function HotelDetailPage() {
           <div className="loading">Loading…</div>
         ) : (
           <div className="w-100 m-0">
-   
             <div className="carousel-div d-flex flex-row">
               <Carousel
                 indicators={false}
@@ -380,7 +379,7 @@ export default function HotelDetailPage() {
                 </APIProvider>
               </div>
             </div>
-                     <div className={`search-bar-wrapper`}>
+            <div className={`search-bar-wrapper`}>
               <div className="sp-filter-bar my-3 p-3">
                 <Row className="align-items-center g-3">
                   <Col>
