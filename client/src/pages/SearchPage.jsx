@@ -213,8 +213,8 @@ export default function SearchPage() {
                         <p className="address m-0">
                           {h?.keyDetails?.address || "Address not available"}
                         </p>
-                        <p className="rating">
-                          Rating:{" "}
+                        <p className="rating fs-6">
+                          Guest Rating:{" "}
                           {h?.keyDetails?.rating
                             ? `${h.keyDetails.rating}/5`
                             : "NA"}

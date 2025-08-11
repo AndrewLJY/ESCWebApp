@@ -66,13 +66,14 @@ router.get("/session-status", async (req, res) => {
 
     var metadata = session.metadata;
     metadata.specialReq = session.custom_fields[0].text.value;
+    metadata.totalPrice = session.amount_total / 100;
+    metadata.id = session.id;
+    metadata.paymentId = session.payment_intent;
     console.log(session);
 
     res.send({
-      payment_id: session.id,
-      totalPrice: session.amount_total / 100,
       status: session.status,
-      customer_email: session.customer_details.email,
+      customer_details: session.customer_details,
       metadata: session.metadata,
     });
   } catch (error) {

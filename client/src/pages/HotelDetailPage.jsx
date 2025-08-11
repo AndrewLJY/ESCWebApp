@@ -118,6 +118,7 @@ export default function HotelDetailPage() {
 
   async function getRooms() {
     // 3) *always* load mock rooms (never show empty)
+
     try {
       setRoomsLoading(true);
       const roomResp = await getRoomPricingAPI(
@@ -126,6 +127,8 @@ export default function HotelDetailPage() {
       );
       if (roomResp === "No Room Available") {
         setRooms([]);
+        alert("No rooms available for the current hotel.");
+        navigate(-1);
       } else {
         setRooms(roomResp.data);
       }
@@ -146,6 +149,8 @@ export default function HotelDetailPage() {
       payload.checkIn,
       payload.checkOut
     );
+    console.log(JSON.parse(localStorage.getItem("user")).username);
+    console.log(JSON.parse(localStorage.getItem("user")).id);
 
     navigate("/checkout", {
       state: {
@@ -154,8 +159,8 @@ export default function HotelDetailPage() {
         roomPrice: room.priceDetails.price,
         roomImages: [room.keyRoomDetails.roomImages[0].url],
         bookingDetails: {
-          userId: JSON.parse(localStorage.getItem("id")),
-          fullName: JSON.parse(localStorage.getItem("username")),
+          userId: JSON.parse(localStorage.getItem("user")).id,
+          fullName: JSON.parse(localStorage.getItem("user")).username,
           destinationId: payload.destinationId,
           hotelId: hotelDetails?.keyDetails.id,
           hotelName: hotelDetails?.keyDetails.name,
@@ -361,7 +366,7 @@ export default function HotelDetailPage() {
                 <p className="mb-1">Amenities Available: </p>
                 {Object.keys(hotel.amenities).map((amenity) => {
                   return (
-                    <>
+                    <span key={amenity}>
                       {hotel.amenities[amenity] ? (
                         <Badge
                           pill
@@ -374,7 +379,7 @@ export default function HotelDetailPage() {
                       ) : (
                         <> </>
                       )}
-                    </>
+                    </span>
                   );
                 })}
 
