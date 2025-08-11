@@ -3,9 +3,9 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 
 import { searchHotelsAPI } from "../middleware/searchApi";
 
-import Header from "../components/header";
-import SearchBar from "../components/SearchBar";
-import SortingBar from "../components/SortingBar";
+import Header from "../components/header.jsx";
+import SearchBar from "../components/SearchBar.jsx";
+import SortingBar from "../components/SortingBar.jsx";
 
 import "../styles/SearchPage.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -163,7 +163,10 @@ export default function SearchPage() {
               <div className="hotel-results">
                 {loading ? (
                   // <div className="loading">Loading hotels...</div>
-                  <SkeletonTheme baseColor="#8e98daff" highlightColor="#cde1ffff">
+                  <SkeletonTheme
+                    baseColor="#8e98daff"
+                    highlightColor="#cde1ffff"
+                  >
                     <Skeleton
                       count={4}
                       height={150}
