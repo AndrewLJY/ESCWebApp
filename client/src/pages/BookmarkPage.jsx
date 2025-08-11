@@ -1,5 +1,3 @@
-// src/pages/Bookmark.jsx
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
@@ -27,7 +25,7 @@ export default function Bookmark() {
   const handleRemove = async (id) => {
     await removeBookmark(id);
     const updated = await getBookmarkedHotels();
-    setBookmarks(updated);
+    setBookmarks(updated.data);
   };
 
   // navigate exactly like SearchPage's button, using saved searchString & destinationId
