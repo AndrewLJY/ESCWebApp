@@ -33,9 +33,6 @@ import BookmarkButton from "../components/BookmarkButton";
 
 import "../styles/HotelDetailPage.css";
 
-const env = await import.meta.env;
-const MAP_API_KEY = `${env.VITE_GOOGLE_MAPS_API_KEY}`;
-
 export default function HotelDetailPage() {
   const { id } = useParams();
   const { search, state } = useLocation();
