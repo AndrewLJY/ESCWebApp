@@ -143,6 +143,7 @@ export async function addBookmark(hotelToSave) {
       bookmarks.push(hotelToSave);
       localStorage.setItem(key, JSON.stringify(bookmarks));
     }
+    return response;
   } catch (error) {
     console.error("Error adding bookmark:", error);
     // Fallback to localStorage if backend fails
