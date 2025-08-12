@@ -68,6 +68,72 @@ router.get(
         return res.status(400).json("Check in date is greater than checkout");
       }
 
+      if (yearMonthDaysCheckIn[0] < 0) {
+        return res.status(400).json("Invalid year");
+      }
+      if (yearMonthDaysCheckIn[1] > 12) {
+        return res.status(400).json("Invalid month");
+      }
+      if (
+        Number(yearMonthDaysCheckIn[2]) > 31 ||
+        Number(yearMonthDaysCheckIn[2]) < 1
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (yearMonthDaysCheckOut[0] < 0) {
+        return res.status(400).json("Invalid year");
+      }
+      if (yearMonthDaysCheckOut[1] > 12) {
+        return res.status(400).json("Invalid month");
+      }
+      if (
+        Number(yearMonthDaysCheckOut[2]) > 31 ||
+        Number(yearMonthDaysCheckOut[2]) < 1
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (isLess === false) {
+        return res.status(400).json("Check in date is greater than checkout");
+      }
+
+      //check for leap year
+      let yearCheckIn = yearMonthDaysCheckIn[0];
+      if (
+        yearMonthDaysCheckIn[1] == "02" &&
+        Number(yearMonthDaysCheckIn[2]) > 28 &&
+        Number(yearCheckIn) % 4 !== 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (
+        yearMonthDaysCheckIn[1] == "02" &&
+        Number(yearMonthDaysCheckIn[2]) > 29 &&
+        Number(yearCheckIn) % 4 === 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      //check for leap year
+      let yearCheckOut = yearMonthDaysCheckOut[0];
+      if (
+        yearMonthDaysCheckOut[1] === "02" &&
+        Number(yearMonthDaysCheckOut[2]) > 28 &&
+        Number(yearCheckOut) % 4 !== 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (
+        yearMonthDaysCheckOut[1] === "02" &&
+        Number(yearMonthDaysCheckOut[2]) > 29 &&
+        Number(yearCheckOut) % 4 === 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
       if (
         !guestCount ||
         !isNaN(guestCount) === false ||
@@ -76,6 +142,10 @@ router.get(
       ) {
         //unable to coerce to number
         return res.status(400).json("Invalid guest/room count data types.");
+      }
+
+      if (process.env.UNIT_TESTING_PARAMS === "true") {
+        return res.status(200).json("Running Properly");
       }
 
       //set the initialized variable to false everytime, because when we call this endpoint the goal is to initlialize all fields in the DTO, for every single time we search a new destination
@@ -166,6 +236,72 @@ router.get(
         return res.status(400).json("Check in date is greater than checkout");
       }
 
+      if (yearMonthDaysCheckIn[0] < 0) {
+        return res.status(400).json("Invalid year");
+      }
+      if (yearMonthDaysCheckIn[1] > 12) {
+        return res.status(400).json("Invalid month");
+      }
+      if (
+        Number(yearMonthDaysCheckIn[2]) > 31 ||
+        Number(yearMonthDaysCheckIn[2]) < 1
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (yearMonthDaysCheckOut[0] < 0) {
+        return res.status(400).json("Invalid year");
+      }
+      if (yearMonthDaysCheckOut[1] > 12) {
+        return res.status(400).json("Invalid month");
+      }
+      if (
+        Number(yearMonthDaysCheckOut[2]) > 31 ||
+        Number(yearMonthDaysCheckOut[2]) < 1
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (isLess === false) {
+        return res.status(400).json("Check in date is greater than checkout");
+      }
+
+      //check for leap year
+      let yearCheckIn = yearMonthDaysCheckIn[0];
+      if (
+        yearMonthDaysCheckIn[1] === "02" &&
+        Number(yearMonthDaysCheckIn[2]) > 28 &&
+        Number(yearCheckIn) % 4 !== 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (
+        yearMonthDaysCheckIn[1] === "02" &&
+        Number(yearMonthDaysCheckIn[2]) > 29 &&
+        Number(yearCheckIn) % 4 === 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      //check for leap year
+      let yearCheckOut = yearMonthDaysCheckOut[0];
+      if (
+        yearMonthDaysCheckOut[1] === "02" &&
+        Number(yearMonthDaysCheckOut[2]) > 28 &&
+        Number(yearCheckOut) % 4 !== 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (
+        yearMonthDaysCheckOut[1] === "02" &&
+        Number(yearMonthDaysCheckOut[2]) > 29 &&
+        Number(yearCheckOut) % 4 === 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
       if (
         !guestCount ||
         !isNaN(guestCount) === false ||
@@ -174,6 +310,10 @@ router.get(
       ) {
         //unable to coerce to number
         return res.status(400).json("Invalid guest/room count data types.");
+      }
+
+      if (process.env.UNIT_TESTING_PARAMS === "true") {
+        return res.status(200).json("Running Properly");
       }
 
       try {
@@ -257,6 +397,68 @@ router.get(
         return res.status(400).json("Check in date is greater than checkout");
       }
 
+      if (yearMonthDaysCheckIn[0] < 0) {
+        return res.status(400).json("Invalid year");
+      }
+      if (yearMonthDaysCheckIn[1] > 12) {
+        return res.status(400).json("Invalid month");
+      }
+      if (
+        Number(yearMonthDaysCheckIn[2]) > 31 ||
+        Number(yearMonthDaysCheckIn[2]) < 1
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (yearMonthDaysCheckOut[0] < 0) {
+        return res.status(400).json("Invalid year");
+      }
+      if (yearMonthDaysCheckOut[1] > 12) {
+        return res.status(400).json("Invalid month");
+      }
+      if (
+        Number(yearMonthDaysCheckOut[2]) > 31 ||
+        Number(yearMonthDaysCheckOut[2]) < 1
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      //check for leap year
+      let yearCheckIn = yearMonthDaysCheckIn[0];
+      if (
+        yearMonthDaysCheckIn[1] === "02" &&
+        Number(yearMonthDaysCheckIn[2]) > 28 &&
+        Number(yearCheckIn) % 4 !== 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (
+        yearMonthDaysCheckIn[1] === "02" &&
+        Number(yearMonthDaysCheckIn[2]) > 29 &&
+        Number(yearCheckIn) % 4 === 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      //check for leap year
+      let yearCheckOut = yearMonthDaysCheckOut[0];
+      if (
+        yearMonthDaysCheckOut[1] === "02" &&
+        Number(yearMonthDaysCheckOut[2]) > 28 &&
+        Number(yearCheckOut) % 4 !== 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (
+        yearMonthDaysCheckOut[1] === "02" &&
+        Number(yearMonthDaysCheckOut[2]) > 29 &&
+        Number(yearCheckOut) % 4 === 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
       if (
         !guestCount ||
         !isNaN(guestCount) === false ||
@@ -265,6 +467,10 @@ router.get(
       ) {
         //unable to coerce to number
         return res.status(400).json("Invalid guest/room count data types.");
+      }
+
+      if (process.env.UNIT_TESTING_PARAMS === "true") {
+        return res.status(200).json("Running Properly");
       }
 
       try {
@@ -441,6 +647,68 @@ router.get(
         return res.status(400).json("Check in date is greater than checkout");
       }
 
+      if (yearMonthDaysCheckIn[0] < 0) {
+        return res.status(400).json("Invalid year");
+      }
+      if (yearMonthDaysCheckIn[1] > 12) {
+        return res.status(400).json("Invalid month");
+      }
+      if (
+        Number(yearMonthDaysCheckIn[2]) > 31 ||
+        Number(yearMonthDaysCheckIn[2]) < 1
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (yearMonthDaysCheckOut[0] < 0) {
+        return res.status(400).json("Invalid year");
+      }
+      if (yearMonthDaysCheckOut[1] > 12) {
+        return res.status(400).json("Invalid month");
+      }
+      if (
+        Number(yearMonthDaysCheckOut[2]) > 31 ||
+        Number(yearMonthDaysCheckOut[2]) < 1
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      //check for leap year
+      let yearCheckIn = yearMonthDaysCheckIn[0];
+      if (
+        yearMonthDaysCheckIn[1] === "02" &&
+        Number(yearMonthDaysCheckIn[2]) > 28 &&
+        Number(yearCheckIn) % 4 !== 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (
+        yearMonthDaysCheckIn[1] === "02" &&
+        Number(yearMonthDaysCheckIn[2]) > 29 &&
+        Number(yearCheckIn) % 4 === 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      //check for leap year
+      let yearCheckOut = yearMonthDaysCheckOut[0];
+      if (
+        yearMonthDaysCheckOut[1] === "02" &&
+        Number(yearMonthDaysCheckOut[2]) > 28 &&
+        Number(yearCheckOut) % 4 !== 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
+      if (
+        yearMonthDaysCheckOut[1] === "02" &&
+        Number(yearMonthDaysCheckOut[2]) > 29 &&
+        Number(yearCheckOut) % 4 === 0
+      ) {
+        return res.status(400).json("Invalid day");
+      }
+
       if (
         !guestCount ||
         !isNaN(guestCount) === false ||
@@ -450,6 +718,12 @@ router.get(
         //unable to coerce to number
         return res.status(400).json("Invalid guest/room count data types.");
       }
+
+      if (process.env.UNIT_TESTING_PARAMS === "true") {
+        return res.status(200).json("Running Properly");
+      }
+
+      console.log("over here!!!!");
 
       const result =
         await hotelRoomDataTransferServiceModule.getSingleHotelPriceDetails(
