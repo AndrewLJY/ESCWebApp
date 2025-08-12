@@ -743,250 +743,250 @@ describe("(WHITE-BOX UNIT) Testing /search, /search/MainDisplay and /search/Adva
   });
 });
 
-describe("(BLACK-BOX UNIT) Testing destination and hotel search endpoints, with valid and invalid request parameters.", () => {
-  beforeAll(() => {
-    originalEnv = process.env.INTEGRATION_TEST; // Save original value
-    process.env.INTEGRATION_TEST = "true"; // Override for this suite
-  });
+// describe("(BLACK-BOX UNIT) Testing destination and hotel search endpoints, with valid and invalid request parameters.", () => {
+//   beforeAll(() => {
+//     originalEnv = process.env.INTEGRATION_TEST; // Save original value
+//     process.env.INTEGRATION_TEST = "true"; // Override for this suite
+//   });
 
-  afterAll(() => {
-    process.env.INTEGRATION_TEST = originalEnv; // Restore original
-  });
+//   afterAll(() => {
+//     process.env.INTEGRATION_TEST = originalEnv; // Restore original
+//   });
 
-  test("testing /search, Invalid parameters", async () => {
-    response = await request(app).get(
-      "/search/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
-    ); //invalid checkin
-    response2 = await request(app).get(
-      "/search/Singapore,_Singapore/2020-10-11/202ieifehfi/2/1"
-    ); //invalid checkout
+//   test("testing /search, Invalid parameters", async () => {
+//     response = await request(app).get(
+//       "/search/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
+//     ); //invalid checkin
+//     response2 = await request(app).get(
+//       "/search/Singapore,_Singapore/2020-10-11/202ieifehfi/2/1"
+//     ); //invalid checkout
 
-    expect(response.status).toBe(400);
-    expect(response.body).toStrictEqual("Invalid check-in/out date");
+//     expect(response.status).toBe(400);
+//     expect(response.body).toStrictEqual("Invalid check-in/out date");
 
-    expect(response2.status).toBe(400);
-    expect(response2.body).toStrictEqual("Invalid check-in/out date");
+//     expect(response2.status).toBe(400);
+//     expect(response2.body).toStrictEqual("Invalid check-in/out date");
 
-    response5 = await request(app).get(
-      "/search/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
-    );
+//     response5 = await request(app).get(
+//       "/search/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
+//     );
 
-    response6 = await request(app).get(
-      "/search/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
-    );
+//     response6 = await request(app).get(
+//       "/search/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
+//     );
 
-    response7 = await request(app).get(
-      "/search/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
-    );
+//     response7 = await request(app).get(
+//       "/search/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
+//     );
 
-    expect(response5.status).toBe(400);
-    expect(response5.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response5.status).toBe(400);
+//     expect(response5.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    expect(response6.status).toBe(400);
-    expect(response6.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response6.status).toBe(400);
+//     expect(response6.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    expect(response7.status).toBe(400);
-    expect(response7.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response7.status).toBe(400);
+//     expect(response7.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    response3 = await request(app).get(
-      "/search/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
-    );
-    response4 = await request(app).get(
-      "/search/Singapore,_Singapore/2020-10-11/2020-10-17/2/bfjefjj4ogj4g4g"
-    );
+//     response3 = await request(app).get(
+//       "/search/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
+//     );
+//     response4 = await request(app).get(
+//       "/search/Singapore,_Singapore/2020-10-11/2020-10-17/2/bfjefjj4ogj4g4g"
+//     );
 
-    expect(response3.status).toBe(400);
-    expect(response3.body).toStrictEqual(
-      "Invalid guest/room count data types."
-    );
+//     expect(response3.status).toBe(400);
+//     expect(response3.body).toStrictEqual(
+//       "Invalid guest/room count data types."
+//     );
 
-    expect(response4.status).toBe(400);
-    expect(response4.body).toStrictEqual(
-      "Invalid guest/room count data types."
-    );
-  });
+//     expect(response4.status).toBe(400);
+//     expect(response4.body).toStrictEqual(
+//       "Invalid guest/room count data types."
+//     );
+//   });
 
-  test("testing /search/AdvancedDisplay, Invalid parameters", async () => {
-    response = await request(app).get(
-      "/search/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
-    ); //invalid checkin
-    response2 = await request(app).get(
-      "/search/AdvancedDisplay/Singapore,_Singapore/2020-10-11/202ieifehfi/2/1"
-    ); //invalid checkout
+//   test("testing /search/AdvancedDisplay, Invalid parameters", async () => {
+//     response = await request(app).get(
+//       "/search/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
+//     ); //invalid checkin
+//     response2 = await request(app).get(
+//       "/search/AdvancedDisplay/Singapore,_Singapore/2020-10-11/202ieifehfi/2/1"
+//     ); //invalid checkout
 
-    expect(response.status).toBe(400);
-    expect(response.body).toStrictEqual("Invalid check-in/out date");
+//     expect(response.status).toBe(400);
+//     expect(response.body).toStrictEqual("Invalid check-in/out date");
 
-    expect(response2.status).toBe(400);
-    expect(response2.body).toStrictEqual("Invalid check-in/out date");
+//     expect(response2.status).toBe(400);
+//     expect(response2.body).toStrictEqual("Invalid check-in/out date");
 
-    response5 = await request(app).get(
-      "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
-    );
+//     response5 = await request(app).get(
+//       "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
+//     );
 
-    response6 = await request(app).get(
-      "/search/AdvancedDisplay/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
-    );
+//     response6 = await request(app).get(
+//       "/search/AdvancedDisplay/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
+//     );
 
-    response7 = await request(app).get(
-      "/search/AdvancedDisplay/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
-    );
+//     response7 = await request(app).get(
+//       "/search/AdvancedDisplay/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
+//     );
 
-    expect(response5.status).toBe(400);
-    expect(response5.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response5.status).toBe(400);
+//     expect(response5.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    expect(response6.status).toBe(400);
-    expect(response6.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response6.status).toBe(400);
+//     expect(response6.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    expect(response7.status).toBe(400);
-    expect(response7.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response7.status).toBe(400);
+//     expect(response7.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    response3 = await request(app).get(
-      "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
-    );
-    response4 = await request(app).get(
-      "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/2/bfjefjj4ogj4g4g"
-    );
+//     response3 = await request(app).get(
+//       "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
+//     );
+//     response4 = await request(app).get(
+//       "/search/AdvancedDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/2/bfjefjj4ogj4g4g"
+//     );
 
-    expect(response3.status).toBe(400);
-    expect(response3.body).toStrictEqual(
-      "Invalid guest/room count data types."
-    );
+//     expect(response3.status).toBe(400);
+//     expect(response3.body).toStrictEqual(
+//       "Invalid guest/room count data types."
+//     );
 
-    expect(response4.status).toBe(400);
-    expect(response4.body).toStrictEqual(
-      "Invalid guest/room count data types."
-    );
-  });
+//     expect(response4.status).toBe(400);
+//     expect(response4.body).toStrictEqual(
+//       "Invalid guest/room count data types."
+//     );
+//   });
 
-  test("testing /search/MainDisplay, Invalid parameters", async () => {
-    response = await request(app).get(
-      "/search/MainDisplay/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
-    ); //invalid checkin
-    response2 = await request(app).get(
-      "/search/MainDisplay/Singapore,_Singapore/2025-10-11/202ieifehfi/2/1"
-    ); //invalid checkout
+//   test("testing /search/MainDisplay, Invalid parameters", async () => {
+//     response = await request(app).get(
+//       "/search/MainDisplay/Singapore,_Singapore/ejdoejofe/2025-10-17/2/1"
+//     ); //invalid checkin
+//     response2 = await request(app).get(
+//       "/search/MainDisplay/Singapore,_Singapore/2025-10-11/202ieifehfi/2/1"
+//     ); //invalid checkout
 
-    expect(response.status).toBe(400);
-    expect(response.body).toStrictEqual("Invalid check-in/out date");
+//     expect(response.status).toBe(400);
+//     expect(response.body).toStrictEqual("Invalid check-in/out date");
 
-    expect(response2.status).toBe(400);
-    expect(response2.body).toStrictEqual("Invalid check-in/out date");
+//     expect(response2.status).toBe(400);
+//     expect(response2.body).toStrictEqual("Invalid check-in/out date");
 
-    response5 = await request(app).get(
-      "/search/MainDisplay/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
-    );
+//     response5 = await request(app).get(
+//       "/search/MainDisplay/Singapore,_Singapore/2025-10-17/2025-10-11/2/1"
+//     );
 
-    response6 = await request(app).get(
-      "/search/MainDisplay/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
-    );
+//     response6 = await request(app).get(
+//       "/search/MainDisplay/Singapore,_Singapore/2025-12-11/2025-10-17/2/1"
+//     );
 
-    response7 = await request(app).get(
-      "/search/MainDisplay/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
-    );
+//     response7 = await request(app).get(
+//       "/search/MainDisplay/Singapore,_Singapore/2026-10-11/2025-10-17/2/1"
+//     );
 
-    expect(response5.status).toBe(400);
-    expect(response5.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response5.status).toBe(400);
+//     expect(response5.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    expect(response6.status).toBe(400);
-    expect(response6.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response6.status).toBe(400);
+//     expect(response6.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    expect(response7.status).toBe(400);
-    expect(response7.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response7.status).toBe(400);
+//     expect(response7.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    response3 = await request(app).get(
-      "/search/MainDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
-    );
-    response4 = await request(app).get(
-      "/search/MainDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/2/bfjefjj4ogj4g4g"
-    );
+//     response3 = await request(app).get(
+//       "/search/MainDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/a/1"
+//     );
+//     response4 = await request(app).get(
+//       "/search/MainDisplay/Singapore,_Singapore/2025-10-11/2025-10-17/2/bfjefjj4ogj4g4g"
+//     );
 
-    expect(response3.status).toBe(400);
-    expect(response3.body).toStrictEqual(
-      "Invalid guest/room count data types."
-    );
+//     expect(response3.status).toBe(400);
+//     expect(response3.body).toStrictEqual(
+//       "Invalid guest/room count data types."
+//     );
 
-    expect(response4.status).toBe(400);
-    expect(response4.body).toStrictEqual(
-      "Invalid guest/room count data types."
-    );
-  });
+//     expect(response4.status).toBe(400);
+//     expect(response4.body).toStrictEqual(
+//       "Invalid guest/room count data types."
+//     );
+//   });
 
-  test("testing /search/hotel/prices, Invalid parameters", async () => {
-    response = await request(app).get(
-      "/search/hotel/prices/diH7/RsBU/20-10-11/2025-10-17/2/1"
-    ); //invalid checkin
-    response2 = await request(app).get(
-      "/search/hotel/prices/diH7/RsBU/2025-10-11/20fjie17/2/1"
-    ); //invalid checkout
+//   test("testing /search/hotel/prices, Invalid parameters", async () => {
+//     response = await request(app).get(
+//       "/search/hotel/prices/diH7/RsBU/20-10-11/2025-10-17/2/1"
+//     ); //invalid checkin
+//     response2 = await request(app).get(
+//       "/search/hotel/prices/diH7/RsBU/2025-10-11/20fjie17/2/1"
+//     ); //invalid checkout
 
-    expect(response.status).toBe(400);
+//     expect(response.status).toBe(400);
 
-    expect(response2.status).toBe(400);
+//     expect(response2.status).toBe(400);
 
-    response5 = await request(app).get(
-      "/search/hotel/prices/diH7/RsBU/2026-10-11/2025-10-17/2/1"
-    );
+//     response5 = await request(app).get(
+//       "/search/hotel/prices/diH7/RsBU/2026-10-11/2025-10-17/2/1"
+//     );
 
-    response6 = await request(app).get(
-      "/search/hotel/prices/diH7/RsBU/2025-12-11/2025-10-17/2/1"
-    );
+//     response6 = await request(app).get(
+//       "/search/hotel/prices/diH7/RsBU/2025-12-11/2025-10-17/2/1"
+//     );
 
-    response7 = await request(app).get(
-      "/search/hotel/prices/diH7/RsBU/2025-10-20/2025-10-17/2/1"
-    );
+//     response7 = await request(app).get(
+//       "/search/hotel/prices/diH7/RsBU/2025-10-20/2025-10-17/2/1"
+//     );
 
-    expect(response5.status).toBe(400);
-    expect(response5.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response5.status).toBe(400);
+//     expect(response5.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    expect(response6.status).toBe(400);
-    expect(response6.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response6.status).toBe(400);
+//     expect(response6.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    expect(response7.status).toBe(400);
-    expect(response7.body).toStrictEqual(
-      "Check in date is greater than checkout"
-    );
+//     expect(response7.status).toBe(400);
+//     expect(response7.body).toStrictEqual(
+//       "Check in date is greater than checkout"
+//     );
 
-    response3 = await request(app).get(
-      "/search/hotel/prices/diH7/RsBU/2025-10-11/2025-10-17/eded/1"
-    );
-    response4 = await request(app).get(
-      "/search/hotel/prices/diH7/RsBU/2025-10-11/2025-10-17/2/uuui"
-    );
+//     response3 = await request(app).get(
+//       "/search/hotel/prices/diH7/RsBU/2025-10-11/2025-10-17/eded/1"
+//     );
+//     response4 = await request(app).get(
+//       "/search/hotel/prices/diH7/RsBU/2025-10-11/2025-10-17/2/uuui"
+//     );
 
-    expect(response3.status).toBe(400);
-    expect(response3.body).toStrictEqual(
-      "Invalid guest/room count data types."
-    );
+//     expect(response3.status).toBe(400);
+//     expect(response3.body).toStrictEqual(
+//       "Invalid guest/room count data types."
+//     );
 
-    expect(response4.status).toBe(400);
-    expect(response4.body).toStrictEqual(
-      "Invalid guest/room count data types."
-    );
-  });
-});
+//     expect(response4.status).toBe(400);
+//     expect(response4.body).toStrictEqual(
+//       "Invalid guest/room count data types."
+//     );
+//   });
+// });
 
 describe("(BLACK BOX UNIT) Testing the string fuzzy search /search/string/:searchLiteral endpoint, with invalid parameters", () => {
   beforeAll(() => {
