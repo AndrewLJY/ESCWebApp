@@ -1175,7 +1175,7 @@ describe("(WHITE BOX UNIT) Boundary Value Testing (Check-in Check-out) for month
     "Case for /search/hotels/prices, $id: x1=$x1, y1=$y1 → Expected: $expected",
     async ({ id, x1, y1, expected }) => {
       const result = await request(app).get(
-        `/search/hotels/prices/diH7/RsBU/2025-10-${x1}/2025-10-${y1}/2/1`
+        `/search/hotel/prices/diH7/RsBU/2025-10-${x1}/2025-10-${y1}/2/1`
       );
       expect(result.status).toBe(expected);
     }
@@ -1263,7 +1263,7 @@ describe("(WHITE BOX UNIT) Boundary Value Testing (Check-in Check-out) for month
     "Case for /search/hotels/prices, $id: x1=$x1, y1=$y1 → Expected: $expected",
     async ({ id, x1, y1, expected }) => {
       const result = await request(app).get(
-        `/search/hotels/prices/diH7/RsBU/2025-02-${x1}/2025-02-${y1}/2/1`
+        `/search/hotel/prices/diH7/RsBU/2025-02-${x1}/2025-02-${y1}/2/1`
       );
       expect(result.status).toBe(expected);
     }
@@ -1348,10 +1348,10 @@ describe("(WHITE BOX UNIT) Boundary Value Testing (Check-in Check-out) for month
   );
 
   test.each(cases)(
-    "Case for /search/hotels/prices, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    "Case for /search/hotel/prices, $id: x1=$x1, y1=$y1 → Expected: $expected",
     async ({ id, x1, y1, expected }) => {
       const result = await request(app).get(
-        `/search/hotels/prices/diH7/RsBU/2025-10-${x1}/2025-10-${y1}/2/1`
+        `/search/hotel/prices/diH7/RsBU/2028-02-${x1}/2028-02-${y1}/2/1`
       );
       expect(result.status).toBe(expected);
     }
