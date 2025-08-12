@@ -144,7 +144,8 @@ describe("SearchPage Integration Tests", () => {
     fireEvent.change(checkinInput, { target: { value: "2025-09-01" } });
     fireEvent.change(checkoutInput, { target: { value: "2025-09-05" } });
 
-    fireEvent.click(screen.getByRole("button", { name: /^Search$/i }));
+    const searchButton = screen.getByRole("button", { name: /search/i });
+    fireEvent.click(searchButton);
 
     await waitFor(() =>
       expect(searchHotelsAPI).toHaveBeenCalledWith({

@@ -33,6 +33,8 @@ import {
   getRoomPricingAPI,
 } from "../middleware/hotelDetailsApi";
 
+const MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
 import Header from "../components/header.jsx";
 import BookmarkButton from "../components/BookmarkButton";
 
