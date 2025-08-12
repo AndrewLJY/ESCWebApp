@@ -14,7 +14,6 @@ class HotelDataTransferService {
   }
 
   transferKeyDetails() {
-    console.log("keyDetails: " + JSON.stringify(this.jsonData));
     this.keyDetails = new hotelDataDTO.KeyDetails.Builder()
       .setId(this.jsonData.id)
       .setImageCount(this.jsonData.imageCount)

@@ -204,10 +204,14 @@ export default function SearchPage() {
                           return "https://d2ey9sqrvkqdfs.cloudfront.net/050G/10.jpg";
                         })()}
                         alt={h?.keyDetails?.name || "Hotel"}
+                        // onError={({ currentTarget }) => {
+                        //   currentTarget.onerror = null; // prevents looping
+                        //   currentTarget.src = "./assets/NoImgAvail.png"; // fallback image
+                        // }}
                       />
 
                       <div className="hotel-info text-start m-3">
-                        <p className="fs-5 fw-medium m-0 lh-sm text-gray">
+                        <p className="fs-5 fw-bold m-0 lh-sm text-gray">
                           {h?.keyDetails?.name || "Unknown Hotel"}
                         </p>
                         <div className="stars">
@@ -218,8 +222,8 @@ export default function SearchPage() {
                         </p>
                         <p className="rating fs-6">
                           Guest Rating:{" "}
-                          {h?.keyDetails?.rating
-                            ? `${h.keyDetails.rating}/5`
+                          {h?.trustYouBenchmark?.score?.score?.kaligo_overall
+                            ? `${h.trustYouBenchmark.score.score.kaligo_overall}/5`
                             : "NA"}
                         </p>
                       </div>
@@ -277,7 +281,7 @@ export default function SearchPage() {
                           return newState;
                         });
                       }}
-                      disabled={startPage + pageSize > filteredHotels.length}
+                      disabled={startPage + pageSize >= filteredHotels.length}
                     />
                   </Pagination>
                 )}
