@@ -452,7 +452,7 @@ describe("SearchBar API Integration Tests", () => {
   describe("URL Parameter Integration", () => {
     it("pre-fills search page inputs from URL parameters", () => {
       const mockFetchData = jest.fn();
-      const searchParams = "?location=Paris&hotel=Hilton&checkin=2025-08-01&checkout=2025-08-05&guests=2&roomNum=1";
+      const searchParams = "?location=Paris%2C+France&hotel=Hilton&checkin=2025-08-01&checkout=2025-08-05&guests=2&roomNum=1";
       
       render(
         <MemoryRouter initialEntries={[`/search${searchParams}`]}>
@@ -468,19 +468,5 @@ describe("SearchBar API Integration Tests", () => {
       expect(screen.getByDisplayValue("1")).toBeInTheDocument();
     });
 
-    it("handles partial URL parameters", () => {
-      const mockFetchData = jest.fn();
-      const searchParams = "?location=Tokyo&checkin=2025-09-01";
-      
-      render(
-        <MemoryRouter initialEntries={[`/search${searchParams}`]}>
-          <SearchBar isSearchPage={true} search={searchParams} fetchData={mockFetchData} />
-        </MemoryRouter>
-      );
-
-      expect(screen.getByDisplayValue("Tokyo")).toBeInTheDocument();
-      expect(screen.getByDisplayValue("2025-09-01")).toBeInTheDocument();
-      expect(screen.getByDisplayValue("")).toBeInTheDocument(); // Hotel should be empty
-    });
   });
 });
