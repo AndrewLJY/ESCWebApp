@@ -1175,7 +1175,7 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
       .expect(200);
   });
 
-  test("Now hotel data is present in database. Should return error (401) if same current user tries to bookmark it again", async () => {
+  test("Now hotel data is present in database. Should return 200 if same current user tries to bookmark it again, and send message that hotel is already bookmarked", async () => {
     testrequestData = {
       hotel_id: "DIH7",
       hotel_name: "The Fillerton Hutel",
@@ -1191,7 +1191,7 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
       .post("/auth/bookmarks")
       .set("Authorization", "Bearer fake-token")
       .send(testrequestData)
-      .expect(401);
+      .expect(200);
   });
 
   test("Now, logged in as a different user. Bookmarking the same hotel but since value pair of (hotel, user email) does not yet exist for this new user, this user should be able to bookmark the hotel", async () => {

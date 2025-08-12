@@ -29,15 +29,18 @@
   color: #374151;
 }
 
-.sorting-bar .form-select,
-.sorting-bar .form-range {
+.sorting-bar .form-select {
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
   font-size: 0.9rem;
 }
 
-.sorting-bar .form-select:focus,
-.sorting-bar .form-range:focus {
+.sorting-bar .form-range {
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+}
+
+.sorting-bar .form-select:focus {
   border-color: #162a96;
   box-shadow: 0 0 0 0.2rem rgba(22, 42, 150, 0.25);
 }
@@ -60,4 +63,13 @@
 
 .filter-input{
   position: relative;
+}
+
+.price-range-slider-container{
+  display: flex;
+  align-items: center;
+}
+
+.slider{
+  border: 0px;
 }

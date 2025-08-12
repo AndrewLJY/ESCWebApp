@@ -1,9 +1,8 @@
-// src/pages/Bookmark.jsx
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
 import "../styles/Bookmark.css";
+import { Spinner } from "react-bootstrap";
 import { getBookmarkedHotels, removeBookmark } from "../middleware/bookmarkApi";
 
 export default function Bookmark() {
@@ -65,7 +64,10 @@ export default function Bookmark() {
         <h1 className="bookmark-title">Your Bookmarked Hotels</h1>
 
         {loading ? (
-          <p className="bookmark-empty">Loading…</p>
+          // <p className="bookmark-empty">Loading…</p>
+          <Spinner animation="border" role="status" className="spinner">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         ) : bookmarks.length === 0 ? (
           <p className="bookmark-empty">
             You haven’t bookmarked any hotels yet.

@@ -5,7 +5,7 @@ import {
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 // const stripePromise = loadStripe("INSERT PK HERE");
 const env = await import.meta.env;
@@ -32,6 +32,10 @@ export default function CheckoutForm() {
   }, []);
 
   const options = { fetchClientSecret };
+
+  if (!location.state) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div id="checkout">

@@ -38,7 +38,7 @@ router.post("/register/", async function (req, res, next) {
 
   /*hash original password 2^10 times, more times means take longer time taken to encrypt(not necessarily a bad thing)*/
   const hash_password = await bcrypt.hash(password, 10);
-  userDbObject = new userModel.User(email, hash_password);
+  userDbObject = new userModel.User(null, email, hash_password);
 
   userModel.insertOne(userDbObject);
   console.log("account registered successfully");
@@ -71,10 +71,10 @@ router.post("/login/", async function (req, res, next) {
     }
 
     output = {
-      user: JSON.stringify(user),
       token: token,
       username: username,
       email: email,
+      id: await userModel.findUserID(email),
     };
     res.send(output);
   } else {

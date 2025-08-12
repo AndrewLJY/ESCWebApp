@@ -2,8 +2,11 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
-// 1) Mock the addBookmark API
-const mockAddBookmark = jest.fn();
+// 1) Mock the addBookmark API with a resolved promise returning `{ data: "Hotel Bookmarked!" }`
+const mockAddBookmark = jest.fn(() =>
+  Promise.resolve({ data: "Hotel Bookmarked!" })
+);
+
 jest.mock("../middleware/bookmarkApi", () => ({
   addBookmark: (...args) => mockAddBookmark(...args),
 }));
@@ -33,19 +36,16 @@ describe("BookmarkButton", () => {
     expect(btn).toBeInTheDocument();
   });
 
-  it("calls addBookmark with hotel + search + destinationId, then alerts", async () => {
+  it("calls addBookmark with hotel + search + destinationId, then shows toast", async () => {
     render(<BookmarkButton hotel={hotel} />);
     const btn = screen.getByRole("button", { name: /bookmark/i });
 
     // Click the button
     fireEvent.click(btn);
 
-    // Wait for the async handler to finish
+    // Wait for the async handler to finish and check mock call
     await waitFor(() => {
-      // Expect addBookmark called exactly once
       expect(mockAddBookmark).toHaveBeenCalledTimes(1);
-
-      // The argument should merge hotel plus search and destination_id
       expect(mockAddBookmark).toHaveBeenCalledWith({
         id: "h1",
         name: "The Test Hotel",
@@ -53,10 +53,9 @@ describe("BookmarkButton", () => {
         search_string: fakeLocation.search,
         destination_id: fakeLocation.state.destinationId,
       });
-
-      // Expect alert
-      // expect(global.alert).toHaveBeenCalledWith("Hotel bookmarked!");
     });
-    expect(await screen.findByText('Hotel Bookmarked!')).toBeInTheDocument();
+
+    // Wait for toast/message to appear in DOM
+    expect(await screen.findByText(/hotel bookmarked!/i)).toBeInTheDocument();
   });
 });

@@ -1,3 +1,4 @@
+const { escape } = require("mysql2");
 const db = require("./db.js");
 var tableName;
 if (process.env.NODE_ENV !== "test") {
@@ -8,15 +9,16 @@ if (process.env.NODE_ENV !== "test") {
 const bcrypt = require("bcrypt");
 
 class User {
-  constructor(email, password) {
+  constructor(id = null, email, password) {
     this.email = email;
     this.password = password;
+    this.id = id;
   }
 
-  static newUser(email, password) {
+  static newUser(id, email, password) {
     // in JS, only one constructor is allowed
     // we need a factory method
-    return new User(email, password);
+    return new User(id, email, password);
   }
 }
 
@@ -46,13 +48,24 @@ async function findByEmail(email) {
     );
     let list = [];
     for (let row of rows) {
-      let user = new User(row.email, row.password);
+      let user = new User(row.id, row.email, row.password);
       list.push(user);
     }
     return list;
   } catch (error) {
     console.error("database connection failed. " + error);
     throw error;
+  }
+}
+
+async function findUserID(email) {
+  let user = await findByEmail(email);
+
+  if (user) {
+    console.log("User ID is this: " + user[0].id);
+    return user[0].id;
+  } else {
+    return -1;
   }
 }
 
@@ -123,4 +136,5 @@ module.exports = {
   login,
   tableName,
   findByEmail,
+  findUserID,
 };

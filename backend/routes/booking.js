@@ -6,7 +6,7 @@ const bookingSchema = require("../validation/bookingSchema");
 router.post("/", async function (req, res, next) {
   try {
     //retrieve infos from booking
-    const id = req.body.id.toString();
+    const id = req.body.id;
     const hotel_id = req.body.hotel_id;
     const destination_id = req.body.destination_id;
     const no_of_nights = req.body.no_of_nights.toString();
@@ -20,6 +20,7 @@ router.post("/", async function (req, res, next) {
     const full_name = req.body.full_name;
     const payment_id = req.body.payment_id;
     //body paramters validation
+    
     const { error, value } = bookingSchema.validate(req.body);
     if (error) {
       return res.status(400).send(`Invalid booking data: ${error}`);

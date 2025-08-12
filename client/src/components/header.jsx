@@ -53,9 +53,11 @@ export default function Header() {
     // console.log("[Auth] Logging in user...");
     // console.log("User data:", userData);
     // console.log("Token:", token);
+    console.log("id:", JSON.stringify(userData));
 
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
+
     setUser(userData);
     setShowToast(true);
 
