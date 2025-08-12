@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Form, Dropdown, Row, Col } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
+import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
+import RangeSlider from "react-bootstrap-range-slider";
 import "../styles/SortingBar.css";
 
 export default function SortingBar({ hotels, onFilteredHotels }) {
   const [sortBy, setSortBy] = useState("price");
   const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [guestRatingRange, setGuestRatingRange] = useState([0.0, 5.0]);
+  const [starRatingChecked, setStarRatingChecked] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const [maxPrice, setMaxPrice] = useState(1000);
 
@@ -58,6 +70,30 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
       return floorPrice >= priceRange[0] && floorPrice <= priceRange[1];
     });
 
+    // Filter by price guest rating range
+    filtered = filtered.filter((h) => {
+      const rating = h?.trustYouBenchmark?.score?.score?.kaligo_overall;
+      if (rating == null) return false;
+      return rating >= guestRatingRange[0] && rating <= guestRatingRange[1];
+    });
+
+    // Filter by star rating
+    if (!starRatingChecked.every((checked) => !checked)) {
+      // If no star ratings are checked, skip star rating filtering only
+      filtered = filtered.filter((hotel) => {
+        const starRating = hotel?.keyDetails?.rating;
+        if (starRating == null) return false;
+        const starIndex = Math.floor(starRating);
+        console.log(
+          "Star Index:",
+          starIndex,
+          "Checked:",
+          starRatingChecked[starIndex]
+        );
+        return starRatingChecked[starIndex];
+      });
+    }
+
     // Filter by amenities
     if (selectedAmenities.length > 0) {
       filtered = filtered.filter((hotel) => {
@@ -92,7 +128,15 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
     });
 
     onFilteredHotels(filtered);
-  }, [hotels, sortBy, priceRange, selectedAmenities, onFilteredHotels]);
+  }, [
+    hotels,
+    sortBy,
+    priceRange,
+    guestRatingRange,
+    starRatingChecked,
+    selectedAmenities,
+    onFilteredHotels,
+  ]);
 
   const handleAmenityToggle = (amenity) => {
     setSelectedAmenities((prev) =>
@@ -100,6 +144,14 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
         ? prev.filter((a) => a !== amenity)
         : [...prev, amenity]
     );
+  };
+
+  const handleStarRatingToggle = (index) => {
+    setStarRatingChecked((prev) => {
+      const newChecked = [...prev];
+      newChecked[index] = !newChecked[index];
+      return newChecked;
+    });
   };
 
   return (
@@ -112,7 +164,7 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
             onChange={(e) => setSortBy(e.target.value)}
           >
             <option value="price">Price (Low to High)</option>
-            <option value="rating">Rating (High to Low)</option>
+            <option value="rating">Star Rating (High to Low)</option>
             <option value="distance">Distance</option>
           </Form.Select>
         </Form.Group>
@@ -156,6 +208,105 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
+          <Form.Group as={Row}>
+            <Form.Label className="fw-bold">Guest Rating:</Form.Label>
+            <Form.Group>
+              <Form.Group as={Row} className="price-range-slider-container">
+                <Form.Label column sm={2} className="fw-bold">
+                  Min:
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter minimum guest rating"
+                    min={0} // Optional: Set a minimum value
+                    max={5} // Optional: Set a maximum value
+                    step={0.1} // Optional: Set the step for increment/decrement
+                    value={guestRatingRange[0]}
+                    onChange={(e) =>
+                      setGuestRatingRange([
+                        parseFloat(e.target.value),
+                        guestRatingRange[1],
+                      ])
+                    }
+                    className="mb-2"
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="price-range-slider-container">
+                <Form.Label column sm={2} className="fw-bold">
+                  Max:
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter maximum guest rating"
+                    min={0} // Optional: Set a minimum value
+                    max={5} // Optional: Set a maximum value
+                    step={0.1} // Optional: Set the step for increment/decrement
+                    value={guestRatingRange[1]}
+                    onChange={(e) =>
+                      setGuestRatingRange([
+                        guestRatingRange[0],
+                        parseFloat(e.target.value),
+                      ])
+                    }
+                  />
+                </Col>
+              </Form.Group>
+            </Form.Group>
+          </Form.Group>
+        </Form.Group>
+
+        <Form.Group className="mb-3 px-3">
+          <Form.Group as={Row}>
+            <Form.Label className="fw-bold">Star Rating:</Form.Label>
+            <Form.Check
+              type="checkbox"
+              label="☆☆☆☆☆"
+              checked={starRatingChecked[0]}
+              onChange={() => handleStarRatingToggle(0)}
+              className="text-center text-warning"
+            />
+            <Form.Check
+              type="checkbox"
+              label="★☆☆☆☆"
+              checked={starRatingChecked[1]}
+              onChange={() => handleStarRatingToggle(1)}
+              className="text-center text-warning"
+            />
+            <Form.Check
+              type="checkbox"
+              label="★★☆☆☆"
+              checked={starRatingChecked[2]}
+              onChange={() => handleStarRatingToggle(2)}
+              className="text-center text-warning"
+            />
+            <Form.Check
+              type="checkbox"
+              label="★★★☆☆"
+              checked={starRatingChecked[3]}
+              onChange={() => handleStarRatingToggle(3)}
+              className="text-center text-warning"
+            />
+            <Form.Check
+              type="checkbox"
+              label="★★★★☆"
+              checked={starRatingChecked[4]}
+              onChange={() => handleStarRatingToggle(4)}
+              className="text-center text-warning"
+            />
+            <Form.Check
+              type="checkbox"
+              label="★★★★★"
+              checked={starRatingChecked[5]}
+              onChange={() => handleStarRatingToggle(5)}
+              className="text-center text-warning"
+            />
+          </Form.Group>
+        </Form.Group>
+
+        <Form.Group className="mb-3">
           <Form.Label className="fw-bold">Amenities:</Form.Label>
           <Dropdown>
             <Dropdown.Toggle variant="outline-secondary" className="w-100">
@@ -194,6 +345,8 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
             setSortBy("price");
             setPriceRange([0, maxPrice]);
             setSelectedAmenities([]);
+            setGuestRatingRange([0.0, 5.0]);
+            setStarRatingChecked([false, false, false, false, false, false]);
           }}
         >
           Clear Filters
