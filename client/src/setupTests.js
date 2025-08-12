@@ -7,3 +7,6 @@ global.alert = jest.fn();
 
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
+
+if (!globalThis.importMeta) globalThis.importMeta = { env: {} };
+globalThis.importMeta.env.VITE_GOOGLE_MAPS_API_KEY = "test-key";
