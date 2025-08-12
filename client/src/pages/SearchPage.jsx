@@ -206,12 +206,6 @@ export default function SearchPage() {
                         <p className="address m-0">
                           {h?.keyDetails?.address || "Address not available"}
                         </p>
-                        <p className="rating">
-                          Rating:{" "}
-                          {h?.keyDetails?.rating
-                            ? `${h.keyDetails.rating}/5`
-                            : "NA"}
-                        </p>
                       </div>
 
                       <div className="hotel-book m-3">
@@ -266,7 +260,7 @@ export default function SearchPage() {
                         return newState;
                       });
                     }}
-                    disabled={startPage + pageSize > filteredHotels.length}
+                    disabled={startPage + pageSize >= filteredHotels.length}
                   />
                 </Pagination>}
               </div>
