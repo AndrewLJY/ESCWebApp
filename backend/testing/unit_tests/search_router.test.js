@@ -6,6 +6,7 @@ const hotelDataTransferServiceModule = require("../../hotel_data/hotel_data_serv
 
 process.env.INTEGRATION_TEST = "false";
 process.env.NODE_ENV = "test";
+process.env.UNIT_TESTING_PARAMS = "false";
 
 describe("(WHITE-BOX UNIT) Testing the Indvidual Endpoints of the search.js router, ensure that we get a reponse.", () => {
   test("Testing /search endpoint, should return a 200 response OK", async () => {
@@ -1091,4 +1092,268 @@ describe("General Fuzzing of all API prompt parameters", () => {
       { numRuns: numRuns, verbose: true }
     );
   }, 120000);
+});
+
+describe("(WHITE BOX UNIT) Boundary Value Testing (Check-in Check-out) for month with 31 days", () => {
+  beforeAll(() => {
+    originalEnv = process.env.INTEGRATION_TEST; // Save original value
+    process.env.INTEGRATION_TEST = "true"; // Override for this suite
+    originalUnitTestParamsEnv = process.env.UNIT_TESTING_PARAMS;
+    process.env.UNIT_TESTING_PARAMS = "true";
+  });
+
+  afterAll(() => {
+    process.env.INTEGRATION_TEST = originalEnv; // Restore original
+    process.env.UNIT_TESTING_PARAMS = originalUnitTestParamsEnv;
+  });
+
+  const cases = [
+    { id: 1, x1: "00", y1: "00", expected: 400 },
+    { id: 2, x1: "01", y1: "00", expected: 400 },
+    { id: 3, x1: "00", y1: "01", expected: 400 },
+    { id: 4, x1: "01", y1: "01", expected: 200 },
+    { id: 5, x1: "01", y1: "02", expected: 200 },
+    { id: 6, x1: "02", y1: "01", expected: 400 },
+    { id: 7, x1: "02", y1: "02", expected: 200 },
+    { id: 8, x1: "00", y1: 15, expected: 400 },
+    { id: 9, x1: "01", y1: 15, expected: 200 },
+    { id: 10, x1: "02", y1: 15, expected: 200 },
+    { id: 11, x1: "00", y1: 30, expected: 400 },
+    { id: 12, x1: "01", y1: 30, expected: 200 },
+    { id: 13, x1: "02", y1: 30, expected: 200 },
+    { id: 14, x1: "00", y1: 32, expected: 400 },
+    { id: 15, x1: "02", y1: 30, expected: 200 },
+    { id: 16, x1: "02", y1: 31, expected: 200 },
+    { id: 17, x1: "02", y1: 32, expected: 400 },
+    { id: 18, x1: "01", y1: 32, expected: 400 },
+    { id: 19, x1: "01", y1: 31, expected: 200 },
+    { id: 20, x1: 15, y1: 32, expected: 400 },
+    { id: 21, x1: 15, y1: 31, expected: 200 },
+    { id: 22, x1: 15, y1: 30, expected: 200 },
+    { id: 23, x1: 30, y1: 31, expected: 200 },
+    { id: 24, x1: 30, y1: 30, expected: 200 },
+    { id: 25, x1: 30, y1: 32, expected: 400 },
+    { id: 26, x1: 31, y1: 31, expected: 200 },
+    { id: 27, x1: 31, y1: 32, expected: 400 },
+    { id: 28, x1: 32, y1: 32, expected: 400 },
+    { id: 29, x1: 32, y1: 31, expected: 400 },
+    { id: 30, x1: 31, y1: 30, expected: 400 },
+    { id: 31, x1: 32, y1: 31, expected: 400 },
+  ];
+
+  test.each(cases)(
+    "Case for /search, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/Singapore,_Singapore/2025-10-${x1}/2025-10-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/MainDisplay/, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/MainDisplay/Singapore,_Singapore/2025-10-${x1}/2025-10-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/AdvancedDisplay/, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/AdvancedDisplay/Singapore,_Singapore/2025-10-${x1}/2025-10-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/hotels/prices, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/hotels/prices/diH7/RsBU/2025-10-${x1}/2025-10-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+});
+
+describe("(WHITE BOX UNIT) Boundary Value Testing (Check-in Check-out) for month with 28 days (February, non-leap year)", () => {
+  beforeAll(() => {
+    originalEnv = process.env.INTEGRATION_TEST; // Save original value
+    process.env.INTEGRATION_TEST = "true"; // Override for this suite
+    originalUnitTestParamsEnv = process.env.UNIT_TESTING_PARAMS;
+    process.env.UNIT_TESTING_PARAMS = "true";
+  });
+
+  afterAll(() => {
+    process.env.INTEGRATION_TEST = originalEnv; // Restore original
+    process.env.UNIT_TESTING_PARAMS = originalUnitTestParamsEnv;
+  });
+
+  const cases = [
+    { id: 1, x1: "00", y1: "00", expected: 400 },
+    { id: 2, x1: "01", y1: "00", expected: 400 },
+    { id: 3, x1: "00", y1: "01", expected: 400 },
+    { id: 4, x1: "01", y1: "01", expected: 200 },
+    { id: 5, x1: "01", y1: "02", expected: 200 },
+    { id: 6, x1: "02", y1: "01", expected: 400 },
+    { id: 7, x1: "02", y1: "02", expected: 200 },
+    { id: 8, x1: "00", y1: 15, expected: 400 },
+    { id: 9, x1: "01", y1: 15, expected: 200 },
+    { id: 10, x1: "02", y1: 15, expected: 200 },
+    { id: 11, x1: "00", y1: 27, expected: 400 },
+    { id: 12, x1: "01", y1: 27, expected: 200 },
+    { id: 13, x1: "02", y1: 27, expected: 200 },
+    { id: 14, x1: "00", y1: 29, expected: 400 },
+    { id: 15, x1: "02", y1: 27, expected: 200 },
+    { id: 16, x1: "02", y1: 28, expected: 200 },
+    { id: 17, x1: "02", y1: 29, expected: 400 },
+    { id: 18, x1: "01", y1: 29, expected: 400 },
+    { id: 19, x1: "01", y1: 28, expected: 200 },
+    { id: 20, x1: 15, y1: 29, expected: 400 },
+    { id: 21, x1: 15, y1: 28, expected: 200 },
+    { id: 22, x1: 15, y1: 27, expected: 200 },
+    { id: 23, x1: 27, y1: 28, expected: 200 },
+    { id: 24, x1: 27, y1: 27, expected: 200 },
+    { id: 25, x1: 27, y1: 29, expected: 400 },
+    { id: 26, x1: 28, y1: 28, expected: 200 },
+    { id: 27, x1: 28, y1: 29, expected: 400 },
+    { id: 28, x1: 29, y1: 29, expected: 400 },
+    { id: 29, x1: 29, y1: 28, expected: 400 },
+    { id: 27, x1: 28, y1: 27, expected: 400 },
+    { id: 28, x1: 29, y1: 28, expected: 400 },
+  ];
+
+  test.each(cases)(
+    "Case $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/Singapore,_Singapore/2025-02-${x1}/2025-02-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/MainDisplay/, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/MainDisplay/Singapore,_Singapore/2025-02-${x1}/2025-02-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/AdvancedDisplay/, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/AdvancedDisplay/Singapore,_Singapore/2025-02-${x1}/2025-02-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/hotels/prices, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/hotels/prices/diH7/RsBU/2025-02-${x1}/2025-02-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+});
+
+describe("(WHITE BOX UNIT) Boundary Value Testing (Check-in Check-out) for month with 29 days (February, leap year)", () => {
+  beforeAll(() => {
+    originalEnv = process.env.INTEGRATION_TEST; // Save original value
+    process.env.INTEGRATION_TEST = "true"; // Override for this suite
+    originalUnitTestParamsEnv = process.env.UNIT_TESTING_PARAMS;
+    process.env.UNIT_TESTING_PARAMS = "true";
+  });
+
+  afterAll(() => {
+    process.env.INTEGRATION_TEST = originalEnv; // Restore original
+    process.env.UNIT_TESTING_PARAMS = originalUnitTestParamsEnv;
+  });
+
+  const cases = [
+    { id: 1, x1: "00", y1: "00", expected: 400 },
+    { id: 2, x1: "01", y1: "00", expected: 400 },
+    { id: 3, x1: "00", y1: "01", expected: 400 },
+    { id: 4, x1: "01", y1: "01", expected: 200 },
+    { id: 5, x1: "01", y1: "02", expected: 200 },
+    { id: 6, x1: "02", y1: "01", expected: 400 },
+    { id: 7, x1: "02", y1: "02", expected: 200 },
+    { id: 8, x1: "00", y1: 15, expected: 400 },
+    { id: 9, x1: "01", y1: 15, expected: 200 },
+    { id: 10, x1: "02", y1: 15, expected: 200 },
+    { id: 11, x1: "00", y1: 28, expected: 400 },
+    { id: 12, x1: "01", y1: 28, expected: 200 },
+    { id: 13, x1: "02", y1: 28, expected: 200 },
+    { id: 14, x1: "00", y1: 30, expected: 400 },
+    { id: 15, x1: "02", y1: 28, expected: 200 },
+    { id: 16, x1: "02", y1: 29, expected: 200 },
+    { id: 17, x1: "02", y1: 30, expected: 400 },
+    { id: 18, x1: "01", y1: 30, expected: 400 },
+    { id: 19, x1: "01", y1: 29, expected: 200 },
+    { id: 20, x1: 15, y1: 30, expected: 400 },
+    { id: 21, x1: 15, y1: 29, expected: 200 },
+    { id: 22, x1: 15, y1: 28, expected: 200 },
+    { id: 23, x1: 28, y1: 29, expected: 200 },
+    { id: 24, x1: 28, y1: 28, expected: 200 },
+    { id: 25, x1: 28, y1: 30, expected: 400 },
+    { id: 26, x1: 29, y1: 29, expected: 200 },
+    { id: 28, x1: 29, y1: 30, expected: 400 },
+    { id: 29, x1: 30, y1: 30, expected: 400 },
+    { id: 30, x1: 30, y1: 29, expected: 400 },
+    { id: 28, x1: 29, y1: 28, expected: 400 },
+    { id: 29, x1: 30, y1: 29, expected: 400 },
+  ];
+
+  test.each(cases)(
+    "Case $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/Singapore,_Singapore/2028-02-${x1}/2028-02-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/MainDisplay/, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/MainDisplay/Singapore,_Singapore/2028-02-${x1}/2028-02-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/AdvancedDisplay/, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/AdvancedDisplay/Singapore,_Singapore/2028-02-${x1}/2028-02-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
+
+  test.each(cases)(
+    "Case for /search/hotels/prices, $id: x1=$x1, y1=$y1 → Expected: $expected",
+    async ({ id, x1, y1, expected }) => {
+      const result = await request(app).get(
+        `/search/hotels/prices/diH7/RsBU/2025-10-${x1}/2025-10-${y1}/2/1`
+      );
+      expect(result.status).toBe(expected);
+    }
+  );
 });
