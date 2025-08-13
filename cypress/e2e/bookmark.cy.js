@@ -29,5 +29,9 @@ describe("Bookmark Hotel", () => {
     cy.get(".btn.book").click();
 
     cy.contains("Courtyard by Marriott Singapore Novena").should("exist");
+
+    cy.get(".btn.remove").click()
   });
+
+
 });
