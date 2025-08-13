@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --verbose",
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
     "build": "cd ../client && rm -rf node_modules package-lock.json && npm install && npm run build"
   },
   "author": "",
@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.3",
     "nodemon": "^3.1.10",
+    "path-to-regexp": "^8.2.0",
     "stripe": "^18.3.0"
   },
   "devDependencies": {
