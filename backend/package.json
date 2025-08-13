@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --verbose",
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www",
+    "build": "echo \"No build step for backend\""
   },
   "author": "",
   "license": "ISC",
@@ -12,7 +13,6 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
-    "cypress": "^14.5.4",
     "dotenv": "^17.2.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
