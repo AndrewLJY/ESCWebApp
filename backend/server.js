@@ -11,7 +11,13 @@ require("dotenv").config();
 
 const app = express();
 // app.use(cors());
-app.use(cors({ origin: 'https://esc-ascenda-frontend.onrender.com/' }));
+app.use(
+  cors({
+    origin: "https://esc-ascenda-frontend.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true, // if using cookies or auth
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
