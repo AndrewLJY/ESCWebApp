@@ -222,7 +222,7 @@ describe("SearchBar API Integration Tests", () => {
         expect.stringContaining("location=Singapore")
       );
       expect(mockFetchData).toHaveBeenCalledWith(
-        expect.stringContaining("hotel=Marina%20Bay%20Sands")
+        expect.stringContaining("hotel=Marina+Bay+Sands")
       );
       expect(mockFetchData).toHaveBeenCalledWith(
         expect.stringContaining("checkin=2025-12-01")
@@ -460,7 +460,7 @@ describe("SearchBar API Integration Tests", () => {
         </MemoryRouter>
       );
 
-      expect(screen.getByDisplayValue("Paris")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Paris, France")).toBeInTheDocument();
       expect(screen.getByDisplayValue("Hilton")).toBeInTheDocument();
       expect(screen.getByDisplayValue("2025-08-01")).toBeInTheDocument();
       expect(screen.getByDisplayValue("2025-08-05")).toBeInTheDocument();
