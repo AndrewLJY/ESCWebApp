@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 
-const BACKEND_URL = import.meta.env.VITE_API_URL;
+const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export default function Return() {
   const [status, setStatus] = useState(null);
@@ -32,7 +32,7 @@ export default function Return() {
     };
 
     axios
-      .post(`${BACKEND_URL}/booking"`, bookingDetails)
+      .post(`${BACKEND_URL}/booking`, bookingDetails)
       .then((response) => {
         console.log(response.data);
       })
@@ -47,9 +47,7 @@ export default function Return() {
     const sessionId = urlParams.get("session_id");
 
     axios
-      .get(
-        `${BACKEND_URL}/stripe/session-status?session_id=${sessionId}`
-      )
+      .get(`${BACKEND_URL}/stripe/session-status?session_id=${sessionId}`)
       .then((response) => {
         console.log(response);
         setStatus(response.data.status);

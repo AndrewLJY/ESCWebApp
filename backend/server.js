@@ -11,9 +11,15 @@ require("dotenv").config();
 
 const app = express();
 // app.use(cors());
+
+const allowedOrigins = [
+  "https://esc-ascenda-frontend.onrender.com",
+  "http://localhost:5173", // for local development
+];
+
 app.use(
   cors({
-    origin: "https://esc-ascenda-frontend.onrender.com", // your frontend
+    origin: allowedOrigins, // your frontend
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

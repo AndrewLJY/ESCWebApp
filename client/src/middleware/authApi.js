@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createElement } from "react";
 
-const BACKEND_URL = import.meta.env.VITE_API_URL;
+const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 // Dummy login API
 const loginUser = async (credentials) => {
@@ -52,10 +52,7 @@ const signupUser = async (userData) => {
 // Real API calls (commented out)
 const loginUserAPI = async (credentials) => {
   try {
-    const response = await axios.post(
-      `${BACKEND_URL}/auth/login`,
-      credentials
-    );
+    const response = await axios.post(`${BACKEND_URL}/auth/login`, credentials);
 
     // 2. Store the JWT token
     const token = response.data.token; // Axios response data contains the token
@@ -89,10 +86,8 @@ const fetchBookmarks = async () => {
 
 const signupUserAPI = async (userData) => {
   try {
-    const response = await axios.post(
-      `${BACKEND_URL}/auth/register`,
-      userData
-    );
+    console.log(`${BACKEND_URL}/auth/register`)
+    const response = await axios.post(`${BACKEND_URL}/auth/register`, userData);
     return response.data;
   } catch (error) {
     console.log("Signup API error:", error);

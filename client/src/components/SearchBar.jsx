@@ -59,7 +59,7 @@ export default function SearchBar({
   const [guests, setGuests] = useState("1");
   const [roomNum, setRoomNum] = useState("1");
 
-  const BACKEND_URL = import.meta.env.VITE_API_URL;
+  const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
   // Fetch suggestions
   const fetchSuggestions = async (term, field) => {
