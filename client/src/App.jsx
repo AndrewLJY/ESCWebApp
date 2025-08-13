@@ -13,8 +13,7 @@ import Bookmark from "./pages/BookmarkPage.jsx";
 
 import "./App.css"; // keep this if you have shared/global styles
 
-const env = await import.meta.env;
-const EMAILJS_PUBLIC_KEY = `${env.VITE_EMAILJS_PUBLIC_KEY}`;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 export default function App() {
   emailjs.init({

@@ -8,8 +8,7 @@ import axios from "axios";
 import { Navigate, useLocation } from "react-router-dom";
 
 // const stripePromise = loadStripe("INSERT PK HERE");
-const env = await import.meta.env;
-const stripePromise = loadStripe(`${env.VITE_STRIPE_PK}`);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 export default function CheckoutForm() {
   const location = useLocation();
