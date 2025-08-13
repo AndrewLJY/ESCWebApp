@@ -52,44 +52,43 @@ router.get(
       }
 
       //Now, check if check in date is before checkout date
-      yearMonthDaysCheckIn = checkInDate.split("-");
-      yearMonthDaysCheckOut = checkOutDate.split("-");
+      yearMonthDaysCheckIn = checkInDate.split("-").reverse();
+      yearMonthDaysCheckOut = checkOutDate.split("-").reverse();
 
       let isLess = true;
-      for (let i = 0; i < 3; i++) {
+      for (let i = 1; i < 3; i++) {
         if (
-          Number(yearMonthDaysCheckIn[i]) > Number(yearMonthDaysCheckOut[i])
+          Number(yearMonthDaysCheckIn[i - 1]) >
+          Number(yearMonthDaysCheckOut[i - 1])
         ) {
-          isLess = false;
+          if (yearMonthDaysCheckIn[i] >= yearMonthDaysCheckOut[i]) {
+            isLess = false;
+          }
         }
       }
 
-      if (isLess === false) {
-        return res.status(400).json("Check in date is greater than checkout");
-      }
-
-      if (yearMonthDaysCheckIn[0] < 0) {
+      if (yearMonthDaysCheckIn[2] < 0) {
         return res.status(400).json("Invalid year");
       }
       if (yearMonthDaysCheckIn[1] > 12) {
         return res.status(400).json("Invalid month");
       }
       if (
-        Number(yearMonthDaysCheckIn[2]) > 31 ||
-        Number(yearMonthDaysCheckIn[2]) < 1
+        Number(yearMonthDaysCheckIn[0]) > 31 ||
+        Number(yearMonthDaysCheckIn[0]) < 1
       ) {
         return res.status(400).json("Invalid day");
       }
 
-      if (yearMonthDaysCheckOut[0] < 0) {
+      if (yearMonthDaysCheckOut[2] < 0) {
         return res.status(400).json("Invalid year");
       }
       if (yearMonthDaysCheckOut[1] > 12) {
         return res.status(400).json("Invalid month");
       }
       if (
-        Number(yearMonthDaysCheckOut[2]) > 31 ||
-        Number(yearMonthDaysCheckOut[2]) < 1
+        Number(yearMonthDaysCheckOut[0]) > 31 ||
+        Number(yearMonthDaysCheckOut[0]) < 1
       ) {
         return res.status(400).json("Invalid day");
       }
@@ -99,10 +98,10 @@ router.get(
       }
 
       //check for leap year
-      let yearCheckIn = yearMonthDaysCheckIn[0];
+      let yearCheckIn = yearMonthDaysCheckIn[2];
       if (
         yearMonthDaysCheckIn[1] == "02" &&
-        Number(yearMonthDaysCheckIn[2]) > 28 &&
+        Number(yearMonthDaysCheckIn[0]) > 28 &&
         Number(yearCheckIn) % 4 !== 0
       ) {
         return res.status(400).json("Invalid day");
@@ -110,17 +109,17 @@ router.get(
 
       if (
         yearMonthDaysCheckIn[1] == "02" &&
-        Number(yearMonthDaysCheckIn[2]) > 29 &&
+        Number(yearMonthDaysCheckIn[0]) > 29 &&
         Number(yearCheckIn) % 4 === 0
       ) {
         return res.status(400).json("Invalid day");
       }
 
       //check for leap year
-      let yearCheckOut = yearMonthDaysCheckOut[0];
+      let yearCheckOut = yearMonthDaysCheckOut[2];
       if (
         yearMonthDaysCheckOut[1] === "02" &&
-        Number(yearMonthDaysCheckOut[2]) > 28 &&
+        Number(yearMonthDaysCheckOut[0]) > 28 &&
         Number(yearCheckOut) % 4 !== 0
       ) {
         return res.status(400).json("Invalid day");
@@ -128,7 +127,7 @@ router.get(
 
       if (
         yearMonthDaysCheckOut[1] === "02" &&
-        Number(yearMonthDaysCheckOut[2]) > 29 &&
+        Number(yearMonthDaysCheckOut[0]) > 29 &&
         Number(yearCheckOut) % 4 === 0
       ) {
         return res.status(400).json("Invalid day");
@@ -220,44 +219,43 @@ router.get(
       }
 
       //Now, check if check in date is before checkout date
-      yearMonthDaysCheckIn = checkInDate.split("-");
-      yearMonthDaysCheckOut = checkOutDate.split("-");
+      yearMonthDaysCheckIn = checkInDate.split("-").reverse();
+      yearMonthDaysCheckOut = checkOutDate.split("-").reverse();
 
       let isLess = true;
-      for (let i = 0; i < 3; i++) {
+      for (let i = 1; i < 3; i++) {
         if (
-          Number(yearMonthDaysCheckIn[i]) > Number(yearMonthDaysCheckOut[i])
+          Number(yearMonthDaysCheckIn[i - 1]) >
+          Number(yearMonthDaysCheckOut[i - 1])
         ) {
-          isLess = false;
+          if (yearMonthDaysCheckIn[i] >= yearMonthDaysCheckOut[i]) {
+            isLess = false;
+          }
         }
       }
 
-      if (isLess === false) {
-        return res.status(400).json("Check in date is greater than checkout");
-      }
-
-      if (yearMonthDaysCheckIn[0] < 0) {
+      if (yearMonthDaysCheckIn[2] < 0) {
         return res.status(400).json("Invalid year");
       }
       if (yearMonthDaysCheckIn[1] > 12) {
         return res.status(400).json("Invalid month");
       }
       if (
-        Number(yearMonthDaysCheckIn[2]) > 31 ||
-        Number(yearMonthDaysCheckIn[2]) < 1
+        Number(yearMonthDaysCheckIn[0]) > 31 ||
+        Number(yearMonthDaysCheckIn[0]) < 1
       ) {
         return res.status(400).json("Invalid day");
       }
 
-      if (yearMonthDaysCheckOut[0] < 0) {
+      if (yearMonthDaysCheckOut[2] < 0) {
         return res.status(400).json("Invalid year");
       }
       if (yearMonthDaysCheckOut[1] > 12) {
         return res.status(400).json("Invalid month");
       }
       if (
-        Number(yearMonthDaysCheckOut[2]) > 31 ||
-        Number(yearMonthDaysCheckOut[2]) < 1
+        Number(yearMonthDaysCheckOut[0]) > 31 ||
+        Number(yearMonthDaysCheckOut[0]) < 1
       ) {
         return res.status(400).json("Invalid day");
       }
@@ -267,28 +265,28 @@ router.get(
       }
 
       //check for leap year
-      let yearCheckIn = yearMonthDaysCheckIn[0];
+      let yearCheckIn = yearMonthDaysCheckIn[2];
       if (
-        yearMonthDaysCheckIn[1] === "02" &&
-        Number(yearMonthDaysCheckIn[2]) > 28 &&
+        yearMonthDaysCheckIn[1] == "02" &&
+        Number(yearMonthDaysCheckIn[0]) > 28 &&
         Number(yearCheckIn) % 4 !== 0
       ) {
         return res.status(400).json("Invalid day");
       }
 
       if (
-        yearMonthDaysCheckIn[1] === "02" &&
-        Number(yearMonthDaysCheckIn[2]) > 29 &&
+        yearMonthDaysCheckIn[1] == "02" &&
+        Number(yearMonthDaysCheckIn[0]) > 29 &&
         Number(yearCheckIn) % 4 === 0
       ) {
         return res.status(400).json("Invalid day");
       }
 
       //check for leap year
-      let yearCheckOut = yearMonthDaysCheckOut[0];
+      let yearCheckOut = yearMonthDaysCheckOut[2];
       if (
         yearMonthDaysCheckOut[1] === "02" &&
-        Number(yearMonthDaysCheckOut[2]) > 28 &&
+        Number(yearMonthDaysCheckOut[0]) > 28 &&
         Number(yearCheckOut) % 4 !== 0
       ) {
         return res.status(400).json("Invalid day");
@@ -296,7 +294,7 @@ router.get(
 
       if (
         yearMonthDaysCheckOut[1] === "02" &&
-        Number(yearMonthDaysCheckOut[2]) > 29 &&
+        Number(yearMonthDaysCheckOut[0]) > 29 &&
         Number(yearCheckOut) % 4 === 0
       ) {
         return res.status(400).json("Invalid day");
@@ -381,71 +379,74 @@ router.get(
       }
 
       //Now, check if check in date is before checkout date
-      yearMonthDaysCheckIn = checkInDate.split("-");
-      yearMonthDaysCheckOut = checkOutDate.split("-");
+      yearMonthDaysCheckIn = checkInDate.split("-").reverse();
+      yearMonthDaysCheckOut = checkOutDate.split("-").reverse();
 
       let isLess = true;
-      for (let i = 0; i < 3; i++) {
+      for (let i = 1; i < 3; i++) {
         if (
-          Number(yearMonthDaysCheckIn[i]) > Number(yearMonthDaysCheckOut[i])
+          Number(yearMonthDaysCheckIn[i - 1]) >
+          Number(yearMonthDaysCheckOut[i - 1])
         ) {
-          isLess = false;
+          if (yearMonthDaysCheckIn[i] >= yearMonthDaysCheckOut[i]) {
+            isLess = false;
+          }
         }
       }
 
-      if (isLess === false) {
-        return res.status(400).json("Check in date is greater than checkout");
-      }
-
-      if (yearMonthDaysCheckIn[0] < 0) {
+      if (yearMonthDaysCheckIn[2] < 0) {
         return res.status(400).json("Invalid year");
       }
       if (yearMonthDaysCheckIn[1] > 12) {
         return res.status(400).json("Invalid month");
       }
       if (
-        Number(yearMonthDaysCheckIn[2]) > 31 ||
-        Number(yearMonthDaysCheckIn[2]) < 1
+        Number(yearMonthDaysCheckIn[0]) > 31 ||
+        Number(yearMonthDaysCheckIn[0]) < 1
       ) {
         return res.status(400).json("Invalid day");
       }
 
-      if (yearMonthDaysCheckOut[0] < 0) {
+      if (yearMonthDaysCheckOut[2] < 0) {
         return res.status(400).json("Invalid year");
       }
       if (yearMonthDaysCheckOut[1] > 12) {
         return res.status(400).json("Invalid month");
       }
       if (
-        Number(yearMonthDaysCheckOut[2]) > 31 ||
-        Number(yearMonthDaysCheckOut[2]) < 1
+        Number(yearMonthDaysCheckOut[0]) > 31 ||
+        Number(yearMonthDaysCheckOut[0]) < 1
       ) {
         return res.status(400).json("Invalid day");
       }
 
+      if (isLess === false) {
+        return res.status(400).json("Check in date is greater than checkout");
+      }
+
       //check for leap year
-      let yearCheckIn = yearMonthDaysCheckIn[0];
+      let yearCheckIn = yearMonthDaysCheckIn[2];
       if (
-        yearMonthDaysCheckIn[1] === "02" &&
-        Number(yearMonthDaysCheckIn[2]) > 28 &&
+        yearMonthDaysCheckIn[1] == "02" &&
+        Number(yearMonthDaysCheckIn[0]) > 28 &&
         Number(yearCheckIn) % 4 !== 0
       ) {
         return res.status(400).json("Invalid day");
       }
 
       if (
-        yearMonthDaysCheckIn[1] === "02" &&
-        Number(yearMonthDaysCheckIn[2]) > 29 &&
+        yearMonthDaysCheckIn[1] == "02" &&
+        Number(yearMonthDaysCheckIn[0]) > 29 &&
         Number(yearCheckIn) % 4 === 0
       ) {
         return res.status(400).json("Invalid day");
       }
 
       //check for leap year
-      let yearCheckOut = yearMonthDaysCheckOut[0];
+      let yearCheckOut = yearMonthDaysCheckOut[2];
       if (
         yearMonthDaysCheckOut[1] === "02" &&
-        Number(yearMonthDaysCheckOut[2]) > 28 &&
+        Number(yearMonthDaysCheckOut[0]) > 28 &&
         Number(yearCheckOut) % 4 !== 0
       ) {
         return res.status(400).json("Invalid day");
@@ -453,7 +454,7 @@ router.get(
 
       if (
         yearMonthDaysCheckOut[1] === "02" &&
-        Number(yearMonthDaysCheckOut[2]) > 29 &&
+        Number(yearMonthDaysCheckOut[0]) > 29 &&
         Number(yearCheckOut) % 4 === 0
       ) {
         return res.status(400).json("Invalid day");
@@ -631,71 +632,74 @@ router.get(
       }
 
       //Now, check if check in date is before checkout date
-      yearMonthDaysCheckIn = checkInDate.split("-");
-      yearMonthDaysCheckOut = checkOutDate.split("-");
+      yearMonthDaysCheckIn = checkInDate.split("-").reverse();
+      yearMonthDaysCheckOut = checkOutDate.split("-").reverse();
 
       let isLess = true;
-      for (let i = 0; i < 3; i++) {
+      for (let i = 1; i < 3; i++) {
         if (
-          Number(yearMonthDaysCheckIn[i]) > Number(yearMonthDaysCheckOut[i])
+          Number(yearMonthDaysCheckIn[i - 1]) >
+          Number(yearMonthDaysCheckOut[i - 1])
         ) {
-          isLess = false;
+          if (yearMonthDaysCheckIn[i] >= yearMonthDaysCheckOut[i]) {
+            isLess = false;
+          }
         }
       }
 
-      if (isLess === false) {
-        return res.status(400).json("Check in date is greater than checkout");
-      }
-
-      if (yearMonthDaysCheckIn[0] < 0) {
+      if (yearMonthDaysCheckIn[2] < 0) {
         return res.status(400).json("Invalid year");
       }
       if (yearMonthDaysCheckIn[1] > 12) {
         return res.status(400).json("Invalid month");
       }
       if (
-        Number(yearMonthDaysCheckIn[2]) > 31 ||
-        Number(yearMonthDaysCheckIn[2]) < 1
+        Number(yearMonthDaysCheckIn[0]) > 31 ||
+        Number(yearMonthDaysCheckIn[0]) < 1
       ) {
         return res.status(400).json("Invalid day");
       }
 
-      if (yearMonthDaysCheckOut[0] < 0) {
+      if (yearMonthDaysCheckOut[2] < 0) {
         return res.status(400).json("Invalid year");
       }
       if (yearMonthDaysCheckOut[1] > 12) {
         return res.status(400).json("Invalid month");
       }
       if (
-        Number(yearMonthDaysCheckOut[2]) > 31 ||
-        Number(yearMonthDaysCheckOut[2]) < 1
+        Number(yearMonthDaysCheckOut[0]) > 31 ||
+        Number(yearMonthDaysCheckOut[0]) < 1
       ) {
         return res.status(400).json("Invalid day");
       }
 
+      if (isLess === false) {
+        return res.status(400).json("Check in date is greater than checkout");
+      }
+
       //check for leap year
-      let yearCheckIn = yearMonthDaysCheckIn[0];
+      let yearCheckIn = yearMonthDaysCheckIn[2];
       if (
-        yearMonthDaysCheckIn[1] === "02" &&
-        Number(yearMonthDaysCheckIn[2]) > 28 &&
+        yearMonthDaysCheckIn[1] == "02" &&
+        Number(yearMonthDaysCheckIn[0]) > 28 &&
         Number(yearCheckIn) % 4 !== 0
       ) {
         return res.status(400).json("Invalid day");
       }
 
       if (
-        yearMonthDaysCheckIn[1] === "02" &&
-        Number(yearMonthDaysCheckIn[2]) > 29 &&
+        yearMonthDaysCheckIn[1] == "02" &&
+        Number(yearMonthDaysCheckIn[0]) > 29 &&
         Number(yearCheckIn) % 4 === 0
       ) {
         return res.status(400).json("Invalid day");
       }
 
       //check for leap year
-      let yearCheckOut = yearMonthDaysCheckOut[0];
+      let yearCheckOut = yearMonthDaysCheckOut[2];
       if (
         yearMonthDaysCheckOut[1] === "02" &&
-        Number(yearMonthDaysCheckOut[2]) > 28 &&
+        Number(yearMonthDaysCheckOut[0]) > 28 &&
         Number(yearCheckOut) % 4 !== 0
       ) {
         return res.status(400).json("Invalid day");
@@ -703,7 +707,7 @@ router.get(
 
       if (
         yearMonthDaysCheckOut[1] === "02" &&
-        Number(yearMonthDaysCheckOut[2]) > 29 &&
+        Number(yearMonthDaysCheckOut[0]) > 29 &&
         Number(yearCheckOut) % 4 === 0
       ) {
         return res.status(400).json("Invalid day");
