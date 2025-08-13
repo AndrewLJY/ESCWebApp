@@ -5,7 +5,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --verbose",
     "start": "nodemon ./bin/www",
-    "build": "cd ../client && npm install && npm run build"
+    "build": "cd ../client && rm -rf node_modules package-lock.json && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
