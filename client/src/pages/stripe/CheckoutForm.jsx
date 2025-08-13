@@ -10,6 +10,8 @@ import { Navigate, useLocation } from "react-router-dom";
 // const stripePromise = loadStripe("INSERT PK HERE");
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
+const BACKEND_URL = process.env.REACT_APP_API_URL;
+
 export default function CheckoutForm() {
   const location = useLocation();
 
@@ -17,7 +19,7 @@ export default function CheckoutForm() {
     // Create a Checkout Session
     try {
       return await axios
-        .post("http://localhost:8080/stripe/create-checkout-session", {
+        .post(`${BACKEND_URL}/stripe/create-checkout-session`, {
           roomName: location.state.roomName,
           roomPrice: location.state.roomPrice,
           roomDesc: location.state.roomDesc,

@@ -59,11 +59,13 @@ export default function SearchBar({
   const [guests, setGuests] = useState("1");
   const [roomNum, setRoomNum] = useState("1");
 
+  const BACKEND_URL = process.env.REACT_APP_API_URL;
+
   // Fetch suggestions
   const fetchSuggestions = async (term, field) => {
     try {
       const resp = await axios.get(
-        `http://localhost:8080/search/string/${term}`
+        `${BACKEND_URL}/search/string/${term}`
       );
       const top3 = (resp.data || []).slice(0, 3).map((i) => i.item ?? i);
       setSuggestions(top3);

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { createElement } from "react";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL;
+
 // Dummy login API
 const loginUser = async (credentials) => {
   await new Promise((resolve) => setTimeout(resolve, 800));
@@ -51,7 +53,7 @@ const signupUser = async (userData) => {
 const loginUserAPI = async (credentials) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/auth/login",
+      `${BACKEND_URL}/auth/login`,
       credentials
     );
 
@@ -88,7 +90,7 @@ const fetchBookmarks = async () => {
 const signupUserAPI = async (userData) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/auth/register",
+      `${BACKEND_URL}/auth/register`,
       userData
     );
     return response.data;

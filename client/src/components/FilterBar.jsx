@@ -31,11 +31,13 @@ export default function FilterBar({
   const [activeField, setActiveField] = useState(null);
   const timeoutRef = useRef(null);
 
+  const BACKEND_URL = process.env.REACT_APP_API_URL;
+
   // Fetch suggestions from backend
   const fetchSuggestions = async (searchTerm, field) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/search/string/${searchTerm}`
+        `${BACKEND_URL}/search/string/${searchTerm}`
       );
       const top10 = response.data.slice(0, 10).map((item) => item.item || item);
       setSuggestions(top10);

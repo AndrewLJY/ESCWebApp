@@ -9,6 +9,8 @@ import LandingPage from "../pages/LandingPage";
 import axios from "axios";
 import { act } from "react-dom/test-utils";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL;
+
 // ─── Mock navigate ─────────────────────────────────────────────────────────────
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -46,7 +48,7 @@ describe("1) SearchBar Autocomplete", () => {
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(
-        "http://localhost:8080/search/string/Par"
+        `${BACKEND_URL}/search/string/Par`
       );
       ["Paris", "Parma", "Paradise"].forEach((s) =>
         expect(screen.getByText(s)).toBeInTheDocument()
@@ -93,7 +95,7 @@ describe("1) SearchBar Autocomplete", () => {
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(
-        "http://localhost:8080/search/string/Ro"
+        `${BACKEND_URL}/search/string/Ro`
       );
       ["Rome", "Roma", "Romulus"].forEach((s) =>
         expect(screen.getByText(s)).toBeInTheDocument()

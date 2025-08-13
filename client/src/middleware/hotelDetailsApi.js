@@ -2,10 +2,12 @@ import axios from "axios";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL;
+
 const getHotelDetailsAPI = async (hotelId) => {
   try {
     const response = await axios
-      .get(`http://localhost:8080/search/hotel/${hotelId}`)
+      .get(`${BACKEND_URL}/search/hotel/${hotelId}`)
       .catch((error) => {
         console.log(error.toJSON());
       });
@@ -31,7 +33,7 @@ const getRoomPricingAPI = async (hotelId, payload) => {
   try {
     const response = await axios
       .get(
-        `http://localhost:8080/search/hotel/prices/${hotelId}/${payload.destinationId}/${payload.checkIn}/${payload.checkOut}/${payload.guests}/${payload.roomNum}`
+        `${BACKEND_URL}/search/hotel/prices/${hotelId}/${payload.destinationId}/${payload.checkIn}/${payload.checkOut}/${payload.guests}/${payload.roomNum}`
       )
       .catch((error) => {
         console.log(error.toJSON());

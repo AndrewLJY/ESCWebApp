@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL;
+
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 // Dummy search API that simulates backend response
@@ -66,7 +68,7 @@ const searchHotelsAPI = async (searchParams) => {
 
     const response = await axios
       .get(
-        `http://localhost:8080/search/${searchParams.location}/${searchParams.checkIn}/${searchParams.checkOut}/${searchParams.guests}/${searchParams.roomNum}`
+        `${BACKEND_URL}/search/${searchParams.location}/${searchParams.checkIn}/${searchParams.checkOut}/${searchParams.guests}/${searchParams.roomNum}`
       )
       .catch((error) => {
         console.log(error.toJSON());
@@ -77,7 +79,7 @@ const searchHotelsAPI = async (searchParams) => {
         hotels: response.data.hotelList != null ? response.data.hotelList : [],
         totalResults: response != null ? response.data.hotelList.length : 0,
         searchParams: searchParams,
-        destination_id: response.data.destination_id
+        destination_id: response.data.destination_id,
       },
     };
   } catch (error) {

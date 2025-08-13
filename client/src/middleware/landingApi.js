@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const BACKEND_URL = process.env.REACT_APP_API_URL;
+
 // Dummy API for landing page data
 const getLandingData = async () => {
   // Simulate API delay
@@ -22,7 +24,7 @@ const getLandingData = async () => {
 
 // Original API call (kept for backward compatibility)
 const apiCall = () => {
-  axios.get('http://localhost:8080').then((data) => {
+  axios.get(BACKEND_URL).then((data) => {
     console.log(data)
   })
 }
@@ -30,7 +32,7 @@ const apiCall = () => {
 // Real API call for landing data (commented out)
 const getLandingDataAPI = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/landing');
+    const response = await axios.get(`${BACKEND_URL}/api/landing`);
     return response.data;
   } catch (error) {
     console.error('Landing API error:', error);
