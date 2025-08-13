@@ -21,7 +21,13 @@ app.use(
 );
 
 // Handle preflight requests for all routes
-app.options(/.*/, cors());
+app.options(
+  /.*/,
+  cors({
+    origin: "https://esc-ascenda-frontend.onrender.com",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -64,9 +64,9 @@ export default function SearchBar({
   // Fetch suggestions
   const fetchSuggestions = async (term, field) => {
     try {
-      const resp = await axios.get(
-        `${BACKEND_URL}/search/string/${term}`
-      );
+      const resp = await axios.get(`${BACKEND_URL}/search/string/${term}`, {
+        withCredentials: true,
+      });
       const top3 = (resp.data || []).slice(0, 3).map((i) => i.item ?? i);
       setSuggestions(top3);
       setShowSuggestions(true);

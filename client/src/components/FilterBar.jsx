@@ -37,7 +37,10 @@ export default function FilterBar({
   const fetchSuggestions = async (searchTerm, field) => {
     try {
       const response = await axios.get(
-        `${BACKEND_URL}/search/string/${searchTerm}`
+        `${BACKEND_URL}/search/string/${searchTerm}`,
+        {
+          withCredentials: true,
+        }
       );
       const top10 = response.data.slice(0, 10).map((item) => item.item || item);
       setSuggestions(top10);
