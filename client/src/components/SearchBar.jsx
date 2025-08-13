@@ -66,6 +66,9 @@ export default function SearchBar({
     try {
       const resp = await axios.get(`${BACKEND_URL}/search/string/${term}`, {
         withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       const top3 = (resp.data || []).slice(0, 3).map((i) => i.item ?? i);
       setSuggestions(top3);
