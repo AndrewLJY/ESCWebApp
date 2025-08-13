@@ -1,4 +1,5 @@
 const mysql = require("mysql2");
+const fs = require('fs');
 
 let sslOptions = null;
 if (process.env.DB_CA_CERT && fs.existsSync(process.env.DB_CA_CERT)) {
