@@ -2,7 +2,7 @@ const express = require("express");
 
 var router = express.Router();
 
-const YOUR_DOMAIN = "http://localhost:5173";
+const YOUR_DOMAIN = `${process.env.VITE_FRONTEND_URL}` || "http://localhost:5173";
 const stripe = require("stripe")(`${process.env.VITE_STRIPE_SK}`);
 
 router.post("/create-checkout-session", async (req, res) => {

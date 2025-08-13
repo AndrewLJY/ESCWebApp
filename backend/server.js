@@ -13,11 +13,16 @@ const app = express();
 // app.use(cors());
 app.use(
   cors({
-    origin: "https://esc-ascenda-frontend.onrender.com",
+    origin: "https://esc-ascenda-frontend.onrender.com", // your frontend
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true, // if using cookies or auth
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
+
+// Handle preflight requests for all routes
+app.options("*", cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
