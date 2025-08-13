@@ -31,7 +31,7 @@ export default function FilterBar({
   const [activeField, setActiveField] = useState(null);
   const timeoutRef = useRef(null);
 
-  const BACKEND_URL = process.env.REACT_APP_API_URL;
+  const BACKEND_URL = process.env.VITE_API_URL;
 
   // Fetch suggestions from backend
   const fetchSuggestions = async (searchTerm, field) => {

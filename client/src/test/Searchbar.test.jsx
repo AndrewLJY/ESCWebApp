@@ -9,7 +9,7 @@ import LandingPage from "../pages/LandingPage";
 import axios from "axios";
 import { act } from "react-dom/test-utils";
 
-const BACKEND_URL = process.env.REACT_APP_API_URL;
+const BACKEND_URL = process.env.VITE_API_URL;
 
 // ─── Mock navigate ─────────────────────────────────────────────────────────────
 const mockNavigate = jest.fn();

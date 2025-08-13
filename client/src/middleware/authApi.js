@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createElement } from "react";
 
-const BACKEND_URL = process.env.REACT_APP_API_URL;
+const BACKEND_URL = process.env.VITE_API_URL;
 
 // Dummy login API
 const loginUser = async (credentials) => {

@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 
-const BACKEND_URL = process.env.REACT_APP_API_URL;
+const BACKEND_URL = process.env.VITE_API_URL;
 
 export default function Return() {
   const [status, setStatus] = useState(null);

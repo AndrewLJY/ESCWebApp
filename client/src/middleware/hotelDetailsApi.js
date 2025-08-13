@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const BACKEND_URL = process.env.REACT_APP_API_URL;
+const BACKEND_URL = process.env.VITE_API_URL;
 
 const getHotelDetailsAPI = async (hotelId) => {
   try {
