@@ -284,7 +284,12 @@ export default function SearchBar({
           </Col>
 
           <Col>
-            <Button variant="primary" className="btn btn-sm" onClick={onSearch}>
+            <Button
+              variant="primary"
+              className="btn"
+              size="lg"
+              onClick={onSearch}
+            >
               Search
             </Button>
           </Col>
