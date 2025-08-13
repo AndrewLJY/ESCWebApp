@@ -23,3 +23,30 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("getStripeElement", (fieldName) => {
+  if (Cypress.config("chromeWebSecurity")) {
+    throw new Error(
+      "To get stripe element `chromeWebSecurity` must be disabled"
+    );
+  }
+
+  const selector = `input[id^="${fieldName}"]`;
+
+  return cy
+    .get("iframe")
+    .its("0.contentDocument.body")
+    .should("not.be.empty")
+    .then(cy.wrap)
+    .find(selector);
+});
+
+Cypress.Commands.add("getByTestId", (testId) => {
+  return cy
+    .get('iframe[name="embedded-checkout"]')
+    .its("0.contentDocument.body")
+    .should("not.be.empty")
+    .then(cy.wrap)
+    .find("main")
+    .find(`[data-testid="${testId}"]`);
+});
