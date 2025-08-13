@@ -1,0 +1,3 @@
+@echo off
+echo Starting Hotel Booking App...
+docker-compose up --build

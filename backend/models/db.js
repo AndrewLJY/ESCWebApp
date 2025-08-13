@@ -1,10 +1,10 @@
 const mysql = require("mysql2");
 let pool = mysql
   .createPool({
-    host: "localhost",
-    user: "escHotelT5",
-    database: "hotelbookingapp",
-    password: "12345",
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "escHotelT5",
+    database: process.env.DB_NAME || "hotelbookingapp",
+    password: process.env.DB_PASSWORD || "12345",
     connectionLimit: 10,
     keepAliveInitialDelay: 10000, // 0 by default.
     enableKeepAlive: true, // false by default.
