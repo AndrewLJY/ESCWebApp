@@ -115,7 +115,7 @@ describe("BookmarkPage Integration Tests", () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText("You haven't bookmarked any hotels yet.")).toBeInTheDocument();
+        expect(screen.getByText("You haven’t bookmarked any hotels yet.")).toBeInTheDocument();
       });
     });
 
@@ -146,7 +146,7 @@ describe("BookmarkPage Integration Tests", () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText("You haven't bookmarked any hotels yet.")).toBeInTheDocument();
+        expect(screen.getByText("You haven’t bookmarked any hotels yet.")).toBeInTheDocument();
       });
     });
 
@@ -158,7 +158,7 @@ describe("BookmarkPage Integration Tests", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText("You haven't bookmarked any hotels yet.")).toBeInTheDocument();
+        expect(screen.getByText("You haven’t bookmarked any hotels yet.")).toBeInTheDocument();
       });
 
       expect(axios.get).not.toHaveBeenCalled();
@@ -474,7 +474,7 @@ describe("BookmarkPage Integration Tests", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText("You haven't bookmarked any hotels yet.")).toBeInTheDocument();
+        expect(screen.getByText("You haven’t bookmarked any hotels yet.")).toBeInTheDocument();
       });
 
       expect(axios.get).not.toHaveBeenCalled();
@@ -493,7 +493,7 @@ describe("BookmarkPage Integration Tests", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText("You haven't bookmarked any hotels yet.")).toBeInTheDocument();
+        expect(screen.getByText("You haven’t bookmarked any hotels yet.")).toBeInTheDocument();
       });
 
       expect(axios.get).not.toHaveBeenCalled();
@@ -528,7 +528,7 @@ describe("BookmarkPage Integration Tests", () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText("You haven't bookmarked any hotels yet.")).toBeInTheDocument();
+        expect(screen.getByText("You haven’t bookmarked any hotels yet.")).toBeInTheDocument();
       });
     });
   });
