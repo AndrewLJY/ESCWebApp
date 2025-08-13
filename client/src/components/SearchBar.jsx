@@ -68,7 +68,6 @@ export default function SearchBar({
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://esc-ascenda-frontend.onrender.com",
         },
       });
       const top3 = (resp.data || []).slice(0, 3).map((i) => i.item ?? i);
