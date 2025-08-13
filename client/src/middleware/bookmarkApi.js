@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = process.env.VITE_API_URL;
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 
 // Get current user info

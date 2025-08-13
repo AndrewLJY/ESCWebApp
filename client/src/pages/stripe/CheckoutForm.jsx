@@ -10,7 +10,7 @@ import { Navigate, useLocation } from "react-router-dom";
 // const stripePromise = loadStripe("INSERT PK HERE");
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
-const BACKEND_URL = process.env.VITE_API_URL;
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 export default function CheckoutForm() {
   const location = useLocation();
