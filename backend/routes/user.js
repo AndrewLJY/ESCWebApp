@@ -199,4 +199,15 @@ router.post("/deleteBookmark", verifyToken, async function (req, res, next) {
   }
 });
 
+router.post("/removeAccount", async function (req, res, next) {
+  email = req.body.email;
+  result = await userModel.removeUser(email);
+
+  if (result === -1) {
+    res.status(400).json("Unable to delete account");
+  } else {
+    res.status(200).json("Account removed");
+  }
+});
+
 module.exports = router;

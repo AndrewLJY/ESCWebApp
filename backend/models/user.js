@@ -1,5 +1,7 @@
 const { escape } = require("mysql2");
 const db = require("./db.js");
+const bookingTable = require("../models/booking.js");
+const bookmarkTable = require("../models/bookmark.js");
 var tableName;
 if (process.env.NODE_ENV !== "test") {
   tableName = "user";
@@ -128,6 +130,29 @@ async function login(email, password) {
   }
 }
 
+async function removeUser(email) {
+  try {
+    const users = await findByEmail(email);
+    if (users.length === 0) {
+      return { success: false, message: "User not found" };
+    } else {
+      let userID = await findUserID(email);
+      if (!userID) {
+        console.log("User id does not exist");
+        return -1;
+      }
+      //remove all bookings
+      await bookingTable.removeBooking(userID);
+
+      //now, remove user
+      await db.pool.query(`DELETE FROM ${tableName} WHERE email  = ?`, [email]);
+      return 0;
+    }
+  } catch (error) {
+    console.log("database connection failed", error);
+  }
+}
+
 module.exports = {
   User,
   sync,
@@ -137,4 +162,5 @@ module.exports = {
   tableName,
   findByEmail,
   findUserID,
+  removeUser,
 };
