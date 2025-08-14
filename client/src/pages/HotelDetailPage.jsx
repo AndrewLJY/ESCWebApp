@@ -1272,7 +1272,7 @@ export default function HotelDetailPage() {
               </div>
             ) : (
               <div>
-                <p>No Rooms Available with the following criteria:</p>
+                <p id="no-rooms-available">No Rooms Available with the following criteria:</p>
                 <p>Check In Date: {payload.checkIn}</p>
                 <p>Check Out Date: {payload.checkOut}</p>
                 <p>Guests: {payload.guests}</p>
