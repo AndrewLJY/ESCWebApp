@@ -4,6 +4,8 @@ import Header from "../components/header";
 import "../styles/Bookmark.css";
 import { Spinner } from "react-bootstrap";
 import { getBookmarkedHotels, removeBookmark } from "../middleware/bookmarkApi";
+import Footer from "../components/Footer";
+
 
 export default function Bookmark() {
   const navigate = useNavigate();
@@ -113,6 +115,7 @@ export default function Bookmark() {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 }
