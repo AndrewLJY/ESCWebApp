@@ -39,24 +39,7 @@ export default function Return() {
       });
   }
 
-  useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const sessionId = urlParams.get("session_id");
-
-    axios
-      .get(
-        `http://localhost:8080/stripe/session-status?session_id=${sessionId}`
-      )
-      .then((response) => {
-        console.log(response);
-        setStatus(response.data.status);
-        setCustomerDetails(response.data.customer_details);
-        setMetaData(response.data.metadata);
-      });
-  }, []);
-
-  useEffect(() => {
+  function sendEmail(status, customerDetails, metaData) {
     if (status == "complete" && customerDetails != null && metaData != null) {
       var templateParams = {
         email: customerDetails.email,
@@ -77,10 +60,34 @@ export default function Return() {
           console.log("FAILED...", error);
         }
       );
-
-      saveBookingDetails();
     }
-  }, [customerDetails, metaData]);
+  }
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const sessionId = urlParams.get("session_id");
+
+    axios
+      .get(
+        `http://localhost:8080/stripe/session-status?session_id=${sessionId}`
+      )
+      .then((response) => {
+        console.log(response);
+        setStatus(response.data.status);
+        setCustomerDetails(response.data.customer_details);
+        setMetaData(response.data.metadata);
+        sendEmail(
+          response.data.status,
+          response.data.customer_details,
+          response.data.metadata
+        );
+      });
+  }, []);
+
+  useEffect(() => {
+    saveBookingDetails();
+  }, [metaData]);
 
   if (status === "open") {
     return <Navigate to="/checkout" />;
