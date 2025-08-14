@@ -69,7 +69,7 @@ router.get("/session-status", async (req, res) => {
     metadata.totalPrice = session.amount_total / 100;
     metadata.id = session.id;
     metadata.paymentId = session.payment_intent;
-    console.log(session);
+    
 
     res.send({
       status: session.status,

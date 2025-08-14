@@ -22,42 +22,34 @@ export default function Header() {
 
   // Check if user is logged in
   useEffect(() => {
-    console.log("[Auth] Checking if user is logged in on mount...");
+    
 
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
 
-    console.log(`[Auth] Retrieved token: ${token}`);
-    console.log(`[Auth] Retrieved user data: ${userData}`);
+    
+    
 
     if (token && userData) {
       try {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
-        // console.log("[Auth] User successfully parsed and set:", parsedUser);
       } catch (error) {
-        // console.error("[Auth] Failed to parse user data:", error);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        // console.log("[Auth] Cleared invalid token and user from localStorage.");
       }
     } else {
-      // console.log("[Auth] No token or user found. User not logged in.");
     }
   }, []);
 
   const isAuthenticated = () => {
     const hasToken = !!localStorage.getItem("token");
     const authStatus = !!user && hasToken;
-    // console.log(`[Auth] isAuthenticated? ${authStatus}`);
     return authStatus;
   };
 
   const login = (userData, token) => {
-    // console.log("[Auth] Logging in user...");
-    // console.log("User data:", userData);
-    // console.log("Token:", token);
-    console.log("id:", JSON.stringify(userData));
+    
 
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
@@ -65,17 +57,15 @@ export default function Header() {
     setUser(userData);
     setShowToast(true);
 
-    // console.log("[Auth] User logged in and saved to localStorage.");
   };
 
   const logout = () => {
-    // console.log("[Auth] Logging out user...");
 
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
 
-    console.log("[Auth] User logged out and data cleared.");
+    
 
     // If on bookmark page, redirect to home
     if (location.pathname === "/bookmark") {
@@ -115,15 +105,15 @@ export default function Header() {
   async function deleteAcc() {
     try {
       const delete_confirm = confirm(
-        "Are you sure you would like to delete your account?"
+        "Are you sure you would like to delete your account?\nYour bookings associated to the account will removed too."
       );
+      const email = JSON.parse(localStorage.getItem("user")).email;
       if (delete_confirm) {
-        // console.log("Deleted");
         const result = await deleteAccAPI({
-          email: data.get("email"),
+          email: email,
         });
 
-        if (result === "Success") {
+        if (result === "Account removed") {
           logout();
         } else {
           alert("Delete Failed");
@@ -214,7 +204,7 @@ export default function Header() {
                   // window.location.reload();
                   setShowToast(true);
                   // alert("Login successful!");
-                  console.log(showToast);
+                  
                 } catch (err) {
                   alert(err.message);
                 } finally {

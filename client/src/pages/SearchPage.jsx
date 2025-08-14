@@ -78,7 +78,7 @@ export default function SearchPage() {
 
     try {
       const resp = await searchHotelsAPI(payload);
-      console.log(resp);
+      
 
       if (!resp || !resp.data) {
         setHotels([]);

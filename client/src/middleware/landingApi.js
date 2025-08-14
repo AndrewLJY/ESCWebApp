@@ -23,7 +23,7 @@ const getLandingData = async () => {
 // Original API call (kept for backward compatibility)
 const apiCall = () => {
   axios.get('http://localhost:8080').then((data) => {
-    console.log(data)
+    
   })
 }
 

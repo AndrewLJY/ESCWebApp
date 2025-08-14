@@ -93,7 +93,7 @@ async function findbyBookingId(booking_id) {
     }
     return list;
   } catch (error) {
-    console.log("database connection failed." + error);
+    
     throw error;
   }
 }
@@ -101,7 +101,7 @@ async function insertOne(booking) {
   try {
     //check if the booking id is already in the booking table
     const exists = await findbyBookingId(booking.id);
-    console.log("exists is ", exists);
+    
     //check if length of exists array is 0, booking is not made
 
     if (exists.length == 0) {
@@ -125,7 +125,7 @@ async function insertOne(booking) {
       );
       return 1;
     } else {
-      console.log("booking is already made");
+      
       return -1;
     }
   } catch (error) {
@@ -139,20 +139,19 @@ async function removeBooking(user_id) {
       user_id,
     ]);
   } catch (error) {
-    console.log("Database connection failed", error);
+    
   }
 }
 
 async function findAllBookingIds(user_id) {
-  console.log("ijfeifefjef", user_id);
+  
   try {
     if (!user_id && user_id != "") {
       throw new Error("user_id is required");
     }
 
     const [rows, fieldDefs] = await db.pool.query(
-      `SELECT ${tableName}.id 
-      FROM ${tableName} WHERE ${tableName}.user_id=?`,
+      `SELECT ${tableName}.id FROM ${tableName} WHERE ${tableName}.user_id=?`,
       [user_id]
     );
 

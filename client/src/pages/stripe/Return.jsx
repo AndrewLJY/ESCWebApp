@@ -32,7 +32,7 @@ export default function Return() {
     axios
       .post("http://localhost:8080/booking/", bookingDetails)
       .then((response) => {
-        console.log(response.data);
+        
       })
       .catch((error) => {
         console.error("Error saving booking details:", error);
@@ -54,10 +54,10 @@ export default function Return() {
 
       emailjs.send("service_1v9a236", "template_ibcni3p", templateParams).then(
         (response) => {
-          console.log("SUCCESS!", response.status, response.text);
+          
         },
         (error) => {
-          console.log("FAILED...", error);
+          
         }
       );
     }
@@ -73,7 +73,7 @@ export default function Return() {
         `http://localhost:8080/stripe/session-status?session_id=${sessionId}`
       )
       .then((response) => {
-        console.log(response);
+        
         setStatus(response.data.status);
         setCustomerDetails(response.data.customer_details);
         setMetaData(response.data.metadata);
