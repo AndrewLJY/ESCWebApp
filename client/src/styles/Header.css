@@ -134,6 +134,18 @@
   font-size: 0.9rem;
   text-align: center;
 }
+.acc-dropdown.btn.show{
+  background-color:transparent !important;
+}
+.acc-dropdown.btn:hover{
+  background-color:transparent !important;
+}
+.acc-dropdown-menu{
+  border: 1px solid darkred !important;
+}
+.acc-dropdown-item{
+  color: red !important;
+}
 .btn.signup {
   background: none;
   border: none;

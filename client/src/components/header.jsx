@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { loginUserAPI, signupUserAPI } from "../middleware/authApi";
+import {
+  loginUserAPI,
+  signupUserAPI,
+  deleteAccAPI,
+} from "../middleware/authApi";
 import "../styles/Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Toast, ToastContainer } from "react-bootstrap";
+import { Toast, ToastContainer, Dropdown } from "react-bootstrap";
 import ascendaLogo from "../assets/ascenda_logo.png";
 
 export default function Header() {
@@ -108,6 +112,28 @@ export default function Header() {
     setSignupOpen(false);
   };
 
+  async function deleteAcc() {
+    try {
+      const delete_confirm = confirm(
+        "Are you sure you would like to delete your account?"
+      );
+      if (delete_confirm) {
+        // console.log("Deleted");
+        const result = await deleteAccAPI({
+          email: data.get("email"),
+        });
+
+        if (result === "Success") {
+          logout();
+        } else {
+          alert("Delete Failed");
+        }
+      }
+    } catch (e) {
+      console.error("Error deleting account: ", e);
+    }
+  }
+
   return (
     <>
       <div className="header__bg d-flex flex-row align-items-center p-5">
@@ -124,7 +150,21 @@ export default function Header() {
         <div className="header__actions ms-auto">
           {isAuthenticated() ? (
             <div className="header__user">
-              <span className="user-email">{user?.username}</span>
+              {/* <span className="user-email">{user?.username}</span> */}
+              <Dropdown>
+                <Dropdown.Toggle className="acc-dropdown">
+                  {user?.username}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="acc-dropdown-menu">
+                  <Dropdown.Item
+                    onClick={deleteAcc}
+                    className="acc-dropdown-item"
+                  >
+                    Delete Account
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               <button
                 className="btn logout fs-5"
                 onClick={() => {
@@ -281,6 +321,16 @@ export default function Header() {
               <button type="submit" className="btn submit" disabled={loading}>
                 {loading ? "Signing Up..." : "Sign Up Now"}
               </button>
+              <p className="dropdown__signup">
+                Already have an account?{" "}
+                <button
+                  className="btn signup"
+                  type="button"
+                  onClick={handleLoginClick}
+                >
+                  Sign in
+                </button>
+              </p>
               <button className="btn close" type="button" onClick={closeAll}>
                 Close
               </button>

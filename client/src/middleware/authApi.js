@@ -98,4 +98,24 @@ const signupUserAPI = async (userData) => {
   }
 };
 
-export { loginUser, signupUser, loginUserAPI, signupUserAPI, fetchBookmarks };
+const deleteAccAPI = async (userData) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/auth/removeAccount",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Signup API error:", error);
+    return await signupUser(userData);
+  }
+};
+
+export {
+  loginUser,
+  signupUser,
+  loginUserAPI,
+  signupUserAPI,
+  fetchBookmarks,
+  deleteAccAPI,
+};
