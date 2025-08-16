@@ -58,7 +58,7 @@ const loginUserAPI = async (credentials) => {
     // 2. Store the JWT token
     const token = response.data.token; // Axios response data contains the token
     localStorage.setItem("authToken", token); // Consistent naming
-    console.log("Login successful! Token:", token);
+    
 
     // 3. Return data for the calling component to handle
     return response.data;
@@ -93,9 +93,28 @@ const signupUserAPI = async (userData) => {
     );
     return response.data;
   } catch (error) {
-    console.log("Signup API error:", error);
+    
     return await signupUser(userData);
   }
 };
 
-export { loginUser, signupUser, loginUserAPI, signupUserAPI, fetchBookmarks };
+const deleteAccAPI = async (userData) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/auth/removeAccount",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    
+  }
+};
+
+export {
+  loginUser,
+  signupUser,
+  loginUserAPI,
+  signupUserAPI,
+  fetchBookmarks,
+  deleteAccAPI,
+};

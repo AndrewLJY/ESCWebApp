@@ -84,7 +84,7 @@ async function findbyHotelUserId(hotel_id, user_email) {
     }
     return list;
   } catch (error) {
-    console.log("database connection failed." + error);
+    
     throw error;
   }
 }
@@ -112,7 +112,7 @@ async function insertOne(bookmark) {
       );
       return 1;
     } else {
-      console.log("hotel is already bookmarked");
+      
       return -1;
     }
     //to prevent foreign key constraint error, need to create a user with that specific id in the User table,before referencing userID in Bookmark table

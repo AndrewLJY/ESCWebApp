@@ -13,7 +13,7 @@ export default function BookmarkButton({ hotel }) {
   const [bookmarkStatus, setBookmarkStatus] = useState(null);
 
   const handleClick = async () => {
-    console.log("Trying to bookmark:", hotel);
+    
 
     // Merge in the search string and destinationId
     const toSave = {
@@ -23,11 +23,11 @@ export default function BookmarkButton({ hotel }) {
     };
 
     let response = await addBookmark(toSave);
-    console.log(response);
+    
     setBookmarkStatus(response.data);
     // alert("Hotel bookmarked!");
     setShowToast(true);
-    console.log("✅ Hotel bookmarked:", toSave);
+    
   };
 
   return (

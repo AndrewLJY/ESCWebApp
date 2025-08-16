@@ -41,7 +41,7 @@ router.post("/register/", async function (req, res, next) {
   userDbObject = new userModel.User(null, email, hash_password);
 
   userModel.insertOne(userDbObject);
-  console.log("account registered successfully");
+  
 
   const users = await userModel.all();
   res.send(`${JSON.stringify(users)}`);
@@ -56,11 +56,11 @@ router.post("/login/", async function (req, res, next) {
   username = email.split("@")[0];
 
   const user = await userModel.findByEmail(email);
-  console.log(user);
+  
   const result = await userModel.login(email, password);
-  console.log("RESULT IS :" + result);
+  
   if (result.success) {
-    console.log("Success!");
+    
 
     let token;
 
@@ -78,7 +78,7 @@ router.post("/login/", async function (req, res, next) {
     };
     res.send(output);
   } else {
-    console.log("User not authorised");
+    
     res.status(401).send("Login unsuccessful.");
   }
 });
@@ -114,7 +114,7 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
   }
 
   if (hotel_id.length !== 4) {
-    console.log("hotel id");
+    
     return res.status(400).json("Invalid hotel id");
   }
 
@@ -124,19 +124,19 @@ router.post("/bookmarks/", verifyToken, async function (req, res, next) {
       count += 1;
     }
     if (count > 2) {
-      console.log("hotelid");
+      
       return res.status(400).json("Invalid hotel id");
     }
   }
 
   let hotel_ratingsCopy = hotel_ratings;
   if (Number(hotel_ratingsCopy) < 0 || Number(hotel_ratingsCopy) > 5) {
-    console.log("ratings");
+    
     return res.status(400).json("Invalid ratings");
   }
 
   if (!validEmail.test(user_email)) {
-    console.log("email");
+    
     return res.status(400).json("Invalid email");
   }
 
@@ -168,7 +168,7 @@ router.get(
 
     try {
       let bookmarks = await bookmarkModel.getAllBookmarksPerUser(userEmail);
-      console.log(bookmarks);
+      
       res.send(bookmarks);
     } catch (error) {
       res.status(400).json("Bad Request");
@@ -200,7 +200,7 @@ router.post("/deleteBookmark", verifyToken, async function (req, res, next) {
 });
 
 router.post("/removeAccount", async function (req, res, next) {
-  email = req.body.email;
+  const email = req.body.email;
   result = await userModel.removeUser(email);
 
   if (result === -1) {

@@ -10,10 +10,6 @@ class HotelRoomDataTransferService {
   }
 
   transferKeyRoomDetails() {
-    console.log(
-      "-------------------------------------------------------------------------------------------------"
-    );
-    console.log(this.jsonData);
     this.keyRoomDetails = new hotelRoomDTO.KeyRoomDetails.Builder()
       .setKeyId(this.jsonData.key)
       .setRoomDescription(this.jsonData.roomDescription)
@@ -157,8 +153,6 @@ async function getSingleHotelPriceDetails(
   const waitDelay = 2000;
 
   while (result.rooms.length === 0) {
-    console.log("Trying here...");
-
     if (count > 3) {
       console.log(
         "Unable to retrieve data, check for errors in request parameters."
@@ -189,11 +183,9 @@ async function getSingleHotelPriceDetails(
     count += 1;
   }
 
-  console.log(result);
-
   if (result.rooms.length === 0) {
     //No room data available
-    console.log("No room data available");
+
     return -1;
   }
 
@@ -202,17 +194,14 @@ async function getSingleHotelPriceDetails(
 
   //Now, result is the list of rooms
   rooms = result.rooms;
-  console.log(rooms);
 
   for (let i = 0; i < rooms.length; i++) {
     try {
       let hotelRoomDTOObject = transferSingleRoomDetails(rooms[i]);
       hotelRoomDataDTOClassList.addHotelRoomDataDTO(hotelRoomDTOObject);
-    } catch (error) {
-      console.log("Room data has invalid information", error);
-    }
+    } catch (error) {}
   }
-  console.log("Finished initialising room data");
+
   return 0;
 }
 

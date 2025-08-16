@@ -7,10 +7,10 @@ const getHotelDetailsAPI = async (hotelId) => {
     const response = await axios
       .get(`http://localhost:8080/search/hotel/${hotelId}`)
       .catch((error) => {
-        console.log(error.toJSON());
+        
       });
 
-    console.log(response);
+    
     return response;
   } catch (error) {
     console.error("Hotel Details API error:", error);
@@ -34,7 +34,7 @@ const getRoomPricingAPI = async (hotelId, payload) => {
         `http://localhost:8080/search/hotel/prices/${hotelId}/${payload.destinationId}/${payload.checkIn}/${payload.checkOut}/${payload.guests}/${payload.roomNum}`
       )
       .catch((error) => {
-        console.log(error.toJSON());
+        
       });
 
     if (response.status == 404) {

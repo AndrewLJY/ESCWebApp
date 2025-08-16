@@ -23,7 +23,7 @@ async function sync(){
 
 async function insertFromJSON(){
     if((await checkAdded()).length > 0){
-        console.log("added already");
+        
         return;
     }
     for(let i = 0; i < jsonData.length; i++){
@@ -39,7 +39,7 @@ async function insertFromJSON(){
             throw error;
         }
     }
-    console.log("Done");
+    
 }
 
 async function findAllDestinations(){

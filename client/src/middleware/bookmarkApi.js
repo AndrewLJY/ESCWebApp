@@ -1,51 +1,9 @@
-// // src/middleware/bookmarkApi.js
-
-// const STORAGE_KEY = "bookmarks";
-
-// // Get all bookmarked hotels (relaxed validation)
-// export async function getBookmarkedHotels() {
-//   const bookmarks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-//   console.log("Loaded bookmarks:", bookmarks);
-
-//   // Relaxed filtering to prevent hiding hotels with minor data issues
-//   return bookmarks.filter(
-//     (hotel) => hotel && hotel.id && hotel.name && hotel.address // imageUrl and price are now optional
-//   );
-// }
-
-// //Add a full hotel object to bookmarks
-// export async function addBookmark(hotel) {
-//   if (!hotel || !hotel.id || !hotel.name) {
-//     console.warn("Invalid hotel object. Skipping addBookmark.");
-//     return;
-//   }
-
-//   let bookmarks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-
-//   const alreadyBookmarked = bookmarks.some((h) => h.id === hotel.id);
-//   if (!alreadyBookmarked) {
-//     bookmarks.push(hotel);
-//     localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
-//     console.log("Hotel saved to localStorage:", hotel);
-//   } else {
-//     console.log("Hotel already bookmarked:", hotel.id);
-//   }
-// }
-
-// //Remove a hotel from bookmarks by ID
-// export async function removeBookmark(hotelId) {
-//   let bookmarks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-//   bookmarks = bookmarks.filter((h) => h.id !== hotelId);
-//   localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
-//   console.log("Removed hotel ID from bookmarks:", hotelId);
-// }
-// src/middleware/bookmarkApi.js
 import axios from "axios";
 
 // Get current user info
 function getCurrentUser() {
   try {
-    console.log(localStorage);
+    
     const userData = localStorage.getItem("user");
     const userDataJSONObject = JSON.parse(userData); //convert to JSON object first, now keys are: user, token, username, email
     const token = localStorage.getItem("authToken"); // works
@@ -61,7 +19,7 @@ function getCurrentUser() {
 // Get auth headers
 function getAuthHeaders() {
   let currentUser = getCurrentUser();
-  console.log("here", currentUser.token);
+  
 
   if (currentUser) {
     return {
@@ -79,7 +37,7 @@ function getAuthHeaders() {
 export async function getBookmarkedHotels() {
   const currentUser = getCurrentUser();
   if (!currentUser) {
-    console.log("No user logged in, returning empty bookmarks");
+    
     return [];
   }
 
@@ -90,7 +48,7 @@ export async function getBookmarkedHotels() {
         headers: getAuthHeaders(),
       }
     );
-    console.log(`Loaded bookmarks for ${currentUser.user.email}:`, response);
+    
     return response || [];
   } catch (error) {
     console.error("Error fetching bookmarks:", error);
@@ -100,7 +58,7 @@ export async function getBookmarkedHotels() {
 
 // Add a hotel to current user's bookmarks via backend
 export async function addBookmark(hotelToSave) {
-  console.log("hotel to save", hotelToSave);
+  
   const currentUser = getCurrentUser();
   if (!currentUser) {
     console.warn("No user logged in. Cannot add bookmark.");
@@ -131,7 +89,7 @@ export async function addBookmark(hotelToSave) {
       }
     );
 
-    console.log("Hotel bookmarked via backend:", response.data);
+    
 
     // Also update localStorage for immediate UI feedback
     const key = `bookmarks_${currentUser.user.email}`;
@@ -155,7 +113,7 @@ export async function addBookmark(hotelToSave) {
     if (!alreadyBookmarked) {
       bookmarks.push(hotelToSave);
       localStorage.setItem(key, JSON.stringify(bookmarks));
-      console.log(`Hotel saved to localStorage fallback:`, hotelToSave);
+      
     }
   }
 }
@@ -169,7 +127,7 @@ export async function removeBookmark(hotelId) {
   }
 
   try {
-    console.log("hotel id!!!", hotelId);
+    
     const response = await axios.post(
       "http://localhost:8080/auth/deleteBookmark",
       {
@@ -180,7 +138,7 @@ export async function removeBookmark(hotelId) {
         headers: getAuthHeaders(),
       }
     );
-    console.log(`Removed hotel ID ${hotelId}:`, response.data);
+    
     return response.status === 200;
   } catch (error) {
     console.error("Error removing bookmark:", error);

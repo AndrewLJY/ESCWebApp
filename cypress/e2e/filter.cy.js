@@ -73,7 +73,7 @@ describe("Filter Search", () => {
     cy.get('.price-range-slider-container').eq(2).find('input').type(2.0)
     cy.get(".hotel-card").eq(0).find("p.rating").invoke("text").then((text)=>{
       const ratingValStr = text.slice(13, -2);
-      console.log("SLICED RATING:",text)
+      
       const ratingVal = parseFloat(ratingValStr);
       expect(ratingVal).to.be.at.least(2.0)
     })

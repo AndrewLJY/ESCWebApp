@@ -21,7 +21,7 @@ describe("Bookmark API Integration Tests", () => {
   });
 
   afterEach(() => {
-    console.log.mockRestore();
+    
     console.error.mockRestore();
     console.warn.mockRestore();
   });

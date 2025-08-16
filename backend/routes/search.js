@@ -163,7 +163,7 @@ router.get(
           filledHotelDTOClassList.setIsEmpty(false);
           res.status(400).send("Internal Server Error");
         } else {
-          console.log("sending!!!");
+          
           res.status(200).send({
             hotelList: filledHotelDTOClassList.getListHotels(),
             destination_id: filledHotelDTOClassList.getCurrentDestinationId(),
@@ -727,7 +727,7 @@ router.get(
         return res.status(200).json("Running Properly");
       }
 
-      console.log("over here!!!!");
+      
 
       const result =
         await hotelRoomDataTransferServiceModule.getSingleHotelPriceDetails(
