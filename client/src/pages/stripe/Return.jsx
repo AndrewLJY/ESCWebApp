@@ -32,31 +32,14 @@ export default function Return() {
     axios
       .post("http://localhost:8080/booking/", bookingDetails)
       .then((response) => {
-        console.log(response.data);
+        
       })
       .catch((error) => {
         console.error("Error saving booking details:", error);
       });
   }
 
-  useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const sessionId = urlParams.get("session_id");
-
-    axios
-      .get(
-        `http://localhost:8080/stripe/session-status?session_id=${sessionId}`
-      )
-      .then((response) => {
-        console.log(response);
-        setStatus(response.data.status);
-        setCustomerDetails(response.data.customer_details);
-        setMetaData(response.data.metadata);
-      });
-  }, []);
-
-  useEffect(() => {
+  function sendEmail(status, customerDetails, metaData) {
     if (status == "complete" && customerDetails != null && metaData != null) {
       var templateParams = {
         email: customerDetails.email,
@@ -71,16 +54,40 @@ export default function Return() {
 
       emailjs.send("service_1v9a236", "template_ibcni3p", templateParams).then(
         (response) => {
-          console.log("SUCCESS!", response.status, response.text);
+          
         },
         (error) => {
-          console.log("FAILED...", error);
+          
         }
       );
-
-      saveBookingDetails();
     }
-  }, [customerDetails, metaData]);
+  }
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const sessionId = urlParams.get("session_id");
+
+    axios
+      .get(
+        `http://localhost:8080/stripe/session-status?session_id=${sessionId}`
+      )
+      .then((response) => {
+        
+        setStatus(response.data.status);
+        setCustomerDetails(response.data.customer_details);
+        setMetaData(response.data.metadata);
+        sendEmail(
+          response.data.status,
+          response.data.customer_details,
+          response.data.metadata
+        );
+      });
+  }, []);
+
+  useEffect(() => {
+    saveBookingDetails();
+  }, [metaData]);
 
   if (status === "open") {
     return <Navigate to="/checkout" />;

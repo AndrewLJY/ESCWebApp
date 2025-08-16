@@ -26,7 +26,6 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
 
     hotels.forEach((hotel) => {
       const amenityObj = hotel.amenities?.amenities;
-      //console.log("Hotel amenities object:", amenityObj);
 
       if (amenityObj && typeof amenityObj === "object") {
         Object.entries(amenityObj).forEach(([key, value]) => {
@@ -38,7 +37,6 @@ export default function SortingBar({ hotels, onFilteredHotels }) {
     });
 
     const amenitiesList = Array.from(amenitiesSet);
-    //console.log("All amenities:", amenitiesList);
     return amenitiesList;
   };
 

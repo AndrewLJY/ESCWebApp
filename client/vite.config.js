@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [react()],
   build: {
     target: 'esnext', // allows top-level await
-  }
+  },
+  server: {
+    host: true,
+  },
 })

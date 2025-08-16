@@ -68,7 +68,7 @@ export default function Bookmark() {
           <Spinner animation="border" role="status" className="spinner">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
-        ) : bookmarks.length === 0 ? (
+        ) : bookmarks === undefined || bookmarks.length === 0? (
           <p className="bookmark-empty">
             You haven’t bookmarked any hotels yet.
           </p>

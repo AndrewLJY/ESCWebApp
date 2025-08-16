@@ -1,5 +1,7 @@
 const { escape } = require("mysql2");
 const db = require("./db.js");
+const bookingTable = require("../models/booking.js");
+const bookmarkTable = require("../models/bookmark.js");
 var tableName;
 if (process.env.NODE_ENV !== "test") {
   tableName = "user";
@@ -51,6 +53,10 @@ async function findByEmail(email) {
       let user = new User(row.id, row.email, row.password);
       list.push(user);
     }
+
+    if (list.length == 0) {
+      return;
+    }
     return list;
   } catch (error) {
     console.error("database connection failed. " + error);
@@ -62,7 +68,7 @@ async function findUserID(email) {
   let user = await findByEmail(email);
 
   if (user) {
-    console.log("User ID is this: " + user[0].id);
+    
     return user[0].id;
   } else {
     return -1;
@@ -81,7 +87,6 @@ async function insertOne(user) {
         [user.email, user.password]
       );
     } else {
-      // console.log("Exists already!!!!");
       return "entry already exists.";
     }
   } catch (error) {
@@ -128,6 +133,29 @@ async function login(email, password) {
   }
 }
 
+async function removeUser(email) {
+  try {
+    const users = await findByEmail(email);
+    if (users.length === 0) {
+      return -1;
+    } else {
+      let userID = await findUserID(email);
+      if (!userID) {
+        
+        return -1;
+      }
+      //remove all bookings
+      await bookingTable.removeBooking(userID);
+
+      //now, remove user
+      await db.pool.query(`DELETE FROM ${tableName} WHERE email  = ?`, [email]);
+      return 0;
+    }
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   User,
   sync,
@@ -137,4 +165,5 @@ module.exports = {
   tableName,
   findByEmail,
   findUserID,
+  removeUser,
 };

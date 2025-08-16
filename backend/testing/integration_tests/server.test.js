@@ -381,7 +381,7 @@ describe("(GREY-BOX INTEGRATION) GET /search/ (Main API route to initialise all 
       room_count: "2",
     };
 
-    console.log("testing last one...");
+    
 
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -759,7 +759,7 @@ describe("(BLACK-BOX INTEGRATION) Testing user registration and login", () => {
               password VARCHAR(255)
           )
           `);
-      console.log("Test database initialised for tests");
+      
     } catch (error) {
       console.error("database connection failed. ", error);
       throw error;
@@ -781,7 +781,7 @@ describe("(BLACK-BOX INTEGRATION) Testing user registration and login", () => {
 
   beforeAll(async () => {
     while (!db.verifyConnection()) {
-      console.log("Verifying db connection...");
+      
     }
   });
 
@@ -808,7 +808,7 @@ describe("(BLACK-BOX INTEGRATION) Testing user registration and login", () => {
 
   afterAll(async () => {
     await teardownDatabaseValues();
-    console.log("Test database cleared.");
+    
   });
 });
 
@@ -1111,7 +1111,7 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
               PRIMARY KEY (id, hotel_id)
           )
           `);
-      console.log("Test database initialised for tests");
+      
     } catch (error) {
       console.error("database connection failed. ", error);
       throw error;
@@ -1133,7 +1133,7 @@ describe("(GREY-BOX INTEGRATION) POST /auth/bookmarks (API to insert a hotel boo
 
   beforeAll(async () => {
     while (!db.verifyConnection()) {
-      console.log("Verifying db connection...");
+      
     }
   });
 
@@ -1236,7 +1236,7 @@ describe("(GREY BOX INTEGRATION) GET /auth/AllBookmarks (API to return all of th
               PRIMARY KEY (id, hotel_id)
           )
           `);
-      console.log("Test database initialised for tests");
+      
     } catch (error) {
       console.error("database connection failed. ", error);
       throw error;
@@ -1258,7 +1258,7 @@ describe("(GREY BOX INTEGRATION) GET /auth/AllBookmarks (API to return all of th
 
   beforeAll(async () => {
     while (!db.verifyConnection()) {
-      console.log("Verifying db connection...");
+      
     }
   });
 

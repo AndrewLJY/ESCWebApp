@@ -403,7 +403,7 @@ class OriginalMetaData {
         if (value === null || value === undefined || value === "") {
           return this;
         }
-        console.log("name", value);
+        
         if (!isNonEmptyString(value)) {
           throw new Error("Name must be a non-empty string");
         }
@@ -685,7 +685,7 @@ class PricingRankingData {
       }
 
       setFreeCancellation(value) {
-        console.log(value);
+        
         if (
           value !== "true" &&
           value !== "false" &&

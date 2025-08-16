@@ -69,7 +69,7 @@ const searchHotelsAPI = async (searchParams) => {
         `http://localhost:8080/search/${searchParams.location}/${searchParams.checkIn}/${searchParams.checkOut}/${searchParams.guests}/${searchParams.roomNum}`
       )
       .catch((error) => {
-        console.log(error.toJSON());
+        
       });
 
     return {

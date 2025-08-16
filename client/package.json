@@ -22,6 +22,7 @@
     "@vis.gl/react-google-maps": "^1.5.4",
     "axios": "^1.10.0",
     "bootstrap": "^5.3.7",
+    "cypress": "^14.5.4",
     "emailjs": "^4.0.3",
     "font-awesome": "^4.7.0",
     "react": "^19.1.0",

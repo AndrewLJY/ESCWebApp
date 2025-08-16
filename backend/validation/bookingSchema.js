@@ -24,7 +24,7 @@ const bookingSchema = Joi.object({
     const start = new Date(obj.start_date);
     const end = new Date(obj.end_date);
     if (end<start){
-        console.log(any.custom);
+        
         return helpers.error('any.required',{message:'end date must be later than start date'});
     }
     return obj;

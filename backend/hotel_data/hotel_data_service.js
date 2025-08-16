@@ -222,7 +222,6 @@ async function getHotelID(term, jsonData) {
 function stitchHotelJsonData(hotelPricingData, hotelDataFromDest) {
   hotels = hotelPricingData.hotels;
   if (!hotels) {
-    console.log("Cannot find prices...");
     return hotelDataFromDest;
   }
 
@@ -285,19 +284,16 @@ async function getAllHotelsAndPricesForDestination(
     hotelDataDTOClassList.getCurrentRoomCount() === room_count &&
     hotelDataDTOClassList.getCurrentGuestCount() === guest_count
   ) {
-    console.log("Data has already been initialised");
     return 0;
   }
 
   const data = jsonData; //Bring over main json data file
 
   if (!data) {
-    console.log("unable to load json data");
     return -2;
   }
   let destinationId = await getHotelID(destination_name, jsonData);
   if (destinationId === "-1") {
-    console.log("destination not found");
     return -1;
   }
 
@@ -311,7 +307,7 @@ async function getAllHotelsAndPricesForDestination(
 
   if (Array.isArray(destAPIData) && destAPIData.length === 0) {
     hotelDataDTOClassList.setIsEmpty(true);
-    console.log("Unable to retrieve data from given destination.");
+
     return -2;
   }
 
@@ -362,13 +358,11 @@ async function getAllHotelsAndPricesForDestination(
     try {
       dataForSingleHotel = transferSingleHotelJSONToClass(compiledData[i]);
     } catch (error) {
-      console.log("Invalid Data for this hotel,", error);
       continue;
     }
     hotelDataDTOClassList.addHotelDataDTO(dataForSingleHotel);
   }
 
-  // console.log("finished");
   hotelDataDTOClassList.setCurrentSearchDestinationName(destination_name);
   hotelDataDTOClassList.setCurrentSearchDestinationId(destinationId);
   hotelDataDTOClassList.setCurrentCheckIn(check_in);
@@ -378,7 +372,7 @@ async function getAllHotelsAndPricesForDestination(
   //SAVE the current destination name we are searching for, as the subject of our DTO class.
   //That way, when we call a search for new destination through any of the endpoints the code will know when to reach back
   //to Ascenda API to get results for a new destination or not.
-  console.log("DTO classes have been initialised");
+
   return 0;
 }
 
