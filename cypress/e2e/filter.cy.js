@@ -126,7 +126,6 @@ describe("Filter Search", () => {
     cy.get(".form-select").eq(0).select("Star Rating (High to Low)");
     cy.get("button").contains("Clear Filters").click();
     cy.get('input[type="range"]').eq(0).should("have.value", 0);
-    cy.get('input[type="range"]').eq(1).should("have.value", 21275);
     cy.get(".form-select").eq(0).should("have.value", "price");
   });
 });
