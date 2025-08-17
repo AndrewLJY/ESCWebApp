@@ -53,10 +53,6 @@ async function findByEmail(email) {
       let user = new User(row.id, row.email, row.password);
       list.push(user);
     }
-
-    if (list.length == 0) {
-      return;
-    }
     return list;
   } catch (error) {
     console.error("database connection failed. " + error);
@@ -115,7 +111,7 @@ async function all() {
 async function login(email, password) {
   try {
     const users = await findByEmail(email);
-    if (users.length === 0) {
+    if (users === undefined || users.length === 0) {
       return { success: false, message: "User not found" };
     }
 
