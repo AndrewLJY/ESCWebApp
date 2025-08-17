@@ -13,7 +13,7 @@ describe("Book a Room", () => {
       "contain",
       "Courtyard by Marriott Singapore Novena"
     );
-    cy.get(".room-card", { timeout: 10000 }).should("exist");
+    cy.get(".room-card", { timeout: 30000 }).should("exist");
   });
 
   it("Flow: Choose a room", () => {

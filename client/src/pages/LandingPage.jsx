@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/LandingPage.css";
 import Header from "../components/header";
 import SearchBar from "../components/SearchBar";
+import Footer from "../components/Footer";
 
 export default function LandingPage() {
   return (
@@ -18,6 +19,7 @@ export default function LandingPage() {
 
       <SearchBar className="search"/>
     </div>
+    <Footer />
     </>
   );
 }
