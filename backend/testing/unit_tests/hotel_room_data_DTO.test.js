@@ -1,0 +1,750 @@
+const hotelRoomDataDTOModule = require("../../hotel_data/hotel_room_data_DTO");
+
+describe("(WHITE-BOX UNIT) Testing the respective Hotel Room DTO subclasses, ensure code sets attributes for given arguments", () => {
+  test("Testing the KeyRoomDetails subclass. Should return a class object with attributes being set.", () => {
+    keyRoomDetails_data = {
+      key: "c9369179-69f3-530c-872f-5cf8c5b345d8",
+      roomDescription: "Double room",
+      roomNormalizedDescription: "Double Room",
+      type: "1",
+      free_cancellation: false,
+      long_description: null,
+    };
+
+    keyRoomDetailsTestDTOObject =
+      new hotelRoomDataDTOModule.KeyRoomDetails.Builder()
+        .setKeyId(keyRoomDetails_data.key)
+        .setRoomDescription(keyRoomDetails_data.roomDescription)
+        .setRoomNormalisedDescription(
+          keyRoomDetails_data.roomNormalizedDescription
+        )
+        .setRoomTypeIndex(keyRoomDetails_data.type)
+        .setFreeCancellation(keyRoomDetails_data.free_cancellation)
+        .setLongDescription(keyRoomDetails_data.long_description)
+        .build();
+
+    expect(keyRoomDetailsTestDTOObject.getKeyId()).toBe(
+      "c9369179-69f3-530c-872f-5cf8c5b345d8"
+    );
+    expect(keyRoomDetailsTestDTOObject.getRoomDescription()).toBe(
+      "Double room"
+    );
+    expect(keyRoomDetailsTestDTOObject.getRoomNormalisedDescription()).toBe(
+      "Double Room"
+    );
+    expect(keyRoomDetailsTestDTOObject.getRoomTypeIndex()).toBe("1");
+    expect(keyRoomDetailsTestDTOObject.getFreeCancellation()).toBe(false);
+    expect(keyRoomDetailsTestDTOObject.getLongDescription()).toBe(null);
+  });
+
+  test("Testing the TaxDetails class. Should return a class object with attributes being set.", () => {
+    testJSONData = {
+      base_rate: 3629.43,
+      base_rate_in_currency: 4739.34,
+      included_taxes_and_fees_total: 544.41,
+      included_taxes_and_fees_total_in_currency: 710.9,
+      excluded_taxes_and_fees_currency: "USD",
+      excluded_taxes_and_fees_total: 0,
+      excluded_taxes_and_fees_total_in_currency: 0,
+      included_taxes_and_fees: [
+        {
+          id: "tax_and_service_fee",
+          amount: 544.41,
+          currency: "USD",
+        },
+      ],
+      included_taxes_and_fees_in_currency: [
+        {
+          id: "tax_and_service_fee",
+          amount: 710.9,
+          currency: "SGD",
+        },
+      ],
+    };
+
+    taxDetailsTestDTOObject = new hotelRoomDataDTOModule.TaxDetails.Builder()
+      .setBaseRate(testJSONData.base_rate)
+      .setBaseRateInCurrency(testJSONData.base_rate_in_currency)
+      .setIncludedTaxesFeesTotal(testJSONData.included_taxes_and_fees_total)
+      .setIncludedTaxesFeesTotalInCurrency(
+        testJSONData.included_taxes_and_fees_total_in_currency
+      )
+      .setExcludedTaxesFeesTotal(testJSONData.excluded_taxes_and_fees_total)
+      .setExcludedTaxesFeesTotalInCurrency(
+        testJSONData.excluded_taxes_and_fees_total_in_currency
+      )
+      .setIncludedTaxesFeesDetails(testJSONData.included_taxes_and_fees)
+      .setIncludedTaxesFeesInCurrencyDetails(
+        testJSONData.included_taxes_and_fees_in_currency
+      )
+      .build();
+
+    expect(taxDetailsTestDTOObject.getBaseRate()).toBe("3629.43");
+    expect(taxDetailsTestDTOObject.getBaseRateInCurrency()).toBe("4739.34");
+    expect(taxDetailsTestDTOObject.getIncludedTaxesFeesTotal()).toBe("544.41");
+    expect(taxDetailsTestDTOObject.getIncludedTaxesFeesTotalInCurrency()).toBe(
+      "710.9"
+    );
+    expect(taxDetailsTestDTOObject.getExcludedTaxesFeesTotal()).toBe("0");
+    expect(taxDetailsTestDTOObject.getExcludedTaxesFeesTotalInCurrency()).toBe(
+      0
+    );
+    expect(taxDetailsTestDTOObject.getIncludedTaxesFeesDetails()).toStrictEqual(
+      new Array({
+        id: "tax_and_service_fee",
+        amount: 544.41,
+        currency: "USD",
+      })
+    );
+    expect(
+      taxDetailsTestDTOObject.getIncludedTaxesFeesInCurrencyDetails()
+    ).toStrictEqual(
+      new Array({
+        id: "tax_and_service_fee",
+        amount: 710.9,
+        currency: "SGD",
+      })
+    );
+    expect(
+      taxDetailsTestDTOObject.getExcludedTaxesFeesInCurrencyDetails()
+    ).toBe(null);
+    expect(taxDetailsTestDTOObject.getExcludedTaxesFeesDetails()).toBe(null);
+  });
+  test("Testing the PriceDetails class. Should return a class object with attributes being set.", () => {
+    testJSONData = {
+      description: "Double room",
+      price_type: "single",
+      max_cash_payment: 4173.84,
+      coverted_max_cash_payment: 5450.23,
+      points: 136250,
+      bonuses: 0,
+      bonus_programs: [],
+      bonus_tiers: [],
+      lowest_price: 4173.84,
+      price: 5450.23,
+      converted_price: 5450.23,
+      lowest_converted_price: 5450.23,
+      chargeableRate: 4173.84,
+      market_rates: [
+        {
+          supplier: "expedia",
+          rate: 4710.6112420344,
+        },
+      ],
+    };
+
+    priceDetailsTestDTOObject =
+      new hotelRoomDataDTOModule.PriceDetails.Builder()
+        .setDescription(testJSONData.description)
+        .setPriceType(testJSONData.price_type)
+        .setMaxCashPayment(testJSONData.max_cash_payment)
+        .setPoints(testJSONData.points)
+        .setBonuses(testJSONData.bonuses)
+        .setBonusPrograms(testJSONData.bonus_programs)
+        .setChargeableRate(testJSONData.chargeableRate)
+        .setBonusTiers(testJSONData.bonus_tiers)
+        .setLowestPrice(testJSONData.lowest_price)
+        .setPrice(testJSONData.price)
+        .setCovertedMaxCashPayment(testJSONData.coverted_max_cash_payment)
+        .setConvertedPrice(testJSONData.converted_price)
+        .setLowestConvertedPrice(testJSONData.lowest_converted_price)
+        .setMarketRates(testJSONData.market_rates)
+        .build();
+
+    expect(priceDetailsTestDTOObject.getDescription()).toBe("Double room");
+    expect(priceDetailsTestDTOObject.getChargeableRate()).toBe("4173.84");
+    expect(priceDetailsTestDTOObject.getPriceType()).toBe("single");
+    expect(priceDetailsTestDTOObject.getMaxCashPayment()).toBe("4173.84");
+    expect(priceDetailsTestDTOObject.getPoints()).toBe("136250");
+    expect(priceDetailsTestDTOObject.getBonuses()).toBe(0);
+    expect(priceDetailsTestDTOObject.getBonusTiers()).toStrictEqual([]);
+    expect(priceDetailsTestDTOObject.getBonusPrograms()).toStrictEqual([]);
+    expect(priceDetailsTestDTOObject.getLowestPrice()).toBe("4173.84");
+    expect(priceDetailsTestDTOObject.getPrice()).toBe("5450.23");
+    expect(priceDetailsTestDTOObject.getCovertedMaxCashPayment()).toBe(5450.23);
+    expect(priceDetailsTestDTOObject.getConvertedPrice()).toBe("5450.23");
+    expect(priceDetailsTestDTOObject.getLowestConvertedPrice()).toBe("5450.23");
+    expect(priceDetailsTestDTOObject.getMarketRates()).toStrictEqual(
+      new Array({
+        supplier: "expedia",
+        rate: 4710.6112420344,
+      })
+    );
+  });
+  test("Testing the RoomAdditionalInfo class. Should return a class object with attributes being set.", () => {
+    testJSONData = {
+      breakfastInfo: "hotel_detail_room_only",
+      displayFields: {
+        special_check_in_instructions: null,
+        check_in_instructions: null,
+        know_before_you_go: null,
+        fees_optional: null,
+        fees_mandatory: null,
+        kaligo_service_fee: 0,
+        hotel_fees: [],
+        surcharges: [
+          {
+            type: "TaxAndServiceFee",
+            amount: 544.41,
+          },
+        ],
+      },
+    };
+
+    roomAdditionalInfoTestDTOObject =
+      new hotelRoomDataDTOModule.RoomAdditionalInfo.Builder()
+        .setBreakfastInfo(testJSONData.breakfastInfo)
+        .setSpecialCheckInInstructions(
+          testJSONData.displayFields.special_check_in_instructions
+        )
+        .setKnowBeforeYouGo(testJSONData.displayFields.know_before_you_go)
+        .setOptionalFees(testJSONData.displayFields.fees_optional)
+        .setMandatoryFees(testJSONData.displayFields.fees_mandatory)
+        .setKaligoServiceFee(testJSONData.displayFields.kaligo_service_fee)
+        .setHotelFees(testJSONData.displayFields.hotel_fees)
+        .setSurcharges(testJSONData.displayFields.surcharges)
+        .build();
+
+    expect(roomAdditionalInfoTestDTOObject.getBreakfastInfo()).toBe(
+      "hotel_detail_room_only"
+    );
+    expect(
+      roomAdditionalInfoTestDTOObject.getSpecialCheckInInstructions()
+    ).toBe(null);
+    expect(roomAdditionalInfoTestDTOObject.getKnowBeforeYouGo()).toBe(null);
+    expect(roomAdditionalInfoTestDTOObject.getOptionalFees()).toBe(null);
+    expect(roomAdditionalInfoTestDTOObject.getMandatoryFees()).toBe(null);
+    expect(roomAdditionalInfoTestDTOObject.getKaligoServiceFee()).toBe(0);
+    expect(roomAdditionalInfoTestDTOObject.getHotelFees()).toStrictEqual([]);
+    expect(roomAdditionalInfoTestDTOObject.getSurcharges()).toStrictEqual(
+      new Array({
+        type: "TaxAndServiceFee",
+        amount: 544.41,
+      })
+    );
+  });
+});
+
+describe("Hotel Room DTO ECP Tests", () => {
+  // -------------------------
+  // KeyRoomDetails Tests
+  // -------------------------
+  describe("KeyRoomDetails ECP Tests", () => {
+    let builder;
+
+    beforeEach(() => {
+      builder = new hotelRoomDataDTOModule.KeyRoomDetails.Builder();
+    });
+
+    describe("setKeyId", () => {
+      test("should accept valid UUID", () => {
+        expect(() =>
+          builder.setKeyId("ce0e474b-ebfd-5282-8d78-c2ee0183a6c1")
+        ).not.toThrow();
+      });
+
+      test("should reject empty string", () => {
+        expect(() => builder.setKeyId("")).toThrow(
+          "Key ID must be a valid UUID string"
+        );
+      });
+
+      test("should reject invalid UUID format", () => {
+        expect(() => builder.setKeyId("not-a-uuid")).toThrow(
+          "Key ID must be a valid UUID string"
+        );
+      });
+
+      test("should reject null", () => {
+        expect(() => builder.setKeyId(null)).toThrow(
+          "Key ID must be a valid UUID string"
+        );
+      });
+    });
+
+    describe("setRoomDescription and setRoomNormalisedDescription", () => {
+      test("should accept non-empty string", () => {
+        expect(() => builder.setRoomDescription("Double room")).not.toThrow();
+        expect(() =>
+          builder.setRoomNormalisedDescription("Double Room")
+        ).not.toThrow();
+      });
+
+      test("should reject empty string", () => {
+        expect(() => builder.setRoomDescription("")).toThrow(
+          "Room description must be a non-empty string"
+        );
+        expect(() => builder.setRoomNormalisedDescription("")).toThrow(
+          "Normalised room description must be a non-empty string"
+        );
+      });
+
+      test("should reject null", () => {
+        expect(() => builder.setRoomDescription(null)).toThrow(
+          "Room description must be a non-empty string"
+        );
+        expect(() => builder.setRoomNormalisedDescription(null)).toThrow(
+          "Normalised room description must be a non-empty string"
+        );
+      });
+    });
+
+    describe("setRoomTypeIndex", () => {
+      test("should accept numeric string", () => {
+        expect(() => builder.setRoomTypeIndex("1")).not.toThrow();
+        expect(() => builder.setRoomTypeIndex("41")).not.toThrow();
+      });
+
+      test("should reject non-numeric string", () => {
+        expect(() => builder.setRoomTypeIndex("abc")).toThrow(
+          "Room type index must be a numeric string"
+        );
+      });
+
+      test("should reject empty string", () => {
+        expect(() => builder.setRoomTypeIndex("")).toThrow(
+          "Room type index must be a numeric string"
+        );
+      });
+
+      test("should reject null", () => {
+        expect(() => builder.setRoomTypeIndex(null)).toThrow(
+          "Room type index must be a numeric string"
+        );
+      });
+    });
+
+    describe("setFreeCancellation", () => {
+      test("should accept boolean values", () => {
+        expect(() => builder.setFreeCancellation(true)).not.toThrow();
+        expect(() => builder.setFreeCancellation(false)).not.toThrow();
+      });
+
+      test("should accept boolean strings", () => {
+        expect(() => builder.setFreeCancellation("true")).not.toThrow();
+        expect(() => builder.setFreeCancellation("false")).not.toThrow();
+      });
+
+      test("should reject non-boolean values", () => {
+        expect(() => builder.setFreeCancellation("not-a-boolean")).toThrow(
+          "Free cancellation must be a boolean value"
+        );
+      });
+
+      test("should reject null", () => {
+        expect(() => builder.setFreeCancellation(null)).toThrow(
+          "Free cancellation must be a boolean value"
+        );
+      });
+    });
+
+    describe("setLongDescription", () => {
+      test("should accept string", () => {
+        expect(() =>
+          builder.setLongDescription("A long description")
+        ).not.toThrow();
+      });
+
+      test("should accept null", () => {
+        expect(() => builder.setLongDescription(null)).not.toThrow();
+      });
+    });
+  });
+
+  // -------------------------
+  // PriceDetails Tests
+  // -------------------------
+  describe("PriceDetails ECP Tests", () => {
+    let builder;
+
+    beforeEach(() => {
+      builder = new hotelRoomDataDTOModule.PriceDetails.Builder();
+    });
+
+    describe("setDescription", () => {
+      test("should accept non-empty string", () => {
+        expect(() => builder.setDescription("Double room")).not.toThrow();
+      });
+
+      test("should reject empty string", () => {
+        expect(() => builder.setDescription("")).toThrow(
+          "Description must be a non-empty string"
+        );
+      });
+
+      test("should reject null", () => {
+        expect(() => builder.setDescription(null)).toThrow(
+          "Description must be a non-empty string"
+        );
+      });
+    });
+
+    describe("setPriceType", () => {
+      test("should accept valid price type", () => {
+        expect(() => builder.setPriceType("single")).not.toThrow();
+      });
+
+      test("should reject unknown price type", () => {
+        expect(() => builder.setPriceType("unknown")).toThrow(
+          "Price type must be one of the valid types"
+        );
+      });
+
+      test("should reject empty string", () => {
+        expect(() => builder.setPriceType("")).toThrow(
+          "Price type must be one of the valid types"
+        );
+      });
+
+      test("should reject null", () => {
+        expect(() => builder.setPriceType(null)).toThrow(
+          "Price type must be one of the valid types"
+        );
+      });
+    });
+
+    describe("price fields", () => {
+      const priceSetters = [
+        "setMaxCashPayment",
+        "setLowestPrice",
+        "setPrice",
+        "setConvertedPrice",
+        "setLowestConvertedPrice",
+        "setChargeableRate",
+      ];
+
+      test.each(priceSetters)("%s should accept positive number", (setter) => {
+        expect(() => builder[setter]("4173.84")).not.toThrow();
+      });
+
+      test.each(priceSetters)("%s should reject negative number", (setter) => {
+        expect(() => builder[setter]("-1")).toThrow(
+          "must be a positive number"
+        );
+      });
+
+      test.each(priceSetters)("%s should reject zero", (setter) => {
+        expect(() => builder[setter]("0")).toThrow("must be a positive number");
+      });
+
+      test.each(priceSetters)("%s should reject non-numeric", (setter) => {
+        expect(() => builder[setter]("not-a-number")).toThrow(
+          "must be a positive number"
+        );
+      });
+
+      test.each(priceSetters)("%s should reject null", (setter) => {
+        expect(() => builder[setter](null)).toThrow(
+          "must be a positive number"
+        );
+      });
+    });
+
+    describe("setPoints", () => {
+      test("should accept positive integer", () => {
+        expect(() => builder.setPoints("136250")).not.toThrow();
+      });
+
+      test("should reject negative number", () => {
+        expect(() => builder.setPoints("-1")).toThrow(
+          "Points must be a positive integer"
+        );
+      });
+
+      test("should not reject null, as it is optional", () => {
+        expect(() => builder.setPoints(null)).not.toThrow();
+      });
+    });
+
+    describe("array fields", () => {
+      const arraySetters = ["setBonusPrograms", "setBonusTiers"];
+
+      test.each(arraySetters)("%s should accept empty array", (setter) => {
+        expect(() => builder[setter]([])).not.toThrow();
+      });
+
+      test.each(arraySetters)("%s should accept array with items", (setter) => {
+        expect(() => builder[setter](["item1"])).not.toThrow();
+      });
+
+      test.each(arraySetters)(
+        "%s should not reject null, as it is optional",
+        (setter) => {
+          expect(() => builder[setter](null)).not.toThrow();
+        }
+      );
+
+      test.each(arraySetters)("%s should reject non-array", (setter) => {
+        expect(() => builder[setter]("not-an-array")).toThrow(
+          "must be an array"
+        );
+      });
+    });
+
+    describe("setMarketRates", () => {
+      test("should accept empty array", () => {
+        expect(() => builder.setMarketRates([])).not.toThrow();
+      });
+
+      test("should accept array with valid rate objects", () => {
+        expect(() =>
+          builder.setMarketRates([
+            {
+              supplier: "expedia",
+              rate: 4710.611242034396,
+            },
+          ])
+        ).not.toThrow();
+      });
+
+      test("should reject array with invalid rate objects", () => {
+        expect(() =>
+          builder.setMarketRates([
+            {
+              supplier: "expedia",
+              // missing rate
+            },
+          ])
+        ).toThrow("Market rates must be an array of valid rate objects");
+      });
+
+      test("should not reject null, as it is optional", () => {
+        expect(() => builder.setMarketRates(null)).not.toThrow();
+      });
+    });
+  });
+
+  // -------------------------
+  // TaxDetails Tests
+  // -------------------------
+  describe("TaxDetails ECP Tests", () => {
+    let builder;
+
+    beforeEach(() => {
+      builder = new hotelRoomDataDTOModule.TaxDetails.Builder();
+    });
+
+    describe("base rate fields", () => {
+      const rateSetters = ["setBaseRate", "setBaseRateInCurrency"];
+
+      test.each(rateSetters)("%s should accept positive number", (setter) => {
+        expect(() => builder[setter]("3629.43")).not.toThrow();
+      });
+
+      test.each(rateSetters)("%s should reject negative number", (setter) => {
+        expect(() => builder[setter]("-1")).toThrow(
+          "must be a positive number"
+        );
+      });
+
+      test.each(rateSetters)("%s should reject zero", (setter) => {
+        expect(() => builder[setter]("0")).toThrow("must be a positive number");
+      });
+
+      test.each(rateSetters)("%s should reject non-numeric", (setter) => {
+        expect(() => builder[setter]("not-a-number")).toThrow(
+          "must be a positive number"
+        );
+      });
+    });
+
+    describe("tax fee total fields", () => {
+      const feeSetters = [
+        "setIncludedTaxesFeesTotal",
+        "setIncludedTaxesFeesTotalInCurrency",
+      ];
+
+      test.each(feeSetters)("%s should accept positive number", (setter) => {
+        expect(() => builder[setter]("544.41")).not.toThrow();
+      });
+
+      test.each(feeSetters)("%s should accept zero", (setter) => {
+        expect(() => builder[setter]("0")).not.toThrow();
+      });
+
+      test.each(feeSetters)("%s should reject negative number", (setter) => {
+        expect(() => builder[setter]("-1")).toThrow(
+          "must be a non-negative number"
+        );
+      });
+
+      test.each(feeSetters)("%s should reject non-numeric", (setter) => {
+        expect(() => builder[setter]("not-a-number")).toThrow(
+          "must be a non-negative number"
+        );
+      });
+    });
+
+    describe("tax fee details arrays", () => {
+      const validFeeDetail = [
+        {
+          id: "tax_and_service_fee",
+          amount: 544.41,
+          currency: "USD",
+        },
+      ];
+
+      test("should accept valid included tax fee details", () => {
+        expect(() =>
+          builder.setIncludedTaxesFeesDetails(validFeeDetail)
+        ).not.toThrow();
+      });
+
+      test("should accept valid included tax fee in currency details", () => {
+        const inCurrencyDetail = [
+          {
+            id: "tax_and_service_fee",
+            amount: 710.9,
+            currency: "SGD",
+          },
+        ];
+        expect(() =>
+          builder.setIncludedTaxesFeesInCurrencyDetails(inCurrencyDetail)
+        ).not.toThrow();
+      });
+
+      test("should reject invalid fee detail structure", () => {
+        const invalidDetail = [
+          {
+            amount: 544.41,
+            // missing id and currency
+          },
+        ];
+        expect(() =>
+          builder.setIncludedTaxesFeesDetails(invalidDetail)
+        ).toThrow("Tax fee details must have valid structure");
+      });
+    });
+  });
+
+  // -------------------------
+  // RoomAdditionalInfo Tests
+  // -------------------------
+  describe("RoomAdditionalInfo ECP Tests", () => {
+    let builder;
+
+    beforeEach(() => {
+      builder = new hotelRoomDataDTOModule.RoomAdditionalInfo.Builder();
+    });
+
+    describe("setBreakfastInfo", () => {
+      test("should accept valid breakfast info", () => {
+        expect(() =>
+          builder.setBreakfastInfo("hotel_detail_room_only")
+        ).not.toThrow();
+        expect(() =>
+          builder.setBreakfastInfo("hotel_detail_breakfast_included")
+        ).not.toThrow();
+      });
+
+      test("should reject unknown value", () => {
+        expect(() => builder.setBreakfastInfo("unknown")).toThrow(
+          "Invalid breakfast info"
+        );
+      });
+
+      test("should reject empty string", () => {
+        expect(() => builder.setBreakfastInfo("")).toThrow(
+          "Invalid breakfast info"
+        );
+      });
+
+      test("should not reject null, as it is optional", () => {
+        expect(() => builder.setBreakfastInfo(null)).not.toThrow();
+      });
+    });
+
+    describe("optional string fields", () => {
+      const stringSetters = [
+        "setSpecialCheckInInstructions",
+        "setKnowBeforeYouGo",
+      ];
+
+      test.each(stringSetters)("%s should accept null", (setter) => {
+        expect(() => builder[setter](null)).not.toThrow();
+      });
+    });
+
+    describe("optional numeric fields", () => {
+      const numSetters = ["setOptionalFees", "setMandatoryFees"];
+
+      test.each(numSetters)("%s should accept null", (setter) => {
+        expect(() => builder[setter](null)).not.toThrow();
+      });
+    });
+
+    // describe("setKaligoServiceFee", () => {
+    //   test("should accept zero", () => {
+    //     expect(() => builder.setKaligoServiceFee("0")).not.toThrow();
+    //   });
+
+    //   test("should accept positive number", () => {
+    //     expect(() => builder.setKaligoServiceFee("100")).not.toThrow();
+    //   });
+
+    //   test("should reject negative number", () => {
+    //     expect(() => builder.setKaligoServiceFee("-1")).toThrow(
+    //       "Invalid Kaligo service fee"
+    //     );
+    //   });
+
+    //   test("should reject non-numeric", () => {
+    //     expect(() => builder.setKaligoServiceFee("not-a-number")).toThrow(
+    //       "Invalid Kaligo service fee"
+    //     );
+    //   });
+    // });
+
+    describe("setHotelFees", () => {
+      test("should accept empty array", () => {
+        expect(() => builder.setHotelFees([])).not.toThrow();
+      });
+
+      test("should accept array with fee items", () => {
+        expect(() =>
+          builder.setHotelFees([{ type: "resort", amount: 100 }])
+        ).not.toThrow();
+      });
+
+      test("should reject null", () => {
+        expect(() => builder.setHotelFees(null)).toThrow(
+          "Hotel fees must be an array"
+        );
+      });
+
+      test("should reject non-array", () => {
+        expect(() => builder.setHotelFees("not-an-array")).toThrow(
+          "Hotel fees must be an array"
+        );
+      });
+    });
+
+    describe("setSurcharges", () => {
+      test("should accept array with valid surcharge objects", () => {
+        expect(() =>
+          builder.setSurcharges([
+            {
+              type: "TaxAndServiceFee",
+              amount: 544.41,
+            },
+          ])
+        ).not.toThrow();
+      });
+    });
+
+    test("should reject array with negative amounts", () => {
+      expect(() =>
+        builder.setSurcharges([
+          {
+            type: "TaxAndServiceFee",
+            amount: -1,
+          },
+        ])
+      ).toThrow("Surcharge amount must be positive");
+    });
+
+    test("should not reject null, as it is optional", () => {
+      expect(() => builder.setSurcharges(null)).not.toThrow();
+    });
+  });
+});

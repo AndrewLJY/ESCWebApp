@@ -1,0 +1,25 @@
+.footer {
+  background-color: #272a54;
+  color: white;
+  padding: 1rem 0;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.footer a {
+  color: white;
+  text-decoration: underline;
+}
+
+.footer a:hover {
+  color: #ccc;
+}

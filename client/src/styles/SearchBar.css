@@ -1,0 +1,142 @@
+.filter-bar {
+  /* position: absolute;
+  bottom: 45%;
+  left: 50%; */
+  /* transform: translateX(-50%); */
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+}
+
+.search-bar-wrapper.search{
+  margin: 0 auto;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+}
+
+/* filter buttons’ text black */
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: black;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.filter-btn .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.separator {
+  width: 1px;
+  height: 1.5rem;
+  background: #ccc;
+  margin: 0 1rem;
+}
+
+/* filter inputs white background, black text */
+.filter-input {
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  outline: none;
+  width: 8rem;
+  background: white;
+  color: black;
+}
+.filter-input::placeholder {
+  color: #666;
+}
+
+.filter-input[type="date"] {
+  min-width: 9rem;
+  color-scheme: light;
+}
+.filter-input:focus {
+  border-color: #888;
+  background: white;
+  color: black;
+}
+
+.filter-search-btn {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background: #ff6a3d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.filter-search-btn:hover {
+  background: #e55a2d;
+}
+
+.sp-filter-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  position: relative;
+  border: 3px solid #162a96;
+}
+.sp-filter-bar .sp-filter-search-btn {
+  margin-left: 0.5rem;
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.sp-filter-bar .sp-filter-search-btn:hover {
+  background: #005a9e;
+}
+.sp-filter-bar .col{
+  margin: 0;
+}
+
+/* Autocomplete suggestions dropdown */
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.suggestion-item:hover {
+  background-color: #f5f5f5;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
